@@ -1,439 +1,2474 @@
 # Study Note: beefiker/superloopy
 
-> 本 Note 是第五份 Reference Study，对应我们 **Local LLM Wiki / Knowledge
-> Accumulation** 能力——一次 Research Run 的有价值知识不应随 Report 完成而消失。
-> Study 指南给的适配方向很明确：`Accepted Evidence → Wiki Projection → Paper/Route/
-> Topic pages`，**Wiki 是 Derived State，不是 Evidence Source of Truth**。
+> 本 Note 是第五份 Reference Study。
 >
-> 阅读后最重要的发现：**superloopy 本身没有跨 run Wiki**——它的知识积累是 per-run 的
-> evidence root（`.superloopy/evidence/research/<slug>/`）+ 一个「可重读的索引」
-> （INDEX.md）。它真正值钱的是**知识进入长期存储前的验证纪律**：什么值得留（verified
-> claim + provenance + vintage）、来源怎么分级、矛盾怎么保留、以及一个真实的机械 lint
-> 验证器（fail-closed）。这些正是我们 Wiki 的「进料门槛」。
-
-## Snapshot
-
-```
-Repository: https://github.com/beefiker/superloopy
-Commit:     9814acc（#40 merge feat/say-it-straight；研究时点 HEAD）
-Study date: 2026-08-09
-License:    MIT
-形态:       Claude Code / Codex 插件（skills + hooks + src/*.js 运行时 + 六船员 subagents）
-```
-
-注意仓库根的 DESIGN.md 是营销页克隆的视觉规范（配色/字体/WebGL 场景），不是插件架构——
-真正的架构在 `skills/`、`agents/`、`src/*.js`、`hooks/`。
-
----
-
-## Why We Studied It
-
-前四份 Study 解决了：循环形状（spec-kit-harness）、控制流边界（old-search-harness）、
-研究语义（paper-qa）、循环可信度（spec-kit-loop）。这份回答第五个问题：**一个研究 Run
-产出的知识，怎么证明它值得留下来、并在未来被当作 prior 用？**
-
-superloopy 的核心主张是一条标语：*"done needs to mean more than a confident status
-sentence"*——完成必须指向 `.superloopy/evidence/` 下的真实 artifact，命令型 criteria
-在完成时会**在进程内重新执行且必须复现**，陈旧或伪造的 pass 到不了 done。它对「什么知识
-值得留」的回答是整套验证纪律：A-E 来源分级、retrieval verdict、expected-truths、
-claim ledger（surface 多样性 / 反方搜索 / primary source / 双日期）、以及一个机械
-验证器。这就是「研究知识 → 长期知识」之间的**进料门槛**。
-
-同时它暴露了我们要补的空位：per-run 证据根 + INDEX.md 只解决「这次 run 里可恢复」，
-不解决「跨 run 复利」。这正是 P15-17（Wiki Is Projection / Rebuildable）的动机。
+> 本项目研究 Superloopy 的**首要目的不是研究 Wiki**，而是研究：
+>
+> > **怎样用尽可能少的 Runtime 概念，让 Loop 的 DONE 真正依赖 Evidence。**
+>
+> Superloopy 当前版本额外包含了一套很强的 Research Evidence Discipline，例如 claim ledger、counter-search、retrieval verdict、contradiction handling 和 fail-closed validator。这些内容非常有价值，但属于本 Study 的 **Secondary Finding**。
+>
+> 本 Study 必须保持两个层次：
+>
+> ```text
+> Primary Study
+>     ↓
+> Evidence-Gated Loop
+>
+> Secondary Finding
+>     ↓
+> Research Evidence Discipline
+>
+> Future Implication
+>     ↓
+> Possible Wiki ingestion discipline
+> ```
+>
+> 不应把 Superloopy 本身描述成一个跨-run Local LLM Wiki，因为它当前并没有真正解决跨 Research Run 的知识复利问题。
 
 ---
 
-## Architecture in One Diagram
+# 1. Snapshot
 
 ```text
-用户：loopy <task>（loop engineer 觉醒）/ loopy team <task>（crew 模式）
-   │
-   ▼
-superloopy loop begin → guide → prove → check → finish（CLI 驱动，状态在 .superloopy/）
-   │  六船员（可选 fan-out）：franky 建 · zoro 审 · usopp 测 · jinbe 门 · robin 审 · nami 找
-   ▼
-┌───────────────────────── 证据根（per-run）──────────────────────────┐
-│  .superloopy/evidence/research/<timestamp>-<slug>/                    │
-│  ├── INDEX.md            可重读的索引：一行一个 lead/claim/source，   │
-│  │                       指向承载细节的 wave 文件（唯一例行重读）       │
-│  ├── expansion-log.md    lead 去重账本（含拒绝过的 lead，防复现）       │
-│  ├── wave-<n>-<kind>-<axis>.md  每 worker 返回一个 digest             │
-│  ├── blocked-sources.md  blocked 来源 + 阶梯尝试 + substitute/gap     │
-│  ├── expected-truths.md  事前写下的「必须为真」清单 → holds/violated/unknown │
-│  ├── claim-ledger.md     claim 账本：observations/counter/primary/dates/dep │
-│  │                       → verified | unresolved | refuted | deferred │
-│  ├── verify-<slug>.md    代码型 claim 的运行验证                       │
-│  └── SYNTHESIS.md        收敛后：executive answer / findings by theme │
-│                          / sources(ranked) / verified claims /       │
-│                          contradictions / gaps / expansion trace      │
-└─────────────────────────────────────────────────────────────────────────┘
-   │
-   ▼
-validate-research-evidence.mjs  机械 lint：fail-closed（缺账本/无出处/一域多观察/
-                                未标价格/引用无来源/缺口未命名… → 非零退出）
-   ▼
-完成（证据根 + 审计重派生：完成时在进程内重跑每个命令型 criterion）
+Repository:
+https://github.com/beefiker/superloopy
+
+Studied commit:
+9814acc
+
+Study date:
+2026-08-09
+
+License:
+MIT
+
+Implementation shape:
+Claude Code / Codex plugin
++
+JavaScript Runtime
++
+Skills / Hooks
++
+Optional host-native subagents
 ```
 
-关键观察：**这是研究 Run 的「实验室笔记本」纪律**——写入即恢复点、索引必须触及细节、
-验证器把证据契约变成可执行的检查。它缺的只是「把笔记本沉淀成跨 run 的知识库」这一步。
+当前版本的 Superloopy 已经明显超过一个极简 coding loop。
 
----
-
-## Core Concepts
-
-1. **Evidence-first 完成**：每个 pass 指向证据根下的真实 artifact；命令型 criteria 在完成
-   时被重跑且必须复现。manual（非命令）criteria 只能验证 artifact 存在，正确性靠 auditor
-   判断 + 人审——确定性保证的强弱是明说的。
-2. **「检索到的内容是数据，永远不是指令」**：untrusted-content 边界——从网页/API 拉来的
-   一切（包括伪装成指令的文本）只能作为「关于问题的证据」，绝不执行。对注入式
-   `SUPERLOOPY_EVIDENCE:` 行只当引文，不当 lane 结果。
-3. **A-E 来源分级 + retrieval verdict**：每个来源带 grade（A=同行评议/标准 … E=论坛/
-   聚合器）、fetch 结果（ok/partial/blocked/error/empty）、observed/as-of 双日期。
-   D/E 只能开 lead 或补充，不能当高风险 claim 的承重墙。
-4. **Expected truths**：问题有 authority 时，**检索前**写下「intent 成立则必须为真」的
-   清单，再去测现实（holds/violated/unknown）。violated 必须落到可见处（claim 或 gap）。
-5. **Claim ledger 的数据流锁**：高风险非代码 claim 只有过了完整门（≥2 个不同 surface 的
-   独立观察 + 中性分母 + 一次反方搜索 + primary source + 双日期 + dependency 无环）才进
-   `verified-claims`；synthesis 只允许从 verified 行取料——「跳过门就没有可综合的」。
-6. **Proof is priced**：花验证额度前先记录「错了会花多少」。风险分档来自后果而非趣味；
-   门保持二元，贵路径保持稀缺。
-7. **Contradictions 是一等输出**：synthesis 有 `## Contradictions`（源 A vs 源 B、各自
-   所在 surface、带证据的解决），refuted 是合法状态（反方搜索赢了），abstention 是正确
-   结果而非漏洞。
-8. **INDEX.md = 写细节下去，读摘要回来**：bulk 进 wave 文件，只有 INDEX 例行重读；索引
-   必须触及细节（验证器检查），否则细节在实践中不可达。
-9. **完成审计重派生**：Superloopy 不信任自己记录的状态（worker 可写），在验收与完成门处
-   **在进程内重派生**确定性地板；非复现的 audit 标 `inconclusive` 绝不静默失败。
-10. **Continuation Engine**：Stop hook 是 progress-gated 的（只有新证据重置无进展计数）；
-   上限/停滞 → `blocked` 求人；quota 限制 → `paused`（可恢复，不烧计数）；**绝不伪造
-   完成**。
-
----
-
-## Important Files
-
-| 文件/技能 | 角色 | 对本 Study 的意义 |
-|---|---|---|
-| `skills/superloopy-research/SKILL.md` | 研究技能（329 行） | **核心**：Phase 0-5、claim ledger、expected-truths、机械验证器说明 |
-| `skills/superloopy-loop/SKILL.md` | 循环技能（218 行） | 契约、Continuation Engine、Evidence Audit、Quality Gate |
-| `skills/superloopy-research/scripts/validate-research-evidence.mjs` | 机械验证器 | 真正的 lint 代码：fail-closed 检查证据契约 |
-| `agents/*.md` | 六船员 | franky 建 / zoro 审 / usopp 测 / jinbe 门 / robin 审 / nami 找（角色 lane） |
-| `src/loop.js · prove.js · audit.js · trace.js · store.js` | CLI 运行时 | begin/guide/prove/check/finish/audit 的机制 |
-| `hooks/*.json` | 钩子 | Stop hook（progress-gated continuation）、session-start、user-prompt-submit |
-| `docs/superloopy-*.md` | 策略文档 | model-policy、gate-notes、interop、validation |
-
----
-
-## Key Data Flow
+它同时包含：
 
 ```text
-Phase 0 Scope：core question + 3+ 正交 axes + as-of/locale/out-of-scope + min grade
-       │  + intent authority → 有 authority 就先写 expected-truths.md
-Phase 1 Saturation wave：整个第一波一次发完（每 axis 一 worker）；advisory profile
-       │  （focused-web 6w/32q/2wv … exhaustive 15w/80q/5wv）
-       │  每个返回：digest + ## EXPAND + ## SOURCES（无 verdict 的 lane = 说了相信而非读到）
-       ▼
-Phase 2 Expand until convergence：每 lead 即刻派工；对 expansion-log 去重（含拒绝过的）；
-       │  干波只在 lane 真正 retrieved 才算（empty/blocked/silent 记 unknown，不算干）
-       │  收敛：无未查 lead / 连续两波无新 lead / 达到波目标且无未解决高风险 claim
-Phase 3 Verify：代码型 claim 跑代码 → verify-<slug>.md
-Phase 3b Lock：非代码 claim 过 data-flow-lock → claim-ledger（verified/unresolved/refuted/deferred）
-       │  只从 verified 行取料
-Phase 4 Synthesize：先读 INDEX，再按主题开必要 wave 文件 → SYNTHESIS.md
-       │  inline [Source N] 引文 · ## Contradictions · ## Gaps · ## Expansion trace
-       ▼
-验证器：node validate-research-evidence.mjs --root <slug> --json
-       │  fail-closed（非零退出 = 修证据，不是改行）
-       ▼
-superloopy loop evidence --status pass --artifact SYNTHESIS.md（完成记录）
+generic loop runtime
+evidence artifacts
+quality gates
+audit
+continuation engine
+research skill
+multi-agent integration
 ```
 
-**知识流**：`raw retrieval（不保留为知识）→ verified claim + graded source（知识单位）
-→ synthesis（当次交付）→ 机械验证（进料门槛）`。缺最后一环：**跨 run 沉淀**。
+因此阅读时必须区分：
+
+> 哪些是它最小 Loop Core 的设计？
+
+与：
+
+> 哪些是后续产品能力不断叠加后的外围复杂度？
+
+否则容易把整个成熟产品误认为 V1 所需最小架构。
 
 ---
 
-## Key State Model
+# 2. Why We Studied It
+
+`REFERENCE_PROJECTS.md` 对 Superloopy 的原始定位是：
 
 ```text
-.superloopy/                            全局循环状态
-├── goals.json                          目标/标准（CLI 管理，禁止手改）
-├── loop-control.json                   迭代计数、no-progress 高水位、blocked/paused
-├── audit-state.json                    审计记录（worker 可写 → 完成时在进程内重派生）
-└── evidence/                           证据根
-    └── research/<timestamp>-<slug>/
-        ├── INDEX.md                    唯一例行重读：一行一 lead/claim/source → wave 文件
-        ├── expansion-log.md            lead 去重账本
-        ├── wave-<n>-<kind>-<axis>.md   worker digest（append）
-        ├── blocked-sources.md          url | tiers | reason | substitute | status
-        ├── expected-truths.md          id | expected | source | observed | status | claim
-        ├── claim-ledger.md             id | claim | risk | cost | observations |
-        │                               counter | primary | observed | as-of | depends-on | status
-        ├── verify-<slug>.md            代码型验证
-        └── SYNTHESIS.md                交付物（八节结构）
+strict evidence gates
+bounded loop
+Claude / Codex integration
+proof-oriented completion
 ```
 
-claim-ledger 的表头就是「值得留的知识」的 schema：**风险、犯错成本、观察来源、
-反方搜索、primary、observed/as-of 双日期、依赖链、状态**。这是我们 Wiki 页每条知识
-都应继承的最小字段集。
+它主要用于回答：
+
+> 怎样让 Agent 不能仅凭自己的状态描述宣布完成？
+
+前四份 Reference 已经分别帮助我们理解：
+
+```text
+spec-kit-harness
+→ State externalization / bounded context
+
+old-search-harness
+→ Rich state 如何错误膨胀成 control-flow complexity
+
+paper-qa
+→ Paper Search / Reading / Evidence / Synthesis 的研究语义
+
+spec-kit-loop
+→ Maker / Checker / Completion Authority
+```
+
+Superloopy 应该进一步回答：
+
+```text
+Evidence 到底如何进入 Completion Gate？
+
+做了工作与证明完成如何区分？
+
+哪些验证可以由 Runtime 机械执行？
+
+哪些验证必须保留给 Semantic Reviewer？
+
+一个 Evidence-Gated Loop 最小需要多少状态？
+```
+
+它最值得我们的地方不是：
+
+> “它有很多成熟功能。”
+
+而是：
+
+> **它真的把 Evidence Artifact 和 Completion Condition 绑定到了 Runtime。**
 
 ---
 
-## Design Decisions Worth Learning
+# 3. Architecture in One Diagram
 
-### Decision 1 — 知识单位 = verified claim + provenance + vintage（不是原文）
+先忽略其 Research Skill、Crew、Hooks 等外围能力，Superloopy 的核心 Loop 可以压缩为：
 
-**Problem**：一次研究 Run 里什么值得留下来当长期知识？原始检索显然不值得全留。
+```text
+User Brief
+    ↓
+Plan
+├── Goals
+└── Criteria
+    ↓
+Agent does work
+    ↓
+Evidence Artifact
+    ↓
+Criterion status
+    ↓
+Quality Gate
+    ↓
+Aggregate Completion
+```
 
-**Design**：唯一能进入 synthesis（=当次知识交付）的是过了 data-flow-lock 的 verified
-claim：≥2 个不同 surface 的独立观察（`rendered/api/repo/registry/standard/filing/legal/
-dataset/survey/press/community/runtime` 闭集，两个同 surface 算一次）、数字要有中性分母、
-一次主动反方搜索、primary source、observed+as-of 双日期、depends-on 依赖链。raw
-retrieval（wave digest）留在 bulk 里，不被当作知识。abstention（unresolved/refuted）
-是合法状态。
+更具体：
 
-**Why**：知识的最小可信任单位是「**论断 + 出处 + 时效**」。没有 provenance 的断言进不了
-知识库；没有 vintage 的断言会把「去年还对」变成「今天错」（as-of 与 observed 混淆正是
-反方搜索最抓不住的失败）。`depends-on` 让一个塌掉的事实拖垮下游 claim，而不是让下游
-claim 孤零零站在 synthesis 里。
+```text
+                  Agent / Host Runtime
+                         │
+                         │ does work
+                         ▼
+                 Evidence-producing action
+                         │
+                         ▼
+                ┌──────────────────┐
+                │ Evidence Artifact│
+                └────────┬─────────┘
+                         │
+                 Runtime validates:
+                 - exists
+                 - inside evidence root
+                 - regular file
+                 - non-empty
+                 - valid path
+                         │
+                         ▼
+                   Criterion PASS
+                         │
+                         ▼
+                Goal completion check
+                         │
+                         ▼
+                 Plan quality gate
+                         │
+                         ▼
+               Aggregate Completion
+```
 
-**Trade-off**：门槛高，很多 claim 永远停在 unresolved/refuted——但这就是「abstention 是
-正确结果」。贵路径靠「proof is priced」保持稀缺：决定依赖的 claim 走全门，只补上下文的
-可以 hedge 或 drop。
+最重要的关系是：
 
-**我们是否存在同样的问题**：是——我们的 Wiki 页若直接收证据摘要就会污染。**是否有更简单
-的实现**：我们不必复刻 12 值 surface 闭集；我们的「surface」天然是论文（第几篇 + 哪个
-section + 什么立场），比 web surface 更规整。但「≥2 篇独立论文支撑才敢写进 Wiki、
-双日期、反方证据」这套纪律直接适用。
-**结论**：采纳——**Wiki 的进料单位是 verified claim + provenance（哪些 evidence locator
-支撑）+ vintage（as-of 论文版本）**，原始证据不进 Wiki，Wiki 只是投影。
+```text
+Work
+≠
+Proof
 
----
+Proof
+≠
+Completion
 
-### Decision 2 — INDEX.md = 写细节下去，读摘要回来（可重读的索引必须触及细节）
-
-**Problem**：run 里的细节（wave digests、claim 详情）会撑爆上下文，但丢了又不可追溯。
-
-**Design**：bulk 进 wave 文件且**只 append**；INDEX.md 是唯一例行重读的文件，一行一个
-lead/claim/source，每行命名承载细节的 wave 文件。验证器检查：索引必须触及细节（每个
-wave 文件被命名、每个 claim id 有行）——"an index that does not reach the detail makes
-the detail unreachable in practice"。
-
-**Why**：这是「写细节下去、读摘要回来」的完整表述。它把「上下文是状态的 view」落到
-文件结构上：summary（INDEX）与 detail（wave）分层，重读默认只在 summary 层，需要时
-按主题进 detail。这是 P21 的又一个实证，而且明确了「索引与细节的可达性」是一条可机械
-检查的不变量。
-
-**Trade-off**：要求维护纪律（每 append 一个 digest 就加一行索引）；但去重可以机械做
-（用搜索工具对 expansion-log 匹配，而不是读进上下文——"mechanical matching is cheaper
-and stricter than remembering"）。
-
-**我们是否存在同样的问题**：是——我们的 Wiki 页必须有「索引/详情」分层与可重建性。
-**是否有更简单的实现**：wiki 页本身就是「投影 + 指向 accepted evidence locator」，
-投影即摘要，细节在 evidence 层。验证器检查「页上每条知识都能从 accepted evidence 重建」
-就是这个不变量。
-**结论**：采纳——Wiki 页是摘要投影，必须能触及（并重建自）accepted evidence；
-可重建性是机械校验项。
-
----
-
-### Decision 3 — 机械验证器：lint 把证据契约变成可执行的检查（Q7 的答案）
-
-**Problem**：证据契约（claim 有出处、引文有来源、缺口被命名）靠人记会悄悄腐化。
-
-**Design**：`validate-research-evidence.mjs` 是一个真实的验证脚本，**fail-closed**：缺
-claim-ledger、verified 行观察 surface <2、高风险行只有一个域名或没有 primary surface、
-surface 标签不在闭集、verified 无反方搜索、日期不可能、claim 未定价、依赖 refuted/
-unresolved、依赖成环、`[Source N]` 引文没有对应编号 bullet、INDEX 不触及 wave 文件、
-blocked 行还 open、expected truth violated 没有对应 claim、gap 没在 synthesis 命名……
-全部非零退出。「非零退出就是答案：修证据，不是改行。」
-
-**Why**：一致性检查解决的是**记录与声称之间的漂移**。验证器不判断「内容对不对」（那是
-checker/人），它判断「证据契约是否被静默违反」。这正是一份可审计研究 Run 的最低底线：
-「这个断言有没有出处、那个缺口有没有被命名、这条引文指向哪」。
-
-**Trade-off**：验证规则要随证据 schema 演进；但 fail-closed 的代价是「宁可报错也要让
-契约成立」——正是 P13/P22 想要的。
-
-**我们是否存在同样的问题**：是——我们的 Wiki 重建必须可校验。**是否有更简单的实现**：
-我们不用 JS 验证器，用 Python（我们的 Research Runtime）对 wiki 投影做结构校验：
-每条知识必须带 accepted-evidence locator、每个 claim 立场可解析、每个引用可重建。
-**结论**：采纳——**wiki 重建校验是机械的、fail-closed 的**（Python 实现）。
+Completion
+=
+Evidence-backed criteria
++
+gate
+```
 
 ---
 
-### Decision 4 — Contradictions 是一等输出，不在投影时被解决掉（Q6 的答案）
+# 4. Core Loop State
 
-**Problem**：研究里两篇论文互相矛盾，怎么保留而不偷偷选边？
+Superloopy 的最小 Loop State 比它外围功能表现出来的复杂度要小得多。
 
-**Design**：synthesis 的 `## Contradictions` 节：源 A vs 源 B、各自所在的 surface、
-以及带证据的 resolution。claim-ledger 有 `refuted`（反方搜索赢了）与 `unresolved`
-（证据不足）作为合法状态；abstention 是正确结果。预期-真值表里 `violated` 也必须落到
-可见处。
+核心 `Plan` 大致包含：
 
-**Why**：矛盾是研究输出里**最有价值的部分**（它决定结论的可信度），把它平掉等于
-销毁信息。旧 harness（old-search-harness）的「非共识一等产物」也是同一个道理；superloopy
-把它进一步变成「矛盾必须带 resolution 或 gap，且被 lint 检查」。
+```text
+Plan
+├── version
+├── mode
+├── goals[]
+├── aggregateCompletion
+├── evidencePath
+├── ledgerPath
+└── repositoryBinding
+```
 
-**我们是否存在同样的问题**：是——P10 的 contradicting stance + non-consensus 记录。
-**是否有更简单的实现**：我们的 evidence 已有 stance（supporting/contradicting/
-qualifying）；wiki 投影时把 contradicting 组保留成独立小节，不被单方覆盖。
-**结论**：采纳——**矛盾（含被反证的）是 Wiki 的一等内容**；lint 检查矛盾是否被命名。
+每个 Goal：
+
+```text
+Goal
+├── id
+├── title
+├── objective
+├── status
+├── attempt
+├── createdAt
+├── updatedAt
+└── criteria[]
+```
+
+每个 Criterion：
+
+```text
+Criterion
+├── id
+├── kind
+├── scenario
+├── essential
+├── status
+├── artifact
+└── capturedAt
+```
+
+Light Mode 默认只创建少量核心 criterion，例如：
+
+```text
+happy path
+risk / failure path
+```
+
+较重模式才增加 regression 等额外 criterion。
+
+这说明一个重要事实：
+
+> **Evidence-Gated Completion 本身并不需要复杂 State Machine。**
+
+真正不可缺少的状态只是：
+
+```text
+Goal
++
+Criterion
++
+Evidence Binding
++
+Completion State
+```
+
+其余：
+
+```text
+crew
+continuation engine
+audit state
+hooks
+research waves
+claim ledger
+```
+
+都是在解决更具体的问题。
 
 ---
 
-### Decision 5 — Expected truths 事前写 + 事后重测（跨 run 更新的机制原型，Q5/Q8）
+# 5. Primary Question 1 — What Is the Minimal Loop State?
 
-**Problem**：已有知识（Wiki）怎么更新，而不是无限 append？
+## Finding
 
-**Design**：superloopy 没有跨 run 更新；但它有 re-measurement 模式：问题有 authority 时，
-**检索前**写下「intent 成立则必须为真」的 expected-truths（holds/violated/unknown），
-研究去**测现实**，violated 的落到 claim 或 gap。这就是「预注册假设 + 重测」——一个
-知识条目跨 run 的更新方式不是 append 新事实，而是**重测旧预期、按结果改写**。
+Superloopy 的最小闭环不是：
 
-**Why**：更新语义里最难的诚实问题是 vintage：「去年对，今天还对不对？」as-of/observed
-双日期 + 预期重测给出答案。这比「把新论文摘要 append 到页面」诚实得多。
+```text
+PLAN
+ACT
+REFLECT
+VERIFY
+REVISE
+AUDIT
+FINALIZE
+...
+```
 
-**我们是否存在同样的问题**：是——P15-17 要求 Wiki 可重建、可更新。**是否有更简单的
-实现**：**重建即更新**——Wiki 页不从旧页增量改，而是每次从 accepted evidence 重新
-投影（新证据进来，投影重算，旧结论若被新证据推翻就带 contradicting 记录落下）。
-superloopy 的「完成时重派生确定性地板」是同一个哲学：不信任陈旧记录，从可信源重算。
-**结论**：采纳——**Wiki 更新 = 从 accepted evidence 重建投影 + 预期重测**，不手改、
-不无限 append。
+而更接近：
+
+```text
+Goal
+   ↓
+Criteria
+   ↓
+Work
+   ↓
+Evidence
+   ↓
+Gate
+   ↓
+Complete
+```
+
+生命周期并不需要和所有工作动作一一对应。
+
+### Why This Matters
+
+这和我们从 `old-search-harness` 得到的结论完全一致：
+
+> **Action 不应该自动升级成 Lifecycle Phase。**
+
+Superloopy 的 Runtime 真正关心的不是 Agent 做了：
+
+```text
+edit
+test
+review
+inspect
+```
+
+哪一种动作。
+
+它关心的是：
+
+```text
+这个 criterion 有没有可信 Evidence？
+```
+
+### Transferability
+
+对我们的 Literature Research Harness，可以映射为：
+
+```text
+Research Contract
+      ↓
+Research Criteria
+      ↓
+Research Actions
+      ↓
+Accepted Evidence
+      ↓
+Review
+      ↓
+Completion
+```
+
+而不需要：
+
+```text
+SEARCH_PHASE
+READ_PHASE
+COMPARE_PHASE
+VERIFY_PHASE
+FOLLOW_CITATION_PHASE
+```
 
 ---
 
-### Decision 6 — Evidence audit 重派生：不信任记录的状态（可信度保障）
+# 6. Primary Question 2 — When Does the Evidence Gate Run?
 
-**Problem**：证据/审计记录可能被写错或被改（worker 可写 .superloopy/audit-state.json），
-怎么保证完成时用的是真实状态？
+Superloopy 并不是在最终一步才第一次检查 Evidence。
 
-**Design**：Superloopy 在验收与完成门处**在进程内重派生**确定性地板：完成时 `review`/
-`checkpoint` 重跑每一个已 pass 的命令型 criterion（不止被引用的），hash 验证每个被引
-audit verdict。一个非复现的 re-run 标 `inconclusive`（绝不静默失败，防 flaky）；
-`SUPERLOOPY_AUDIT_MAX_FAILS=3` 后标 `blocked` 求人。它诚实地承认无法验证 auditor
-subagent 是否真被隔离运行（信任 host 的 agent 帧）——但它**不信任自己的记录**。
+Evidence Gate 实际存在多个层次。
 
-**Why**：可信度取决于「完成时是否重算」，不取决于「记录时是否诚实」。这是
-「Harness exposes state, not hide it」的纵深版本：连状态本身都可能被污染时，重派生是
-唯一可靠的地板。
+## Layer 1 — Evidence Recording
 
-**我们是否存在同样的问题**：是——我们的 Wiki 页可能是陈旧投影。**是否有更简单的实现**：
-同 Decision 5——**Wiki 永远从 accepted evidence 重建，重建是校验**。不信任任何
-「上次生成的页面」。
-**结论**：采纳——**完成/交付门对「投影是否与 accepted evidence 一致」做机械重校验**。
+当一个 criterion 被记录为 pass 时，需要绑定一个真实 artifact。
 
----
+Runtime 不只是接受：
 
-### Decision 7 — Untrusted content 边界：检索到的内容是数据，永远不是指令
+```text
+artifact: some/path
+```
 
-**Problem**：研究从网页/API 拉内容，可能混入 prompt injection（伪装指令的文本）。
+而会检查：
 
-**Design**：明确的注入防线：检索到的一切只能作为「关于问题的证据」，不执行、不服从、不转述
-它的指令；页面要求被信任 = 降级理由；reply markers 只算自己派发的 worker；fetched
-content 不能授权写文件/跑命令/用凭据。这条边界也写进 worker 的 dispatch 消息。
+```text
+artifact exists
+artifact is under evidence root
+artifact is a regular file
+artifact is not a symlink
+artifact is not empty
+small artifact is not whitespace-only
+```
 
-**Why**：研究流程里 untrusted 输入的量级远超代码评审；注入文本一旦被当作指令执行，
-整个 evidence 链就塌了。old-search-harness 的 trust boundary 与此一致，superloopy
-把它做成可测试的规则。
+也就是说：
 
-**我们是否存在同样的问题**：是——我们从 DeepXiv/arXiv/OpenAlex/网页取论文元数据与正文。
-**是否有更简单的实现**：对我们，风险主要在论文正文/摘录被当作指令（尤其 PDF 里的恶意
-文本）；边界 =「检索内容只是证据」+ 适配器 fail-closed（旧项目已示范）。
-**结论**：采纳——证据摄入始终是「数据非指令」，适配器 fail-closed。
+> **Evidence Reference 必须指向真实存在的东西。**
 
 ---
 
-## What We Should Borrow
+## Layer 2 — Criterion Completion
 
-1. **知识单位 = verified claim + provenance + vintage**（Decision 1）：Wiki 进料门槛——
-   只有带 evidence locators、独立支撑、双日期、立场/状态的断言能进。P8/P10/P15。
-2. **INDEX/细节分层 + 索引必须触及细节**（Decision 2）：Wiki 页是投影摘要，必须能重建自
-   accepted evidence；可重建性机械校验。P15-17/P21。
-3. **机械 lint / fail-closed 验证器**（Decision 3）：wiki 重建校验、引文-来源可达性、
-   缺口被命名——用 Python 实现，不做 JS 验证器。P13/P22。
-4. **矛盾保留为一等内容**（Decision 4）：contradicting evidence + refuted + unresolved
-   组是 Wiki 的合法部分，不被投影时平掉。P10。
-5. **Expected-truths 预注册 + 重测**（Decision 5）：跨 run 更新机制 = 重测旧预期、
-   按结果改写，而非 append。P7/P15。
-6. **重建即更新、不信任陈旧记录**（Decision 5/6）：Wiki 从 accepted evidence 重建；
-   完成门重校验一致性。P15-17。
-7. **Untrusted content 边界**（Decision 7）：检索内容只是数据。适配器 fail-closed。
-8. **retrieval verdict 纪律**：每个来源带 grade + 状态 + 双日期；extraction 有损所以
-   **不能证明不存在**（absence claim 是昂贵的错）。这直接服务于我们的证据收集。
-9. **Proof is priced**：先记「错了花多少」再决定验证深度——对资源预算（P13）友好。
-10. **abstention 是合法结果**：unresolved/refuted 明确记下来，不假装解决。
+Criterion 的完成不是单纯：
 
-## What We Should Not Borrow
+```text
+criterion.status = pass
+```
 
-1. **完整插件/钩子基础设施**：Stop hook、continuation engine、loop-control/audit-state、
-   model-policy、wrapper-install、auto-update——整套宿主集成是我们不需要的运维复杂度。
-2. **命令型 criteria 重跑语义**：研究 claim 不是能重跑的 shell 命令；我们的「确定性地板」
-   是 claim→evidence→locator 校验（Python 检查 excerpt 在缓存原文中存在），不是跑命令。
-3. **六船员 + 角色 lane 体系**：franky/zoro/usopp/jinbe/robin/nami 的 crew 编排对我们是
-   过度；P12 的 fresh review 一个语义检查点就够。
-4. **A-E 来源分级表 + 12 值 surface 闭集**：我们以论文为主（arXiv/OpenAlex），分级会简化，
-   surface 天然是「论文+section」，不需要 web 面闭集。
-5. **blocked-source 阶梯 / quota 记账 / machine-readable twins**：我们不走任意网页爬取，
-   检索走论文 API，不需要这套 web 韧性工程。
-6. **per-run evidence root 目录结构照搬**（`research/<timestamp>-<slug>/` + wave 文件）：
-   我们有自己的状态布局；借鉴的是其中的 discipline（索引触及细节、ledger 字段），不是目录。
-7. **research skill 的 web 搜索 craft**（site:/filetype:/intitle: 操作符等）：我们检索的是
-   论文语料，不是开放网页。
+而是：
 
-## Conflicts with PROJECT_VISION
+```text
+Criterion
++
+Evidence Artifact
+```
 
-1. **Wiki is Derived State（P15-17）vs superloopy 的 per-run 证据根**：superloopy 没有跨
-   run 投影；它的知识留在当次 evidence root。我们不采纳「证据根即知识」，采纳
-   「Accepted Evidence → Wiki Projection」。这是指南明示的适配方向。
-2. **对齐 P11/P12**：Evidence-first 完成（done 需 proof）、audit 重派生、blocked→求人、
-   绝不伪造完成——与 P11（不能自宣布 done）、P12（fresh review）一致，是证据。
-3. **P13/P14**：Proof is priced（后果决定验证深度）、abstention 合法、typed claim
-   status——与「criteria over magic scores」一致；它没有加权分，只有二元门 + 风险标记。
-4. **P7 gap-driven**：Expand-until-convergence + 干波只在真实检索时才算 + 缺口必须被
-   synthesis 命名——P7 的实证。
-5. **P8（Paper Is Not Evidence）**：retrieved content 是 data 不是 instruction；absence
-   claim 不能由有损提取断言——直接强化 P8。
-6. **潜在冲突**：web 韧性工程（blocked 阶梯/quota）与「我们是论文 API 检索」的范围冲突——
-   我们明确不迁移（见上）。
+形成一个可检查状态。
 
-## Questions Still Open
+---
 
-1. **Wiki 页的最小单位**：Paper 页 / Route 页 / Topic 页（指南给的三种）各自收录什么粒度
-   的 verified claim？claim 与「accepted evidence 里的 stance」如何对应？
-2. **跨 run 键控**：不同 run 对同一篇论文/同一条方法路线的 claim 如何合并？
-   old-search-harness 把「稳定知识主键」留作 P1；superloopy 没解决。我们是否以
-   paper id（DOI/arXiv id）为锚，claim 去重靠「同 paper + 同 section + 同立场」？
-3. **Wiki 的验证门槛**：一条知识进 Wiki 需要 ≥N 篇独立论文支撑吗？还是 N=1 但标
-   stance/置信？Proof-is-priced 原则在此如何套（决定依赖的高风险 claim 多篇，补充性单篇）？
-4. **vintage 怎么做**：arXiv 版本演进（v1/v2）与 preprint→published 如何影响 as-of？
-   是否要 pin 论文版本才能让「双日期」有意义？
-5. **重建频率与触发**：Wiki 页何时重投影——每次新证据 accepted 就重算，还是 REVIEW/
-   SYNTHESIZE 时批量？「重建即更新」的增量成本如何控制？
+## Layer 3 — Goal / Plan Completion
 
-## Candidate ADRs Influenced by This Project
+最终完成前：
 
-1. **ADR：Wiki 是 Derived State——页是 accepted evidence 的投影，可从证据重建，永远不是
-   Evidence Source of Truth。**（P15-17）
-2. **ADR：Wiki 进料单位 = verified claim + provenance + vintage；原始证据不进 Wiki。**
-   （Decision 1，P8/P10）
-3. **ADR：Wiki 页引用纪律 + 重建校验（lint）——每条知识带 accepted-evidence locator，
-   校验 fail-closed（Python）。**（Decision 2/3，P13/P22）
-4. **ADR：矛盾保留——contradicting/refuted/unresolved 组是 Wiki 一等内容，投影不平掉。**
-   （Decision 4，P10）
-5. **ADR：跨 run 更新 = 预期重测 + 从 accepted evidence 重建投影，不手改、不无限 append。**
-   （Decision 5/6，P7/P15-17）
-6. **ADR：证据摄入的 untrusted-content 边界——检索内容是数据非指令，适配器 fail-closed。**
-   （Decision 7，P8）
+```text
+essential criteria
+```
 
-## 一句话结论
+必须通过。
 
-superloopy 证明了一件事：**「什么知识值得留」是一个验证问题，不是一个存储问题**。它的
-进料门槛（verified claim + provenance + vintage、来源分级、反方搜索、abstention 合法、
-机械 lint fail-closed）回答了 Study 指南 Q1-Q7 的每一问——除了 Q8（跨 run prior），
-而 Q8 恰恰暴露它只解决了 per-run 笔记本纪律、没解决跨 run 知识库。这正好是我们
-P15-17 的空位：**把 superloopy 的验证纪律做成 Wiki 的进料门槛，把「重建即更新、
-不信任陈旧记录」做成 Wiki 的生命周期，让一次 Research Run 的 verified knowledge
-真正跨 run 复利。**
+对于最终 Goal：
+
+```text
+all plan criteria
+```
+
+也必须通过。
+
+---
+
+## Layer 4 — Quality Gate / Audit
+
+最终 Aggregate Completion 前还会验证：
+
+```text
+quality gate
+audit provenance
+evidence artifacts
+```
+
+部分可机械重跑的 Evidence 甚至会在完成时重新执行。
+
+因此真正结构更接近：
+
+```text
+Evidence recorded
+      ↓
+Criterion eligible
+      ↓
+Goal eligible
+      ↓
+Plan gate
+      ↓
+Aggregate complete
+```
+
+---
+
+# 7. Primary Question 3 — How Is Evidence Bound to Completion?
+
+这是 Superloopy 对我们最重要的贡献。
+
+Agent 不能仅说：
+
+```text
+"I tested it."
+```
+
+就让 Criterion PASS。
+
+Runtime 会把 Evidence Artifact 直接写入 Criterion State：
+
+```text
+criterion.status
+criterion.artifact
+criterion.capturedAt
+```
+
+因此：
+
+```text
+Criterion PASS
+```
+
+不是一个孤立布尔值。
+
+它携带：
+
+```text
+what proved it
+when it was captured
+```
+
+---
+
+## Core Principle
+
+> **Completion claims must point to evidence artifacts.**
+
+也就是说：
+
+```text
+Status sentence
+≠
+Proof
+```
+
+Agent 的：
+
+```text
+done
+works
+looks correct
+tested successfully
+```
+
+都只是语言。
+
+真正能进入 Gate 的是：
+
+```text
+Evidence Artifact
+```
+
+---
+
+## Literature Research Adaptation
+
+我们的对应关系应该是：
+
+```text
+Research Criterion
+      ↓
+Accepted Evidence IDs
+      ↓
+Evidence IDs exist
+      ↓
+Paper exists
+      ↓
+Locator exists
+      ↓
+Semantic Reviewer judges support
+```
+
+例如：
+
+```text
+Criterion:
+“Verifier-guided stopping 路线已有代表论文和实证证据”
+
+Evidence:
+E012
+E017
+E023
+```
+
+Python 可以机械验证：
+
+```text
+E012 exists
+E017 exists
+E023 exists
+
+their paper_id resolves
+their locators exist
+their schemas are valid
+```
+
+Reviewer 再判断：
+
+```text
+这些 Evidence 是否真的足以满足 Criterion？
+```
+
+---
+
+# 8. Primary Question 4 — Work Is Not Proof
+
+Superloopy 非常明确地区分：
+
+```text
+doing work
+```
+
+与：
+
+```text
+proving work
+```
+
+对于命令型任务，`prove` 实际执行：
+
+```text
+spawn command
+      ↓
+capture stdout
+capture stderr
+capture exit code
+      ↓
+derive pass / fail
+      ↓
+write transcript artifact
+      ↓
+bind artifact to criterion
+```
+
+因此：
+
+```text
+"I ran the tests"
+```
+
+没有意义。
+
+真正的 Proof 是：
+
+```text
+the command actually ran
++
+the observed result was captured
+```
+
+---
+
+## Literature Research Equivalent
+
+对我们而言：
+
+```text
+"I read Paper X"
+```
+
+只是 Work。
+
+它不是 Proof。
+
+真正的 Proof Candidate 是：
+
+```text
+Evidence E017
+├── paper_id
+├── locator
+├── excerpt
+├── claim
+├── stance
+└── interpretation
+```
+
+所以我们可以明确：
+
+> **Reading is work. Evidence is proof.**
+
+同理：
+
+```text
+Search
+```
+
+也是 Work。
+
+搜索结果不是 Evidence。
+
+```text
+Paper candidate
+```
+
+也不是 Evidence。
+
+必须经过：
+
+```text
+Search
+→ Select
+→ Read
+→ Extract
+→ Interpret
+→ Evidence
+```
+
+---
+
+# 9. Primary Question 5 — Mechanical Integrity vs Semantic Validity
+
+这是 Superloopy 最值得迁移的架构边界之一。
+
+Superloopy 自己明确区分：
+
+```text
+command-backed criterion
+```
+
+与：
+
+```text
+manual / commandless criterion
+```
+
+对于 command-backed criterion：
+
+Runtime 可以：
+
+```text
+re-run command
+observe exit code
+re-derive pass/fail
+```
+
+机械保证很强。
+
+对于 manual criterion：
+
+Runtime 最多证明：
+
+```text
+artifact exists
+```
+
+却不能证明：
+
+> Artifact 内容表达的判断在语义上是正确的。
+
+---
+
+## This Maps Perfectly to Research
+
+我们的 Evidence Integrity 也天然分两层。
+
+### Mechanical Evidence Integrity
+
+Python 可以验证：
+
+```text
+Evidence ID exists
+Paper ID resolves
+Locator exists
+Schema valid
+Citation link valid
+Excerpt present
+State transition legal
+Budget valid
+No duplicate ID
+```
+
+### Semantic Evidence Validity
+
+Claude Reviewer 判断：
+
+```text
+这段原文是否真的支持 Claim？
+
+这个 interpretation 是否忠于原文？
+
+这是 supporting 还是 qualifying？
+
+所谓 contradiction 是否真的构成矛盾？
+
+Coverage 是否足够？
+
+Critical Gap 是否仍然存在？
+```
+
+---
+
+## Important Principle
+
+> **Hard evidence does not mean Python decides truth.**
+
+Hard Evidence 的真正含义是：
+
+> Python 保证 Reviewer 看到的是一个真实存在、可追溯、结构合法的 Evidence Object，而不是 Agent 自己凭空声称的结论。
+
+因此：
+
+```text
+Python
+=
+Evidence Integrity
+
+Claude
+=
+Evidence Meaning
+```
+
+这应该成为 V1 最重要的架构边界之一。
+
+---
+
+# 10. Primary Question 6 — How Does Superloopy Keep the Core Lightweight?
+
+虽然当前 Superloopy 产品已经不算特别轻量，但它最核心的 Evidence Gate 思想其实很简单。
+
+最小闭环：
+
+```text
+Brief
+↓
+Goal
+↓
+Criteria
+↓
+Evidence
+↓
+Gate
+↓
+Complete
+```
+
+它不要求：
+
+```text
+full workflow graph
+multi-agent framework
+graph database
+complex planner
+LLM API runtime
+```
+
+Agent Runtime 仍然由：
+
+```text
+Claude Code / Codex host
+```
+
+承担。
+
+Superloopy 自己强调：
+
+> 它 rides the host，而不是自己 spawn / own 一个完整 Agent Runtime。
+
+这和我们的核心边界高度一致：
+
+```text
+Claude Code = Agent Runtime
+Python Harness = Research Runtime
+```
+
+---
+
+# 11. What “Lightweight” Does NOT Mean
+
+不能因为 Superloopy 自称 lightweight，就认为整个当前仓库都应该迁移。
+
+当前版本已经包含：
+
+```text
+Continuation Engine
+Stop Hooks
+Crew
+Role Routing
+Audit State
+Quality Gates
+Research Skill
+Source Grading
+Claim Ledger
+Auto Resume Guidance
+Host Integration
+```
+
+这些都是长期演进出来的能力。
+
+所以我们应该区分：
+
+```text
+Lightweight Core
+```
+
+和：
+
+```text
+Mature Product Surface
+```
+
+### Lightweight Core
+
+```text
+persistent goal state
+criteria
+evidence artifact
+gate
+resume
+```
+
+### Mature Product Surface
+
+```text
+multi-agent crew
+hooks
+continuation
+auto resume
+audit orchestration
+complex research protocol
+host compatibility
+```
+
+我们只应优先借前者。
+
+---
+
+# 12. Core Design Decision 1 — Criterion Must Bind to Evidence
+
+## Problem
+
+Agent 很容易产生：
+
+```text
+done
+tested
+verified
+covered
+```
+
+这种状态句子。
+
+但状态句子本身没有证明力。
+
+## Superloopy Design
+
+Criterion PASS 必须绑定 Evidence Artifact。
+
+Artifact 必须真实存在，并经过 Runtime Path / File Validation。
+
+## Why
+
+这样：
+
+```text
+criterion status
+```
+
+不再只是 Agent 的语言输出。
+
+它拥有一个可重新检查的物理锚点。
+
+## Transferability
+
+我们的 Research Criterion 应绑定：
+
+```text
+Accepted Evidence IDs
+```
+
+而不是：
+
+```text
+researcher confidence
+```
+
+### Intended Adaptation
+
+```text
+criterion
+├── status
+├── evidence_ids[]
+└── unresolved_reason?
+```
+
+具体 schema 等 Domain Model 阶段再决定。
+
+---
+
+# 13. Core Design Decision 2 — Evidence Integrity Is Mechanical
+
+## Problem
+
+即使 Agent 给出 Evidence ID，也可能：
+
+```text
+ID 不存在
+locator 无效
+paper 不存在
+artifact 为空
+citation 悬空
+```
+
+## Superloopy Design
+
+Runtime fail-closed 检查 Evidence Artifact。
+
+## Why
+
+这些都是 deterministic invariants。
+
+不需要浪费 LLM 判断。
+
+## Our Adaptation
+
+Python 应负责：
+
+```text
+Evidence schema validation
+Paper reference validation
+Locator validation
+ID uniqueness
+Citation reference validation
+State consistency
+```
+
+这正符合：
+
+> Semantic Policy belongs to Claude. Mechanical correctness belongs to Python.
+
+---
+
+# 14. Core Design Decision 3 — Semantic Truth Remains Outside Mechanical Gate
+
+## Problem
+
+机械 Evidence Integrity 很容易被误解为：
+
+> 只要 artifact 存在，就证明它正确。
+
+## Superloopy Design
+
+它明确承认 Manual Criterion 的 correctness 无法由 Runtime 完全重派生。
+
+## Our Adaptation
+
+Evidence Gate 分两层：
+
+```text
+Mechanical Precondition
+       ↓
+Semantic Review
+```
+
+例如：
+
+```text
+Mechanical:
+E017 exists and resolves
+
+Semantic:
+E017 really supports C04
+```
+
+Python 不应该试图通过：
+
+```text
+keyword overlap
+embedding similarity
+magic score
+```
+
+自动替代语义判断。
+
+---
+
+# 15. Core Design Decision 4 — Completion Is Derived
+
+Superloopy 的 Completion 不是 Agent 直接写：
+
+```text
+done = true
+```
+
+而是通过：
+
+```text
+criteria
+→ goals
+→ quality gate
+→ aggregate completion
+```
+
+推导。
+
+这给我们的启发是：
+
+```text
+Evidence
+      ↓
+Criterion Coverage
+      ↓
+Review Outcome
+      ↓
+Research Completion
+```
+
+而不是：
+
+```text
+Researcher:
+"I think this is enough."
+
+        ↓
+
+DONE
+```
+
+这进一步支持：
+
+> Researcher Cannot Self-Declare DONE.
+
+---
+
+# 16. Core Design Decision 5 — Re-Derive What Can Be Re-Derived
+
+Superloopy 对 command-backed criteria 不完全信任旧状态。
+
+在 audit / completion gate 时，可以重新执行原命令并重新观察结果。
+
+核心哲学：
+
+> **Do not trust stale “pass” when the underlying proof can be reproduced.**
+
+---
+
+## Our Adaptation
+
+论文 Claim 本身不能像：
+
+```text
+npm test
+```
+
+那样重新执行。
+
+但一些机械事实可以重新派生：
+
+```text
+Evidence ID still exists
+Paper reference still resolves
+Locator still exists
+Excerpt still present in cached text
+Citation references still valid
+Wiki projection still corresponds to accepted evidence
+Report citations still resolve
+```
+
+因此 V1 可以采用：
+
+> **Re-derive deterministic integrity at review / synthesis boundaries.**
+
+但不要把论文语义判断伪装成可机械重跑。
+
+---
+
+# 17. Secondary Finding — Superloopy Research Evidence Discipline
+
+Superloopy 当前版本包含一个完整 `superloopy-research` Skill。
+
+这并不是我们研究它的原始主任务，但里面有不少值得保留的设计。
+
+主要包括：
+
+```text
+retrieval verdict
+source grading
+claim ledger
+counter-search
+primary-source requirement
+observed / as-of
+contradictions
+abstention
+fail-closed validator
+untrusted content
+```
+
+这些内容应作为：
+
+> **Secondary Architecture Evidence**
+
+而不是让它取代 Primary Evidence-Gate Study。
+
+---
+
+# 18. Secondary Finding 1 — Retrieval Result Needs a Verdict
+
+Superloopy 强调：
+
+```text
+retrieved
+```
+
+并不自动意味着：
+
+```text
+successfully investigated
+```
+
+来源可能是：
+
+```text
+ok
+partial
+blocked
+error
+empty
+```
+
+这非常有价值。
+
+因为：
+
+```text
+empty
+```
+
+可能意味着：
+
+```text
+没有结果
+```
+
+也可能意味着：
+
+```text
+provider failed
+quota exhausted
+parser failed
+request blocked
+```
+
+如果一律当成“没有相关内容”，Research Loop 会错误收敛。
+
+---
+
+## Our Adaptation
+
+Paper provider action 应区分：
+
+```text
+retrieval success
+no results
+provider error
+rate limited
+partial
+unavailable
+```
+
+不要让：
+
+```text
+provider failure
+```
+
+伪装成：
+
+```text
+research saturation
+```
+
+这可以直接进入 Python Adapter Contract。
+
+---
+
+# 19. Secondary Finding 2 — Contradiction Is a First-Class Outcome
+
+Superloopy Research 不要求所有 Claim 最终变成 verified。
+
+它允许：
+
+```text
+verified
+unresolved
+refuted
+deferred
+```
+
+并要求 Synthesis 显式保留：
+
+```text
+Contradictions
+Gaps
+```
+
+这和旧 Harness 的 Non-Consensus 经验高度一致。
+
+---
+
+## Our Adaptation
+
+我们的 Evidence 层至少保留：
+
+```text
+stance:
+supporting
+contradicting
+qualifying
+```
+
+Analysis 层保留：
+
+```text
+contradictions[]
+open_gaps[]
+```
+
+不要在生成 Report/Wiki 时把矛盾自动平均成一个“共识”。
+
+---
+
+# 20. Secondary Finding 3 — Counter-Search Is Useful, but Not Universal
+
+Superloopy 对高风险 Claim 要求：
+
+```text
+主动搜索反例
+```
+
+这是很好的 Confirmation Bias 防线。
+
+但不能机械迁移成：
+
+> 每个 Literature Claim 都必须做独立 Counter Search。
+
+例如：
+
+```text
+"Paper X proposes Method Y."
+```
+
+原始 Paper 本身已经是最权威来源。
+
+无需专门找第二篇论文反驳。
+
+---
+
+## Better Rule for Us
+
+Counter-search 更适合：
+
+```text
+field-level conclusions
+comparative claims
+consensus claims
+performance superiority claims
+causal interpretations
+controversial claims
+```
+
+而不是所有 Paper-level Fact。
+
+因此：
+
+> Counter-search should be risk/claim-type dependent, not universal.
+
+---
+
+# 21. Secondary Finding 4 — No Universal “Two Sources” Rule
+
+Superloopy 的高风险 web claim 要求：
+
+```text
+2+ independent observations
+```
+
+这在开放 Web Research 中合理。
+
+但不能直接推导：
+
+> Wiki 每条知识必须有两篇论文支持。
+
+例如：
+
+```text
+Paper A introduced Method X.
+```
+
+唯一最好的证据就是 Paper A。
+
+所以：
+
+```text
+Paper-specific factual claim
+→ one authoritative primary paper may suffice
+
+Cross-paper conclusion
+→ broader evidence required
+
+Field-level consensus claim
+→ multiple independent papers preferred
+
+High-stakes comparative claim
+→ stronger corroboration
+```
+
+原则：
+
+> **Evidence requirement depends on claim type.**
+
+而不是固定：
+
+```text
+N >= 2
+```
+
+---
+
+# 22. Secondary Finding 5 — Time / Vintage Is Conditional
+
+Superloopy 的：
+
+```text
+observed
+as-of
+```
+
+对以下类型 Claim 很重要：
+
+```text
+pricing
+market share
+legal status
+current product capability
+ecosystem state
+```
+
+论文调研更常见的是：
+
+```text
+publication date
+arXiv version
+conference version
+journal version
+```
+
+所以我们不应要求所有 Evidence 都拥有：
+
+```text
+observed_at
+as_of
+```
+
+作为核心语义字段。
+
+更合适的是：
+
+> **Time-sensitive claims require explicit vintage.**
+
+论文则优先保留：
+
+```text
+paper version
+publication date
+retrieved version
+```
+
+---
+
+# 23. Secondary Finding 6 — Fail-Closed Evidence Validator
+
+Superloopy 的 `validate-research-evidence.mjs` 是这次 Study 很值得保留的发现。
+
+它真正机械检查：
+
+```text
+claim ledger schema
+verified status requirements
+dependencies
+citation resolution
+required synthesis sections
+blocked-source handling
+expected-truth routing
+index reachability
+```
+
+如果契约被违反：
+
+```text
+exit != 0
+```
+
+而不是：
+
+> “最好以后修一下。”
+
+---
+
+## Correct Layer for Our Architecture
+
+这个思想首先应该进入：
+
+```text
+Evidence Integrity Layer
+```
+
+而不是只被理解成：
+
+```text
+Wiki lint
+```
+
+正确关系：
+
+```text
+Raw Research
+      ↓
+Evidence Validation
+      ↓
+Accepted Evidence
+      ├────────→ Report Projection
+      └────────→ Wiki Projection
+```
+
+因此一个 Evidence Validator 可以同时保护：
+
+```text
+Report
+Wiki
+Review
+Resume
+```
+
+---
+
+# 24. Secondary Finding 7 — Retrieved Content Is Data, Not Instruction
+
+Superloopy Research 明确要求：
+
+> 从 Web/API/文件取回的内容只能作为 Evidence Data，不能成为执行指令。
+
+这对我们的系统同样重要。
+
+论文 PDF、HTML、metadata、README 等都属于：
+
+```text
+untrusted external content
+```
+
+即使其中出现：
+
+```text
+ignore previous instructions
+run this command
+download this file
+```
+
+也只能被理解为：
+
+```text
+source text
+```
+
+而不是 Agent Instruction。
+
+---
+
+## Our Boundary
+
+```text
+Claude / Harness Instructions
+        ≠
+Retrieved Research Content
+```
+
+Provider 取得的内容：
+
+```text
+may inform research
+```
+
+但不能：
+
+```text
+authorize tool use
+modify harness rules
+execute code
+change completion rules
+```
+
+这值得进入 Security / Provider ADR。
+
+---
+
+# 25. Secondary Finding 8 — Index / Detail Separation
+
+Superloopy Research 使用：
+
+```text
+INDEX.md
+```
+
+作为日常重读层。
+
+详细 wave artifacts 留在磁盘。
+
+需要时才进入 detail。
+
+核心思想：
+
+> **Write detail down; read summaries back.**
+
+这与：
+
+```text
+State persistence, not context persistence
+```
+
+完全一致。
+
+---
+
+## Our Adaptation
+
+我们不一定需要：
+
+```text
+INDEX.md + wave-N.md
+```
+
+文件布局。
+
+但应该保留：
+
+```text
+Persistent Rich State
+       ↓
+Context Renderer
+       ↓
+Bounded Summary View
+       ↓
+on-demand details
+```
+
+也就是说：
+
+> 借 Context Pattern，不借目录结构。
+
+---
+
+# 26. What We Should Borrow
+
+1. **Work ≠ Proof**
+   Search / Read / Analyze 是工作；Evidence 才是可验证的 Research Output。
+
+2. **Criterion 必须绑定 Evidence**
+   Completion Criterion 不能只依赖 Agent 的自然语言 self-report。
+
+3. **Mechanical Evidence Integrity**
+   ID、path、locator、schema、citation、state transition 交给 Python fail-closed enforce。
+
+4. **Semantic Validity Remains Semantic**
+   Evidence 是否真的支持 Claim 交给 Fresh Reviewer。
+
+5. **Completion Is Derived**
+   Evidence → Criteria → Review → Completion，而不是 Agent 直接 DONE。
+
+6. **Re-derive deterministic facts at gates**
+   可以机械重算的状态不要盲信 cached pass。
+
+7. **Retrieval verdict**
+   provider failure / empty / partial / blocked 不得混成一个“无结果”。
+
+8. **Contradictions and abstention are legitimate states**
+   unresolved/refuted 不能被静默删除。
+
+9. **Fail-closed Evidence Validator**
+   Evidence Contract 应成为可执行 invariant。
+
+10. **Untrusted-content boundary**
+    Retrieved content 永远只是数据。
+
+11. **Index / Detail separation**
+    Rich state 留磁盘，Context 读取 bounded projection。
+
+---
+
+# 27. What We Should Not Borrow
+
+1. **完整 Plugin / Hook Infrastructure**
+
+```text
+Stop hook
+Session hooks
+Auto-update
+Wrapper install
+Host-specific glue
+```
+
+这些不是 Research V1 核心。
+
+---
+
+2. **完整 Continuation Engine**
+
+我们不需要：
+
+```text
+no-progress high water
+auto stop hook loop
+quota resume scheduler semantics
+```
+
+V1 先用简单 Budget + Review Gate。
+
+---
+
+3. **六 Crew / Role System**
+
+```text
+franky
+zoro
+usopp
+jinbe
+robin
+nami
+```
+
+是成熟产品的 Agent UX。
+
+我们的 V1 仍然坚持：
+
+```text
+one Researcher
++
+one Fresh Reviewer
+```
+
+---
+
+4. **Coding-specific command proof**
+
+```text
+exit code == 0
+```
+
+是代码任务的强验证。
+
+论文 Claim 无法如此机械重跑。
+
+我们借的是：
+
+> Evidence binding pattern.
+
+不是 command execution 本身。
+
+---
+
+5. **Universal 2-source rule**
+
+不能规定：
+
+```text
+every accepted research claim
+requires 2 papers
+```
+
+Claim 类型不同，Evidence 要求不同。
+
+---
+
+6. **Full A–E web source ladder**
+
+我们以论文为主。
+
+Source quality 以后可能需要简单分类，但无需直接复制 web-oriented A–E taxonomy。
+
+---
+
+7. **12-surface closed vocabulary**
+
+这是 Web Research 为验证“独立观察”设计的机制。
+
+我们的主要对象是：
+
+```text
+Paper
+Section
+Evidence
+```
+
+不存在相同 surface 模型。
+
+---
+
+8. **Expected Truths as universal mechanism**
+
+只在存在 external authority 时有意义。
+
+开放式领域调研不应预先制造“应该是什么”的假设。
+
+---
+
+9. **Per-run Evidence Root 目录照搬**
+
+我们会有自己的 State Layout。
+
+借：
+
+```text
+artifact discipline
+```
+
+不借：
+
+```text
+具体目录结构。
+```
+
+---
+
+10. **Superloopy 当前全部 Research Workflow**
+
+当前 Research Skill 已经是一个完整的 exhaustive web research system。
+
+它不是我们的 V1 Architecture Template。
+
+---
+
+# 28. Conflicts with PROJECT_VISION
+
+## 28.1 Strong Alignment — Hard Evidence
+
+PROJECT_VISION：
+
+> Hard evidence.
+
+Superloopy：
+
+```text
+criterion pass
+must point to evidence artifact
+```
+
+高度一致。
+
+---
+
+## 28.2 Strong Alignment — Claude / Runtime Split
+
+Superloopy rides the host runtime。
+
+Runtime 主要负责：
+
+```text
+state
+artifact validation
+gate
+audit
+```
+
+这与：
+
+```text
+Claude Code = Agent Runtime
+Python Harness = Research Runtime
+```
+
+高度一致。
+
+---
+
+## 28.3 Strong Alignment — Researcher Cannot Self-Declare DONE
+
+Superloopy Completion 由 criteria + gate 推导。
+
+不是 Agent 状态句子。
+
+支持：
+
+```text
+Researcher
+→ ready_for_review
+
+Reviewer / Gate
+→ completion decision
+```
+
+---
+
+## 28.4 Alignment — State Persistence
+
+Loop state 和 Evidence 均落盘。
+
+Session 可以丢失。
+
+支持：
+
+> Resume restores process, not conversation.
+
+---
+
+## 28.5 Partial Conflict — Product Complexity
+
+Superloopy 当前已经加入：
+
+```text
+crew
+hooks
+continuation
+research orchestration
+audit orchestration
+```
+
+这与我们的：
+
+> Complexity must earn its place.
+
+存在明显 scope 差异。
+
+因此只学习它的 core invariants。
+
+---
+
+## 28.6 Partial Conflict — Web Research Semantics
+
+Superloopy Research 针对：
+
+```text
+web
+codebase
+market
+standards
+product research
+```
+
+设计。
+
+我们主要针对：
+
+```text
+scientific literature
+```
+
+Source model 和 Evidence requirements 必须重新适配。
+
+---
+
+# 29. Implications for Our Evidence Model
+
+Superloopy 进一步支持我们当前的 Evidence Model：
+
+```text
+Evidence
+├── id
+├── paper_id
+├── research_question / gap
+├── claim
+├── locator
+├── excerpt
+├── stance
+└── interpretation
+```
+
+可以再明确两个层次：
+
+```text
+Source Evidence
+├── paper_id
+├── locator
+└── excerpt
+
+Research Interpretation
+├── research_question / gap
+├── claim
+├── stance
+└── interpretation
+```
+
+Python 能机械检查 Source Layer。
+
+Claude 判断 Semantic Layer。
+
+---
+
+# 30. Implications for Review Gate
+
+Superloopy 说明：
+
+> Evidence existence 和 Evidence correctness 是不同层。
+
+因此我们的 REVIEW 可以设计为：
+
+```text
+REVIEW
+│
+├── Mechanical Preconditions
+│   ├── evidence ids valid
+│   ├── paper refs valid
+│   ├── locators valid
+│   ├── required fields present
+│   ├── citations resolvable
+│   └── budget/state valid
+│
+└── Semantic Review
+    ├── criteria coverage
+    ├── evidence support
+    ├── contradiction handling
+    ├── critical gaps
+    └── unresolved issues
+```
+
+Python 不负责语义 PASS。
+
+但 Python 可以拒绝：
+
+```text
+Reviewer says PASS
+while referenced evidence IDs do not exist
+```
+
+---
+
+# 31. Implications for Completion
+
+目前最合理的 Completion Chain 越来越清晰：
+
+```text
+Accepted Evidence
+      ↓
+Criterion State
+      ↓
+Fresh Semantic Review
+      ↓
+PASS
+      ↓
+SYNTHESIZE
+      ↓
+DONE
+```
+
+Researcher 不拥有：
+
+```text
+DONE
+```
+
+Python 不拥有：
+
+```text
+semantic PASS
+```
+
+Reviewer 不拥有：
+
+```text
+inventing evidence
+```
+
+三方职责明确。
+
+---
+
+# 32. Secondary Implications for Future Wiki
+
+Superloopy 当前**没有真正跨-run Wiki**。
+
+所以本节只保留对未来 Wiki 的启发，不把它作为本 Reference 的主结论。
+
+有价值的启发包括：
+
+```text
+only accepted/verified knowledge should be projected
+contradictions should remain visible
+projection should be mechanically traceable
+stale derived state should be rebuildable
+```
+
+但具体问题：
+
+```text
+Paper Page
+Route Page
+Topic Page
+cross-run merge
+stable identity
+page update
+future query prior
+```
+
+仍然必须由下一份：
+
+```text
+formin/spec-kit-wiki
+```
+
+Study 专门回答。
+
+---
+
+# 33. Questions Still Open
+
+## Q1 — Criterion 与 Evidence 是一对多还是多对多？
+
+可能：
+
+```text
+Criterion
+→ Evidence[]
+```
+
+同时：
+
+```text
+Evidence
+→ multiple Claims / Criteria
+```
+
+Domain Model 阶段需要决定关系。
+
+---
+
+## Q2 — Evidence Accepted 与 Criterion PASS 是否要分离？
+
+很可能需要：
+
+```text
+Evidence accepted
+```
+
+只表示：
+
+> 这是一条有效、可追溯的 Evidence。
+
+而：
+
+```text
+Criterion pass
+```
+
+表示：
+
+> 一组 Evidence 足以满足某个 Research Criterion。
+
+二者不能混成一个 status。
+
+---
+
+## Q3 — 哪些 Mechanical Checks 是 V1 Hard Requirement？
+
+候选：
+
+```text
+schema valid
+paper exists
+locator present
+citation resolvable
+atomic persistence
+evidence IDs valid
+```
+
+是否一开始要求：
+
+```text
+excerpt mechanically matches parsed source
+```
+
+仍待决定。
+
+---
+
+## Q4 — Completion Gate 是否需要独立 Artifact？
+
+Superloopy 有 Quality Gate Artifact。
+
+我们可能只需要：
+
+```text
+ReviewVerdict
+```
+
+作为持久化对象。
+
+是否另建：
+
+```text
+completion.json
+```
+
+应由 Domain Model 决定，不应因为 Superloopy 有就复制。
+
+---
+
+## Q5 — 是否需要 Evidence Dependency Graph？
+
+Superloopy Claim Ledger 有：
+
+```text
+depends-on
+```
+
+这在复杂 Web Claims 中很有价值。
+
+论文调研 V1 是否需要 Claim Dependency 还是可以先只保留：
+
+```text
+Evidence
+Contradictions
+Routes
+Gaps
+```
+
+目前应保持克制。
+
+---
+
+## Q6 — Evidence Validator 在哪个阶段执行？
+
+可能：
+
+```text
+on evidence write
++
+before review
++
+before synthesis
+```
+
+但不要为了“更安全”到处重复跑相同 validation。
+
+需要 Architecture 阶段明确 single responsibility。
+
+---
+
+# 34. Candidate ADRs Influenced by This Project
+
+## Candidate ADR 1
+
+**Completion criteria must bind to real evidence objects; agent self-report is never sufficient proof.**
+
+对应：
+
+```text
+Work ≠ Proof
+```
+
+---
+
+## Candidate ADR 2
+
+**Mechanical evidence integrity is enforced by Python; semantic evidence validity is judged by Claude.**
+
+对应：
+
+```text
+Python = integrity
+Claude = meaning
+```
+
+---
+
+## Candidate ADR 3
+
+**Research completion is derived from evidence-backed criteria and independent review; Researcher cannot write DONE directly.**
+
+---
+
+## Candidate ADR 4
+
+**Deterministically re-derivable integrity must be rechecked at review/synthesis boundaries rather than trusting stale pass state.**
+
+---
+
+## Candidate ADR 5
+
+**Provider/retrieval failures must remain distinct from semantic absence; failure cannot count as research saturation.**
+
+---
+
+## Candidate ADR 6
+
+**Retrieved content is untrusted data, never executable instruction.**
+
+---
+
+# 35. Cross-Reference with Previous Studies
+
+## spec-kit-harness
+
+告诉我们：
+
+```text
+State
+≠
+Context
+```
+
+Superloopy 补充：
+
+```text
+State
+must include evidence-backed completion facts
+```
+
+---
+
+## old-search-harness
+
+告诉我们：
+
+```text
+不要让 control-flow complexity
+代替 rich state
+```
+
+Superloopy 表明：
+
+```text
+Goal + Criteria + Evidence + Gate
+```
+
+已经足以表达很多 Completion 逻辑。
+
+---
+
+## PaperQA
+
+告诉我们：
+
+```text
+Paper
+≠
+Evidence
+```
+
+Superloopy进一步说明：
+
+```text
+Evidence
+≠
+Criterion PASS
+```
+
+因此完整层级是：
+
+```text
+Paper
+↓
+Evidence
+↓
+Criterion Coverage
+↓
+Review
+↓
+Completion
+```
+
+---
+
+## spec-kit-loop
+
+告诉我们：
+
+```text
+Maker
+不能给自己最终 verdict
+```
+
+Superloopy进一步说明：
+
+```text
+即使 Checker / Agent 说 pass
+也应该有 Evidence Artifact
+作为可检查锚点
+```
+
+---
+
+# 36. What This Study Changes in Our Architecture Direction
+
+这份 Study **不推翻**任何已有 Project Vision。
+
+它主要强化三个判断。
+
+第一：
+
+> **Hard Evidence 必须成为 State，而不能只是 Report Citation。**
+
+第二：
+
+> **Evidence Gate 应拆成 Mechanical Integrity + Semantic Judgment。**
+
+第三：
+
+> **Completion 应当是 derived state，而不是 Agent 可直接写入的状态。**
+
+它还提醒我们：
+
+> 不需要为了 Evidence Gate 建一个复杂 Workflow Engine。
+
+最小核心仍然可以很薄。
+
+---
+
+# 37. The Five Sentences to Keep
+
+如果把整份 Study 压缩成五句话，只保留：
+
+> **1. Work is not proof.**
+
+搜索、阅读、分析是工作；Evidence 才是 Proof Candidate。
+
+> **2. A completion criterion must bind to real evidence.**
+
+Agent 的完成声明没有独立证明力。
+
+> **3. Mechanical integrity and semantic truth are different layers.**
+
+Python 验证 Evidence 是否真实、合法、可追溯；Claude 判断 Evidence 是否真的支持 Claim。
+
+> **4. Completion is derived from evidence-backed criteria, not from agent confidence.**
+
+Evidence → Criteria → Review → Completion。
+
+> **5. Re-derive whatever can be deterministically re-derived at the gate.**
+
+能机械重算的完整性不要盲信陈旧状态。
+
+---
+
+# 38. One-Sentence Conclusion
+
+Superloopy 对我们真正重要的不是它后期长出的 Crew、Hooks 或 Exhaustive Research Workflow，而是一个更简单的事实：
+
+> **DONE 必须是一个由真实 Evidence、可检查 Criteria 和 Gate 推导出的状态，而不能只是 Agent 生成的一句话。**
+
+它对我们的直接增量是：
+
+```text
+PaperQA:
+Paper ≠ Evidence
+
+spec-kit-loop:
+Researcher ≠ Final Judge
+
+Superloopy:
+Evidence ≠ Completion
+```
+
+因此我们的核心链路逐渐清晰为：
+
+```text
+Paper
+↓
+Evidence
+↓
+Criterion Coverage
+↓
+Fresh Review
+↓
+Completion
+```
+
+而 Python Harness 的角色也进一步明确：
+
+> **它不判断研究结论是否正确；它确保任何“正确”的声明都必须站在真实、结构合法、可追溯的 Evidence 上。**
+
+Superloopy 当前 Research Skill 中关于 claim ledger、counter-search、retrieval verdict、contradictions、untrusted content 和 fail-closed validator 的能力，作为 Secondary Findings 保留，并在后续 Evidence Architecture 中参考。
+
+但跨-run Wiki 的真正架构问题仍留给：
+
+```text
+formin/spec-kit-wiki
+```
+
+单独研究。
