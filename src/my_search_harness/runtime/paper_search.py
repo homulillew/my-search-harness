@@ -8,8 +8,9 @@ from dataclasses import dataclass, field
 from enum import StrEnum
 from typing import Protocol
 
-from my_search_harness.domain.model import LifecycleMode
+from my_search_harness.domain.model import LifecycleMode, ResearchRun
 
+from .audit import AuditEvent, AuditScalar, AuditSink, append_audit
 from .persistence import JsonResearchRunRepository, RevisionConflictError
 
 
@@ -94,9 +95,11 @@ class PaperSearchService:
         self,
         repository: JsonResearchRunRepository,
         provider: PaperSearchProvider | None,
+        audit_sink: AuditSink | None = None,
     ) -> None:
         self._repository = repository
         self._provider = provider
+        self._audit_sink = audit_sink
 
     def search_papers(
         self,
@@ -141,11 +144,23 @@ class PaperSearchService:
         try:
             hits = self._provider.search(query.strip(), limit=limit)
         except PaperSearchProviderError as exc:
+            self._audit_attempt(
+                attempted,
+                outcome="FAILURE",
+                provider_outcome=exc.failure_kind.value,
+                limit=limit,
+            )
             raise PaperSearchAttemptError(
                 state_revision=attempted.state_revision,
                 failure_kind=exc.failure_kind,
             ) from None
         except Exception:
+            self._audit_attempt(
+                attempted,
+                outcome="FAILURE",
+                provider_outcome=ProviderFailureKind.OTHER.value,
+                limit=limit,
+            )
             raise PaperSearchAttemptError(
                 state_revision=attempted.state_revision,
                 failure_kind=ProviderFailureKind.OTHER,
@@ -154,11 +169,49 @@ class PaperSearchService:
         if not isinstance(hits, tuple) or not all(
             isinstance(hit, PaperSearchHit) for hit in hits
         ):
+            self._audit_attempt(
+                attempted,
+                outcome="FAILURE",
+                provider_outcome=ProviderFailureKind.INVALID_RESPONSE.value,
+                limit=limit,
+            )
             raise PaperSearchAttemptError(
                 state_revision=attempted.state_revision,
                 failure_kind=ProviderFailureKind.INVALID_RESPONSE,
             )
+        self._audit_attempt(
+            attempted,
+            outcome="SUCCESS",
+            provider_outcome="SUCCESS",
+            limit=limit,
+            hit_count=len(hits),
+        )
         return PaperSearchResult(
             state_revision=attempted.state_revision,
             hits=hits,
+        )
+
+    def _audit_attempt(
+        self,
+        run: ResearchRun,
+        *,
+        outcome: str,
+        provider_outcome: str,
+        limit: int,
+        hit_count: int | None = None,
+    ) -> None:
+        details: dict[str, AuditScalar] = {"limit": limit}
+        if hit_count is not None:
+            details["hit_count"] = hit_count
+        append_audit(
+            self._audit_sink,
+            AuditEvent(
+                run_id=run.id,
+                state_revision=run.state_revision,
+                actor="paper_search_provider",
+                action="paper_search_attempt",
+                outcome=outcome,
+                provider_outcome=provider_outcome,
+                details=details,
+            ),
         )

@@ -14,6 +14,15 @@ from .artifacts import (
     ReportArtifact,
     ReportArtifactMetadata,
 )
+from .audit import (
+    AuditAppendError,
+    AuditEvent,
+    AuditReadError,
+    AuditScalar,
+    AuditSink,
+    LocalAuditLog,
+    append_audit,
+)
 from .commands import (
     BlockingGapSpec,
     CommandRejectedError,
@@ -273,4 +282,11 @@ __all__ = [
     "CitationValidationError",
     "DeterministicCitationRenderer",
     "ResolvedCitation",
+    "AuditAppendError",
+    "AuditEvent",
+    "AuditReadError",
+    "AuditScalar",
+    "AuditSink",
+    "LocalAuditLog",
+    "append_audit",
 ]

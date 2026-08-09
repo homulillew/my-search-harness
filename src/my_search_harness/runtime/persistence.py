@@ -35,6 +35,12 @@ class JsonResearchRunRepository:
         self._root = Path(root)
         self._root.mkdir(parents=True, exist_ok=True)
 
+    @property
+    def root(self) -> Path:
+        """Filesystem root for colocated non-authoritative runtime records."""
+
+        return self._root
+
     def _run_directory(self, run_id: str) -> Path:
         validate_ref(run_id, "run", "run_id")
         return self._root / run_id

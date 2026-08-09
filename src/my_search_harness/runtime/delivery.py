@@ -17,6 +17,7 @@ from my_search_harness.domain.model import (
 )
 
 from .artifacts import LocalArtifactStore
+from .audit import AuditEvent, AuditScalar, AuditSink, append_audit
 from .commands import CommandRejectedError
 from .persistence import JsonResearchRunRepository, RevisionConflictError
 
@@ -53,9 +54,11 @@ class DeliveryCommands:
         self,
         repository: JsonResearchRunRepository,
         artifact_store: LocalArtifactStore,
+        audit_sink: AuditSink | None = None,
     ) -> None:
         self._repository = repository
         self._artifact_store = artifact_store
+        self._audit_sink = audit_sink
 
     def publish_report(
         self,
@@ -74,6 +77,11 @@ class DeliveryCommands:
 
         artifact = self._artifact_store.write_report(
             run.id, content, run.delivery_basis
+        )
+        self._append_audit(
+            run,
+            action="report_published",
+            details={"content_sha256": artifact.content_sha256},
         )
         return PublishReportResult(
             artifact_kind=artifact.artifact_kind,
@@ -97,6 +105,7 @@ class DeliveryCommands:
         proposed.delivery_basis = None
         proposed.outcome = None
         self._repository.save(proposed, expected_revision)
+        self._append_audit(proposed, action="research_reopened")
         return ReopenResearchResult(state_revision=proposed.state_revision)
 
     def close_run(self, run_id: str, expected_revision: int) -> CloseRunResult:
@@ -119,6 +128,11 @@ class DeliveryCommands:
         proposed.lifecycle = LifecycleMode.CLOSED
         proposed.outcome = outcome
         self._repository.save(proposed, expected_revision)
+        self._append_audit(
+            proposed,
+            action="run_closed",
+            details={"outcome": outcome.value},
+        )
         return CloseRunResult(
             state_revision=proposed.state_revision,
             outcome=outcome,
@@ -175,6 +189,24 @@ class DeliveryCommands:
                 f"expected revision {expected_revision}, found {run.state_revision}"
             )
         return run
+
+    def _append_audit(
+        self,
+        run: ResearchRun,
+        *,
+        action: str,
+        details: dict[str, AuditScalar] | None = None,
+    ) -> None:
+        append_audit(
+            self._audit_sink,
+            AuditEvent(
+                run_id=run.id,
+                state_revision=run.state_revision,
+                actor="delivery",
+                action=action,
+                details={} if details is None else details,
+            ),
+        )
 
     @staticmethod
     def _require_lifecycle(

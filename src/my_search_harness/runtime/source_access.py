@@ -14,6 +14,7 @@ from my_search_harness.domain.model import (
     SourceLocator,
 )
 
+from .audit import AuditEvent, AuditScalar, AuditSink, append_audit
 from .persistence import JsonResearchRunRepository, RevisionConflictError
 
 
@@ -141,9 +142,11 @@ class SourceAccessService:
         self,
         repository: JsonResearchRunRepository,
         provider: SourceAccessProvider | None,
+        audit_sink: AuditSink | None = None,
     ) -> None:
         self._repository = repository
         self._provider = provider
+        self._audit_sink = audit_sink
 
     def inspect_source(
         self,
@@ -174,21 +177,53 @@ class SourceAccessService:
         try:
             outline = provider.inspect_source(paper_ref, source)
         except SourceAccessProviderError as exc:
+            self._audit_attempt(
+                run_id,
+                attempted_revision,
+                action="source_inspect_attempt",
+                paper_ref=paper_ref,
+                outcome="FAILURE",
+                provider_outcome=exc.failure_kind.value,
+            )
             raise SourceAccessAttemptError(
                 state_revision=attempted_revision,
                 failure_kind=exc.failure_kind,
             ) from None
         except Exception:
+            self._audit_attempt(
+                run_id,
+                attempted_revision,
+                action="source_inspect_attempt",
+                paper_ref=paper_ref,
+                outcome="FAILURE",
+                provider_outcome=SourceAccessFailureKind.SOURCE_UNAVAILABLE.value,
+            )
             raise SourceAccessAttemptError(
                 state_revision=attempted_revision,
                 failure_kind=SourceAccessFailureKind.SOURCE_UNAVAILABLE,
             ) from None
 
         if not self._valid_outline(outline, paper_ref):
+            self._audit_attempt(
+                run_id,
+                attempted_revision,
+                action="source_inspect_attempt",
+                paper_ref=paper_ref,
+                outcome="FAILURE",
+                provider_outcome=SourceAccessFailureKind.INVALID_RESPONSE.value,
+            )
             raise SourceAccessAttemptError(
                 state_revision=attempted_revision,
                 failure_kind=SourceAccessFailureKind.INVALID_RESPONSE,
             )
+        self._audit_attempt(
+            run_id,
+            attempted_revision,
+            action="source_inspect_attempt",
+            paper_ref=paper_ref,
+            outcome="SUCCESS",
+            provider_outcome="SUCCESS",
+        )
         return InspectSourceResult(
             state_revision=attempted_revision,
             outline=outline,
@@ -225,21 +260,57 @@ class SourceAccessService:
         try:
             content = provider.read_source(paper_ref, source, locator)
         except SourceAccessProviderError as exc:
+            self._audit_attempt(
+                run_id,
+                attempted_revision,
+                action="source_read_attempt",
+                paper_ref=paper_ref,
+                locator=locator,
+                outcome="FAILURE",
+                provider_outcome=exc.failure_kind.value,
+            )
             raise SourceAccessAttemptError(
                 state_revision=attempted_revision,
                 failure_kind=exc.failure_kind,
             ) from None
         except Exception:
+            self._audit_attempt(
+                run_id,
+                attempted_revision,
+                action="source_read_attempt",
+                paper_ref=paper_ref,
+                locator=locator,
+                outcome="FAILURE",
+                provider_outcome=SourceAccessFailureKind.SOURCE_UNAVAILABLE.value,
+            )
             raise SourceAccessAttemptError(
                 state_revision=attempted_revision,
                 failure_kind=SourceAccessFailureKind.SOURCE_UNAVAILABLE,
             ) from None
 
         if not self._valid_content(content, paper_ref, locator):
+            self._audit_attempt(
+                run_id,
+                attempted_revision,
+                action="source_read_attempt",
+                paper_ref=paper_ref,
+                locator=locator,
+                outcome="FAILURE",
+                provider_outcome=SourceAccessFailureKind.INVALID_RESPONSE.value,
+            )
             raise SourceAccessAttemptError(
                 state_revision=attempted_revision,
                 failure_kind=SourceAccessFailureKind.INVALID_RESPONSE,
             )
+        self._audit_attempt(
+            run_id,
+            attempted_revision,
+            action="source_read_attempt",
+            paper_ref=paper_ref,
+            locator=locator,
+            outcome="SUCCESS",
+            provider_outcome="SUCCESS",
+        )
         return ReadSourceResult(
             state_revision=attempted_revision,
             source_content=content,
@@ -299,6 +370,34 @@ class SourceAccessService:
         attempted.resources.usage[resource_key] = current_usage + 1
         self._repository.save(attempted, expected_revision)
         return attempted.state_revision
+
+    def _audit_attempt(
+        self,
+        run_id: str,
+        state_revision: int,
+        *,
+        action: str,
+        paper_ref: str,
+        outcome: str,
+        provider_outcome: str,
+        locator: SourceLocator | None = None,
+    ) -> None:
+        details: dict[str, AuditScalar] = {"paper_ref": paper_ref}
+        if locator is not None:
+            details["locator_kind"] = locator.kind
+            details["locator_value"] = locator.value
+        append_audit(
+            self._audit_sink,
+            AuditEvent(
+                run_id=run_id,
+                state_revision=state_revision,
+                actor="source_access_provider",
+                action=action,
+                outcome=outcome,
+                provider_outcome=provider_outcome,
+                details=details,
+            ),
+        )
 
     @staticmethod
     def _validate_locator(locator: SourceLocator | None) -> None:

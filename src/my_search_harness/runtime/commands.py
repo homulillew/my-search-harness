@@ -40,6 +40,7 @@ from my_search_harness.domain.paper_identity import (
 
 from .paper_search import PaperSearchHit
 from .persistence import JsonResearchRunRepository, RevisionConflictError
+from .audit import AuditEvent, AuditScalar, AuditSink, append_audit
 
 
 class CommandRejectedError(RuntimeError):
@@ -150,8 +151,13 @@ class EntityMutationResult(DomainMutationResult):
 class ResearchCommands:
     """Thin command boundary over the authoritative ResearchRun repository."""
 
-    def __init__(self, repository: JsonResearchRunRepository) -> None:
+    def __init__(
+        self,
+        repository: JsonResearchRunRepository,
+        audit_sink: AuditSink | None = None,
+    ) -> None:
         self._repository = repository
+        self._audit_sink = audit_sink
 
     def create_run(self, request: CreateRunRequest) -> CreateRunResult:
         self._validate_create_request(request)
@@ -181,6 +187,12 @@ class ResearchCommands:
             )
         )
         self._repository.create(run)
+        self._append_audit(
+            run,
+            action="run_created",
+            actor="researcher",
+            details={"requirement_count": len(requirements)},
+        )
         return CreateRunResult(
             run_id=run.id,
             state_revision=run.state_revision,
@@ -232,7 +244,16 @@ class ResearchCommands:
                 identity_index[key] = paper_ref
             paper_refs.append(paper_ref)
 
-        state_revision = self._commit(current, proposed, expected_revision)
+        state_revision = self._commit(
+            current,
+            proposed,
+            expected_revision,
+            action="papers_retained",
+            details={
+                "paper_count": len(paper_refs),
+                "paper_refs": ",".join(paper_refs),
+            },
+        )
         return RetainPapersResult(
             state_revision=state_revision,
             paper_refs=tuple(paper_refs),
@@ -278,7 +299,13 @@ class ResearchCommands:
 
             raise CommandRejectedError("unsupported research mutation type")
 
-        state_revision = self._commit(current, proposed, expected_revision)
+        state_revision = self._commit(
+            current,
+            proposed,
+            expected_revision,
+            action="research_mutation",
+            details={"mutation_count": len(batch.puts)},
+        )
         return ResearchMutationResult(
             state_revision=state_revision,
             finding_refs=tuple(finding_refs),
@@ -323,7 +350,15 @@ class ResearchCommands:
             proposed.lifecycle = LifecycleMode.RESEARCH
             proposed.delivery_basis = None
         return DomainMutationResult(
-            state_revision=self._commit(current, proposed, expected_revision)
+            state_revision=self._commit(
+                current,
+                proposed,
+                expected_revision,
+                action="contract_amended",
+                actor="authority",
+                reason=reason,
+                details={"contract_revision": next_contract_revision},
+            )
         )
 
     def reconcile_paper_identity(
@@ -434,7 +469,16 @@ class ResearchCommands:
 
         if proposed == current:
             raise CommandRejectedError("paper reconciliation must change state")
-        state_revision = self._commit(current, proposed, expected_revision)
+        state_revision = self._commit(
+            current,
+            proposed,
+            expected_revision,
+            action="paper_identity_reconciled",
+            details={
+                "paper_ref": primary_paper_ref,
+                "removed_paper_ref": duplicate_paper_ref,
+            },
+        )
         return PaperReconciliationResult(
             state_revision=state_revision,
             paper_ref=primary_paper_ref,
@@ -489,7 +533,13 @@ class ResearchCommands:
             approach = existing_approach
         self._reject_no_change(current, proposed, "approach family mutation")
         return EntityMutationResult(
-            state_revision=self._commit(current, proposed, expected_revision),
+            state_revision=self._commit(
+                current,
+                proposed,
+                expected_revision,
+                action="approach_family_maintained",
+                details={"approach_ref": approach.id},
+            ),
             entity_ref=approach.id,
         )
 
@@ -526,7 +576,16 @@ class ResearchCommands:
                 gap.approach_refs.add(target_approach_ref)
         del approaches[source_approach_ref]
         return EntityMutationResult(
-            state_revision=self._commit(current, proposed, expected_revision),
+            state_revision=self._commit(
+                current,
+                proposed,
+                expected_revision,
+                action="approach_family_merged",
+                details={
+                    "target_approach_ref": target_approach_ref,
+                    "source_approach_ref": source_approach_ref,
+                },
+            ),
             entity_ref=target_approach_ref,
         )
 
@@ -624,7 +683,13 @@ class ResearchCommands:
             gap = existing_gap
         self._reject_no_change(current, proposed, "gap mutation")
         return EntityMutationResult(
-            state_revision=self._commit(current, proposed, expected_revision),
+            state_revision=self._commit(
+                current,
+                proposed,
+                expected_revision,
+                action="investigation_gap_maintained",
+                details={"gap_ref": gap.id},
+            ),
             entity_ref=gap.id,
         )
 
@@ -666,7 +731,13 @@ class ResearchCommands:
         paper.research_status = status
         self._reject_no_change(current, proposed, "paper status mutation")
         return DomainMutationResult(
-            state_revision=self._commit(current, proposed, expected_revision)
+            state_revision=self._commit(
+                current,
+                proposed,
+                expected_revision,
+                action="paper_status_changed",
+                details={"paper_ref": paper_ref, "status": status.value},
+            )
         )
 
     def authorize_partial_delivery(
@@ -692,7 +763,14 @@ class ResearchCommands:
             rationale=rationale,
         )
         return DomainMutationResult(
-            state_revision=self._commit(current, proposed, expected_revision)
+            state_revision=self._commit(
+                current,
+                proposed,
+                expected_revision,
+                action="partial_delivery_authorized",
+                actor="authority",
+                reason=rationale,
+            )
         )
 
     def request_completion_check(
@@ -717,7 +795,13 @@ class ResearchCommands:
         )
         proposed.completion_checks[check.id] = check
         proposed.lifecycle = LifecycleMode.COMPLETION_CHECK
-        state_revision = self._commit(current, proposed, expected_revision)
+        state_revision = self._commit(
+            current,
+            proposed,
+            expected_revision,
+            action="completion_check_requested",
+            details={"completion_check_ref": check.id},
+        )
         return RequestCompletionCheckResult(
             state_revision=state_revision,
             completion_check_ref=check.id,
@@ -788,7 +872,18 @@ class ResearchCommands:
             proposed.lifecycle = LifecycleMode.RESEARCH
             proposed.delivery_basis = None
 
-        self._commit(current, proposed, expected_revision)
+        self._commit(
+            current,
+            proposed,
+            expected_revision,
+            action="completion_check_submitted",
+            actor="completion_checker",
+            details={
+                "completion_check_ref": completion_check_ref,
+                "verdict": verdict.value,
+                "blocking_gap_count": len(blocking_refs),
+            },
+        )
         return self._completion_result(proposed, proposed_check)
 
     def _put_landscape_item(
@@ -891,7 +986,17 @@ class ResearchCommands:
         gap.resolution = resolution
         self._reject_no_change(current, proposed, "gap resolution mutation")
         return DomainMutationResult(
-            state_revision=self._commit(current, proposed, expected_revision)
+            state_revision=self._commit(
+                current,
+                proposed,
+                expected_revision,
+                action=(
+                    "investigation_gap_reopened"
+                    if resolution is None
+                    else "investigation_gap_resolved"
+                ),
+                details={"gap_ref": gap_ref},
+            )
         )
 
     def _load_research(
@@ -1030,10 +1135,43 @@ class ResearchCommands:
         current: ResearchRun,
         proposed: ResearchRun,
         expected_revision: int,
+        *,
+        action: str = "research_mutation",
+        actor: str = "researcher",
+        reason: str | None = None,
+        details: dict[str, AuditScalar] | None = None,
     ) -> int:
         proposed.state_revision = current.state_revision + 1
         self._repository.save(proposed, expected_revision)
+        self._append_audit(
+            proposed,
+            action=action,
+            actor=actor,
+            reason=reason,
+            details={} if details is None else details,
+        )
         return proposed.state_revision
+
+    def _append_audit(
+        self,
+        run: ResearchRun,
+        *,
+        action: str,
+        actor: str,
+        reason: str | None = None,
+        details: dict[str, AuditScalar] | None = None,
+    ) -> None:
+        append_audit(
+            self._audit_sink,
+            AuditEvent(
+                run_id=run.id,
+                state_revision=run.state_revision,
+                actor=actor,
+                action=action,
+                reason=reason,
+                details={} if details is None else details,
+            ),
+        )
 
     @staticmethod
     def _require_lifecycle(
