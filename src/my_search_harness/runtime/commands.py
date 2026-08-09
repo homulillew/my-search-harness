@@ -34,6 +34,7 @@ from my_search_harness.domain.paper_identity import (
     paper_identity_keys,
 )
 
+from .paper_search import PaperSearchHit
 from .persistence import JsonResearchRunRepository, RevisionConflictError
 
 
@@ -59,17 +60,6 @@ class CreateRunResult:
     run_id: str
     state_revision: int
     requirement_refs: tuple[str, ...]
-
-
-@dataclass(slots=True, frozen=True, kw_only=True)
-class PaperSearchHit:
-    title: str
-    authors: tuple[str, ...] = ()
-    publication_year: int | None = None
-    doi: str | None = None
-    arxiv_id: str | None = None
-    canonical_url: str | None = None
-    other_identifiers: Mapping[str, str] = field(default_factory=dict)
 
 
 @dataclass(slots=True, frozen=True, kw_only=True)
