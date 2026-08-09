@@ -7,6 +7,10 @@ from dataclasses import dataclass
 from my_search_harness.domain.model import (
     CompletionVerdict,
     LifecycleMode,
+    LiteratureSource,
+    PaperAnalysis,
+    PaperResearchStatus,
+    PaperSource,
     SourceLocator,
 )
 
@@ -16,6 +20,9 @@ from .commands import (
     CompletionSubmissionResult,
     CreateRunRequest,
     CreateRunResult,
+    DomainMutationResult,
+    EntityMutationResult,
+    PaperReconciliationResult,
     ResearchCommands,
     ResearchMutationBatch,
     ResearchMutationResult,
@@ -159,6 +166,169 @@ class ResearcherCapabilities:
             run_id,
             expected_revision,
             batch,
+        )
+
+    def reconcile_paper_identity(
+        self,
+        run_id: str,
+        expected_revision: int,
+        primary_paper_ref: str,
+        source: PaperSource,
+        *,
+        duplicate_paper_ref: str | None = None,
+        reconciled_analysis: PaperAnalysis | None = None,
+        research_status: PaperResearchStatus | None = None,
+    ) -> PaperReconciliationResult:
+        return self._commands.reconcile_paper_identity(
+            run_id,
+            expected_revision,
+            primary_paper_ref,
+            source,
+            duplicate_paper_ref=duplicate_paper_ref,
+            reconciled_analysis=reconciled_analysis,
+            research_status=research_status,
+        )
+
+    def put_approach_family(
+        self,
+        run_id: str,
+        expected_revision: int,
+        *,
+        name: str,
+        core_idea: str,
+        representative_paper_refs: frozenset[str],
+        approach_ref: str | None = None,
+    ) -> EntityMutationResult:
+        return self._commands.put_approach_family(
+            run_id,
+            expected_revision,
+            name=name,
+            core_idea=core_idea,
+            representative_paper_refs=representative_paper_refs,
+            approach_ref=approach_ref,
+        )
+
+    def merge_approach_family(
+        self,
+        run_id: str,
+        expected_revision: int,
+        target_approach_ref: str,
+        source_approach_ref: str,
+    ) -> EntityMutationResult:
+        return self._commands.merge_approach_family(
+            run_id,
+            expected_revision,
+            target_approach_ref,
+            source_approach_ref,
+        )
+
+    def put_landscape_finding(
+        self,
+        run_id: str,
+        expected_revision: int,
+        *,
+        statement: str,
+        approach_refs: frozenset[str] = frozenset(),
+        sources: frozenset[LiteratureSource] = frozenset(),
+        finding_ref: str | None = None,
+    ) -> EntityMutationResult:
+        return self._commands.put_landscape_finding(
+            run_id,
+            expected_revision,
+            statement=statement,
+            approach_refs=approach_refs,
+            sources=sources,
+            finding_ref=finding_ref,
+        )
+
+    def retire_landscape_finding(
+        self,
+        run_id: str,
+        expected_revision: int,
+        finding_ref: str,
+    ) -> DomainMutationResult:
+        return self._commands.retire_landscape_finding(
+            run_id, expected_revision, finding_ref
+        )
+
+    def put_open_problem(
+        self,
+        run_id: str,
+        expected_revision: int,
+        *,
+        statement: str,
+        approach_refs: frozenset[str] = frozenset(),
+        sources: frozenset[LiteratureSource] = frozenset(),
+        problem_ref: str | None = None,
+    ) -> EntityMutationResult:
+        return self._commands.put_open_problem(
+            run_id,
+            expected_revision,
+            statement=statement,
+            approach_refs=approach_refs,
+            sources=sources,
+            problem_ref=problem_ref,
+        )
+
+    def retire_open_problem(
+        self,
+        run_id: str,
+        expected_revision: int,
+        problem_ref: str,
+    ) -> DomainMutationResult:
+        return self._commands.retire_open_problem(
+            run_id, expected_revision, problem_ref
+        )
+
+    def put_investigation_gap(
+        self,
+        run_id: str,
+        expected_revision: int,
+        *,
+        description: str,
+        requirement_refs: frozenset[str] = frozenset(),
+        approach_refs: frozenset[str] = frozenset(),
+        gap_ref: str | None = None,
+    ) -> EntityMutationResult:
+        return self._commands.put_investigation_gap(
+            run_id,
+            expected_revision,
+            description=description,
+            requirement_refs=requirement_refs,
+            approach_refs=approach_refs,
+            gap_ref=gap_ref,
+        )
+
+    def resolve_investigation_gap(
+        self,
+        run_id: str,
+        expected_revision: int,
+        gap_ref: str,
+        resolution: str,
+    ) -> DomainMutationResult:
+        return self._commands.resolve_investigation_gap(
+            run_id, expected_revision, gap_ref, resolution
+        )
+
+    def reopen_investigation_gap(
+        self,
+        run_id: str,
+        expected_revision: int,
+        gap_ref: str,
+    ) -> DomainMutationResult:
+        return self._commands.reopen_investigation_gap(
+            run_id, expected_revision, gap_ref
+        )
+
+    def set_paper_research_status(
+        self,
+        run_id: str,
+        expected_revision: int,
+        paper_ref: str,
+        status: PaperResearchStatus,
+    ) -> DomainMutationResult:
+        return self._commands.set_paper_research_status(
+            run_id, expected_revision, paper_ref, status
         )
 
     def request_completion_check(

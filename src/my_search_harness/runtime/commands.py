@@ -8,6 +8,7 @@ from dataclasses import dataclass, field
 from typing import TypeAlias
 
 from my_search_harness.domain.model import (
+    ApproachFamily,
     ArtifactKind,
     CompletionCheck,
     CompletionPassBasis,
@@ -18,9 +19,12 @@ from my_search_harness.domain.model import (
     LandscapeFinding,
     LifecycleMode,
     LiteratureSource,
+    OpenProblem,
     Paper,
     PaperAnalysis,
+    PaperResearchStatus,
     PaperSource,
+    PartialAuthorizationBasis,
     ResearchContract,
     ResearchRequirement,
     ResearchRun,
@@ -123,6 +127,24 @@ class CompletionSubmissionResult:
     verdict: CompletionVerdict
     reasons: tuple[str, ...]
     blocking_gap_refs: frozenset[str]
+
+
+@dataclass(slots=True, frozen=True, kw_only=True)
+class DomainMutationResult:
+    """Result shared by one-revision semantic domain commands."""
+
+    state_revision: int
+
+
+@dataclass(slots=True, frozen=True, kw_only=True)
+class PaperReconciliationResult(DomainMutationResult):
+    paper_ref: str
+    removed_paper_ref: str | None
+
+
+@dataclass(slots=True, frozen=True, kw_only=True)
+class EntityMutationResult(DomainMutationResult):
+    entity_ref: str
 
 
 class ResearchCommands:
@@ -262,6 +284,417 @@ class ResearchCommands:
             finding_refs=tuple(finding_refs),
         )
 
+    def amend_contract(
+        self,
+        run_id: str,
+        expected_revision: int,
+        contract: ResearchContract,
+        reason: str,
+    ) -> DomainMutationResult:
+        """Append a Contract revision and invalidate any delivery authority."""
+
+        current = self._load_expected(run_id, expected_revision)
+        if current.lifecycle not in {LifecycleMode.RESEARCH, LifecycleMode.DELIVERY}:
+            raise CommandRejectedError(
+                "amend_contract requires RESEARCH or DELIVERY lifecycle"
+            )
+        if not isinstance(contract, ResearchContract):
+            raise CommandRejectedError("contract must be a ResearchContract")
+        if not isinstance(reason, str) or not reason:
+            raise CommandRejectedError("amendment reason must be a non-empty string")
+        current_contract = self._current_contract(current)
+        if contract == current_contract:
+            raise CommandRejectedError("contract amendment must change the contract")
+
+        proposed = deepcopy(current)
+        next_contract_revision = proposed.contract.current_revision + 1
+        proposed.contract.revisions.append(
+            ContractRevision(
+                revision=next_contract_revision,
+                contract=deepcopy(contract),
+                reason=reason,
+            )
+        )
+        proposed.contract.current_revision = next_contract_revision
+        active_requirements = set(contract.requirements)
+        for gap in proposed.investigation_gaps.values():
+            gap.requirement_refs.intersection_update(active_requirements)
+        if proposed.lifecycle is LifecycleMode.DELIVERY:
+            proposed.lifecycle = LifecycleMode.RESEARCH
+            proposed.delivery_basis = None
+        return DomainMutationResult(
+            state_revision=self._commit(current, proposed, expected_revision)
+        )
+
+    def reconcile_paper_identity(
+        self,
+        run_id: str,
+        expected_revision: int,
+        primary_paper_ref: str,
+        source: PaperSource,
+        *,
+        duplicate_paper_ref: str | None = None,
+        reconciled_analysis: PaperAnalysis | None = None,
+        research_status: PaperResearchStatus | None = None,
+    ) -> PaperReconciliationResult:
+        """Enrich or explicitly merge Papers using caller-supplied semantics."""
+
+        current = self._load_expected(run_id, expected_revision)
+        self._require_lifecycle(
+            current, LifecycleMode.RESEARCH, "reconcile_paper_identity"
+        )
+        if not isinstance(source, PaperSource):
+            raise CommandRejectedError("source must be a PaperSource")
+        if reconciled_analysis is not None and not isinstance(
+            reconciled_analysis, PaperAnalysis
+        ):
+            raise CommandRejectedError(
+                "reconciled_analysis must be a PaperAnalysis or None"
+            )
+        if research_status is not None and not isinstance(
+            research_status, PaperResearchStatus
+        ):
+            raise CommandRejectedError(
+                "research_status must be a PaperResearchStatus or None"
+            )
+
+        proposed = deepcopy(current)
+        primary = proposed.papers.get(primary_paper_ref)
+        if primary is None:
+            raise CommandRejectedError(f"paper {primary_paper_ref!r} does not exist")
+        duplicate = None
+        if duplicate_paper_ref is not None:
+            if duplicate_paper_ref == primary_paper_ref:
+                raise CommandRejectedError("duplicate paper must differ from primary")
+            duplicate = proposed.papers.get(duplicate_paper_ref)
+            if duplicate is None:
+                raise CommandRejectedError(
+                    f"paper {duplicate_paper_ref!r} does not exist"
+                )
+
+        final_keys = set(paper_identity_keys(source))
+        self._require_nonempty_identity_values(tuple(final_keys))
+        if not final_keys:
+            raise CommandRejectedError(
+                "paper reconciliation requires at least one stable identity"
+            )
+        for existing in (primary, duplicate):
+            if existing is None:
+                continue
+            missing_keys = set(paper_identity_keys(existing.source)) - final_keys
+            if missing_keys:
+                raise CommandRejectedError(
+                    "paper reconciliation cannot discard stable identities"
+                )
+        for other_ref, other in proposed.papers.items():
+            if other_ref in {primary_paper_ref, duplicate_paper_ref}:
+                continue
+            if final_keys.intersection(paper_identity_keys(other.source)):
+                raise CommandRejectedError(
+                    "reconciled identity conflicts with another persistent paper"
+                )
+
+        if duplicate is not None:
+            analyses = tuple(
+                analysis
+                for analysis in (primary.analysis, duplicate.analysis)
+                if analysis is not None
+            )
+            if (
+                len(analyses) == 2
+                and analyses[0] != analyses[1]
+                and reconciled_analysis is None
+            ):
+                raise CommandRejectedError(
+                    "conflicting PaperAnalysis values require reconciled_analysis"
+                )
+            if reconciled_analysis is None and analyses:
+                reconciled_analysis = deepcopy(analyses[0])
+
+        reconciled_source = deepcopy(source)
+        for existing in (primary, duplicate):
+            if existing is None:
+                continue
+            for kind, value in existing.source.other_identifiers.items():
+                reconciled_source.other_identifiers.setdefault(kind, value)
+        primary.source = reconciled_source
+        if reconciled_analysis is not None:
+            primary.analysis = deepcopy(reconciled_analysis)
+        if research_status is not None:
+            primary.research_status = research_status
+
+        if duplicate is not None:
+            assert duplicate_paper_ref is not None
+            self._rewrite_paper_refs(
+                proposed,
+                duplicate_paper_ref,
+                primary_paper_ref,
+            )
+            del proposed.papers[duplicate_paper_ref]
+
+        if proposed == current:
+            raise CommandRejectedError("paper reconciliation must change state")
+        state_revision = self._commit(current, proposed, expected_revision)
+        return PaperReconciliationResult(
+            state_revision=state_revision,
+            paper_ref=primary_paper_ref,
+            removed_paper_ref=duplicate_paper_ref,
+        )
+
+    def put_approach_family(
+        self,
+        run_id: str,
+        expected_revision: int,
+        *,
+        name: str,
+        core_idea: str,
+        representative_paper_refs: frozenset[str],
+        approach_ref: str | None = None,
+    ) -> EntityMutationResult:
+        current = self._load_research(run_id, expected_revision, "put_approach_family")
+        if not isinstance(name, str) or not isinstance(core_idea, str):
+            raise CommandRejectedError("approach name and core_idea must be strings")
+        self._validate_reference_frozenset(
+            representative_paper_refs, "representative_paper_refs"
+        )
+        if not representative_paper_refs:
+            raise CommandRejectedError(
+                "approach family requires at least one representative paper"
+            )
+        missing = set(representative_paper_refs) - set(current.papers)
+        if missing:
+            raise CommandRejectedError(
+                f"approach family has dangling paper refs: {sorted(missing)!r}"
+            )
+
+        proposed = deepcopy(current)
+        if approach_ref is None:
+            approach = ApproachFamily(
+                name=name,
+                core_idea=core_idea,
+                representative_papers=set(representative_paper_refs),
+            )
+            proposed.literature_landscape.approach_families[approach.id] = approach
+        else:
+            existing_approach = proposed.literature_landscape.approach_families.get(
+                approach_ref
+            )
+            if existing_approach is None:
+                raise CommandRejectedError(
+                    f"approach family {approach_ref!r} does not exist"
+                )
+            existing_approach.name = name
+            existing_approach.core_idea = core_idea
+            existing_approach.representative_papers = set(representative_paper_refs)
+            approach = existing_approach
+        self._reject_no_change(current, proposed, "approach family mutation")
+        return EntityMutationResult(
+            state_revision=self._commit(current, proposed, expected_revision),
+            entity_ref=approach.id,
+        )
+
+    def merge_approach_family(
+        self,
+        run_id: str,
+        expected_revision: int,
+        target_approach_ref: str,
+        source_approach_ref: str,
+    ) -> EntityMutationResult:
+        current = self._load_research(
+            run_id, expected_revision, "merge_approach_family"
+        )
+        if target_approach_ref == source_approach_ref:
+            raise CommandRejectedError("source and target approach must differ")
+        proposed = deepcopy(current)
+        approaches = proposed.literature_landscape.approach_families
+        target = approaches.get(target_approach_ref)
+        source = approaches.get(source_approach_ref)
+        if target is None or source is None:
+            raise CommandRejectedError("source and target approach must both exist")
+        target.representative_papers.update(source.representative_papers)
+        for finding in proposed.literature_landscape.findings.values():
+            if source_approach_ref in finding.approach_refs:
+                finding.approach_refs.remove(source_approach_ref)
+                finding.approach_refs.add(target_approach_ref)
+        for problem in proposed.literature_landscape.open_problems.values():
+            if source_approach_ref in problem.approach_refs:
+                problem.approach_refs.remove(source_approach_ref)
+                problem.approach_refs.add(target_approach_ref)
+        for gap in proposed.investigation_gaps.values():
+            if source_approach_ref in gap.approach_refs:
+                gap.approach_refs.remove(source_approach_ref)
+                gap.approach_refs.add(target_approach_ref)
+        del approaches[source_approach_ref]
+        return EntityMutationResult(
+            state_revision=self._commit(current, proposed, expected_revision),
+            entity_ref=target_approach_ref,
+        )
+
+    def put_landscape_finding(
+        self,
+        run_id: str,
+        expected_revision: int,
+        *,
+        statement: str,
+        approach_refs: frozenset[str] = frozenset(),
+        sources: frozenset[LiteratureSource] = frozenset(),
+        finding_ref: str | None = None,
+    ) -> EntityMutationResult:
+        return self._put_landscape_item(
+            run_id,
+            expected_revision,
+            item_kind="finding",
+            statement=statement,
+            approach_refs=approach_refs,
+            sources=sources,
+            item_ref=finding_ref,
+        )
+
+    def retire_landscape_finding(
+        self,
+        run_id: str,
+        expected_revision: int,
+        finding_ref: str,
+    ) -> DomainMutationResult:
+        return self._retire_landscape_item(
+            run_id, expected_revision, "finding", finding_ref
+        )
+
+    def put_open_problem(
+        self,
+        run_id: str,
+        expected_revision: int,
+        *,
+        statement: str,
+        approach_refs: frozenset[str] = frozenset(),
+        sources: frozenset[LiteratureSource] = frozenset(),
+        problem_ref: str | None = None,
+    ) -> EntityMutationResult:
+        return self._put_landscape_item(
+            run_id,
+            expected_revision,
+            item_kind="problem",
+            statement=statement,
+            approach_refs=approach_refs,
+            sources=sources,
+            item_ref=problem_ref,
+        )
+
+    def retire_open_problem(
+        self,
+        run_id: str,
+        expected_revision: int,
+        problem_ref: str,
+    ) -> DomainMutationResult:
+        return self._retire_landscape_item(
+            run_id, expected_revision, "problem", problem_ref
+        )
+
+    def put_investigation_gap(
+        self,
+        run_id: str,
+        expected_revision: int,
+        *,
+        description: str,
+        requirement_refs: frozenset[str] = frozenset(),
+        approach_refs: frozenset[str] = frozenset(),
+        gap_ref: str | None = None,
+    ) -> EntityMutationResult:
+        current = self._load_research(
+            run_id, expected_revision, "put_investigation_gap"
+        )
+        self._validate_gap_metadata(
+            current, description, requirement_refs, approach_refs
+        )
+        proposed = deepcopy(current)
+        if gap_ref is None:
+            gap = InvestigationGap(
+                description=description,
+                requirement_refs=set(requirement_refs),
+                approach_refs=set(approach_refs),
+            )
+            proposed.investigation_gaps[gap.id] = gap
+        else:
+            existing_gap = proposed.investigation_gaps.get(gap_ref)
+            if existing_gap is None:
+                raise CommandRejectedError(f"gap {gap_ref!r} does not exist")
+            existing_gap.description = description
+            existing_gap.requirement_refs = set(requirement_refs)
+            existing_gap.approach_refs = set(approach_refs)
+            gap = existing_gap
+        self._reject_no_change(current, proposed, "gap mutation")
+        return EntityMutationResult(
+            state_revision=self._commit(current, proposed, expected_revision),
+            entity_ref=gap.id,
+        )
+
+    def resolve_investigation_gap(
+        self,
+        run_id: str,
+        expected_revision: int,
+        gap_ref: str,
+        resolution: str,
+    ) -> DomainMutationResult:
+        if not isinstance(resolution, str) or not resolution:
+            raise CommandRejectedError("resolution must be a non-empty string")
+        return self._set_gap_resolution(run_id, expected_revision, gap_ref, resolution)
+
+    def reopen_investigation_gap(
+        self,
+        run_id: str,
+        expected_revision: int,
+        gap_ref: str,
+    ) -> DomainMutationResult:
+        return self._set_gap_resolution(run_id, expected_revision, gap_ref, None)
+
+    def set_paper_research_status(
+        self,
+        run_id: str,
+        expected_revision: int,
+        paper_ref: str,
+        status: PaperResearchStatus,
+    ) -> DomainMutationResult:
+        current = self._load_research(
+            run_id, expected_revision, "set_paper_research_status"
+        )
+        if not isinstance(status, PaperResearchStatus):
+            raise CommandRejectedError("status must be a PaperResearchStatus")
+        proposed = deepcopy(current)
+        paper = proposed.papers.get(paper_ref)
+        if paper is None:
+            raise CommandRejectedError(f"paper {paper_ref!r} does not exist")
+        paper.research_status = status
+        self._reject_no_change(current, proposed, "paper status mutation")
+        return DomainMutationResult(
+            state_revision=self._commit(current, proposed, expected_revision)
+        )
+
+    def authorize_partial_delivery(
+        self,
+        run_id: str,
+        expected_revision: int,
+        rationale: str | None,
+    ) -> DomainMutationResult:
+        """Record explicit authority to deliver a known-incomplete result."""
+
+        current = self._load_research(
+            run_id, expected_revision, "authorize_partial_delivery"
+        )
+        if rationale is not None and not isinstance(rationale, str):
+            raise CommandRejectedError("rationale must be a string or None")
+        proposed = deepcopy(current)
+        resulting_revision = current.state_revision + 1
+        proposed.lifecycle = LifecycleMode.DELIVERY
+        proposed.delivery_basis = PartialAuthorizationBasis(
+            basis_revision=resulting_revision,
+            basis_contract_revision=proposed.contract.current_revision,
+            authorized_at=utc_now(),
+            rationale=rationale,
+        )
+        return DomainMutationResult(
+            state_revision=self._commit(current, proposed, expected_revision)
+        )
+
     def request_completion_check(
         self,
         run_id: str,
@@ -358,6 +791,119 @@ class ResearchCommands:
         self._commit(current, proposed, expected_revision)
         return self._completion_result(proposed, proposed_check)
 
+    def _put_landscape_item(
+        self,
+        run_id: str,
+        expected_revision: int,
+        *,
+        item_kind: str,
+        statement: str,
+        approach_refs: frozenset[str],
+        sources: frozenset[LiteratureSource],
+        item_ref: str | None,
+    ) -> EntityMutationResult:
+        command_name = (
+            f"put_{'landscape_finding' if item_kind == 'finding' else 'open_problem'}"
+        )
+        current = self._load_research(run_id, expected_revision, command_name)
+        self._validate_landscape_item_values(current, statement, approach_refs, sources)
+        proposed = deepcopy(current)
+        if item_kind == "finding":
+            items = proposed.literature_landscape.findings
+            if item_ref is None:
+                finding = LandscapeFinding(
+                    statement=statement,
+                    approach_refs=set(approach_refs),
+                    sources=set(sources),
+                )
+                items[finding.id] = finding
+            else:
+                existing_finding = items.get(item_ref)
+                if existing_finding is None:
+                    raise CommandRejectedError(
+                        f"landscape finding {item_ref!r} does not exist"
+                    )
+                existing_finding.statement = statement
+                existing_finding.approach_refs = set(approach_refs)
+                existing_finding.sources = set(sources)
+                finding = existing_finding
+            self._reject_no_change(current, proposed, "landscape item mutation")
+            return EntityMutationResult(
+                state_revision=self._commit(current, proposed, expected_revision),
+                entity_ref=finding.id,
+            )
+
+        problems = proposed.literature_landscape.open_problems
+        if item_ref is None:
+            problem = OpenProblem(
+                statement=statement,
+                approach_refs=set(approach_refs),
+                sources=set(sources),
+            )
+            problems[problem.id] = problem
+        else:
+            existing_problem = problems.get(item_ref)
+            if existing_problem is None:
+                raise CommandRejectedError(f"open problem {item_ref!r} does not exist")
+            existing_problem.statement = statement
+            existing_problem.approach_refs = set(approach_refs)
+            existing_problem.sources = set(sources)
+            problem = existing_problem
+        self._reject_no_change(current, proposed, "landscape item mutation")
+        return EntityMutationResult(
+            state_revision=self._commit(current, proposed, expected_revision),
+            entity_ref=problem.id,
+        )
+
+    def _retire_landscape_item(
+        self,
+        run_id: str,
+        expected_revision: int,
+        item_kind: str,
+        item_ref: str,
+    ) -> DomainMutationResult:
+        current = self._load_research(run_id, expected_revision, f"retire_{item_kind}")
+        proposed = deepcopy(current)
+        if item_kind == "finding":
+            if item_ref not in proposed.literature_landscape.findings:
+                raise CommandRejectedError(f"finding {item_ref!r} does not exist")
+            del proposed.literature_landscape.findings[item_ref]
+        else:
+            if item_ref not in proposed.literature_landscape.open_problems:
+                raise CommandRejectedError(f"problem {item_ref!r} does not exist")
+            del proposed.literature_landscape.open_problems[item_ref]
+        return DomainMutationResult(
+            state_revision=self._commit(current, proposed, expected_revision)
+        )
+
+    def _set_gap_resolution(
+        self,
+        run_id: str,
+        expected_revision: int,
+        gap_ref: str,
+        resolution: str | None,
+    ) -> DomainMutationResult:
+        current = self._load_research(run_id, expected_revision, "set_gap_resolution")
+        proposed = deepcopy(current)
+        gap = proposed.investigation_gaps.get(gap_ref)
+        if gap is None:
+            raise CommandRejectedError(f"gap {gap_ref!r} does not exist")
+        gap.resolution = resolution
+        self._reject_no_change(current, proposed, "gap resolution mutation")
+        return DomainMutationResult(
+            state_revision=self._commit(current, proposed, expected_revision)
+        )
+
+    def _load_research(
+        self,
+        run_id: str,
+        expected_revision: int,
+        command_name: str,
+    ) -> ResearchRun:
+        current = self._load_expected(run_id, expected_revision)
+        self._require_lifecycle(current, LifecycleMode.RESEARCH, command_name)
+        return current
+
     def _load_expected(self, run_id: str, expected_revision: int) -> ResearchRun:
         run = self._repository.load(run_id)
         if run.state_revision != expected_revision:
@@ -365,6 +911,119 @@ class ResearchCommands:
                 f"expected revision {expected_revision}, found {run.state_revision}"
             )
         return run
+
+    @staticmethod
+    def _current_contract(run: ResearchRun) -> ResearchContract:
+        return next(
+            entry.contract
+            for entry in run.contract.revisions
+            if entry.revision == run.contract.current_revision
+        )
+
+    @staticmethod
+    def _reject_no_change(
+        current: ResearchRun,
+        proposed: ResearchRun,
+        description: str,
+    ) -> None:
+        if proposed == current:
+            raise CommandRejectedError(f"{description} must change state")
+
+    @staticmethod
+    def _validate_reference_frozenset(value: object, name: str) -> None:
+        if not isinstance(value, frozenset) or not all(
+            isinstance(ref, str) for ref in value
+        ):
+            raise CommandRejectedError(f"{name} must be a frozenset of references")
+
+    @classmethod
+    def _validate_landscape_item_values(
+        cls,
+        run: ResearchRun,
+        statement: str,
+        approach_refs: frozenset[str],
+        sources: frozenset[LiteratureSource],
+    ) -> None:
+        if not isinstance(statement, str):
+            raise CommandRejectedError("statement must be a string")
+        cls._validate_reference_frozenset(approach_refs, "approach_refs")
+        if not isinstance(sources, frozenset) or not all(
+            isinstance(source, LiteratureSource) for source in sources
+        ):
+            raise CommandRejectedError(
+                "sources must be a frozenset of LiteratureSource"
+            )
+        missing_approaches = set(approach_refs) - set(
+            run.literature_landscape.approach_families
+        )
+        missing_papers = {
+            source.paper_ref for source in sources if source.paper_ref not in run.papers
+        }
+        if missing_approaches:
+            raise CommandRejectedError(
+                f"landscape item has dangling approach refs: "
+                f"{sorted(missing_approaches)!r}"
+            )
+        if missing_papers:
+            raise CommandRejectedError(
+                f"landscape item has dangling paper refs: {sorted(missing_papers)!r}"
+            )
+
+    @classmethod
+    def _validate_gap_metadata(
+        cls,
+        run: ResearchRun,
+        description: str,
+        requirement_refs: frozenset[str],
+        approach_refs: frozenset[str],
+    ) -> None:
+        if not isinstance(description, str):
+            raise CommandRejectedError("gap description must be a string")
+        cls._validate_reference_frozenset(requirement_refs, "requirement_refs")
+        cls._validate_reference_frozenset(approach_refs, "approach_refs")
+        current_requirements = set(cls._current_contract(run).requirements)
+        missing_requirements = set(requirement_refs) - current_requirements
+        missing_approaches = set(approach_refs) - set(
+            run.literature_landscape.approach_families
+        )
+        if missing_requirements:
+            raise CommandRejectedError(
+                f"gap has dangling requirement refs: {sorted(missing_requirements)!r}"
+            )
+        if missing_approaches:
+            raise CommandRejectedError(
+                f"gap has dangling approach refs: {sorted(missing_approaches)!r}"
+            )
+
+    @staticmethod
+    def _rewrite_paper_refs(
+        run: ResearchRun,
+        old_ref: str,
+        new_ref: str,
+    ) -> None:
+        for approach in run.literature_landscape.approach_families.values():
+            if old_ref in approach.representative_papers:
+                approach.representative_papers.remove(old_ref)
+                approach.representative_papers.add(new_ref)
+
+        def rewrite_sources(
+            sources: set[LiteratureSource],
+        ) -> set[LiteratureSource]:
+            return {
+                LiteratureSource(
+                    paper_ref=(
+                        new_ref if source.paper_ref == old_ref else source.paper_ref
+                    ),
+                    relation=source.relation,
+                    locator=source.locator,
+                )
+                for source in sources
+            }
+
+        for finding in run.literature_landscape.findings.values():
+            finding.sources = rewrite_sources(finding.sources)
+        for problem in run.literature_landscape.open_problems.values():
+            problem.sources = rewrite_sources(problem.sources)
 
     def _commit(
         self,

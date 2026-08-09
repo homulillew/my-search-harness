@@ -120,12 +120,38 @@ class RuntimeCapabilitiesTests(TestCase):
 
         self.assertFalse(hasattr(researcher, "submit_completion_check"))
         self.assertFalse(hasattr(researcher, "close_run"))
+        self.assertFalse(hasattr(researcher, "authorize_partial_delivery"))
+        self.assertFalse(hasattr(researcher, "amend_contract"))
         self.assertFalse(hasattr(checker, "search_papers"))
         self.assertFalse(hasattr(checker, "retain_papers"))
         self.assertFalse(hasattr(checker, "apply_research_mutation"))
         self.assertFalse(hasattr(delivery, "search_papers"))
         self.assertFalse(hasattr(delivery, "retain_papers"))
         self.assertFalse(hasattr(delivery, "submit_completion_check"))
+
+    def test_researcher_exposes_typed_research_maintenance_not_authority_escalation(
+        self,
+    ) -> None:
+        retained = self.capabilities.researcher.retain_papers(
+            self.created.run_id,
+            self.created.state_revision,
+            (PaperSearchHit(title="Representative", arxiv_id="2608.00002"),),
+        )
+        approach = self.capabilities.researcher.put_approach_family(
+            self.created.run_id,
+            retained.state_revision,
+            name="Typed route",
+            core_idea="Maintain canonical semantics through commands",
+            representative_paper_refs=frozenset(retained.paper_refs),
+        )
+        gap = self.capabilities.researcher.put_investigation_gap(
+            self.created.run_id,
+            approach.state_revision,
+            description="A researcher-owned gap",
+            approach_refs=frozenset({approach.entity_ref}),
+        )
+
+        self.assertEqual(approach.state_revision + 1, gap.state_revision)
 
     def test_lifecycle_selects_which_facade_has_an_active_view(self) -> None:
         research_view = self.capabilities.researcher.view(self.created.run_id)
