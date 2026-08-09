@@ -1,9 +1,11 @@
 # V1 System Architecture
 
-**Status:** Architecture Baseline
+**Status:** Architecture Frozen
 **Scope:** V1
 **Source of decisions:** ADR-001 ～ ADR-010
 **Role of this document:** 描述当前系统架构真相；架构决策的历史原因与替代方案保留在对应 ADR 中。
+
+> V1 Architecture frozen after ADR-001–010 consistency review and N1–N8 adjudication. Further changes require explicit architectural evidence rather than implementation convenience.
 
 ---
 
@@ -43,26 +45,27 @@ V1 的核心结构保持单向：
                       ▼
                  Claude Code
         Agent Runtime / Semantic Policy
-              │             │
-              │             │
-              ▼             ▼
-        State Context   Research Observations
-              │             │
-              │             ├── Paper Search
-              │             ├── Source Access
-              │             └── Wiki Query
-              │
-              ▼
-                Python Harness
-      Control / Persistence / Determinism
-              │
-              ▼
-          Authoritative
-         ResearchRun State
+              │                     ▲
+              │ actions / requests  │ State Context
+              ▼                     │ (bounded view from
+        Python Harness ─────────────┤  Research State,
+      Control / Persistence /       │  rendered by Harness)
+      Determinism                   │ Research Observations
+              │ read / write        │ (ephemeral results
+              ▼                     │  of external I/O)
+          Authoritative             │
+         ResearchRun State ─────────┘
               │
         ┌─────┴─────┐
         ▼           ▼
       Report     Local Wiki
+
+External Research I/O（由 Python Harness 执行，
+结果作为 Research Observations 返回 Claude）：
+  Paper Search   → PaperSearchHit[]
+  Web Search     → Web Search Result
+  Source Access  → SourceOutline / SourceContent
+  Wiki Query     → Wiki Query Result
 ```
 
 唯一权威研究状态位于 `ResearchRun`。
@@ -523,6 +526,7 @@ V1 的主要 Observation 包括：
 PaperSearchHit
 SourceOutline
 SourceContent
+Web Search Result
 Wiki Query Result
 ```
 
@@ -539,12 +543,20 @@ Source Content
 → Claude interpretation
 → Paper Analysis / Landscape
 
+Web Search Result
+→ Claude identifies a paper / useful lead
+→ normal paper research path when applicable
+
 Wiki Lead
 → Paper lead
 → Retain Paper
 → read_source
 → Current Research State
 ```
+
+Web Search Result 不自动成为 Persistent Research State，也不自动转换为 `PaperSearchHit`。
+
+Web Search 是独立于 Paper Search 的广泛网络发现能力（ADR-007 §Web Search 保持独立）：它不实现 `PaperSearchProvider`，也不把所有 Web Result 自动转换成 `PaperSearchHit`。V1 不为 Web Search 建立独立 Domain Entity；如果 Web Search 发现一篇论文，由 Claude 将其带入正常论文研究流程。
 
 因此：
 
@@ -588,28 +600,43 @@ arXiv ID
 
 ## 13. External Actions and Resource Accounting
 
-外部资源动作必须先通过 hard resource authorization。
+外部资源动作必须先通过本地 action / resource validation（hard limits 检查）。
 
 概念顺序为：
 
 ```text
-check / reserve resource allowance
+local validation（hard limits 检查）
         ↓
-external action
+external provider attempt 实际发起
+        ↓
+consumes corresponding hard action allowance
         ↓
 success or explicit failure
 ```
 
-Provider success 与 Resource consumption 是两个独立事实。
+消费的时刻是「外部 attempt 实际发起」，而不是「本地验证通过」或「请求被接受」。
 
-一次 Provider timeout 可以：
+只有同时满足以下两个条件，一次 attempt 才消耗对应 hard action allowance：
+
+* Harness 已通过本地 action / resource validation；且
+* Harness 已实际发起外部 provider attempt。
+
+两个明确判定：
 
 ```text
-不产生新的 Research Knowledge
-但仍然消耗一次 Search allowance
+local validation rejected
+→ 没有发起外部 attempt
+→ 不消耗 external-action allowance
+
+external attempt started
+→ timeout / rate limit / provider failure
+→ 不产生新的 Research Knowledge
+→ allowance 仍然被消耗
 ```
 
-V1 不为了实现跨外部系统的精确计费一致性引入分布式事务。
+Provider success 与 Resource consumption 是两个独立事实。
+
+V1 不为此实现 reservation service、分布式事务、refund protocol 或复杂计费状态机。
 
 Hard limits 优先保证不会被静默突破。
 
@@ -1222,7 +1249,7 @@ partial publication
 
 外部失败通常不改变 Research Knowledge。
 
-但资源事实可能变化，例如失败的 Search Attempt 已消耗一次 hard action allowance。
+但资源事实可能变化：通过了本地 action / resource validation、并已实际发起外部 attempt 的 Search Attempt，即使失败（timeout / rate limit / provider failure），也已经消耗一次 hard action allowance（见 §13）。未通过本地验证的动作不会发起外部 attempt，因此不消耗 allowance。
 
 ---
 

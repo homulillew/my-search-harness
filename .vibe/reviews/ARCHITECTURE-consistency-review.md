@@ -102,3 +102,32 @@
 * **次要事项**：M1–M7 不改变任何决策，M1 建议在 Freeze 前顺手修正箭头方向，其余可延后。
 
 > **建议结论：ARCHITECTURE.md 对 ADR-001～010 忠实，可以 Freeze；Freeze 声明中附 N1–N8 登记表（本审阅第 3 节），随后进入 V1 Domain Model 阶段。**
+
+---
+
+## Freeze Resolution（Architecture Freeze Cleanup 追加，2026-08-10）
+
+> 本节是 Architecture Freeze Cleanup 时追加的裁决记录，不改写上文审阅内容，原「待确认」历史完整保留。
+
+### N1–N8 裁决结果
+
+N1–N8 经 ChatGPT 确认，**全部 ACCEPTED**，作为 V1 Architecture adjudications 纳入冻结范围：
+
+| # | 裁决确认 |
+|---|---|
+| **N1** | 接受 §13 精确语义：**只有在 Harness 已通过本地 action / resource validation、并实际发起 external provider attempt 后，该 attempt 才消耗对应 hard action allowance**。两个明确判定：`local validation rejected → 没有发起外部 attempt → 不消耗 external-action allowance`；`external attempt started → timeout / rate limit / provider failure → 不产生新的 Research Knowledge → allowance 仍然被消耗`。V1 不为此实现 reservation service、分布式事务、refund protocol 或复杂计费状态机。 |
+| **N2** | 接受：Completion Check request 必须先持久化，再启动 fresh Checker。 |
+| **N3** | 接受：SubmitCompletionCheck 按 check identity 幂等重提。 |
+| **N4** | 接受：PASS validity 由 Lifecycle 与显式 invalidation invariant 保证，不通过 `state_revision` equality 判断。 |
+| **N5** | 接受：DELIVERY → RESEARCH 通过显式 Domain Command 表达；具体命令名不冻结。 |
+| **N6** | 接受：Delivery Artifact 保留轻量 `basis_completion_check` provenance；basis 失效后 Artifact 自动 stale。 |
+| **N7** | 接受：audit append 失败必须显式报告，但不回滚已提交的 state。 |
+| **N8** | 接受：V1 不设计通用 post-close ResearchRun integrity invalidation protocol。 |
+
+> **N1–N8 均已作为 V1 Architecture adjudications 明确接受，不需要 ADR-011。**
+
+### M 类处理情况
+
+* **M1**（§2 图 `State Context` 箭头方向）——已在本次 cleanup 中修正为 Harness → Claude（State Context 由 Harness 渲染）。
+* **M4**（§11 缺 Web Search）——已在本次 cleanup 中补齐：`Web Search Result` Observation、晋升路径、与 `PaperSearchHit` / `PaperSearchProvider` 的独立性声明。
+* **M2 / M3 / M5 / M6 / M7**——按 cleanup 任务指令不处理，保留为后续实现阶段可选项，不阻塞 Freeze。
