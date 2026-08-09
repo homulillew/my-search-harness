@@ -144,6 +144,8 @@ Python 拥有循环。
 
 Claude 只是循环中的一个决策函数。
 
+> 注：若此方案意味着 Python 维护完整循环、Claude 仅作为被调用的决策函数，则它已与既有边界冲突（Claude Code = Agent Runtime / Loop Driver）。保留在此仅用于对照理解边界；真正开放的是方案 C 中 Lifecycle State Machine 的薄厚。
+
 ### 方案 B：Claude Code 驱动完整循环
 
 Claude 自己：
@@ -689,6 +691,38 @@ decision
 > **最小需要哪些状态，才能支持 SELECT_READ、避免重复阅读、解释为什么保留/拒绝一篇论文？**
 
 只保留真正服务 Research Loop 的维度。
+
+---
+
+## 7.3 阅读深度与成本：Progressive Reading
+
+前面的设计原则已经明确：不应默认把整篇论文全文塞进 Claude Context，而应按深度逐步深入。
+
+但真正的问题还没有回答：
+
+> **什么时候把阅读深度从摘要升级到全文？升级由谁决定？**
+
+### 候选阅读梯度
+
+```text
+metadata
+abstract
+headings / 章节结构
+相关 sections
+exact evidence / 全文
+```
+
+### 需要回答
+
+* 升级深度是语义判断（Claude 根据当前 Gap 决定需要多深）还是固定规则？
+* 每个深度的 token 成本如何估算与约束？
+* 已读深度是否需要进入 Paper 状态，以避免重复阅读？
+* 深度选择是否应该对齐当前 Research Gap（缺什么信息就读多深）？
+* 不同深度提取的 Evidence 之间，Locator 一致性如何保持？
+
+### 暂不决定
+
+不决定具体的 Reading Depth 枚举值，也不决定全文缓存的存储形式。
 
 ---
 
