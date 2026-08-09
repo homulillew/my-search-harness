@@ -8,12 +8,12 @@ quality.
 
 from __future__ import annotations
 
-import re
 from collections.abc import Iterable, Mapping
 from datetime import datetime
 from typing import NoReturn, Protocol, TypeVar
 from uuid import UUID
 
+from .paper_identity import paper_identity_keys
 from .model import (
     ApproachFamily,
     ArtifactKind,
@@ -53,7 +53,6 @@ class _Entity(Protocol):
 
 
 _T = TypeVar("_T", bound=_Entity)
-_ARXIV_VERSION = re.compile(r"v\d+$", re.IGNORECASE)
 
 
 def _fail(message: str) -> NoReturn:
@@ -199,40 +198,6 @@ def _validate_contract(run: ResearchRun) -> set[str]:
     return current_requirements
 
 
-def _normalize_doi(value: str) -> str:
-    normalized = value.strip().lower()
-    for prefix in ("https://doi.org/", "http://doi.org/", "doi:"):
-        if normalized.startswith(prefix):
-            normalized = normalized[len(prefix) :]
-    return normalized
-
-
-def _normalize_arxiv(value: str) -> str:
-    normalized = value.strip().lower()
-    for prefix in (
-        "https://arxiv.org/abs/",
-        "http://arxiv.org/abs/",
-        "https://arxiv.org/pdf/",
-        "http://arxiv.org/pdf/",
-        "arxiv:",
-    ):
-        if normalized.startswith(prefix):
-            normalized = normalized[len(prefix) :]
-    if normalized.endswith(".pdf"):
-        normalized = normalized[:-4]
-    return _ARXIV_VERSION.sub("", normalized)
-
-
-def _paper_identity_keys(paper: Paper) -> Iterable[tuple[str, str]]:
-    source = paper.source
-    if source.doi is not None:
-        yield "doi", _normalize_doi(source.doi)
-    if source.arxiv_id is not None:
-        yield "arxiv", _normalize_arxiv(source.arxiv_id)
-    if source.canonical_url is not None:
-        yield "url", source.canonical_url.strip()
-
-
 def _validate_paper_source(source: object, path: str) -> PaperSource:
     if not isinstance(source, PaperSource):
         _fail(f"{path} must be a PaperSource")
@@ -282,7 +247,7 @@ def _validate_papers(run: ResearchRun) -> set[str]:
             _fail(f"papers[{paper.id!r}].research_status must be PaperResearchStatus")
         if paper.analysis is not None:
             _validate_paper_analysis(paper.analysis, f"papers[{paper.id!r}].analysis")
-        for kind, normalized in _paper_identity_keys(paper):
+        for kind, normalized in paper_identity_keys(paper.source):
             if not normalized:
                 _fail(f"papers[{paper.id!r}] contains an empty stable identifier")
             identity = (kind, normalized)
