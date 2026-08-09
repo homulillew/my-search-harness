@@ -1,10 +1,12 @@
 # V1 Domain Model
 
-**Status:** Domain Model Baseline
+**Status:** Domain Model Frozen
 **Scope:** V1
 **Architecture:** `docs/ARCHITECTURE.md` — Frozen
 **Decision basis:** ADR-001 ～ ADR-010 + Architecture adjudications N1–N8 + Domain Model pressure tests
 **Role of this document:** 定义 V1 Research State 的领域对象、身份、引用、持久化边界与结构不变量。Architecture 负责系统 authority、control flow 与 data flow；本文负责这些规则作用于什么领域数据。
+
+> V1 Domain Model frozen after Architecture consistency review, domain pressure tests, and final adjudication. Implementation may refine representation, but must not change domain semantics for implementation convenience.
 
 ---
 
