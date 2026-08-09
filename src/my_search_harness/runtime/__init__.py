@@ -51,6 +51,12 @@ from .completion_runtime import (
     FreshCompletionChecker,
     FreshCompletionCheckerFactory,
 )
+from .citations import (
+    CitationAuditResult,
+    CitationValidationError,
+    DeterministicCitationRenderer,
+    ResolvedCitation,
+)
 from .context import (
     ApproachContext,
     CompletionFeedbackContext,
@@ -263,4 +269,8 @@ __all__ = [
     "ResearchEscalationRequired",
     "ResearchIntegrityReview",
     "ResearchIntegrityReviewer",
+    "CitationAuditResult",
+    "CitationValidationError",
+    "DeterministicCitationRenderer",
+    "ResolvedCitation",
 ]
