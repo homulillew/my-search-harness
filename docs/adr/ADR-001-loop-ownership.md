@@ -5,6 +5,106 @@
 - **日期**：2026-08-09
 - **影响范围**：Research Loop、Control Plane、Runtime Boundary
 
+# ADR-001 修改说明
+
+## 1. 在元信息之后、`## 背景` 之前插入
+
+## V1 术语收敛说明
+
+本 ADR 确立的 Claude / Python 控制边界仍然有效，但本文写于 V1 Research State 对象模型正式收敛之前。
+
+后续 ADR-002～ADR-004 对部分早期术语进行了进一步定义。本文中的相关表达按以下方式理解：
+
+* `Evidence` 不表示独立持久化实体。V1 中，重要研究判断通过 `Paper Analysis`、`Landscape Finding` 及其 `LiteratureSource` 保持来源 grounding，并可通过 Source Access 回到 Primary Paper 核验。
+* `Contradiction` 不建立独立 Domain Entity。研究间的重要冲突保留在 Literature Landscape 的判断、来源关系与不确定性表达中。
+* `Research Gap` 在 V1 中进一步区分为 `Investigation Gap` 与 `Open Problem`：前者表示当前 Run 尚未调查充分的问题，后者表示领域本身仍未解决的问题。
+* 本 ADR 中的 `Review / Reviewer` 后续正式收敛为 `Completion Check / Completion Checker`。
+
+V1 的持久化 Research State 与 grounding 模型以 ADR-004 为准；本 ADR 继续作为 Loop Ownership 与 Authority Boundary 的决策依据。
+
+## 2. 修改「Claude Code 负责语义研究判断」中的两项
+
+将：
+
+* 解释论文内容并形成 Evidence；
+* 识别 Research Gap 与 Contradiction；
+
+替换为：
+
+* 解释论文内容，形成 `Paper Analysis`，并据此更新有来源支撑的 Literature Landscape；
+* 识别 `Investigation Gap`、`Open Problem` 以及 Literature Landscape 中的重要冲突；
+
+## 3. 修改「边界完整性」最后一项
+
+将：
+
+* Evidence 引用的来源和 locator 必须能够解析。
+
+替换为：
+
+* 重要研究判断关联的 Paper / `LiteratureSource` 及其 locator 必须能够解析，并在需要时回读 Primary Source。
+
+## 4. 修改「Review 的位置」中的 Checker 输入描述
+
+将：
+
+随后由 fresh-context Claude Reviewer 根据当前 Research Contract、Accepted Evidence、Gaps、Contradictions 和 completion rationale 做独立语义判断。
+
+替换为：
+
+随后由 fresh-context Completion Checker 根据当前 Research Contract、Literature Landscape、Investigation Gaps、Open Problems、grounding source refs 和 completion rationale 做独立语义判断。
+
+这一段后面的示意图中，也将：
+
+`Fresh Reviewer`
+
+改为：
+
+`Fresh Completion Checker`
+
+将正文中的：
+
+Reviewer 不负责重新搜索整个领域，也不承担日常 Deep Reading。
+
+改为：
+
+Completion Checker 不负责重新搜索整个领域，也不承担日常 Deep Reading。
+
+将：
+
+Python 可以机械保证 Researcher 无权写最终 Review Verdict；Reviewer 是否运行在 fresh context 中，则由 Claude Code 的执行协议保证。
+
+改为：
+
+Python 可以机械保证 Researcher 无权写最终 Completion Verdict；Completion Checker 是否运行在 fresh context 中，则由 Claude Code 的执行协议保证。
+
+## 5. 修改「为什么不选择 Python 驱动完整循环」
+
+将：
+
+* 当前 Evidence 是否充分；
+
+替换为：
+
+* 当前 Research State 的关键判断是否已有足够、可核验的文献支撑；
+
+## 6. 修改「为什么不选择 Claude 完全自由」
+
+将：
+
+预算、状态合法性、Evidence 引用完整性、Provider Failure Semantics、Completion Authority 等约束具有明确的机械性质，应由 Runtime 强制，而不是依赖 Claude 每次记得遵守。
+
+替换为：
+
+预算、状态合法性、来源引用完整性、Provider Failure Semantics、Completion Authority 等约束具有明确的机械性质，应由 Runtime 强制，而不是依赖 Claude 每次记得遵守。
+
+## 7. 不修改的地方
+
+参考项目描述中的 `Evidence Interpretation`、`Evidence Gate` 等词可以保留。
+
+这些位置描述的是一般意义上的“证据”或外部项目自己的概念，并没有声明 V1 存在 `Evidence` Domain Entity，不需要为了术语统一进行机械替换。
+
+
 ## 背景
 
 本项目要构建一个面向 Claude Code 的论文调研 Harness。
