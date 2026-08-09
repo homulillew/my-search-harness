@@ -1,10 +1,18 @@
 """Runtime adapters for the core research state kernel."""
 
 from .codec import (
+    delivery_basis_from_dict,
+    delivery_basis_to_dict,
     run_from_dict,
     run_from_json,
     run_to_dict,
     run_to_json,
+)
+from .artifacts import (
+    ArtifactValidationError,
+    LocalArtifactStore,
+    ReportArtifact,
+    ReportArtifactMetadata,
 )
 from .commands import (
     BlockingGapSpec,
@@ -31,29 +39,47 @@ from .persistence import (
     RunAlreadyExistsError,
     RunNotFoundError,
 )
+from .delivery import (
+    CloseRunResult,
+    DeliveryCommands,
+    DeliveryValidationResult,
+    PublishReportResult,
+    ReopenResearchResult,
+)
 
 __all__ = [
     "BlockingGapSpec",
+    "ArtifactValidationError",
+    "CloseRunResult",
     "CommandRejectedError",
     "CompletionSubmissionConflictError",
     "CompletionSubmissionResult",
     "CreateRunRequest",
     "CreateRunResult",
+    "DeliveryCommands",
+    "DeliveryValidationResult",
     "JsonResearchRunRepository",
+    "LocalArtifactStore",
     "NewBlockingGap",
     "PaperSearchHit",
     "PutLandscapeFinding",
     "PutPaperAnalysis",
+    "PublishReportResult",
     "ReopenBlockingGap",
     "RequestCompletionCheckResult",
     "ResearchCommands",
     "ResearchMutationBatch",
     "ResearchMutationResult",
     "ResearchPut",
+    "ReopenResearchResult",
+    "ReportArtifact",
+    "ReportArtifactMetadata",
     "RevisionConflictError",
     "RunAlreadyExistsError",
     "RunNotFoundError",
     "RetainPapersResult",
+    "delivery_basis_from_dict",
+    "delivery_basis_to_dict",
     "run_from_dict",
     "run_from_json",
     "run_to_dict",
