@@ -103,6 +103,7 @@ from .paper_search import (
     PaperSearchService,
     ProviderFailureKind,
 )
+from .local_runtime import LocalV1Runtime
 from .reporting import (
     CitationReference,
     DeliveryEvidenceAccess,
@@ -318,6 +319,7 @@ __all__ = [
     "AuditSink",
     "LocalAuditLog",
     "append_audit",
+    "LocalV1Runtime",
     "LocalWikiPublisher",
     "WikiApproachInput",
     "WikiBuildError",
