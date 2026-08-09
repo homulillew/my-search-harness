@@ -1,55 +1,58 @@
 # AI 协作开发工作流
 
-本项目采用 **ChatGPT Web + Claude Code + GitHub** 的协作开发方式。
+本项目采用 **ChatGPT + Codex + GitHub** 的协作开发方式。
 
 ## 项目信息
 
 - GitHub 仓库：`homulillew/my-search-harness`
 - 仓库地址：`https://github.com/homulillew/my-search-harness.git`
 - 主分支：`main`
-- GitHub 是 ChatGPT 与 Claude Code 之间的 **唯一事实源（Source of Truth）**
+- GitHub 是 ChatGPT 与 Codex 之间的 **唯一事实源（Source of Truth）**
 
-Claude Code 在服务器上的本地修改，只有在 **commit + push 到 GitHub** 后，才视为已经正式交接给 ChatGPT。
+Codex 在服务器上的本地修改，只有在 **commit + push 到 GitHub** 后，才视为已经正式交接给 ChatGPT。
 
 ---
 
 ## 角色分工
 
-### ChatGPT Web：规划 + Review
+### ChatGPT：规划 + Review
 
 ChatGPT 负责：
 
 - 始终读取 `homulillew/my-search-harness` 的最新 GitHub 状态
 - 理解当前代码、最近 commits、branch 和 PR
-- 制定下一阶段开发计划
-- Review Claude Code 的实际实现
-- 检查 Bug、架构、安全、兼容性、测试和遗漏
-- 给 Claude Code 生成下一轮明确、有限、可验证的任务
+- 制定 Architecture、Domain Model 与 Implementation Plan
+- 对重要设计做 pressure test
+- Review Codex 的实际 commits、diff 和 PR
+- 检查 Bug、架构漂移、不必要复杂度、安全、兼容性、测试和遗漏
+- 给 Codex 定义下一轮明确、有限、可验证的任务
 
 ChatGPT 原则：
 
 1. 以 GitHub 最新代码为准，不假设服务器上未 push 的代码。
-2. Review 时优先检查实际 diff / commit / PR，而不是只相信 Claude Code 的文字总结。
+2. Review 时优先检查实际 diff / commit / PR，而不是只相信 Codex 的文字总结。
 3. 一次只安排一个清晰阶段，避免同时扩大到大量无关任务。
 4. 没有确认代码和测试情况前，不直接判断任务已经完成。
 5. 默认不直接修改仓库代码，主要承担规划和审查角色。
 
 ---
 
-### Claude Code：执行 + 测试
+### Codex：执行 + 测试
 
-Claude Code 在服务器负责：
+Codex 在服务器负责：
 
-- 拉取 `homulillew/my-search-harness`
-- 按 ChatGPT 的任务修改代码
+- 同步 `homulillew/my-search-harness` 的最新 GitHub 状态
+- 执行 ChatGPT 给出的 bounded task
+- 修改任务范围内的文件与代码
 - 运行测试、build、lint 和必要验证
 - 修复执行过程中发现的问题
+- 检查自己的实际 diff，确认没有越界或无关修改
 - commit 修改
 - push 到 GitHub
 - 创建或更新 feature branch / PR
 - 报告本轮修改和测试结果
 
-Claude Code 原则：
+Codex 原则：
 
 1. 开始任务前先确认当前 branch，并同步 GitHub 最新代码。
 2. 不擅自扩大 ChatGPT 给出的任务范围。
@@ -73,7 +76,7 @@ Claude Code 原则：
 - 支付
 - API 大改
 - 较大的依赖升级
-- Claude Code 需要连续完成多个修改步骤
+- Codex 需要连续完成多个修改步骤
 
 分支命名示例：
 
@@ -85,7 +88,7 @@ fix/parser-error
 refactor/search-pipeline
 ```
 
-Claude Code 创建分支示例：
+Codex 创建分支示例：
 
 ```bash
 git checkout main
@@ -121,7 +124,7 @@ ChatGPT
         ↓
 分析现状 + 制定下一阶段任务
         ↓
-Claude Code
+Codex
 同步 main / 创建 feature branch
         ↓
 修改代码
@@ -139,7 +142,7 @@ Review
    ↙         ↘
 有问题       通过
   ↓           ↓
-Claude修复    Merge PR
+Codex修复     Merge PR
   ↓           ↓
 再次 push    main 更新
   ↓           ↓
@@ -160,12 +163,12 @@ ChatGPT 再读取最新 GitHub
 
 > 读取 GitHub 仓库 `homulillew/my-search-harness` 的最新状态，包括 main、最近 commits，以及相关 branch / PR。  
 > 先确认项目当前实际状态，再制定下一阶段计划。  
-> 计划必须明确、有限、可验证，并能够直接交给 Claude Code 执行。  
+> 计划必须明确、有限、可验证，并能够直接交给 Codex 执行。
 > 不要一次安排大量无关任务。
 
-### Claude Code 完成一轮后
+### Codex 完成一轮后
 
-> Claude Code 已完成本轮任务并 push 到 GitHub。  
+> Codex 已完成本轮任务并 push 到 GitHub。
 > 请读取 `homulillew/my-search-harness` 的最新 branch / PR / commits，并与 main 对比。  
 > Review 实际代码修改，重点检查：
 > - 是否真正完成目标
@@ -177,12 +180,12 @@ ChatGPT 再读取最新 GitHub
 > - 重复实现
 > - 是否混入无关修改
 >
-> 如果有问题，生成一份可直接交给 Claude Code 的修复任务。  
+> 如果有问题，生成一份可直接交给 Codex 的修复任务。
 > 如果没有明显问题，说明是否可以 merge，并规划下一步。
 
 ---
 
-## 给 Claude Code 的标准指令
+## 给 Codex 的标准指令
 
 ### 开始执行
 
@@ -196,9 +199,10 @@ ChatGPT 再读取最新 GitHub
 > 1. 运行相关测试
 > 2. 运行必要的 build / lint
 > 3. 修复发现的问题
-> 4. commit
-> 5. push 到 GitHub
-> 6. 如果使用 feature branch，创建或更新 PR
+> 4. 检查实际 diff，确认没有越界或无关修改
+> 5. commit
+> 6. push 到 GitHub
+> 7. 如果使用 feature branch，创建或更新 PR
 >
 > 最后报告：
 > - 修改了什么
@@ -266,12 +270,12 @@ final
 
 > **ChatGPT 负责想清楚、检查清楚、安排下一步。**
 
-> **Claude Code 负责实际修改、运行验证、提交结果。**
+> **Codex 负责实际修改、运行验证、检查 diff、提交并推送结果。**
 
 > **GitHub `homulillew/my-search-harness` 保存双方共同认可的真实项目状态。**
 
-任何需要 ChatGPT 正式 Review 的修改，都应先由 Claude Code：
+任何需要 ChatGPT 正式 Review 的修改，都应先由 Codex：
 
-**测试 → commit → push → PR（适用时）**
+**执行 → 测试 → 检查 diff → commit → push → PR（适用时）**
 
 之后再交给 ChatGPT。
