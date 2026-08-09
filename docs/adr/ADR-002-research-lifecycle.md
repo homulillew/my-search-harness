@@ -6,10 +6,6 @@
 * **影响范围**：Research Run、Lifecycle、Completion Gate、Delivery
 * **关联决策**：ADR-001 — Claude Code 驱动研究循环，Python Harness 守住系统不变量
 
-# ADR-002 修改说明
-
-## 1. 在元信息之后、`## 背景` 之前插入
-
 ## V1 术语与后续决策收敛说明
 
 本 ADR 确立的四态 Lifecycle 与控制边界仍然有效。本文写作时 Research State 的部分领域概念尚未完成最终收敛，后续 ADR-004 对其进行了明确。
@@ -22,213 +18,7 @@
 * Research State 的 V1 实体结构以 ADR-004 为准。
 * ADR-010 后续明确 Local Wiki Build 属于 Research Run 结束后的 repository-level cross-run projection，不属于 `DELIVERY` Action。`CLOSED` 仍然是 ResearchRun Lifecycle 的终点。
 
-## 2. 修改背景中的 Research Action 示例
-
-将：
-
-Analyze Evidence
-
-替换为：
-
-Analyze Paper / Synthesize Landscape
-
-其余 Search、Read、Deep Read、Follow Citation、Compare、Update Gap、Synthesize、Write Report 可以保留。
-
-## 3. 修改「Lifecycle 只描述控制权变化」
-
-将：
-
-例如 `SEARCH`、`READ`、`DEEP_READ`、`ANALYZE_EVIDENCE` 都属于 `RESEARCH` 中的工作动作，不会因为能力增加而产生新的 Lifecycle Mode。
-
-替换为：
-
-例如 `SEARCH`、`READ`、`DEEP_READ`、`ANALYZE_PAPER`、`SYNTHESIZE_LANDSCAPE` 都属于 `RESEARCH` 中的工作动作，不会因为能力增加而产生新的 Lifecycle Mode。
-
-将：
-
-同样，`SYNTHESIZE`、`WRITE_REPORT`、`BUILD_WIKI` 属于 `DELIVERY` 中的工作动作，也不分别成为 Phase。
-
-替换为：
-
-同样，`WRITE_REPORT`、Citation Verification 等交付工作属于 `DELIVERY` 中的 Action，也不分别成为 Phase。Local Wiki Build 按 ADR-010 在 Research Run `CLOSED` 后独立执行，不属于 ResearchRun Lifecycle。
-
-## 4. 修改 `RESEARCH` 中的动作示例
-
-将：
-
-* Analyze Evidence；
-* 更新 Gap；
-* 识别 Contradiction；
-
-替换为：
-
-* 形成或修正 `Paper Analysis`；
-* 综合或修正 Literature Landscape；
-* 更新 `Investigation Gap`；
-* 识别重要研究冲突与 `Open Problem`；
-
-## 5. 修改 `COMPLETION_CHECK` 的冻结说明
-
-将：
-
-* Search、Add Evidence、Update Gap 等会改变研究基础的动作暂时不可执行。
-
-替换为：
-
-* Search、修改 Paper Analysis、修改 Literature Landscape、Update Investigation Gap 等会改变研究基础的普通 Research Mutation 暂时不可执行。
-
-## 6. 替换 Completion Checker 的典型输入
-
-将原来的：
-
-Research Contract
-Critical Questions / Criteria
-Current Coverage
-Important Accepted Evidence
-Contradictions
-Open Gaps
-Researcher completion rationale
-
-替换为：
-
-Research Contract
-Research Requirements / Deliverable
-Current Literature Landscape
-Relevant Paper Analysis summaries
-Grounding source refs
-Investigation Gaps
-Open Problems
-Researcher completion rationale
-
-## 7. 替换「Completion Checker 可以做什么」
-
-将这一组：
-
-* 检查 Critical Questions 是否真正被覆盖；
-* 检查关键结论是否有可追溯 Evidence；
-* 检查 Claim 的强度是否超过 Evidence 强度；
-* 检查重要 Contradiction 是否被忽略；
-* 检查是否仍存在足以阻止交付的 Critical Gap；
-* 对 load-bearing Evidence 做 targeted source inspection。
-
-替换为：
-
-* 检查各项 Research Requirement 是否真正得到覆盖；
-* 检查关键 Landscape Finding 是否有可追溯 grounding；
-* 检查结论强度是否超过来源实际支持范围；
-* 检查重要研究分歧或相互冲突的结果是否被忽略；
-* 检查是否仍存在足以阻止交付的 Investigation Gap；
-* 对影响 Completion Verdict 的关键来源做 targeted source inspection。
-
-将：
-
-例如，它可以打开某条 Evidence 对应论文的具体 section，确认 source passage 与 interpretation 是否一致。
-
-替换为：
-
-例如，它可以根据某个关键 Landscape Finding 的 `LiteratureSource` 与 locator 回读论文具体位置，确认 source passage 与当前 interpretation 是否一致。
-
-## 8. 修改 PASS 定义
-
-将：
-
-基于当前 Contract、Evidence 和已知 Gap，没有发现足以阻止进入 Delivery 的关键问题。
-
-替换为：
-
-基于当前 Research Contract、Research State 及其可核验 grounding，没有发现足以阻止进入 Delivery 的关键问题。
-
-## 9. 修改 `DELIVERY` 动作列表
-
-删除：
-
-* Build Wiki Projection；
-
-保留：
-
-* Synthesize；
-* Write Report；
-* Render Bibliography；
-* Mechanical Citation Validation；
-* 其它不改变研究基础的交付动作。
-
-这里的 `Synthesize` 如果后续 `ARCHITECTURE.md` 统一认为 Research-level synthesis 已在 RESEARCH 中完成，可以进一步改成 `Compose / Editorial Integration`；当前不用为了这一点继续改 ADR。
-
-## 10. 修改 Delivery 失败路径中的旧术语
-
-将：
-
-如果 Delivery 过程中发现新的 Critical Gap、Evidence 错误或足以使原 Completion Check 失效的问题，不创建 Revision Phase。
-
-替换为：
-
-如果 Delivery 过程中发现新的 Critical Gap、grounding 错误、Research State 中的实质判断错误，或其它足以使原 Completion Check 失效的问题，不创建 Revision Phase。
-
-## 11. 替换「Lifecycle 与其它事实保持正交」中的 Research Facts
-
-将 Research Facts 一列从：
-
-* Papers
-* Evidence
-* Gaps
-* Contradictions
-* Check Verdict
-
-替换为：
-
-* Papers / Paper Analysis
-* Literature Landscape
-* Investigation Gaps
-* Completion Checks
-
-因此这一节表达的三类事实应理解为：
-
-Lifecycle Mode
-
-* RESEARCH
-* COMPLETION_CHECK
-* DELIVERY
-* CLOSED
-
-Research Facts
-
-* Papers / Paper Analysis
-* Literature Landscape
-* Investigation Gaps
-* Completion Checks
-
-Resource Facts
-
-* Budget
-* Provider
-* Cost
-* Limits
-
-## 12. 修改该图下方的事实示例
-
-将：
-
-evidence missing
-
-替换为：
-
-required grounding missing
-
-其它：
-
-budget exhausted
-provider failed
-critical gap exists
-outcome = PARTIAL
-
-可以保留。
-
-## 13. 不修改 Reference 中的通用 Evidence 用法
-
-`PaperQA` 的 `Evidence Gathering`、`Superloopy` 的 `Evidence-Gated Completion` 等是对参考项目的描述，可以保持原文。
-
-这里的 Evidence 是通用概念，不代表本项目重新引入 Evidence Entity。
-
+参考项目描述中的 `Evidence Gathering`、`Evidence-Gated Completion` 等词保留原文。它们是对参考项目的描述，其中的 Evidence 是通用概念，不代表本项目重新引入 Evidence Entity。
 
 ## 背景
 
@@ -250,7 +40,7 @@ Read
 Deep Read
 Follow Citation
 Compare
-Analyze Evidence
+Analyze Paper / Synthesize Landscape
 Update Gap
 Synthesize
 Write Report
@@ -331,9 +121,9 @@ Lifecycle Mode 的判断标准是：
 Lifecycle Phase ≠ Research Action
 ```
 
-例如 `SEARCH`、`READ`、`DEEP_READ`、`ANALYZE_EVIDENCE` 都属于 `RESEARCH` 中的工作动作，不会因为能力增加而产生新的 Lifecycle Mode。
+例如 `SEARCH`、`READ`、`DEEP_READ`、`ANALYZE_PAPER`、`SYNTHESIZE_LANDSCAPE` 都属于 `RESEARCH` 中的工作动作，不会因为能力增加而产生新的 Lifecycle Mode。
 
-同样，`SYNTHESIZE`、`WRITE_REPORT`、`BUILD_WIKI` 属于 `DELIVERY` 中的工作动作，也不分别成为 Phase。
+同样，`WRITE_REPORT`、Citation Verification 等交付工作属于 `DELIVERY` 中的 Action，也不分别成为 Phase。Local Wiki Build 按 ADR-010 在 Research Run `CLOSED` 后独立执行，不属于 ResearchRun Lifecycle。
 
 ## RESEARCH
 
@@ -345,9 +135,10 @@ Claude Code 可以根据当前 Research State 决定下一步语义动作，例�
 * Read / Deep Read；
 * Follow Citation；
 * Compare；
-* Analyze Evidence；
-* 更新 Gap；
-* 识别 Contradiction；
+* 形成或修正 `Paper Analysis`；
+* 综合或修正 Literature Landscape；
+* 更新 `Investigation Gap`；
+* 识别重要研究冲突与 `Open Problem`；
 * 调整研究方向；
 * 请求 Completion Check。
 
@@ -380,7 +171,7 @@ REQUEST_COMPLETION_CHECK
 * Researcher 暂时失去修改研究基础的权限；
 * 当前 Research State 作为检查基线保持稳定；
 * Completion Checker 获得完成性判断权限；
-* Search、Add Evidence、Update Gap 等会改变研究基础的动作暂时不可执行。
+* Search、修改 Paper Analysis、修改 Literature Landscape、Update Investigation Gap 等会改变研究基础的普通 Research Mutation 暂时不可执行。
 
 因此它不是普通 Action，而是一个真正的控制状态。
 
@@ -404,11 +195,12 @@ Subagent 是 Completion Check 的执行方式，不是新的长期 Agent Runtime
 
 ```text
 Research Contract
-Critical Questions / Criteria
-Current Coverage
-Important Accepted Evidence
-Contradictions
-Open Gaps
+Research Requirements / Deliverable
+Current Literature Landscape
+Relevant Paper Analysis summaries
+Grounding source refs
+Investigation Gaps
+Open Problems
 Researcher completion rationale
 ```
 
@@ -418,14 +210,14 @@ Researcher completion rationale
 
 Checker 可以：
 
-* 检查 Critical Questions 是否真正被覆盖；
-* 检查关键结论是否有可追溯 Evidence；
-* 检查 Claim 的强度是否超过 Evidence 强度；
-* 检查重要 Contradiction 是否被忽略；
-* 检查是否仍存在足以阻止交付的 Critical Gap；
-* 对 load-bearing Evidence 做 targeted source inspection。
+* 检查各项 Research Requirement 是否真正得到覆盖；
+* 检查关键 Landscape Finding 是否有可追溯 grounding；
+* 检查结论强度是否超过来源实际支持范围；
+* 检查重要研究分歧或相互冲突的结果是否被忽略；
+* 检查是否仍存在足以阻止交付的 Investigation Gap；
+* 对影响 Completion Verdict 的关键来源做 targeted source inspection。
 
-例如，它可以打开某条 Evidence 对应论文的具体 section，确认 source passage 与 interpretation 是否一致。
+例如，它可以根据某个关键 Landscape Finding 的 `LiteratureSource` 与 locator 回读论文具体位置，确认 source passage 与当前 interpretation 是否一致。
 
 但它默认不做：
 
@@ -449,7 +241,7 @@ UNCERTAIN
 
 `PASS` 表示：
 
-> 基于当前 Contract、Evidence 和已知 Gap，没有发现足以阻止进入 Delivery 的关键问题。
+> 基于当前 Research Contract、Research State 及其可核验 grounding，没有发现足以阻止进入 Delivery 的关键问题。
 
 它不表示“所有结论都已经证明为绝对真理”。
 
@@ -484,7 +276,6 @@ Completion Check PASS
 * Synthesize；
 * Write Report；
 * Render Bibliography；
-* Build Wiki Projection；
 * Mechanical Citation Validation；
 * 其它不改变研究基础的交付动作。
 
@@ -492,7 +283,7 @@ Completion Check PASS
 
 ### Delivery 中发现重大问题
 
-如果 Delivery 过程中发现新的 Critical Gap、Evidence 错误或足以使原 Completion Check 失效的问题，不创建 Revision Phase。
+如果 Delivery 过程中发现新的 Critical Gap、grounding 错误、Research State 中的实质判断错误，或其它足以使原 Completion Check 失效的问题，不创建 Revision Phase。
 
 而是：
 
@@ -586,11 +377,10 @@ Research Run 至少要区分三类事实：
           ▼                   ▼                   ▼
    Lifecycle Mode       Research Facts       Resource Facts
           │                   │                   │
-      RESEARCH              Papers              Budget
- COMPLETION_CHECK          Evidence            Provider
-      DELIVERY              Gaps                Cost
-       CLOSED            Contradictions         Limits
-                         Check Verdict
+      RESEARCH        Papers / Paper Analysis    Budget
+ COMPLETION_CHECK       Literature Landscape     Provider
+      DELIVERY           Investigation Gaps      Cost
+       CLOSED           Completion Checks        Limits
 ```
 
 例如：
@@ -598,7 +388,7 @@ Research Run 至少要区分三类事实：
 ```text
 budget exhausted
 provider failed
-evidence missing
+required grounding missing
 critical gap exists
 outcome = PARTIAL
 ```

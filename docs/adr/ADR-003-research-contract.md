@@ -9,10 +9,6 @@
   * ADR-001 — Claude Code 驱动研究循环，Python Harness 守住系统不变量
   * ADR-002 — Research Run 使用四个最小生命周期模式
 
-# ADR-003 修改说明
-
-## 1. 在关联决策之后、`## 背景` 之前插入
-
 ## V1 术语收敛说明
 
 本 ADR 确立的 Research Contract 边界仍然有效：Contract 定义稳定的 Completion Boundary，研究路径与研究理解可以持续演化。
@@ -27,262 +23,11 @@
 
 V1 Research State 的持久化结构以 ADR-004 为准。本 ADR 继续负责定义 Contract 与 Evolving Research State 之间的边界。
 
-## 2. 修改背景第一段
-
-将：
-
-Research Run 可以持续多轮 Search、Read、Deep Read、Evidence Analysis 和 Gap-driven Research。
-
-替换为：
-
-Research Run 可以持续多轮 Search、Read、Deep Read、Paper Analysis、Landscape Synthesis 和 Gap-driven Research。
-
-## 3. 修改「决策」中会持续演化的对象
-
-将：
-
-Search Query、Paper Selection、Research Gap、Technical Route、Derived Question 等内容都允许随着研究过程持续演化。
-
-替换为：
-
-Search Query、Paper Selection、Paper Analysis、Investigation Gap、Approach Family、Landscape Finding 与 Open Problem 等研究内容都允许随着研究过程持续演化。
-
-## 4. 修改 Research Requirements 中关于细分问题的说明
-
-将：
-
-研究过程中产生的更细问题属于 Derived Questions 或 Gap，不需要进入 Contract。
-
-替换为：
-
-研究过程中产生的更细问题不需要进入 Contract。当前 Run 尚未调查充分的问题可以形成 `Investigation Gap`；如果研究结果表明问题属于领域本身尚未解决的事项，则记录为 `Open Problem`。V1 不建立独立 `DerivedQuestion` Entity。
-
-## 5. 修改 Provider 一节中的术语
-
-将：
-
-这属于 Source / Evidence Scope，因为它改变了研究完成条件。
-
-替换为：
-
-这属于 Source Scope，因为它改变了研究完成条件。
-
-## 6. 替换「Query、Paper、Gap、Technical Route、Derived Question」这一小节
-
-将标题替换为：
-
-### Query、Paper 与 Evolving Research State
-
-正文替换为：
-
-Search Query、Paper Selection、Paper Analysis、Investigation Gap、Approach Family、Landscape Finding 与 Open Problem 都属于研究过程中可以持续演化的 Research State。
-
-它们可以随着新的论文、来源核验与领域理解被创建、修正、重组或关闭，但不能因为研究内容发生变化就自动修改 Research Contract。
-
-只有当某项变化真正改变 Completion Check 的 PASS 条件时，才需要 Contract Amendment。
-
-## 7. 替换「Stable Contract，Evolving Research State」结构图
-
-将旧的：
-
-Evolving Research State
-
-* Papers
-* Evidence
-* Gaps
-* Contradictions
-* Derived Questions
-* Technical Routes
-
-替换为：
-
-Evolving Research State
-
-* Papers
-
-  * Paper Analysis
-* Literature Landscape
-
-  * Approach Families
-  * Landscape Findings
-  * Open Problems
-* Investigation Gaps
-* Completion Checks
-
-然后将图后的这一句：
-
-这允许 Researcher 在不修改 Contract 的情况下自由改写 Query、发现 Paper、建立 Gap、推翻原路线假设、发现新的 Technical Route、产生更细的 Derived Question，并更新 Evidence Interpretation。
-
-替换为：
-
-这允许 Researcher 在不修改 Contract 的情况下自由调整 Query、发现和保留 Paper、更新 Paper Analysis、创建或关闭 Investigation Gap、重组 Approach Family、修正 Landscape Finding，并识别新的 Open Problem。
-
-这些变化属于正常研究状态演化，而不是 Contract Amendment。
-
-## 8. 修改 Completion Check 与 Deliverable 的对应关系
-
-将：
-
-Deliverable
-↓
-当前 Evidence 是否足以生成用户要求的最终成果？
-
-替换为：
-
-Deliverable
-↓
-当前 Research State 及其 grounding 是否足以生成用户要求的最终成果？
-
-## 9. 修改 Contract Amendment 的反例
-
-将：
-
-例如新增 Derived Question、发现新的 Technical Route、创建新的 Gap、修改 Search Query、增加 Paper 或 Evidence，都不需要修改 Contract。
-
-替换为：
-
-例如创建新的 Investigation Gap、发现新的 Approach Family、修改 Search Query、增加 Paper、更新 Paper Analysis 或修正 Landscape Finding，都不需要修改 Contract。
-
-## 10. 替换「Research Requirement 与 Gap 的关系」中的研究循环
-
-原来的语义链：
-
-Research Requirement
-→ Gap
-→ Research Action
-→ Evidence
-→ Gap updated
-→ Completion Check
-
-替换为：
-
-Research Requirement
-→ Investigation Gap
-→ Research Action
-→ Paper Analysis / Landscape Update
-→ Investigation Gap updated
-→ Completion Check
-
-并将这一节中的：
-
-Gap 表达当前为什么还没有完成。
-
-替换为：
-
-`Investigation Gap` 表达当前为什么还没有完成，或者当前 Run 还有什么需要进一步调查。
-
-将：
-
-Gap 不会自动升级成新的 Research Requirement。
-
-替换为：
-
-Investigation Gap 不会自动升级成新的 Research Requirement。
-
-## 11. 替换「Research Run 中的位置」结构图
-
-将旧的 `Research Facts`：
-
-* Papers
-* Evidence
-* Gaps
-* Contradictions
-* Derived Questions
-
-替换为：
-
-* Papers / Paper Analysis
-* Literature Landscape
-* Investigation Gaps
-* Completion Checks
-
-这一节整体应表达：
-
-Research Contract
-
-* Mission
-* Requirements
-* Scope
-* Deliverable
-
-Lifecycle Mode
-
-* RESEARCH
-* COMPLETION_CHECK
-* DELIVERY
-* CLOSED
-
-Resource Facts
-
-* Budget
-* Provider
-* Cost
-* Limits
-
-Research State
-
-* Papers / Paper Analysis
-* Literature Landscape
-* Investigation Gaps
-* Completion Checks
-
-其中 Research Contract 定义 Completion Boundary，但不承担资源控制、研究路径或领域知识本身。
-
-## 12. 修改「为什么不使用详细 Research Plan」
-
-将：
-
-Candidate Routes、Paper Targets、Reading Order、Expected Evidence 和 Stop Strategy
-
-替换为：
-
-Candidate Approaches、Paper Targets、Reading Order、Expected Findings 和 Stop Strategy
-
-将：
-
-Researcher 会倾向验证最初 Plan，而不是根据 Evidence 调整方向。
-
-替换为：
-
-Researcher 会倾向验证最初 Plan，而不是根据新的论文、来源核验和研究理解调整方向。
-
-## 13. 修改「为什么不让 Researcher 动态决定完成目标」
-
-将：
-
-Researcher 还可能因为当前 Evidence 不足而逐渐降低自己的完成标准。
-
-替换为：
-
-Researcher 还可能因为当前 Research State 尚未充分覆盖要求，而逐渐降低自己的完成标准。
-
-## 14. 修改验证场景 2 和 3
-
-将：
-
-2. 新发现一条 Technical Route 不需要修改 Contract。
-3. 新增一个 Derived Question 不需要修改 Contract。
-
-替换为：
-
-2. 新发现或重组一个 `Approach Family` 不需要修改 Contract。
-3. 新增一个 `Investigation Gap` 或识别一个 `Open Problem` 不需要修改 Contract。
-
-## 15. Reference Evidence 中的通用术语保留
-
-参考项目名称和设计概念中的：
-
-* Evidence Gathering
-* Goal / Criteria / Evidence / Gate
-
-可以保留。
-
-这些是外部 Reference 的概念，不属于本项目 V1 Research State Schema。
-
+参考项目名称和设计概念中的 `Evidence Gathering`、`Goal / Criteria / Evidence / Gate` 等词保留原文。这些是外部 Reference 的概念，不属于本项目 V1 Research State Schema。
 
 ## 背景
 
-Research Run 可以持续多轮 Search、Read、Deep Read、Evidence Analysis 和 Gap-driven Research。
+Research Run 可以持续多轮 Search、Read、Deep Read、Paper Analysis、Landscape Synthesis 和 Gap-driven Research。
 
 开放式研究的一个核心风险是目标逐渐漂移。
 
@@ -338,7 +83,7 @@ Research Contract
 
 它不规定研究路径。
 
-Search Query、Paper Selection、Research Gap、Technical Route、Derived Question 等内容都允许随着研究过程持续演化。
+Search Query、Paper Selection、Paper Analysis、Investigation Gap、Approach Family、Landscape Finding 与 Open Problem 等研究内容都允许随着研究过程持续演化。
 
 ## Mission
 
@@ -407,7 +152,7 @@ Objectives
 * Completion Check 需要检查的内容；
 * Gap 可以关联的上层研究要求。
 
-研究过程中产生的更细问题属于 Derived Questions 或 Gap，不需要进入 Contract。
+研究过程中产生的更细问题不需要进入 Contract。当前 Run 尚未调查充分的问题可以形成 `Investigation Gap`；如果研究结果表明问题属于领域本身尚未解决的事项，则记录为 `Open Problem`。V1 不建立独立 `DerivedQuestion` Entity。
 
 这样可以避免出现：
 
@@ -510,13 +255,15 @@ Budget exhaustion 也不能修改 Completion 条件，更不能自动意味着 R
 最终核心结论只能使用同行评审论文
 ```
 
-这属于 Source / Evidence Scope，因为它改变了研究完成条件。
+这属于 Source Scope，因为它改变了研究完成条件。
 
-### Query、Paper、Gap、Technical Route、Derived Question
+### Query、Paper 与 Evolving Research State
 
-这些都是研究过程中持续变化的 Research State。
+Search Query、Paper Selection、Paper Analysis、Investigation Gap、Approach Family、Landscape Finding 与 Open Problem 都属于研究过程中可以持续演化的 Research State。
 
-它们必须允许随着 Evidence 和研究理解自由演化，不能因为被发现就自动改变 Contract。
+它们可以随着新的论文、来源核验与领域理解被创建、修正、重组或关闭，但不能因为研究内容发生变化就自动修改 Research Contract。
+
+只有当某项变化真正改变 Completion Check 的 PASS 条件时，才需要 Contract Amendment。
 
 ## Stable Contract，Evolving Research State
 
@@ -529,20 +276,22 @@ Research Contract
         ▼
 Evolving Research State
 ├── Papers
-├── Evidence
-├── Gaps
-├── Contradictions
-├── Derived Questions
-└── Technical Routes
+│   └── Paper Analysis
+├── Literature Landscape
+│   ├── Approach Families
+│   ├── Landscape Findings
+│   └── Open Problems
+├── Investigation Gaps
+└── Completion Checks
 ```
 
 可以概括为：
 
 > **Contract 稳定“必须研究清楚什么”，Research State 演化“我们现在如何理解这个问题”。**
 
-这允许 Researcher 在不修改 Contract 的情况下自由改写 Query、发现 Paper、建立 Gap、推翻原路线假设、发现新的 Technical Route、产生更细的 Derived Question，并更新 Evidence Interpretation。
+这允许 Researcher 在不修改 Contract 的情况下自由调整 Query、发现和保留 Paper、更新 Paper Analysis、创建或关闭 Investigation Gap、重组 Approach Family、修正 Landscape Finding，并识别新的 Open Problem。
 
-这些变化属于正常研究，而不是 Contract Amendment。
+这些变化属于正常研究状态演化，而不是 Contract Amendment。
 
 ## Completion Check 与 Contract
 
@@ -567,7 +316,7 @@ Scope
 
 Deliverable
     ↓
-当前 Evidence 是否足以生成用户要求的最终成果？
+当前 Research State 及其 grounding 是否足以生成用户要求的最终成果？
 ```
 
 因此：
@@ -608,7 +357,7 @@ explicit amendment
 
 如果答案是否定的，它属于正常 Research State 演化。
 
-例如新增 Derived Question、发现新的 Technical Route、创建新的 Gap、修改 Search Query、增加 Paper 或 Evidence，都不需要修改 Contract。
+例如创建新的 Investigation Gap、发现新的 Approach Family、修改 Search Query、增加 Paper、更新 Paper Analysis 或修正 Landscape Finding，都不需要修改 Contract。
 
 如果答案是肯定的，就必须显式修改 Contract。
 
@@ -671,7 +420,7 @@ RESEARCH
 
 Research Requirement 表达必须完成什么。
 
-Gap 表达当前为什么还没有完成。
+`Investigation Gap` 表达当前为什么还没有完成，或者当前 Run 还有什么需要进一步调查。
 
 例如：
 
@@ -691,18 +440,18 @@ G7:
 ```text id="iqmn0w"
 Research Requirement
         ↓
-Gap
+Investigation Gap
         ↓
 Research Action
         ↓
-Evidence
+Paper Analysis / Landscape Update
         ↓
-Gap updated
+Investigation Gap updated
         ↓
 Completion Check
 ```
 
-Gap 不会自动升级成新的 Research Requirement。
+Investigation Gap 不会自动升级成新的 Research Requirement。
 
 只有当它真正改变了用户期望的 Completion Boundary 时，才需要 Contract Amendment。
 
@@ -726,11 +475,10 @@ Research Contract 与 Lifecycle、Research Facts、Resource Facts 保持正交�
         │ defines
         ▼
  Research Facts
- ├── Papers
- ├── Evidence
- ├── Gaps
- ├── Contradictions
- └── Derived Questions
+ ├── Papers / Paper Analysis
+ ├── Literature Landscape
+ ├── Investigation Gaps
+ └── Completion Checks
 ```
 
 Research Contract 不承担资源控制。
@@ -741,7 +489,7 @@ Research Facts 不应该偷偷改变 Completion Boundary。
 
 ## 为什么不使用详细 Research Plan 作为 Contract
 
-另一种方案是在 Run 创建时保存完整 Research Plan，包括 Research Questions、Queries、Candidate Routes、Paper Targets、Reading Order、Expected Evidence 和 Stop Strategy。
+另一种方案是在 Run 创建时保存完整 Research Plan，包括 Research Questions、Queries、Candidate Approaches、Paper Targets、Reading Order、Expected Findings 和 Stop Strategy。
 
 这种方案的问题是：
 
@@ -749,7 +497,7 @@ Research Facts 不应该偷偷改变 Completion Boundary。
 2. Plan 很快会过期；
 3. Harness 需要不断同步 Plan 与实际 Research State；
 4. Python 容易逐渐承担语义流程编排；
-5. Researcher 会倾向验证最初 Plan，而不是根据 Evidence 调整方向。
+5. Researcher 会倾向验证最初 Plan，而不是根据新的论文、来源核验和研究理解调整方向。
 
 因此本项目不把 Research Contract 设计成执行计划。
 
@@ -761,7 +509,7 @@ Contract 固定完成边界，Researcher 保留研究路径自由。
 
 这种方案无法为 Completion Check 提供稳定判断依据。
 
-Researcher 还可能因为当前 Evidence 不足而逐渐降低自己的完成标准。
+Researcher 还可能因为当前 Research State 尚未充分覆盖要求，而逐渐降低自己的完成标准。
 
 显式 Research Requirements 和 Scope 可以防止这种目标漂移。
 
@@ -783,8 +531,8 @@ Researcher 还可能因为当前 Evidence 不足而逐渐降低自己的完成�
 后续实现至少应通过以下场景：
 
 1. 用户研究目标可以被清楚表达为 Mission + Research Requirements + Scope + Deliverable。
-2. 新发现一条 Technical Route 不需要修改 Contract。
-3. 新增一个 Derived Question 不需要修改 Contract。
+2. 新发现或重组一个 `Approach Family` 不需要修改 Contract。
+3. 新增一个 `Investigation Gap` 或识别一个 `Open Problem` 不需要修改 Contract。
 4. Researcher 修改 Search Query 不需要修改 Contract。
 5. Budget 增加或耗尽不修改 Contract。
 6. 用户把时间范围从三年扩大到五年时，必须产生显式 Contract Amendment。
