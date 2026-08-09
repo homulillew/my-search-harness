@@ -11,19 +11,27 @@ from unittest.mock import Mock, patch
 from deepxiv_sdk import (  # type: ignore[import-untyped]
     APIError,
     AuthenticationError,
+    BadRequestError,
+    NotFoundError,
     RateLimitError,
     ServerError,
 )
 
+from my_search_harness.domain import PaperSource, SourceLocator
+
 from my_search_harness.runtime import (
     CreateRunRequest,
     DeepXivPaperSearchProvider,
+    DeepXivSourceAccessProvider,
     JsonResearchRunRepository,
     PaperSearchConfigurationError,
     PaperSearchProviderError,
     PaperSearchService,
     ProviderFailureKind,
     ResearchCommands,
+    SourceAccessConfigurationError,
+    SourceAccessFailureKind,
+    SourceAccessProviderError,
 )
 
 
@@ -341,3 +349,256 @@ class DeepXivRetainIntegrationTests(TestCase):
         self.assertFalse(hasattr(paper.source, "provider_summary"))
         self.assertFalse(hasattr(paper.source, "provider_score"))
         self.assertFalse(hasattr(paper.source, "citation_count"))
+
+
+class DeepXivSourceAccessProviderTests(TestCase):
+    def _provider(self, reader: Mock) -> tuple[DeepXivSourceAccessProvider, Mock]:
+        factory = Mock(return_value=reader)
+        provider = DeepXivSourceAccessProvider(
+            "fixture-token",
+            reader_factory=factory,
+        )
+        return provider, factory
+
+    @staticmethod
+    def _source(arxiv_id: str | None = "2608.00001v2") -> PaperSource:
+        return PaperSource(
+            title="A retained paper",
+            arxiv_id=arxiv_id,
+        )
+
+    def test_reader_receives_explicit_token_and_zero_retries(self) -> None:
+        reader = Mock()
+
+        _, factory = self._provider(reader)
+
+        factory.assert_called_once_with(token="fixture-token", max_retries=0)
+
+    def test_inspect_maps_list_sections_without_provider_summaries(self) -> None:
+        reader = Mock()
+        reader.head.return_value = {
+            "title": "A retained paper",
+            "token_count": 4321,
+            "sections": [
+                {"name": "1 Introduction", "tldr": "AI interpretation"},
+                {"name": "2 Method", "tldr": "Another interpretation"},
+            ],
+        }
+        provider, _ = self._provider(reader)
+
+        outline = provider.inspect_source("paper_ref", self._source())
+
+        reader.head.assert_called_once_with("2608.00001")
+        self.assertEqual("paper_ref", outline.paper_ref)
+        self.assertEqual(4321, outline.total_tokens)
+        self.assertEqual(
+            ("1 Introduction", "2 Method"),
+            tuple(section.title for section in outline.sections),
+        )
+        self.assertEqual(
+            SourceLocator(kind="section", value="2 Method"),
+            outline.sections[1].locator,
+        )
+        self.assertFalse(hasattr(outline.sections[0], "tldr"))
+
+    def test_inspect_maps_current_mapping_section_shape(self) -> None:
+        reader = Mock()
+        reader.head.return_value = {
+            "sections": {
+                "1 Introduction": {"tldr": "discarded"},
+                "2 Method": {"tldr": "discarded"},
+            }
+        }
+        provider, _ = self._provider(reader)
+
+        outline = provider.inspect_source("paper_ref", self._source())
+
+        self.assertEqual(
+            ("1 Introduction", "2 Method"),
+            tuple(section.title for section in outline.sections),
+        )
+        self.assertIsNone(outline.total_tokens)
+
+    def test_whole_source_read_uses_raw_primary_content(self) -> None:
+        reader = Mock()
+        reader.raw.return_value = "# Paper\n\nPrimary source text."
+        provider, _ = self._provider(reader)
+
+        content = provider.read_source("paper_ref", self._source(), None)
+
+        reader.raw.assert_called_once_with("2608.00001")
+        self.assertEqual("paper_ref", content.paper_ref)
+        self.assertIsNone(content.locator)
+        self.assertEqual("# Paper\n\nPrimary source text.", content.content)
+
+    def test_section_read_resolves_actual_section_and_returns_it(self) -> None:
+        reader = Mock()
+        reader.head.return_value = {
+            "sections": [
+                {"name": "1 Introduction"},
+                {"name": "3 Experimental Method"},
+            ]
+        }
+        reader.section.return_value = "Primary method content."
+        provider, _ = self._provider(reader)
+
+        content = provider.read_source(
+            "paper_ref",
+            self._source(),
+            SourceLocator(kind="section", value="experimental method"),
+        )
+
+        reader.head.assert_called_once_with("2608.00001")
+        reader.section.assert_called_once_with("2608.00001", "3 Experimental Method")
+        self.assertEqual(
+            SourceLocator(kind="section", value="3 Experimental Method"),
+            content.locator,
+        )
+        self.assertEqual("Primary method content.", content.content)
+
+    def test_ambiguous_or_missing_section_is_locator_not_found(self) -> None:
+        cases = (
+            (
+                [
+                    {"name": "2 Method Overview"},
+                    {"name": "3 Method Details"},
+                ],
+                "method",
+            ),
+            ([{"name": "1 Introduction"}], "experiments"),
+        )
+        for sections, requested in cases:
+            with self.subTest(requested=requested):
+                reader = Mock()
+                reader.head.return_value = {"sections": sections}
+                provider, _ = self._provider(reader)
+
+                with self.assertRaises(SourceAccessProviderError) as captured:
+                    provider.read_source(
+                        "paper_ref",
+                        self._source(),
+                        SourceLocator(kind="section", value=requested),
+                    )
+
+                self.assertIs(
+                    SourceAccessFailureKind.LOCATOR_NOT_FOUND,
+                    captured.exception.failure_kind,
+                )
+                reader.section.assert_not_called()
+
+    def test_sdk_section_value_error_is_locator_not_found(self) -> None:
+        reader = Mock()
+        reader.head.return_value = {"sections": [{"name": "2 Method"}]}
+        reader.section.side_effect = ValueError("not found")
+        provider, _ = self._provider(reader)
+
+        with self.assertRaises(SourceAccessProviderError) as captured:
+            provider.read_source(
+                "paper_ref",
+                self._source(),
+                SourceLocator(kind="section", value="2 Method"),
+            )
+
+        self.assertIs(
+            SourceAccessFailureKind.LOCATOR_NOT_FOUND,
+            captured.exception.failure_kind,
+        )
+
+    def test_non_section_locator_fails_preflight_without_reader_call(self) -> None:
+        reader = Mock()
+        provider, _ = self._provider(reader)
+
+        with self.assertRaises(SourceAccessProviderError) as captured:
+            provider.validate_read(
+                self._source(),
+                SourceLocator(kind="table", value="Table 2"),
+            )
+
+        self.assertIs(
+            SourceAccessFailureKind.UNSUPPORTED_LOCATOR,
+            captured.exception.failure_kind,
+        )
+        reader.assert_not_called()
+
+    def test_missing_arxiv_identity_fails_preflight_without_reader_call(self) -> None:
+        reader = Mock()
+        provider, _ = self._provider(reader)
+
+        with self.assertRaises(SourceAccessProviderError) as captured:
+            provider.validate_inspect(self._source(arxiv_id=None))
+
+        self.assertIs(
+            SourceAccessFailureKind.SOURCE_UNAVAILABLE,
+            captured.exception.failure_kind,
+        )
+        reader.assert_not_called()
+
+    def test_empty_or_malformed_provider_payload_is_invalid_response(self) -> None:
+        cases: tuple[tuple[str, object], ...] = (
+            ("head", None),
+            ("head", {}),
+            ("head", {"sections": None}),
+            ("head", {"sections": [{"title": "wrong key"}]}),
+            ("head", {"sections": [], "token_count": True}),
+            ("raw", ""),
+            ("raw", " \n"),
+            ("raw", {"content": "not a string response"}),
+        )
+        for method, response in cases:
+            with self.subTest(method=method, response=response):
+                reader = Mock()
+                setattr(getattr(reader, method), "return_value", response)
+                provider, _ = self._provider(reader)
+
+                with self.assertRaises(SourceAccessProviderError) as captured:
+                    if method == "head":
+                        provider.inspect_source("paper_ref", self._source())
+                    else:
+                        provider.read_source("paper_ref", self._source(), None)
+
+                self.assertIs(
+                    SourceAccessFailureKind.INVALID_RESPONSE,
+                    captured.exception.failure_kind,
+                )
+
+    def test_sdk_failures_map_to_source_unavailable(self) -> None:
+        sdk_errors = (
+            AuthenticationError("bad auth"),
+            RateLimitError("limited"),
+            ServerError("server"),
+            NotFoundError("missing"),
+            BadRequestError("bad id"),
+            APIError("other"),
+        )
+        for sdk_error in sdk_errors:
+            with self.subTest(sdk_error=type(sdk_error).__name__):
+                reader = Mock()
+                reader.head.side_effect = sdk_error
+                provider, _ = self._provider(reader)
+
+                with self.assertRaises(SourceAccessProviderError) as captured:
+                    provider.inspect_source("paper_ref", self._source())
+
+                self.assertIs(
+                    SourceAccessFailureKind.SOURCE_UNAVAILABLE,
+                    captured.exception.failure_kind,
+                )
+                self.assertIsNone(captured.exception.__cause__)
+
+    def test_missing_environment_token_fails_before_reader_creation(self) -> None:
+        factory = Mock()
+        with patch.dict(os.environ, {}, clear=True):
+            with self.assertRaisesRegex(
+                SourceAccessConfigurationError, "DEEPXIV_TOKEN"
+            ):
+                DeepXivSourceAccessProvider.from_env(reader_factory=factory)
+
+        factory.assert_not_called()
+
+    def test_environment_token_configures_reader_without_hidden_retries(self) -> None:
+        reader = Mock()
+        factory = Mock(return_value=reader)
+        with patch.dict(os.environ, {"DEEPXIV_TOKEN": "fixture-token"}, clear=True):
+            DeepXivSourceAccessProvider.from_env(reader_factory=factory)
+
+        factory.assert_called_once_with(token="fixture-token", max_retries=0)
