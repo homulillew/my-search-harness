@@ -56,6 +56,17 @@ class JsonResearchRunRepository:
             raise RunNotFoundError(f"research run {run_id!r} was not found") from exc
         return run_from_json(payload)
 
+    def list_run_ids(self) -> tuple[str, ...]:
+        """List authoritative Run snapshots without consulting audit/artifacts."""
+
+        run_ids: list[str] = []
+        for path in self._root.iterdir():
+            if not path.is_dir() or not (path / "state.json").is_file():
+                continue
+            validate_ref(path.name, "run", "run directory name")
+            run_ids.append(path.name)
+        return tuple(sorted(run_ids))
+
     def create(self, run: ResearchRun) -> None:
         validate_run(run)
         if run.state_revision != 1:
