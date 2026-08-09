@@ -1319,7 +1319,7 @@ V1 实现必须始终满足以下约束：
 11. PASS validity 不通过 revision equality 或重复 boolean 状态表达。
 12. Structural Validity 与 Semantic Readiness 相互独立。
 13. Python 只强制结构不变量，不把研究质量启发式升级为 schema validity。
-14. Search Hit、Source Content 和 Wiki Query Result 都是 Observation。
+14. PaperSearchHit、Web Search Result、SourceOutline、SourceContent 和 Wiki Query Result 都是 Research Observation。
 15. Context Projection 只能选择已有语义，不能重新解释并生成第二知识层。
 16. Derived Artifact 永远不能反向成为 Research State 的事实源。
 17. Stable external identity 可以机械去重；semantic equivalence 必须由 Claude 决定。

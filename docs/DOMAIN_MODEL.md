@@ -590,31 +590,30 @@ ApproachFamily 只表达：
 
 优势、限制、趋势、比较和争议不进入 ApproachFamily 字段，而进入 LandscapeFinding。
 
-### Creation-time Command Invariant
+### Persistent Structural Invariant
 
-创建 ApproachFamily 的 batch 必须至少指定一个当前 Run 的 representative Paper：
+Canonical ApproachFamily 必须至少拥有一个当前 Run 的 representative Paper：
 
 ```text
 representative_papers != empty
 ```
 
-（作为创建命令的输入约束）
+这条规则表达的是 canonical ApproachFamily 的最低存在性 grounding：一个进入 authoritative LiteratureLandscape 的技术路线，必须能够指向至少一篇当前 ResearchRun 已保留的论文。
 
-原因是 Claude 只有在已经识别出至少一篇代表论文时，才应当声称存在一个技术路线。
+如果还没有任何当前 Run Paper 可以作为实例，该概念仍然只是 research lead、hypothesis 或 Investigation Gap，不应持久化为 canonical ApproachFamily。
 
-它不是 whole-state persistent structural invariant：
-
-* ApproachFamily 允许作为合法中间态存在——例如代表论文尚未补齐的路线骨架；
-* 一个技术路线是否真正被当前研究实例化、是否重要，属于 semantic quality，由 Researcher 与 Completion Checker 判断。
-
-Python 不要求：
+一篇 representative Paper 只证明该 Family 已经有当前 Run 的文献实例。它不证明以下任何语义结论：
 
 ```text
-至少 3 篇论文
-至少 N 个来源
+该 Family 是主要技术路线
+代表论文已经足够
+路线覆盖已经充分
+该 Family 已经 Completion-ready
 ```
 
-这类充分性数量标准。
+Python 也不要求每个 Family 至少包含三篇或其它固定数量的论文。路线重要性、代表论文充分性与覆盖质量都属于 Researcher 与 Completion Checker 判断的 semantic criterion，不能由 Python 根据论文数量推断。
+
+由于一次语义变化通过 atomic semantic batch 提交，系统不需要持久化空 representative paper 集合作为实现过程中的临时路线骨架。任何会移除最后一个 representative Paper 的 batch，必须同时添加 replacement representative Paper，或 retire / merge 该 ApproachFamily。
 
 ---
 
@@ -1578,21 +1577,22 @@ V1 Whole-State Validator 至少检查：
 5. Contract Revision number 单调且不可修改历史版本；
 6. 当前 Gap 的 RequirementRef 只指向当前 Contract Revision 的 Requirement；
 7. LiteratureSource.paper_ref 指向当前 Run Paper；
-8. InvestigationGap 一旦创建不物理删除；
-9. `resolution is None` 表示 Open Gap，存在 resolution 表示 Resolved Gap；
-10. CompletionCheck 的 `verdict` 与 `completed_at` 同时存在或同时不存在；
-11. completed CompletionCheck 不再修改；
-12. `basis_contract_revision` 必须指向存在的 ContractRevision；
-13. CompletionCheck.blocking_gap_refs 必须解析到存在的 Gap；
-14. `COMPLETION_CHECK` 恰好存在一个 pending CompletionCheck；
-15. 其它 Lifecycle Mode 不存在 pending CompletionCheck；
-16. `DELIVERY` 必须存在 DeliveryBasis；
-17. `RESEARCH` / `COMPLETION_CHECK` 不存在 DeliveryBasis；
-18. `CLOSED` 必须存在 RunOutcome 与 DeliveryBasis；
-19. `COMPLETE` closure 使用 CompletionPassBasis；
-20. `PARTIAL` closure 使用 PartialAuthorizationBasis；
-21. CompletionPassBasis 必须引用 completed PASS CompletionCheck；
-22. 非 CLOSED Run 不保存 RunOutcome。
+8. ApproachFamily 至少包含一个当前 Run representative Paper；
+9. InvestigationGap 一旦创建不物理删除；
+10. `resolution is None` 表示 Open Gap，存在 resolution 表示 Resolved Gap；
+11. CompletionCheck 的 `verdict` 与 `completed_at` 同时存在或同时不存在；
+12. completed CompletionCheck 不再修改；
+13. `basis_contract_revision` 必须指向存在的 ContractRevision；
+14. CompletionCheck.blocking_gap_refs 必须解析到存在的 Gap；
+15. `COMPLETION_CHECK` 恰好存在一个 pending CompletionCheck；
+16. 其它 Lifecycle Mode 不存在 pending CompletionCheck；
+17. `DELIVERY` 必须存在 DeliveryBasis；
+18. `RESEARCH` / `COMPLETION_CHECK` 不存在 DeliveryBasis；
+19. `CLOSED` 必须存在 RunOutcome 与 DeliveryBasis；
+20. `COMPLETE` closure 使用 CompletionPassBasis；
+21. `PARTIAL` closure 使用 PartialAuthorizationBasis；
+22. CompletionPassBasis 必须引用 completed PASS CompletionCheck；
+23. 非 CLOSED Run 不保存 RunOutcome。
 
 这些规则只判断 State 是否结构合法。
 
@@ -1616,10 +1616,11 @@ V1 Whole-State Validator 至少检查：
 * 所有 PaperRef 原子重写；
 * 两份非空 PaperAnalysis 不由 Python 自动融合。
 
-### Create ApproachFamily
+### Maintain ApproachFamily Representative Papers
 
-* 创建命令必须至少指定一个 representative Paper（§17）；
-* 该约束只作用于创建命令的输入，不成为 whole-state persistent invariant。
+* 创建 ApproachFamily 时必须至少指定一个当前 Run representative Paper；
+* 任何会移除最后一个 representative Paper 的变化，必须在同一个 atomic batch 中添加 replacement representative Paper，或 retire / merge 该 ApproachFamily；
+* 最终提交的 ResearchRun 必须继续满足 §17 的 persistent structural invariant。
 
 ### MergeApproachFamily
 

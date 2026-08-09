@@ -130,3 +130,52 @@
   1. A1 的裁决方向——"创建命令约束 ≥1 代表论文、whole-state 不强制"是否接受（或更彻底地完全去掉）；
   2. 是否解冻修补 Frozen ARCHITECTURE §31#14（补 Web Search Result）。
 * **不阻塞**：DOMAIN_MODEL 仍为 Domain Model Baseline，本次修正属 V1 Domain Model 阶段的正常收敛，未新增实体、未改架构 authority/control/data flow。
+
+---
+
+## ChatGPT Adjudication Resolution（2026-08-10）
+
+> 本节记录 ChatGPT 对上文两个待确认项的正式裁决。保留原审查与同步历史，不将争议改写为从未发生。
+
+### A1 — ApproachFamily Existential Grounding
+
+**A1 REJECTED AS PROPOSED.**
+
+`representative_papers != empty` remains a persistent structural invariant because it expresses existential grounding of a canonical ApproachFamily, not research sufficiency.
+
+一个进入 authoritative LiteratureLandscape 的 canonical ApproachFamily，至少必须能够指向一个当前 ResearchRun 的 retained Paper。零篇 representative Paper 的路线仍然只是 research lead、hypothesis 或 Investigation Gap，不应持久化为 canonical ApproachFamily。
+
+这条规则只回答：
+
+> 当前 Run 中是否至少存在一个能够实例化该 Family 的文献对象？
+
+它不回答：
+
+```text
+该 Family 是否重要
+是否属于主要技术路线
+代表论文数量是否足够
+覆盖是否充分
+是否满足 Completion
+```
+
+后者继续属于 Researcher / Completion Checker 的 semantic criterion。一次语义变化通过 atomic semantic batch 提交，因此实现不需要把空 representative paper 集合作为持久化中间态。任何移除最后一个 representative Paper 的变化必须在同一 batch 中添加 replacement，或 retire / merge 该 ApproachFamily。
+
+同步结果：
+
+* `docs/DOMAIN_MODEL.md` §17 恢复 persistent structural invariant；
+* §49 Whole-State Validator 恢复 `ApproachFamily.representative_papers != empty`；
+* §50 改为约束所有 representative-paper maintenance，不再把规则描述成 creation-only；
+* 未新增 Entity、status、boolean 或 score。
+
+### Architecture §31#14 — Observation List
+
+Architecture §31#14 observation list corrected to match already-frozen §11 semantics; no architectural decision changed.
+
+该修改只是 Freeze Cleanup 后的 clerical consistency correction：补齐已经在 §11 明确定义的 `Web Search Result`，并统一使用 `PaperSearchHit`、`SourceOutline`、`SourceContent` 与 `Wiki Query Result` 正式术语。Architecture authority、Lifecycle、data flow、capability 集合与 `Status: Architecture Frozen` 均未改变，也不新增 ADR。
+
+### Resolution
+
+* A1：原降级方案不接受；persistent structural invariant 恢复。
+* Architecture §31#14：允许文书一致性修正。
+* 两项待确认事项均已裁决，不再阻塞 Domain Model Baseline。
