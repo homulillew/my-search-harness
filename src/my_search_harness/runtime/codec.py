@@ -215,9 +215,11 @@ def _check_to_dict(check: CompletionCheck) -> JsonObject:
     }
 
 
-def _delivery_basis_to_dict(
+def delivery_basis_to_dict(
     basis: CompletionPassBasis | PartialAuthorizationBasis | None,
 ) -> JsonObject | None:
+    """Encode one DeliveryBasis using the frozen tagged representation."""
+
     if basis is None:
         return None
     if isinstance(basis, CompletionPassBasis):
@@ -266,7 +268,7 @@ def run_to_dict(run: ResearchRun) -> JsonObject:
             ref: _check_to_dict(run.completion_checks[ref])
             for ref in sorted(run.completion_checks)
         },
-        "delivery_basis": _delivery_basis_to_dict(run.delivery_basis),
+        "delivery_basis": delivery_basis_to_dict(run.delivery_basis),
     }
 
 
@@ -638,9 +640,11 @@ def _check_from_dict(value: object, path: str) -> CompletionCheck:
     )
 
 
-def _delivery_basis_from_dict(
-    value: object, path: str
+def delivery_basis_from_dict(
+    value: object, path: str = "delivery_basis"
 ) -> CompletionPassBasis | PartialAuthorizationBasis | None:
+    """Decode one DeliveryBasis from the frozen tagged representation."""
+
     if value is None:
         return None
     data = _object(value, path)
@@ -730,7 +734,7 @@ def _run_from_dict(value: object) -> ResearchRun:
         completion_checks=_entity_map(
             data["completion_checks"], "run.completion_checks", _check_from_dict
         ),
-        delivery_basis=_delivery_basis_from_dict(
+        delivery_basis=delivery_basis_from_dict(
             data["delivery_basis"], "run.delivery_basis"
         ),
     )
