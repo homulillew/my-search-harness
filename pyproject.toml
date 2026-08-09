@@ -8,8 +8,7 @@ version = "0.1.0"
 description = "Search harness for automated research loops (project in bootstrap phase)."
 readme = "README.md"
 requires-python = ">=3.11"
-
-# 初始化阶段不引入任何第三方运行时依赖。
+dependencies = ["deepxiv-sdk==0.3.1"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
