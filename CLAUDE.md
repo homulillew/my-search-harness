@@ -1,6 +1,6 @@
-# Claude Code 开发入口
+# Codex 开发入口
 
-本文件只作为 Router，告诉 Claude Code **应该去哪读**，不保存具体规则。
+本文件只作为 Router，告诉 Codex **应该去哪读**，不保存具体规则。
 
 在修改仓库前，请先阅读：
 
