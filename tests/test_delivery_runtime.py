@@ -226,7 +226,7 @@ class DeliveryRuntimeTests(TestCase):
         self.assertEqual(before, self.state_path.read_bytes())
         self.assertNotIn("validation_passed", self.state_path.read_text())
 
-    def test_validation_uses_required_artifacts_from_current_contract(self) -> None:
+    def test_stale_pass_basis_cannot_validate_or_close_newer_contract(self) -> None:
         run = self.repository.load(self.run_id)
         revised_contract = deepcopy(run.contract.revisions[-1].contract)
         revised_contract.deliverable.required_artifacts.clear()
@@ -239,11 +239,87 @@ class DeliveryRuntimeTests(TestCase):
         )
         run.contract.current_revision = 2
         run.state_revision = 4
+        # Deliberately persist an architecture-invalid snapshot to verify that
+        # the Delivery boundary cannot authorize it.
         self.repository.save(run, 3)
+        before = self.state_path.read_bytes()
 
-        result = self.delivery.validate_delivery(self.run_id)
+        with self.assertRaisesRegex(CommandRejectedError, "contract revision"):
+            self.delivery.validate_delivery(self.run_id)
+        with self.assertRaisesRegex(CommandRejectedError, "contract revision"):
+            self.delivery.close_run(self.run_id, 4)
+
+        self.assertEqual(before, self.state_path.read_bytes())
+
+    def test_validation_uses_legally_current_contract_requirements(self) -> None:
+        created = self.research.create_run(
+            CreateRunRequest(
+                mission="Deliver a run with no required artifacts",
+                requirements=("Record the completion decision",),
+                scope="Empty artifact fixture",
+                deliverable_description="No derived artifact is required",
+                required_artifacts=frozenset(),
+            )
+        )
+        requested = self.research.request_completion_check(
+            created.run_id,
+            1,
+            "The artifact-free contract is complete",
+        )
+        self.research.submit_completion_check(
+            created.run_id,
+            2,
+            requested.completion_check_ref,
+            CompletionVerdict.PASS,
+            ("The current contract requirements are covered",),
+        )
+
+        result = self.delivery.validate_delivery(created.run_id)
 
         self.assertEqual(frozenset(), result.validated_artifacts)
+
+    def test_partial_basis_cannot_validate_or_close_newer_contract(self) -> None:
+        created = self.research.create_run(
+            CreateRunRequest(
+                mission="Exercise stale partial authorization",
+                requirements=("Record the partial boundary",),
+                scope="Corrupt fixture",
+                deliverable_description="No derived artifact is required",
+                required_artifacts=frozenset(),
+            )
+        )
+        partial = self.repository.load(created.run_id)
+        partial.state_revision = 2
+        partial.lifecycle = LifecycleMode.DELIVERY
+        partial.delivery_basis = PartialAuthorizationBasis(
+            basis_revision=1,
+            basis_contract_revision=1,
+            authorized_at=utc_now(),
+            rationale="Authorized under contract revision 1",
+        )
+        self.repository.save(partial, 1)
+
+        stale = self.repository.load(created.run_id)
+        revised_contract = deepcopy(stale.contract.revisions[-1].contract)
+        stale.contract.revisions.append(
+            ContractRevision(
+                revision=2,
+                contract=revised_contract,
+                reason="Simulated unreachable contract amendment",
+            )
+        )
+        stale.contract.current_revision = 2
+        stale.state_revision = 3
+        self.repository.save(stale, 2)
+        state_path = self.root / created.run_id / "state.json"
+        before = state_path.read_bytes()
+
+        with self.assertRaisesRegex(CommandRejectedError, "contract revision"):
+            self.delivery.validate_delivery(created.run_id)
+        with self.assertRaisesRegex(CommandRejectedError, "contract revision"):
+            self.delivery.close_run(created.run_id, 3)
+
+        self.assertEqual(before, state_path.read_bytes())
 
     def test_reopen_transitions_delivery_to_research(self) -> None:
         result = self.delivery.reopen_research(self.run_id, 3)

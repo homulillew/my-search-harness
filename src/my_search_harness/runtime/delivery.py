@@ -125,10 +125,29 @@ class DeliveryCommands:
         )
 
     def _validate_delivery(self, run: ResearchRun) -> DeliveryValidationResult:
+        current_contract_revision = run.contract.current_revision
+        basis = run.delivery_basis
+        basis_contract_revision: int | None = None
+        if isinstance(basis, CompletionPassBasis):
+            basis_contract_revision = run.completion_checks[
+                basis.completion_check_ref
+            ].basis_contract_revision
+        elif isinstance(basis, PartialAuthorizationBasis):
+            basis_contract_revision = basis.basis_contract_revision
+
+        if (
+            basis_contract_revision is not None
+            and basis_contract_revision != current_contract_revision
+        ):
+            raise CommandRejectedError(
+                f"delivery basis contract revision {basis_contract_revision} "
+                f"does not match current contract revision {current_contract_revision}"
+            )
+
         current_contracts = [
             revision.contract
             for revision in run.contract.revisions
-            if revision.revision == run.contract.current_revision
+            if revision.revision == current_contract_revision
         ]
         if len(current_contracts) != 1:
             raise CommandRejectedError(
