@@ -55,14 +55,12 @@ class JsonResearchRunRepository:
         if run.state_revision != 1:
             raise DomainValidationError("a newly created run must start at revision 1")
         run_directory = self._run_directory(run.id)
+        state_path = run_directory / "state.json"
+        if state_path.exists():
+            raise RunAlreadyExistsError(f"research run {run.id!r} already exists")
+        run_directory.mkdir(exist_ok=True)
         try:
-            run_directory.mkdir()
-        except FileExistsError as exc:
-            raise RunAlreadyExistsError(
-                f"research run {run.id!r} already exists"
-            ) from exc
-        try:
-            self._write_atomic(run_directory / "state.json", run_to_json(run))
+            self._write_atomic(state_path, run_to_json(run))
         except BaseException:
             temporary = run_directory / "state.json.tmp"
             temporary.unlink(missing_ok=True)

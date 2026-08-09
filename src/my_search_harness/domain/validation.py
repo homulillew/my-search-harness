@@ -230,9 +230,7 @@ def _paper_identity_keys(paper: Paper) -> Iterable[tuple[str, str]]:
     if source.arxiv_id is not None:
         yield "arxiv", _normalize_arxiv(source.arxiv_id)
     if source.canonical_url is not None:
-        yield "url", source.canonical_url.strip().lower().rstrip("/")
-    for kind, value in source.other_identifiers.items():
-        yield f"other:{kind.strip().lower()}", value.strip().lower()
+        yield "url", source.canonical_url.strip()
 
 
 def _validate_paper_source(source: object, path: str) -> PaperSource:
@@ -592,9 +590,37 @@ def validate_transition(before: ResearchRun, after: ResearchRun) -> None:
         _fail("contract revision history is append-only")
 
     for check_ref, check in before.completion_checks.items():
+        proposed_check = after.completion_checks.get(check_ref)
+        if proposed_check is None:
+            _fail(f"completion check {check_ref!r} cannot be deleted")
         if check.completed_at is not None:
-            if after.completion_checks.get(check_ref) != check:
+            if proposed_check != check:
                 _fail(f"completed completion check {check_ref!r} is immutable")
+            continue
+
+        request_metadata = (
+            check.id,
+            check.basis_revision,
+            check.basis_contract_revision,
+            check.requested_at,
+            check.requester_rationale,
+        )
+        proposed_request_metadata = (
+            proposed_check.id,
+            proposed_check.basis_revision,
+            proposed_check.basis_contract_revision,
+            proposed_check.requested_at,
+            proposed_check.requester_rationale,
+        )
+        if proposed_request_metadata != request_metadata:
+            _fail(
+                f"pending completion check {check_ref!r} request metadata is immutable"
+            )
+        if proposed_check.completed_at is None and proposed_check != check:
+            _fail(
+                f"pending completion check {check_ref!r} must remain unchanged "
+                "until completion"
+            )
 
     removed_gaps = set(before.investigation_gaps) - set(after.investigation_gaps)
     if removed_gaps:

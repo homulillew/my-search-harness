@@ -69,6 +69,18 @@ def add_completed_pass(run: ResearchRun) -> CompletionCheck:
     return check
 
 
+def add_pending_check(run: ResearchRun) -> CompletionCheck:
+    check = CompletionCheck(
+        basis_revision=run.state_revision,
+        basis_contract_revision=run.contract.current_revision,
+        requester_rationale="Ready to assess",
+        requested_at=NOW,
+    )
+    run.completion_checks[check.id] = check
+    run.lifecycle = LifecycleMode.COMPLETION_CHECK
+    return check
+
+
 class ValidateRunTests(TestCase):
     def test_minimal_run_is_valid(self) -> None:
         validate_run(make_minimal_run())
@@ -166,7 +178,7 @@ class ValidateRunTests(TestCase):
         with self.assertRaisesRegex(DomainValidationError, "completed PASS"):
             validate_run(run)
 
-    def test_obvious_stable_paper_identifier_collision_is_rejected(self) -> None:
+    def test_normalized_doi_collision_is_rejected(self) -> None:
         run = make_minimal_run()
         first = Paper(source=PaperSource(title="First", doi="10.1000/example"))
         second = Paper(
@@ -176,6 +188,64 @@ class ValidateRunTests(TestCase):
 
         with self.assertRaisesRegex(DomainValidationError, "share stable identifier"):
             validate_run(run)
+
+    def test_normalized_arxiv_collision_is_rejected(self) -> None:
+        run = make_minimal_run()
+        first = Paper(source=PaperSource(title="First", arxiv_id="2608.00001v2"))
+        second = Paper(
+            source=PaperSource(
+                title="Second", arxiv_id="https://arxiv.org/pdf/2608.00001.pdf"
+            )
+        )
+        run.papers = {first.id: first, second.id: second}
+
+        with self.assertRaisesRegex(DomainValidationError, "share stable identifier"):
+            validate_run(run)
+
+    def test_exact_canonical_url_collision_is_rejected(self) -> None:
+        run = make_minimal_run()
+        first = Paper(
+            source=PaperSource(title="First", canonical_url="https://example.org/Paper")
+        )
+        second = Paper(
+            source=PaperSource(
+                title="Second", canonical_url="  https://example.org/Paper  "
+            )
+        )
+        run.papers = {first.id: first, second.id: second}
+
+        with self.assertRaisesRegex(DomainValidationError, "share stable identifier"):
+            validate_run(run)
+
+    def test_canonical_url_path_case_is_not_normalized(self) -> None:
+        run = make_minimal_run()
+        first = Paper(
+            source=PaperSource(title="First", canonical_url="https://example.org/Paper")
+        )
+        second = Paper(
+            source=PaperSource(
+                title="Second", canonical_url="https://example.org/paper"
+            )
+        )
+        run.papers = {first.id: first, second.id: second}
+
+        validate_run(run)
+
+    def test_other_identifiers_do_not_trigger_automatic_collision(self) -> None:
+        run = make_minimal_run()
+        first = Paper(
+            source=PaperSource(
+                title="First", other_identifiers={"provider_key": "Paper-42"}
+            )
+        )
+        second = Paper(
+            source=PaperSource(
+                title="Second", other_identifiers={"provider_key": "paper-42"}
+            )
+        )
+        run.papers = {first.id: first, second.id: second}
+
+        validate_run(run)
 
     def test_naive_timestamp_is_rejected(self) -> None:
         run = make_minimal_run()
@@ -204,6 +274,93 @@ class ValidateTransitionTests(TestCase):
 
         with self.assertRaisesRegex(DomainValidationError, "is immutable"):
             validate_transition(before, after)
+
+    def test_pending_check_basis_revision_cannot_be_rewritten(self) -> None:
+        before = make_minimal_run()
+        check = add_pending_check(before)
+        after = deepcopy(before)
+        after.state_revision = 2
+        after.completion_checks[check.id].basis_revision = 2
+
+        with self.assertRaisesRegex(DomainValidationError, "request metadata"):
+            validate_transition(before, after)
+
+    def test_pending_check_contract_basis_cannot_be_rewritten(self) -> None:
+        before = make_minimal_run()
+        before.state_revision = 2
+        revised_contract = deepcopy(before.contract.revisions[0].contract)
+        revised_contract.mission = "Refined bounded question"
+        before.contract.revisions.append(
+            ContractRevision(
+                revision=2,
+                contract=revised_contract,
+                reason="Refine the mission",
+                recorded_at=NOW,
+            )
+        )
+        before.contract.current_revision = 2
+        check = add_pending_check(before)
+        after = deepcopy(before)
+        after.state_revision = 3
+        after.completion_checks[check.id].basis_contract_revision = 1
+
+        with self.assertRaisesRegex(DomainValidationError, "request metadata"):
+            validate_transition(before, after)
+
+    def test_pending_check_requested_at_cannot_be_rewritten(self) -> None:
+        before = make_minimal_run()
+        check = add_pending_check(before)
+        after = deepcopy(before)
+        after.state_revision = 2
+        after.completion_checks[check.id].requested_at = datetime(
+            2026, 8, 11, 9, 30, tzinfo=timezone.utc
+        )
+
+        with self.assertRaisesRegex(DomainValidationError, "request metadata"):
+            validate_transition(before, after)
+
+    def test_pending_check_rationale_cannot_be_rewritten(self) -> None:
+        before = make_minimal_run()
+        check = add_pending_check(before)
+        after = deepcopy(before)
+        after.state_revision = 2
+        after.completion_checks[check.id].requester_rationale = "Changed rationale"
+
+        with self.assertRaisesRegex(DomainValidationError, "request metadata"):
+            validate_transition(before, after)
+
+    def test_pending_check_cannot_be_deleted(self) -> None:
+        before = make_minimal_run()
+        check = add_pending_check(before)
+        after = deepcopy(before)
+        after.state_revision = 2
+        after.lifecycle = LifecycleMode.RESEARCH
+        del after.completion_checks[check.id]
+
+        with self.assertRaisesRegex(DomainValidationError, "cannot be deleted"):
+            validate_transition(before, after)
+
+    def test_pending_check_can_complete_without_changing_request_metadata(self) -> None:
+        before = make_minimal_run()
+        check = add_pending_check(before)
+        after = deepcopy(before)
+        after.state_revision = 2
+        after.lifecycle = LifecycleMode.RESEARCH
+        proposed_check = after.completion_checks[check.id]
+        proposed_check.verdict = CompletionVerdict.CONTINUE
+        proposed_check.reasons = ("More research is needed",)
+        proposed_check.completed_at = NOW
+
+        validate_transition(before, after)
+
+    def test_pending_check_can_remain_during_resource_transition(self) -> None:
+        before = make_minimal_run()
+        add_pending_check(before)
+        after = deepcopy(before)
+        after.state_revision = 2
+        after.resources.usage["source_requests"] = 1
+
+        validate_transition(before, after)
 
     def test_investigation_gap_cannot_be_deleted(self) -> None:
         before = make_minimal_run()

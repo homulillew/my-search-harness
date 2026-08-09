@@ -169,6 +169,21 @@ class JsonResearchRunRepositoryTests(TestCase):
         with self.assertRaises(RunAlreadyExistsError):
             self.repository.create(run)
 
+    def test_create_recovers_from_interrupted_directory_setup(self) -> None:
+        for stale_temporary_exists in (False, True):
+            with self.subTest(stale_temporary_exists=stale_temporary_exists):
+                run = make_minimal_run()
+                run_directory = self.root / run.id
+                run_directory.mkdir()
+                temporary_path = run_directory / "state.json.tmp"
+                if stale_temporary_exists:
+                    temporary_path.write_text("incomplete", encoding="utf-8")
+
+                self.repository.create(run)
+
+                self.assertEqual(run, self.repository.load(run.id))
+                self.assertFalse(temporary_path.exists())
+
     def test_stale_expected_revision_is_rejected(self) -> None:
         run = make_minimal_run()
         self.repository.create(run)
