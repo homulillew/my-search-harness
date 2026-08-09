@@ -32,7 +32,7 @@ from .commands import (
     ResearchPut,
     RetainPapersResult,
 )
-from .deepxiv import DeepXivPaperSearchProvider
+from .deepxiv import DeepXivPaperSearchProvider, DeepXivSourceAccessProvider
 from .paper_search import (
     PaperSearchAttemptError,
     PaperSearchConfigurationError,
@@ -49,6 +49,20 @@ from .persistence import (
     RevisionConflictError,
     RunAlreadyExistsError,
     RunNotFoundError,
+)
+from .source_access import (
+    InspectSourceResult,
+    ReadSourceResult,
+    SourceAccessAttemptError,
+    SourceAccessConfigurationError,
+    SourceAccessFailureKind,
+    SourceAccessProvider,
+    SourceAccessProviderError,
+    SourceAccessRejectedError,
+    SourceAccessService,
+    SourceContent,
+    SourceOutline,
+    SourceOutlineEntry,
 )
 from .delivery import (
     CloseRunResult,
@@ -70,6 +84,8 @@ __all__ = [
     "DeliveryCommands",
     "DeliveryValidationResult",
     "DeepXivPaperSearchProvider",
+    "DeepXivSourceAccessProvider",
+    "InspectSourceResult",
     "JsonResearchRunRepository",
     "LocalArtifactStore",
     "NewBlockingGap",
@@ -98,6 +114,17 @@ __all__ = [
     "RunAlreadyExistsError",
     "RunNotFoundError",
     "RetainPapersResult",
+    "ReadSourceResult",
+    "SourceAccessAttemptError",
+    "SourceAccessConfigurationError",
+    "SourceAccessFailureKind",
+    "SourceAccessProvider",
+    "SourceAccessProviderError",
+    "SourceAccessRejectedError",
+    "SourceAccessService",
+    "SourceContent",
+    "SourceOutline",
+    "SourceOutlineEntry",
     "delivery_basis_from_dict",
     "delivery_basis_to_dict",
     "run_from_dict",

@@ -1,4 +1,4 @@
-"""DeepXiv SDK adapter for the arXiv paper search capability."""
+"""DeepXiv SDK adapters for arXiv paper search and primary-source access."""
 
 from __future__ import annotations
 
@@ -10,16 +10,32 @@ from typing import NoReturn, Protocol
 from deepxiv_sdk import (  # type: ignore[import-untyped]
     APIError,
     AuthenticationError,
+    BadRequestError,
+    NotFoundError,
     RateLimitError,
     Reader,
     ServerError,
 )
+
+from my_search_harness.domain.model import (
+    PaperSource,
+    SourceLocator,
+)
+from my_search_harness.domain.paper_identity import normalize_arxiv_id
 
 from .paper_search import (
     PaperSearchConfigurationError,
     PaperSearchHit,
     PaperSearchProviderError,
     ProviderFailureKind,
+)
+from .source_access import (
+    SourceAccessConfigurationError,
+    SourceAccessFailureKind,
+    SourceAccessProviderError,
+    SourceContent,
+    SourceOutline,
+    SourceOutlineEntry,
 )
 
 
@@ -31,6 +47,12 @@ class _Reader(Protocol):
         size: int,
         source: str,
     ) -> object: ...
+
+    def head(self, arxiv_id: str) -> object: ...
+
+    def section(self, arxiv_id: str, section_name: str) -> object: ...
+
+    def raw(self, arxiv_id: str) -> object: ...
 
 
 ReaderFactory = Callable[..., _Reader]
@@ -232,4 +254,242 @@ class DeepXivPaperSearchProvider:
         raise PaperSearchProviderError(
             ProviderFailureKind.INVALID_RESPONSE,
             f"invalid paper search provider response: {message}",
+        )
+
+
+class DeepXivSourceAccessProvider:
+    """Translate DeepXiv progressive reading into stable source semantics."""
+
+    def __init__(
+        self,
+        token: str,
+        *,
+        reader_factory: ReaderFactory = Reader,
+    ) -> None:
+        if not isinstance(token, str) or not token.strip():
+            raise SourceAccessConfigurationError("DEEPXIV_TOKEN is required")
+        self._reader = reader_factory(token=token.strip(), max_retries=0)
+
+    @classmethod
+    def from_env(
+        cls,
+        *,
+        reader_factory: ReaderFactory = Reader,
+    ) -> DeepXivSourceAccessProvider:
+        token = os.environ.get("DEEPXIV_TOKEN")
+        if token is None or not token.strip():
+            raise SourceAccessConfigurationError("DEEPXIV_TOKEN is required")
+        return cls(token, reader_factory=reader_factory)
+
+    def validate_inspect(self, source: PaperSource) -> None:
+        self._arxiv_id(source)
+
+    def validate_read(
+        self,
+        source: PaperSource,
+        locator: SourceLocator | None,
+    ) -> None:
+        self._arxiv_id(source)
+        if locator is not None and locator.kind.casefold() != "section":
+            raise SourceAccessProviderError(
+                SourceAccessFailureKind.UNSUPPORTED_LOCATOR,
+                f"DeepXiv does not support locator kind {locator.kind!r}",
+            )
+
+    def inspect_source(
+        self,
+        paper_ref: str,
+        source: PaperSource,
+    ) -> SourceOutline:
+        arxiv_id = self._arxiv_id(source)
+        try:
+            response = self._reader.head(arxiv_id)
+        except (NotFoundError, BadRequestError):
+            self._source_unavailable("paper source is not available from DeepXiv")
+        except (AuthenticationError, RateLimitError, ServerError, APIError):
+            self._source_unavailable("DeepXiv source access failed")
+        except Exception:
+            self._source_unavailable("DeepXiv source access failed unexpectedly")
+        return self._map_outline(paper_ref, response)
+
+    def read_source(
+        self,
+        paper_ref: str,
+        source: PaperSource,
+        locator: SourceLocator | None,
+    ) -> SourceContent:
+        arxiv_id = self._arxiv_id(source)
+        if locator is None:
+            content = self._read_full(arxiv_id)
+            return SourceContent(
+                paper_ref=paper_ref,
+                locator=None,
+                content=content,
+            )
+
+        self.validate_read(source, locator)
+        actual_section = self._resolve_section(arxiv_id, locator.value)
+        try:
+            response = self._reader.section(arxiv_id, actual_section)
+        except ValueError:
+            raise SourceAccessProviderError(
+                SourceAccessFailureKind.LOCATOR_NOT_FOUND,
+                f"section {locator.value!r} was not found",
+            ) from None
+        except (NotFoundError, BadRequestError):
+            self._source_unavailable("paper source is not available from DeepXiv")
+        except (AuthenticationError, RateLimitError, ServerError, APIError):
+            self._source_unavailable("DeepXiv source access failed")
+        except Exception:
+            self._source_unavailable("DeepXiv source access failed unexpectedly")
+
+        content = self._source_text(response, "section content")
+        return SourceContent(
+            paper_ref=paper_ref,
+            locator=SourceLocator(kind="section", value=actual_section),
+            content=content,
+        )
+
+    def _read_full(self, arxiv_id: str) -> str:
+        try:
+            response = self._reader.raw(arxiv_id)
+        except (NotFoundError, BadRequestError):
+            self._source_unavailable("paper source is not available from DeepXiv")
+        except (AuthenticationError, RateLimitError, ServerError, APIError):
+            self._source_unavailable("DeepXiv source access failed")
+        except Exception:
+            self._source_unavailable("DeepXiv source access failed unexpectedly")
+        return self._source_text(response, "full source content")
+
+    def _resolve_section(self, arxiv_id: str, requested: str) -> str:
+        try:
+            response = self._reader.head(arxiv_id)
+        except (NotFoundError, BadRequestError):
+            self._source_unavailable("paper source is not available from DeepXiv")
+        except (AuthenticationError, RateLimitError, ServerError, APIError):
+            self._source_unavailable("DeepXiv source access failed")
+        except Exception:
+            self._source_unavailable("DeepXiv source access failed unexpectedly")
+
+        names, _ = self._outline_values(response)
+        requested_key = requested.strip().casefold()
+        exact = [name for name in names if name.casefold() == requested_key]
+        if len(exact) == 1:
+            return exact[0]
+
+        partial = [
+            name
+            for name in names
+            if requested_key in self._section_label(name).casefold()
+        ]
+        if len(partial) == 1:
+            return partial[0]
+        raise SourceAccessProviderError(
+            SourceAccessFailureKind.LOCATOR_NOT_FOUND,
+            f"section {requested!r} was not found unambiguously",
+        )
+
+    @classmethod
+    def _map_outline(cls, paper_ref: str, response: object) -> SourceOutline:
+        names, total_tokens = cls._outline_values(response)
+        return SourceOutline(
+            paper_ref=paper_ref,
+            sections=tuple(
+                SourceOutlineEntry(
+                    title=name,
+                    locator=SourceLocator(kind="section", value=name),
+                )
+                for name in names
+            ),
+            total_tokens=total_tokens,
+        )
+
+    @classmethod
+    def _outline_values(cls, response: object) -> tuple[tuple[str, ...], int | None]:
+        if not isinstance(response, Mapping):
+            cls._invalid_source_response("head response must be an object")
+        if "sections" not in response:
+            cls._invalid_source_response("head response must contain sections")
+        raw_sections = response.get("sections")
+        names: list[str] = []
+        if isinstance(raw_sections, Mapping):
+            for name in raw_sections:
+                names.append(cls._required_source_string(name, "section name"))
+        elif isinstance(raw_sections, list):
+            for index, item in enumerate(raw_sections):
+                if isinstance(item, str):
+                    name = item
+                elif isinstance(item, Mapping):
+                    name = item.get("name")
+                else:
+                    cls._invalid_source_response(
+                        f"sections[{index}] must be a string or object"
+                    )
+                names.append(
+                    cls._required_source_string(name, f"sections[{index}].name")
+                )
+        else:
+            cls._invalid_source_response("sections must be an object or array")
+
+        if len({name.casefold() for name in names}) != len(names):
+            cls._invalid_source_response("section names must be unique")
+
+        total_tokens = response.get("token_count")
+        if total_tokens is not None and (
+            not isinstance(total_tokens, int)
+            or isinstance(total_tokens, bool)
+            or total_tokens < 0
+        ):
+            cls._invalid_source_response(
+                "token_count must be a non-negative integer or null"
+            )
+        return tuple(names), total_tokens
+
+    @staticmethod
+    def _section_label(value: str) -> str:
+        label = value.strip()
+        prefix, separator, remainder = label.partition(" ")
+        if separator and prefix.rstrip(".").replace(".", "").isdigit():
+            return remainder.strip()
+        return label
+
+    @classmethod
+    def _arxiv_id(cls, source: PaperSource) -> str:
+        if not isinstance(source, PaperSource) or source.arxiv_id is None:
+            raise SourceAccessProviderError(
+                SourceAccessFailureKind.SOURCE_UNAVAILABLE,
+                "DeepXiv source access requires an arXiv identifier",
+            )
+        normalized = normalize_arxiv_id(source.arxiv_id)
+        if not normalized:
+            raise SourceAccessProviderError(
+                SourceAccessFailureKind.SOURCE_UNAVAILABLE,
+                "DeepXiv source access requires a non-empty arXiv identifier",
+            )
+        return normalized
+
+    @classmethod
+    def _source_text(cls, value: object, path: str) -> str:
+        if not isinstance(value, str) or not value.strip():
+            cls._invalid_source_response(f"{path} must be non-empty text")
+        return value
+
+    @classmethod
+    def _required_source_string(cls, value: object, path: str) -> str:
+        if not isinstance(value, str) or not value.strip():
+            cls._invalid_source_response(f"{path} must be a non-empty string")
+        return value.strip()
+
+    @staticmethod
+    def _source_unavailable(message: str) -> NoReturn:
+        raise SourceAccessProviderError(
+            SourceAccessFailureKind.SOURCE_UNAVAILABLE,
+            message,
+        ) from None
+
+    @staticmethod
+    def _invalid_source_response(message: str) -> NoReturn:
+        raise SourceAccessProviderError(
+            SourceAccessFailureKind.INVALID_RESPONSE,
+            f"invalid source provider response: {message}",
         )
