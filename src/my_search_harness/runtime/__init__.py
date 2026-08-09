@@ -43,6 +43,14 @@ from .capabilities import (
     RuntimeCapabilities,
     build_runtime_capabilities,
 )
+from .completion_runtime import (
+    CompletionCheckDecision,
+    CompletionCheckRuntime,
+    CompletionEvidenceAccess,
+    CompletionOrchestrationError,
+    FreshCompletionChecker,
+    FreshCompletionCheckerFactory,
+)
 from .context import (
     ApproachContext,
     CompletionFeedbackContext,
@@ -119,6 +127,10 @@ __all__ = [
     "CompletionSubmissionResult",
     "CompletionFeedbackContext",
     "CompletionCheckerCapabilities",
+    "CompletionCheckDecision",
+    "CompletionCheckRuntime",
+    "CompletionEvidenceAccess",
+    "CompletionOrchestrationError",
     "CompletionView",
     "ContextContinuation",
     "ContextLimitExceededError",
@@ -191,6 +203,8 @@ __all__ = [
     "SourceOutlineEntry",
     "StableRefNotFoundError",
     "FindingContext",
+    "FreshCompletionChecker",
+    "FreshCompletionCheckerFactory",
     "GapContext",
     "build_runtime_capabilities",
     "delivery_basis_from_dict",
