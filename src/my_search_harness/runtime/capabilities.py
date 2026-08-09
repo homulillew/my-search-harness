@@ -15,6 +15,7 @@ from my_search_harness.domain.model import (
 )
 
 from .artifacts import LocalArtifactStore
+from .audit import AuditSink, LocalAuditLog
 from .commands import (
     BlockingGapSpec,
     CompletionSubmissionResult,
@@ -522,17 +523,33 @@ def build_runtime_capabilities(
     paper_search_provider: PaperSearchProvider | None,
     source_access_provider: SourceAccessProvider | None,
     context_limits: ContextLimits = ContextLimits(),
+    audit_sink: AuditSink | None = None,
 ) -> RuntimeCapabilities:
     """Compose narrow façades while keeping persistence primitives internal."""
 
-    research_commands = ResearchCommands(repository)
-    source_access = SourceAccessService(repository, source_access_provider)
+    effective_audit_sink = (
+        audit_sink if audit_sink is not None else LocalAuditLog(repository.root)
+    )
+    research_commands = ResearchCommands(repository, effective_audit_sink)
+    source_access = SourceAccessService(
+        repository,
+        source_access_provider,
+        effective_audit_sink,
+    )
     context = ContextProjectionService(repository, limits=context_limits)
-    delivery_commands = DeliveryCommands(repository, artifact_store)
+    delivery_commands = DeliveryCommands(
+        repository,
+        artifact_store,
+        effective_audit_sink,
+    )
     return RuntimeCapabilities(
         researcher=ResearcherCapabilities(
             research_commands,
-            PaperSearchService(repository, paper_search_provider),
+            PaperSearchService(
+                repository,
+                paper_search_provider,
+                effective_audit_sink,
+            ),
             source_access,
             context,
             repository,
