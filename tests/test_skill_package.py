@@ -52,7 +52,6 @@ class SkillLayoutTests(TestCase):
             "references/RUNTIME_API.md",
             "references/COMPLETION_GUIDE.md",
             "references/REPORT_WRITING_GUIDE.md",
-            "examples/technical-route-survey.md",
             "scripts/harness",
             "scripts/harness.py",
             "scripts/doctor.py",
@@ -72,11 +71,45 @@ class SkillLayoutTests(TestCase):
             "RUNTIME_API.md",
             "COMPLETION_GUIDE.md",
             "REPORT_WRITING_GUIDE.md",
-            "technical-route-survey.md",
         ):
             self.assertIn(name, content)
         self.assertIn("${CLAUDE_SKILL_DIR}", content)
         self.assertNotIn(str(ROOT), content)
+
+    def test_skill_does_not_depend_on_a_report_example(self) -> None:
+        retired_example = "technical-" + "route-survey.md"
+        for relative in ("SKILL.md", "README.md"):
+            with self.subTest(relative=relative):
+                content = (SKILL / relative).read_text(encoding="utf-8")
+                self.assertNotIn(retired_example, content)
+
+    def test_completion_policy_matches_checker_authority(self) -> None:
+        content = (SKILL / "references" / "COMPLETION_GUIDE.md").read_text(
+            encoding="utf-8"
+        )
+        for researcher_process in (
+            "audit-" + "history",
+            "explicit date-filtered searches",
+            "pagination beyond",
+        ):
+            self.assertNotIn(researcher_process, content)
+        self.assertIn("frontier coverage", content)
+        self.assertIn("Recent primary work", content)
+        self.assertIn(
+            "may challenge current knowledge, but does not repair it", content
+        )
+
+    def test_workspace_documentation_keeps_data_outside_skill_installation(
+        self,
+    ) -> None:
+        skill = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+        standalone_readme = (SKILL / "README.md").read_text(encoding="utf-8")
+        root_readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        normalized_standalone = " ".join(standalone_readme.split())
+        self.assertNotIn("$PWD/workspace", standalone_readme)
+        self.assertNotIn("$PWD/workspace", root_readme)
+        self.assertIn("never inside the skill directory", skill)
+        self.assertIn("outside the Skill installation directory", normalized_standalone)
 
     def test_guide_is_complete_and_is_the_only_tracked_guide(self) -> None:
         guides = tuple(
@@ -374,6 +407,11 @@ class StandalonePackageTests(TestCase):
             destination = packager.package_skill(fixture_root)
 
             self.assertTrue((destination / "SKILL.md").is_file())
+            retired_example = "technical-" + "route-survey.md"
+            self.assertFalse((destination / "examples").exists())
+            self.assertFalse(
+                any(path.name == retired_example for path in destination.rglob("*"))
+            )
             self.assertEqual(
                 (destination / "runtime" / "requirements.txt").read_text(
                     encoding="utf-8"

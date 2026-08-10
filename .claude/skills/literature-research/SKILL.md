@@ -26,8 +26,6 @@ Read only the supporting material needed for the current stage:
   boundary and PASS / CONTINUE / UNCERTAIN criteria.
 - [Report writing guide](references/REPORT_WRITING_GUIDE.md): the authoritative style
   and editorial standard used by all semantic writing stages.
-- [Example technical-route survey](examples/technical-route-survey.md): a compact
-  accepted example of synthesis, method hyperlinks, evidence boundaries, and prose.
 
 ## Start from the request
 
@@ -145,6 +143,15 @@ For a deep technical-route survey, normally seek multiple query formulations, mo
 than one representative method per major route where the literature permits it,
 seminal and frontier evidence, competing results, deployment conditions, and explicit
 unknowns. These are exploration heuristics, never mechanical completion thresholds.
+
+For an explicitly deep or comprehensive technical-route survey, a corpus of only a
+few investigated papers is normally insufficient unless the scope is genuinely narrow.
+Tens of deduplicated search candidates across multiple adaptive searches are a normal
+exploration scale for a broad field survey. Before requesting Completion from a much
+smaller corpus, the Researcher must be able to explain from the Contract and current
+landscape why the scope is narrow enough that additional search is unlikely to reveal
+a major route, representative method, disagreement, or recent frontier development.
+This is workload guidance, not a paper-count or Completion threshold.
 
 ## Resume from authoritative state
 

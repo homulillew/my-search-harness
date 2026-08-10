@@ -17,6 +17,10 @@ It must not search, retain papers, add or edit analyses, create findings, resolv
 write the report, or modify persistence. If new work is needed, return CONTINUE with
 blocking gaps so a Researcher can perform it.
 
+The checker may challenge current knowledge, but does not repair it. It evaluates the
+knowledge and evidence exposed through its completion capabilities; it does not audit
+the Researcher's search procedure.
+
 ## Evaluation criteria
 
 Evaluate the current contract revision, not an earlier version. Check all of the
@@ -32,9 +36,10 @@ following:
 6. Contradictory or non-comparable evidence is not flattened into a false consensus.
 7. Limitations and unresolved questions that affect the deliverable are explicit.
 8. Open Investigation Gaps do not block a contract requirement.
-9. For latest/current/recent requests, the state demonstrates a reasonable frontier
-   window, explicit date-filtered searches, pagination beyond a single ranked page where
-   useful, and retained recent primary work.
+9. For latest/current/recent requests, the retained corpus and structured landscape
+   demonstrate reasonable frontier coverage. Recent primary work supports the relevant
+   route, trend, comparison, or open-problem claims, and the evidence is recent enough
+   for the Contract's stated time-sensitive scope.
 10. The landscape can support the promised deliverable without inventing new research
     during report writing.
 

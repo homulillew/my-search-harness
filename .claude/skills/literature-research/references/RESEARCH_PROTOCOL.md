@@ -32,8 +32,9 @@ Structured synthesis makes knowledge recoverable. Completion is a separate judgm
 ## Discovery and frontier coverage
 
 Use broad discovery to learn field vocabulary, seminal work, surveys, major mechanism
-families, and known disagreements. Use multiple routes: problem terms, method names,
-benchmark names, influential authors, and limitations can expose different literature.
+families, and known disagreements. Use multiple query formulations and routes: problem
+terms, method names, benchmark names, influential authors, and limitations can expose
+different literature.
 
 For latest/current/recent requests, add frontier searches with explicit dates. Choose a
 window appropriate to the field and user intent. Search the first page and later offsets;
@@ -42,6 +43,18 @@ ranking without date filters is not evidence of recency coverage.
 
 Search results are observations. Retain only candidates useful for the current contract,
 and do so explicitly. Arbitrary provider identifiers do not establish paper identity.
+
+A field-level deep survey normally progresses from broad discovery to route discovery,
+route-specific expansion, frontier search, and gap-driven follow-up. For a broad field,
+multiple searches, tens of unique candidate observations, and multiple retained
+representatives for important routes where useful are a normal workload. A genuinely
+narrow scope may justify less exploration, but the Researcher should be able to explain
+why further search is unlikely to reveal a major route, disagreement, or recent
+development. No fixed paper count proves completion.
+
+Search history helps the Researcher judge exploration quality and resume work. It is
+operational evidence for planning, not an additional authority available to the
+Completion Checker.
 
 ## Evidence acquisition
 
@@ -84,7 +97,7 @@ view state again, never as permission to alter persistence directly.
 
 The run workspace is authoritative. Conversation history, scratch notes, and search hit
 output are not. Resume by viewing state, inspecting stable references, reading current
-open gaps, and consulting audit history for external attempt parameters.
+open gaps, and consulting `audit-history` for external attempt parameters.
 
 ## Completion and delivery
 
@@ -106,5 +119,5 @@ On a resumed run:
 2. Record the current revision and current contract revision.
 3. Inspect open gaps and latest completion feedback.
 4. Inspect relevant approaches, findings, problems, and papers.
-5. Review audit history for search terms, date filters, offsets, and failed attempts.
+5. Call `audit-history` to review search terms, date filters, offsets, and failed attempts.
 6. Select the next evidence need; do not repeat the previous session mechanically.

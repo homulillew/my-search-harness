@@ -6,11 +6,6 @@ whether to request completion, and how to write. Python enforces lifecycle autho
 stable references, revision-safe commands, provenance, accounting, persistence,
 citations, and artifact validation.
 
-The included example is a compact Chinese survey of speculative decoding. It was chosen
-because it demonstrates route-level synthesis, primary-paper navigation links, close
-citations, experimental qualifications, and explicit unknowns without pretending to be
-a new large-scale acceptance run.
-
 ## Install a standalone export
 
 ```bash
@@ -25,10 +20,16 @@ Do not put the token in the skill, a JSON input file, `.env`, or shell script.
 Check the installation:
 
 ```bash
-./scripts/doctor.py --workspace "$PWD/workspace"
+mkdir -p ~/literature-research-workspace
+./scripts/doctor.py --workspace ~/literature-research-workspace
 ```
 
-Then start Claude Code and invoke:
+Runtime workspace is user or project data and must remain outside the Skill installation
+directory. A project may instead use its own `workspace/` directory.
+
+Return to the project where the research data should live before starting Claude Code;
+do not use a relative `workspace/` while the Skill installation directory is the current
+directory. Then invoke:
 
 ```text
 /literature-research 调研 LLM KV Cache 优化的主要技术路线和最新进展
@@ -57,7 +58,6 @@ not committed.
 literature-research/
 ├── SKILL.md
 ├── README.md
-├── examples/
 ├── references/
 ├── scripts/
 └── runtime/

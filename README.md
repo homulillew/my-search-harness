@@ -45,11 +45,17 @@ cp -R dist/literature-research ~/.claude/skills/literature-research
 cd ~/.claude/skills/literature-research
 ./scripts/setup.sh
 export DEEPXIV_TOKEN=...
-./scripts/doctor.py --workspace "$PWD/workspace"
+mkdir -p ~/literature-research-workspace
+./scripts/doctor.py --workspace ~/literature-research-workspace
 ```
 
 The export bundles `src/my_search_harness` at build time. The repository keeps only one
 tracked Runtime source tree; generated `dist/` content is never committed.
+
+In project-local mode, the repository's `workspace/` is valid project data. In
+standalone mode, use a workspace outside the Skill installation directory, such as
+`~/literature-research-workspace` or the active project's own `workspace/`. Runtime
+workspace is user or project data, not Skill installation data.
 
 ## Architecture
 
