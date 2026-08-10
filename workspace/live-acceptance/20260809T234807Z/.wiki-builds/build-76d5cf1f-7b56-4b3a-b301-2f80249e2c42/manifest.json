@@ -1,0 +1,70 @@
+{
+  "pages": [
+    {
+      "content_sha256": "04743ed5d03afd3a0b6672170a3b257ae4ac71e6033b42b756469e90c6bfeaac",
+      "contributing_refs": [
+        {
+          "research_ref": "approach_5917b8c9-0c46-4cde-a8ad-b11b7a155224",
+          "run_id": "run_5131b473-0347-4968-a61a-f6667f573892"
+        },
+        {
+          "research_ref": "approach_90677ee4-8194-45c4-999e-0f558e54794c",
+          "run_id": "run_5131b473-0347-4968-a61a-f6667f573892"
+        },
+        {
+          "research_ref": "approach_fbbfd707-9d4c-4eb1-b868-8dd418f7c083",
+          "run_id": "run_5131b473-0347-4968-a61a-f6667f573892"
+        },
+        {
+          "research_ref": "finding_508397d6-949f-4840-8683-06b174f7e813",
+          "run_id": "run_5131b473-0347-4968-a61a-f6667f573892"
+        },
+        {
+          "research_ref": "finding_7531255c-c493-40eb-b811-c1df518da9b0",
+          "run_id": "run_5131b473-0347-4968-a61a-f6667f573892"
+        },
+        {
+          "research_ref": "finding_b8bb8e82-c8dd-46be-98a3-b7c93b68ee11",
+          "run_id": "run_5131b473-0347-4968-a61a-f6667f573892"
+        },
+        {
+          "research_ref": "finding_cd51eb16-85d1-4eaa-b252-9b7a82fd009c",
+          "run_id": "run_5131b473-0347-4968-a61a-f6667f573892"
+        },
+        {
+          "research_ref": "finding_e4aa2198-10fe-4920-9318-e36196b79ab8",
+          "run_id": "run_5131b473-0347-4968-a61a-f6667f573892"
+        },
+        {
+          "research_ref": "problem_1ec31dad-7ccc-49e1-a5cd-4f36c2388e3b",
+          "run_id": "run_5131b473-0347-4968-a61a-f6667f573892"
+        },
+        {
+          "research_ref": "problem_d90a1b5c-53c2-4b5c-aedd-6aeb3b4560f1",
+          "run_id": "run_5131b473-0347-4968-a61a-f6667f573892"
+        },
+        {
+          "research_ref": "paper_36168f54-67a2-43c3-a65e-295c505b3574",
+          "run_id": "run_5131b473-0347-4968-a61a-f6667f573892"
+        },
+        {
+          "research_ref": "paper_364fb8ed-01b6-4364-9e5e-801b88f56e16",
+          "run_id": "run_5131b473-0347-4968-a61a-f6667f573892"
+        },
+        {
+          "research_ref": "paper_6a658c88-e68f-4414-9356-cc0b1a25777e",
+          "run_id": "run_5131b473-0347-4968-a61a-f6667f573892"
+        }
+      ],
+      "path": "pages/speculative-decoding.md",
+      "title": "Speculative Decoding"
+    }
+  ],
+  "schema_version": 1,
+  "source_runs": [
+    {
+      "run_id": "run_5131b473-0347-4968-a61a-f6667f573892",
+      "state_revision": 31
+    }
+  ]
+}
