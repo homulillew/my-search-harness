@@ -1,0 +1,46 @@
+{
+  "recorded_at": "2026-08-10T00:33:48Z",
+  "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79",
+  "state_revision": 55,
+  "lifecycle": "RESEARCH",
+  "recovery_basis": [
+    "ResearcherCapabilities.view",
+    "ResearcherCapabilities.inspect",
+    "persisted workspace observations and audit events"
+  ],
+  "contract": {
+    "contract_revision": 1,
+    "mission": "理解 LLM inference 中 KV Cache 优化的主要技术路线，以及不同路线如何在 memory、latency、throughput、quality 与部署复杂度之间进行权衡。",
+    "requirement_count": 10,
+    "scope_summary": "Transformer/LLM inference-time KV Cache, primarily DeepXiv-accessible arXiv primary papers; non-KV serving and general model optimization are out of scope.",
+    "deliverable": "Chinese mechanism-organized survey with primary papers, comparisons, route relations, limitations, open problems, and traceable citations."
+  },
+  "route_map": [
+    "Token-selective retention and bounded attention",
+    "Low-bit numerical KV representation",
+    "KV reuse, transfer encoding, and memory hierarchy"
+  ],
+  "retained_papers": 12,
+  "analyzed_papers": 6,
+  "analyzed_arxiv_ids": [
+    "2306.14048",
+    "2309.17453",
+    "2404.14469",
+    "2402.02750",
+    "2401.18079",
+    "2310.07240"
+  ],
+  "open_gaps": [
+    "Analyze CLA, MLKV, and the predefined-capacity model to establish architecture-changing routes.",
+    "Analyze LMCache and find representative paged/prefix-cache or heterogeneous-memory primary work.",
+    "Analyze XKV and MiniKV to classify layer/head-adaptive allocation and hybrid eviction-plus-quantization.",
+    "Find an independent primary limitation study or challenging benchmark for reasoning and long-generation failures."
+  ],
+  "search_history_recovery": {
+    "native_state_contains_queries": false,
+    "native_audit_contains_queries": false,
+    "operational_observations_contain_queries": true,
+    "recovered_prior_query_count": 4,
+    "impact": "The missing native query strings do not block this resume because the four prior queries survive in ignored operational observations and the authoritative gaps identify what to search next. It would reduce portability if those operational files were lost."
+  }
+}

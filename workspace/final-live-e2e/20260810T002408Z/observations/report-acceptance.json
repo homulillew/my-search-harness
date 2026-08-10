@@ -1,0 +1,81 @@
+{
+  "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79",
+  "report_path": "/data/WSH/my-search-harness/workspace/final-live-e2e/20260810T002408Z/runs/run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79/artifacts/report.md",
+  "report_characters": 12444,
+  "report_cjk_characters": 4971,
+  "citation_occurrences": 49,
+  "bibliography_entries": 14,
+  "report_sha256": "2bacc44f805c61158ab6aef69a1820530466a27f7dc747aeb501dd83339bcaaa",
+  "artifact_metadata": {
+    "artifact_kind": "REPORT",
+    "content_sha256": "2bacc44f805c61158ab6aef69a1820530466a27f7dc747aeb501dd83339bcaaa",
+    "delivery_basis": {
+      "completion_check_ref": "check_d8e26b18-81df-4d64-b859-4d367b1442f6",
+      "type": "completion_pass"
+    }
+  },
+  "guide_path": "/data/WSH/my-search-harness/.vibe/REPORT_WRITING_GUIDE.md",
+  "guide_characters": 2783,
+  "guide_sha256": "b047578608ec81ef136b65b854fc4f3f15cc9bc090143366dfa33ec4baedd7c3",
+  "writing_stages": [
+    {
+      "stage": "Narrative Planner",
+      "guide_characters": 2783,
+      "guide_sha256": "b047578608ec81ef136b65b854fc4f3f15cc9bc090143366dfa33ec4baedd7c3"
+    },
+    {
+      "stage": "Composer",
+      "guide_characters": 2783,
+      "guide_sha256": "b047578608ec81ef136b65b854fc4f3f15cc9bc090143366dfa33ec4baedd7c3"
+    },
+    {
+      "stage": "Editorial Integrator",
+      "guide_characters": 2783,
+      "guide_sha256": "b047578608ec81ef136b65b854fc4f3f15cc9bc090143366dfa33ec4baedd7c3"
+    },
+    {
+      "stage": "Fresh Editor",
+      "guide_characters": 2783,
+      "guide_sha256": "b047578608ec81ef136b65b854fc4f3f15cc9bc090143366dfa33ec4baedd7c3"
+    },
+    {
+      "stage": "Reviser",
+      "guide_characters": 2783,
+      "guide_sha256": "b047578608ec81ef136b65b854fc4f3f15cc9bc090143366dfa33ec4baedd7c3"
+    }
+  ],
+  "integrity_reviewer_received_style_guideline": false,
+  "integrity_targeted_reads": [
+    {
+      "paper": "h2o",
+      "section": "Empirical Evaluation"
+    },
+    {
+      "paper": "kivi",
+      "section": "Experiments"
+    },
+    {
+      "paper": "paged",
+      "section": "6. Evaluation"
+    },
+    {
+      "paper": "cla",
+      "section": "Discussion \\& Future Work"
+    },
+    {
+      "paper": "reasoning",
+      "section": "Experiments \\& Analysis"
+    }
+  ],
+  "editor_instances": 1,
+  "outline": [
+    "问题与比较坐标",
+    "选择性保留",
+    "低比特表示",
+    "架构共享",
+    "服务内存管理与复用",
+    "组合、边界与未决问题"
+  ],
+  "editorial_issues": [],
+  "integrity_disposition": "PASS"
+}

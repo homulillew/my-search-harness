@@ -30,7 +30,15 @@ from my_search_harness.runtime import (
 
 
 class FakePaperSearchProvider:
-    def search(self, query: str, *, limit: int) -> tuple[PaperSearchHit, ...]:
+    def search(
+        self,
+        query: str,
+        *,
+        limit: int,
+        offset: int = 0,
+        date_from: str | None = None,
+        date_to: str | None = None,
+    ) -> tuple[PaperSearchHit, ...]:
         return (
             PaperSearchHit(
                 title="Capability Paper",

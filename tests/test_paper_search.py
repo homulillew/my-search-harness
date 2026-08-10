@@ -37,11 +37,19 @@ class FakePaperSearchProvider:
     ) -> None:
         self.hits = hits
         self.failure = failure
-        self.calls: list[tuple[str, int]] = []
+        self.calls: list[tuple[str, int, int, str | None, str | None]] = []
         self.before_return: Callable[[], None] | None = None
 
-    def search(self, query: str, *, limit: int) -> tuple[PaperSearchHit, ...]:
-        self.calls.append((query, limit))
+    def search(
+        self,
+        query: str,
+        *,
+        limit: int,
+        offset: int = 0,
+        date_from: str | None = None,
+        date_to: str | None = None,
+    ) -> tuple[PaperSearchHit, ...]:
+        self.calls.append((query, limit, offset, date_from, date_to))
         if self.before_return is not None:
             self.before_return()
         if self.failure is not None:
@@ -100,7 +108,7 @@ class PaperSearchServiceTests(TestCase):
         self.assertEqual(1, run.resources.usage["paper_search_attempts"])
         self.assertEqual({}, run.papers)
         self.assertEqual({}, run.literature_landscape.findings)
-        self.assertEqual([("agentic search", 10)], provider.calls)
+        self.assertEqual([("agentic search", 10, 0, None, None)], provider.calls)
 
     def test_valid_research_search_calls_provider_once_and_accounts_attempt(
         self,
@@ -119,11 +127,37 @@ class PaperSearchServiceTests(TestCase):
         run = self.repository.load(self.run_id)
         self.assertEqual(2, result.state_revision)
         self.assertEqual((hit,), result.hits)
-        self.assertEqual([("agentic search", 3)], provider.calls)
+        self.assertEqual([("agentic search", 3, 0, None, None)], provider.calls)
         self.assertEqual(2, run.state_revision)
         self.assertEqual(1, run.resources.usage["paper_search_attempts"])
         self.assertEqual({}, run.papers)
         self.assertEqual({}, run.literature_landscape.findings)
+
+    def test_search_forwards_pagination_and_date_filters(self) -> None:
+        provider = FakePaperSearchProvider()
+
+        PaperSearchService(self.repository, provider).search_papers(
+            self.run_id,
+            1,
+            " recent cache work ",
+            limit=25,
+            offset=50,
+            date_from="2025-01-01",
+            date_to="2026-08-10",
+        )
+
+        self.assertEqual(
+            [
+                (
+                    "recent cache work",
+                    25,
+                    50,
+                    "2025-01-01",
+                    "2026-08-10",
+                )
+            ],
+            provider.calls,
+        )
 
     def test_attempt_is_persisted_before_provider_is_invoked(self) -> None:
         provider = FakePaperSearchProvider()
@@ -201,6 +235,82 @@ class PaperSearchServiceTests(TestCase):
 
                 self.assertEqual([], provider.calls)
                 self.assertEqual(before, self._state_bytes())
+
+    def test_invalid_offset_is_rejected_without_call_or_state_change(self) -> None:
+        for offset in (-1, True, 1.5, "1"):
+            with self.subTest(offset=offset):
+                provider = FakePaperSearchProvider()
+                before = self._state_bytes()
+
+                with self.assertRaisesRegex(PaperSearchRejectedError, "offset"):
+                    PaperSearchService(self.repository, provider).search_papers(
+                        self.run_id,
+                        1,
+                        "query",
+                        offset=offset,  # type: ignore[arg-type]
+                    )
+
+                self.assertEqual([], provider.calls)
+                self.assertEqual(before, self._state_bytes())
+
+    def test_invalid_dates_are_rejected_without_call_or_state_change(self) -> None:
+        for field, value in (
+            ("date_from", ""),
+            ("date_from", "2025-1-01"),
+            ("date_from", "2025-02-29"),
+            ("date_from", True),
+            ("date_to", "2026-08-10T00:00:00Z"),
+            ("date_to", " 2026-08-10"),
+            ("date_to", 20260810),
+        ):
+            with self.subTest(field=field, value=value):
+                provider = FakePaperSearchProvider()
+                before = self._state_bytes()
+                arguments = {field: value}
+
+                with self.assertRaisesRegex(PaperSearchRejectedError, field):
+                    PaperSearchService(self.repository, provider).search_papers(
+                        self.run_id,
+                        1,
+                        "query",
+                        **arguments,  # type: ignore[arg-type]
+                    )
+
+                self.assertEqual([], provider.calls)
+                self.assertEqual(before, self._state_bytes())
+
+    def test_inverted_date_range_is_rejected_without_attempt(self) -> None:
+        provider = FakePaperSearchProvider()
+        before = self._state_bytes()
+
+        with self.assertRaisesRegex(PaperSearchRejectedError, "date_from"):
+            PaperSearchService(self.repository, provider).search_papers(
+                self.run_id,
+                1,
+                "query",
+                date_from="2026-01-01",
+                date_to="2025-12-31",
+            )
+
+        self.assertEqual([], provider.calls)
+        self.assertEqual(before, self._state_bytes())
+
+    def test_equal_date_range_is_valid(self) -> None:
+        provider = FakePaperSearchProvider()
+
+        result = PaperSearchService(self.repository, provider).search_papers(
+            self.run_id,
+            1,
+            "query",
+            date_from="2026-08-10",
+            date_to="2026-08-10",
+        )
+
+        self.assertEqual(2, result.state_revision)
+        self.assertEqual(
+            [("query", 10, 0, "2026-08-10", "2026-08-10")],
+            provider.calls,
+        )
 
     def test_stale_revision_is_rejected_without_call_or_state_change(self) -> None:
         provider = FakePaperSearchProvider()

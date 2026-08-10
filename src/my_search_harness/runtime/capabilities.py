@@ -113,12 +113,18 @@ class ResearcherCapabilities:
         query: str,
         *,
         limit: int = 10,
+        offset: int = 0,
+        date_from: str | None = None,
+        date_to: str | None = None,
     ) -> PaperSearchResult:
         return self._paper_search.search_papers(
             run_id,
             expected_revision,
             query,
             limit=limit,
+            offset=offset,
+            date_from=date_from,
+            date_to=date_to,
         )
 
     def retain_papers(

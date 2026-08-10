@@ -1,0 +1,19 @@
+{
+  "main_sha": "338683592c30d024a428c8cb7ab527997936d351",
+  "deepxiv_sdk_version": "0.3.1",
+  "writing_guide_source": ".vibe/REPORT_WRITING_GUIDE.md",
+  "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79",
+  "initial_revision": 1,
+  "requirement_refs": [
+    "requirement_43fd81a5-cfa5-41d9-a9ef-b5b267b77824",
+    "requirement_bdec21f5-00c1-4e5e-a26a-9c7ec6207aa7",
+    "requirement_94f53018-fc09-4177-a5ea-77d031916b16",
+    "requirement_739574d0-1234-439b-b0f1-2532771ad69b",
+    "requirement_d3d18dc5-5248-4b15-aae3-1b9554c688b6",
+    "requirement_94c24a84-efda-49fb-af02-cbe7fe5b5a9b",
+    "requirement_bb01a139-2ccd-4f72-9ac4-651a9fc486d4",
+    "requirement_29ae7bcc-1884-4ccb-a17e-6398e693c51b",
+    "requirement_6bf430d1-bca5-4dee-b7ef-0a6199afd70a",
+    "requirement_380f214b-5ba9-455c-bd9d-3be247774b9e"
+  ]
+}

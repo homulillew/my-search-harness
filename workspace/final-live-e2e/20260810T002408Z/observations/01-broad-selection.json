@@ -1,0 +1,8 @@
+{
+  "indices": {
+    "1": "Represents cross-engine KV reuse and heterogeneous-memory offloading as a serving-layer route.",
+    "2": "Provides a layer-adaptive, inference-only cache-budget allocation mechanism for long-context memory reduction.",
+    "8": "Represents very-low-bit KV quantization combined with layer-discriminative cache policy and reports explicit quality/memory trade-offs.",
+    "9": "Represents architectural bounded-cache design, useful for separating inference-only interventions from training or architecture changes."
+  }
+}

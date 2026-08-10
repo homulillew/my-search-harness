@@ -1,0 +1,297 @@
+{
+  "round": "03-quantization",
+  "query": "LLM KV cache quantization KIVI KVQuant 2-bit per-channel per-token quality long context",
+  "purpose": "Establish the quantization route baseline, error-sensitive dimensions, and quality conditions; also observe duplicate identity behavior for MiniKV",
+  "limit": 10,
+  "state_revision": 6,
+  "hit_count": 10,
+  "hits": [
+    {
+      "title": "KIVI: A Tuning-Free Asymmetric 2bit Quantization for KV Cache",
+      "authors": [
+        "Zirui Liu",
+        "Jiayi Yuan",
+        "Hongye Jin",
+        "Shaochen (Henry) Zhong",
+        "Zhaozhuo Xu",
+        "Vladimir Braverman",
+        "Beidi Chen",
+        "Xia Hu"
+      ],
+      "publication_year": 2024,
+      "doi": null,
+      "arxiv_id": "2402.02750",
+      "canonical_url": "https://arxiv.org/abs/2402.02750",
+      "other_identifiers": {},
+      "abstract": "Efficiently serving large language models (LLMs) requires batching of many requests to reduce the cost per request. Yet, with larger batch sizes and longer context lengths, the key-value (KV) cache, which stores attention keys and values to avoid re-computations, significantly increases memory demands and becomes the new bottleneck in speed and memory usage. Additionally, the loading of the KV cache causes the computational core to be idle, which limits the inference speed. A straightforward and effective solution to reduce KV cache size is quantization, which decreases the total bytes taken by KV cache. However, there is a lack of in-depth studies that explore the element distribution of KV cache to understand the hardness and limitation of KV cache quantization. To fill the gap, we conducted a comprehensive study on the element distribution in KV cache of popular LLMs. Our findings indicate that the key cache should be quantized per-channel, i.e., group elements along the channel dimension and quantize them together. In contrast, the value cache should be quantized per-token. From this analysis, we developed a tuning-free 2bit KV cache quantization algorithm named KIVI. With hardware-friendly implementation, KIVI can enable Llama, Falcon, and Mistral models to maintain almost the same quality while using $\\\\mathbf{2.6\\\\times}$ less peak memory (including model weight). This reduction in memory usage enables up to $\\\\mathbf{4\\\\times}$ larger batch size, bringing $\\\\mathbf{2.35\\\\times \\\\sim 3.47\\\\times}$ throughput on real LLM inference workload. The source code is available at https://github.com/jy-yuan/KIVI.",
+      "provider_summary": "[research paper] KIVI introduces a tuning-free 2bit KV cache quantization method that exploits distinct element distributions in key and value caches: keys exhibit per-channel outliers requiring group-wise quantization, while values lack outliers but must be quantized per-token due to their role in attention mixing. By splitting key and value caches into grouped and residual components with hardware-aware tiling, KIVI achieves 2.6× peak memory reduction across Llama, Mistral, and Falcon models with negligible accuracy loss, enabling up to 4× larger batch sizes and 2.35×–3.47× throughput gains on real-world inference workloads.",
+      "provider_score": 1.0,
+      "citation_count": 458,
+      "categories": [
+        "cs.CL",
+        "cs.LG",
+        "cs.PF"
+      ]
+    },
+    {
+      "title": "MiniKV: Pushing the Limits of LLM Inference via 2-Bit Layer-Discriminative KV Cache",
+      "authors": [
+        "Akshat Sharma",
+        "Hangliang Ding",
+        "Jianping Li",
+        "Neel Dani",
+        "Minjia Zhang"
+      ],
+      "publication_year": 2024,
+      "doi": null,
+      "arxiv_id": "2411.18077",
+      "canonical_url": "https://arxiv.org/abs/2411.18077",
+      "other_identifiers": {},
+      "abstract": "How to efficiently serve LLMs in practice has become exceptionally challenging due to their prohibitive memory and computation requirements. In this study, we investigate optimizing the KV cache, whose memory footprint poses a critical bottleneck in LLM inference, especially when dealing with long context tasks. To tackle the challenge, we introduce MiniKV, a KV cache optimization method that simultaneously preserves long context task accuracy while significantly reducing KV cache size via a novel 2-bit layer-discriminative KV cache. More importantly, we develop specialized CUDA kernels to make MiniKV compatible with FlashAttention. Experiments on a wide range of long context tasks show that MiniKV effectively achieves 86% KV cache compression ratio while recovering over 98.5% of accuracy, outperforming state-of-the-art methods while achieving excellent measured system performance improvements.",
+      "provider_summary": "[research paper] MiniKV introduces a synergistic combination of 2-bit KV cache quantization and adaptive KV policies to achieve >80% KV cache compression in long context inference while preserving accuracy. It employs subchannel-wise key and token-wise value quantization with a pyramid-based token selection policy across layers, and develops hardware-friendly Triton kernels—including a two-pass selective FlashAttention kernel and fused unpacking/multiplication kernels—to maintain compatibility with memory-efficient attention systems and enable high throughput. Experiments on LongBench show MiniKV outperforms state-of-the-art methods in compression ratio, latency, and throughput, achieving up to 44K-token prompts and 48% higher throughput on A100 GPUs.",
+      "provider_score": 0.6666667,
+      "citation_count": 5,
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ]
+    },
+    {
+      "title": "Plug-and-Play 1.x-Bit KV Cache Quantization for Video Large Language Models",
+      "authors": [
+        "Keda Tao",
+        "Haoxuan You",
+        "Yang Sui",
+        "Can Qin",
+        "Huan Wang"
+      ],
+      "publication_year": 2025,
+      "doi": null,
+      "arxiv_id": "2503.16257",
+      "canonical_url": "https://arxiv.org/abs/2503.16257",
+      "other_identifiers": {},
+      "abstract": "Video large language models (VideoLLMs) have demonstrated the capability to process longer video inputs and enable complex reasoning and analysis. However, due to the thousands of visual tokens from the video frames, the key-value (KV) cache can significantly increase memory requirements, becoming a bottleneck for inference speed and memory usage. KV cache quantization is a widely used approach to address this problem. In this paper, we find that 2-bit KV quantization of VideoLLMs can hardly hurt the model performance, while the limit of KV cache quantization in even lower bits has not been investigated. To bridge this gap, we introduce VidKV, a plug-and-play KV cache quantization method to compress the KV cache to lower than 2 bits. Specifically, (1) for key, we propose a mixed-precision quantization strategy in the channel dimension, where we perform 2-bit quantization for anomalous channels and 1-bit quantization combined with FFT for normal channels; (2) for value, we implement 1.58-bit quantization while selectively filtering semantically salient visual tokens for targeted preservation, for a better trade-off between precision and model performance. Importantly, our findings suggest that the value cache of VideoLLMs should be quantized in a per-channel fashion instead of the per-token fashion proposed by prior KV cache quantization works for LLMs. Empirically, extensive results with LLaVA-OV-7B and Qwen2.5-VL-7B on six benchmarks show that VidKV effectively compresses the KV cache to 1.5-bit and 1.58-bit precision with almost no performance drop compared to the FP16 counterparts.",
+      "provider_summary": "[research paper] VidKV introduces a plug-and-play, low-bit KV cache quantization method for VideoLLMs that achieves 1.5-bit and 1.58-bit precision with minimal performance drop by leveraging per-channel mixed-precision quantization: 2-bit for anomalous key channels and 1-bit via FFT-based stabilization; 1.58-bit value quantization with per-channel mapping to {-1,0,1}, combined with semantic token filtering to preserve critical visual tokens. The method reveals that VideoLLM value caches exhibit per-token magnitude variation—unlike text LLMs—necessitating per-channel quantization for accuracy, and achieves 80% KV cache reduction without degradation on LLaVA-OV-7B and Qwen2.5-VL-7B.",
+      "provider_score": 0.45,
+      "citation_count": 10,
+      "categories": [
+        "cs.CV"
+      ]
+    },
+    {
+      "title": "KVQuant: Towards 10 Million Context Length LLM Inference with KV Cache Quantization",
+      "authors": [
+        "Coleman Hooper",
+        "Sehoon Kim",
+        "Hiva Mohammadzadeh",
+        "Michael W. Mahoney",
+        "Yakun Sophia Shao",
+        "Kurt Keutzer",
+        "Amir Gholami"
+      ],
+      "publication_year": 2024,
+      "doi": null,
+      "arxiv_id": "2401.18079",
+      "canonical_url": "https://arxiv.org/abs/2401.18079",
+      "other_identifiers": {},
+      "abstract": "LLMs are seeing growing use for applications which require large context windows, and with these large context windows KV cache activations surface as the dominant contributor to memory consumption during inference. Quantization is a promising approach for compressing KV cache activations; however, existing solutions fail to represent activations accurately in sub-4-bit precision. Our work, KVQuant, facilitates low precision KV cache quantization by incorporating several novel methods: (i) Per-Channel Key Quantization, where we adjust the dimension along which we quantize the Key activations to better match the distribution; (ii) Pre-RoPE Key Quantization, where we quantize Key activations before the rotary positional embedding to mitigate its impact on quantization; (iii) Non-Uniform KV Cache Quantization, where we derive per-layer sensitivity-weighted non-uniform datatypes that better represent the distributions; and (iv) Per-Vector Dense-and-Sparse Quantization, where we isolate outliers separately for each vector to minimize skews in quantization ranges. By applying our method to the LLaMA, Llama-2, Llama-3, and Mistral models, we achieve < 0.1 perplexity degradation with 3-bit quantization on both Wikitext-2 and C4, outperforming existing approaches. Our method enables serving LLaMA-7B with a context length of up to 1 million on a single A100-80GB GPU and up to 10 million on an 8-GPU system. We develop custom CUDA kernels for KVQuant, showing that we can achieve up to ~1.7x speedups, compared to baseline fp16 matrix-vector multiplications, for the LLaMA-7B model.",
+      "provider_summary": "[research paper] KVQuant introduces a suite of novel quantization techniques to enable ultra-low-precision (3-bit) KV cache compression with <0.1 perplexity degradation, addressing key challenges in long-context LLM inference: (1) Per-channel key quantization before RoPE mitigates outlier channel instability; (2) Pre-RoPE quantization reduces RoPE-induced distribution distortion; (3) Sensitivity-weighted non-uniform quantization improves signpost placement via calibration-derived datatypes; (4) Per-vector dense-and-sparse quantization isolates and compresses outliers with minimal memory overhead. These methods enable 4.8× reduction in KV cache memory and support up to 10M context length on 8-GPU A100 systems with up to 1.7× speedup via custom CUDA kernels.",
+      "provider_score": 0.375,
+      "citation_count": 498,
+      "categories": [
+        "cs.LG"
+      ]
+    },
+    {
+      "title": "NQKV: A KV Cache Quantization Scheme Based on Normal Distribution Characteristics",
+      "authors": [
+        "Zhihang Cai",
+        "Xingjun Zhang",
+        "Zhendong Tan",
+        "Zheng Wei"
+      ],
+      "publication_year": 2025,
+      "doi": null,
+      "arxiv_id": "2505.16210",
+      "canonical_url": "https://arxiv.org/abs/2505.16210",
+      "other_identifiers": {},
+      "abstract": "Large Language Models (LLMs) have demonstrated remarkable proficiency across a wide range of tasks. However, LLMs often require larger batch sizes to enhance throughput or longer context lengths to meet task demands, which significantly increases the memory resource consumption of the Key-Value (KV) cache during inference, becoming a major bottleneck in LLM deployment. To address this issue, quantization is a common and straightforward approach. Currently, quantization methods for activations are limited to 8-bit, and quantization to even lower bits can lead to substantial accuracy drops. To further save space by quantizing the KV cache to even lower bits, we analyzed the element distribution of the KV cache and designed the NQKV algorithm. Since the elements within each block of the KV cache follow a normal distribution, NQKV employs per-block quantile quantization to achieve information-theoretically optimal quantization error. Without significantly compromising model output quality, NQKV enables the OPT model to perform inference with an 2x larger batch size or a 4x longer context length, and it improves throughput by 9.3x compared to when the KV cache is not used.",
+      "provider_summary": "[research paper] NQKV introduces a KV cache quantization scheme that leverages the normal distribution of key-value elements within token blocks to achieve information-theoretically optimal quantization error. By using per-block quantile-based quantization with normal-distribution-aligned storage types (e.g., NormalFloat), it minimizes quantization error propagation and maintains high inference accuracy. Experimental results show that NQKV enables the OPT-175B model to support 2× larger batch sizes or 4× longer context lengths without significant accuracy loss, while improving throughput by 9.3× compared to baseline KV cache usage.",
+      "provider_score": 0.25882354,
+      "citation_count": 3,
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL"
+      ]
+    },
+    {
+      "title": "KV Cache is 1 Bit Per Channel: Efficient Large Language Model Inference with Coupled Quantization",
+      "authors": [
+        "Tianyi Zhang",
+        "Jonah Yi",
+        "Zhaozhuo Xu",
+        "Anshumali Shrivastava"
+      ],
+      "publication_year": 2024,
+      "doi": null,
+      "arxiv_id": "2405.03917",
+      "canonical_url": "https://arxiv.org/abs/2405.03917",
+      "other_identifiers": {},
+      "abstract": "Efficient deployment of Large Language Models (LLMs) requires batching multiple requests together to improve throughput. As the batch size, context length, or model size increases, the size of the key and value (KV) cache can quickly become the main contributor to GPU memory usage and the bottleneck of inference latency. Quantization has emerged as an effective technique for KV cache compression, but existing methods still fail at very low bit widths. We observe that distinct channels of a key/value activation embedding are highly inter-dependent, and the joint entropy of multiple channels grows at a slower rate than the sum of their marginal entropies. Based on this insight, we propose Coupled Quantization (CQ), which couples multiple key/value channels together to exploit their inter-dependency and encode the activations in a more information-efficient manner. Extensive experiments reveal that CQ outperforms or is competitive with existing baselines in preserving model quality. Furthermore, we demonstrate that CQ can preserve model quality with KV cache quantized down to 1-bit.",
+      "provider_summary": "[research paper] Coupled Quantization (CQ) introduces a novel KV cache quantization method that jointly encodes multiple channels of key/value activation embeddings, exploiting their high inter-dependency to achieve up to 16× compression (1 bit per floating-point number) without significant model quality degradation. By leveraging the reduced joint entropy of correlated channels, CQ outperforms per-channel or per-token quantization under low bit widths, directly addressing the von Neumann bottleneck in LLM inference through efficient memory access reduction.",
+      "provider_score": 0.22916667,
+      "citation_count": 78,
+      "categories": [
+        "cs.LG"
+      ]
+    },
+    {
+      "title": "CacheGen: KV Cache Compression and Streaming for Fast Large Language Model Serving",
+      "authors": [
+        "Yuhan Liu",
+        "Hanchen Li",
+        "Yihua Cheng",
+        "Siddhant Ray",
+        "Yuyang Huang",
+        "Qizheng Zhang",
+        "Kuntai Du",
+        "Jiayi Yao",
+        "Shan Lu",
+        "Ganesh Ananthanarayanan",
+        "Michael Maire",
+        "Henry Hoffmann",
+        "Ari Holtzman",
+        "Junchen Jiang"
+      ],
+      "publication_year": 2023,
+      "doi": null,
+      "arxiv_id": "2310.07240",
+      "canonical_url": "https://arxiv.org/abs/2310.07240",
+      "other_identifiers": {},
+      "abstract": "As large language models (LLMs) take on complex tasks, their inputs are supplemented with longer contexts that incorporate domain knowledge. Yet using long contexts is challenging, as nothing can be generated until the whole context is processed by the LLM. While the context-processing delay can be reduced by reusing the KV cache of a context across different inputs, fetching the KV cache, which contains large tensors, over the network can cause high extra network delays.\\\n  CacheGen is a fast context-loading module for LLM systems. First, CacheGen uses a custom tensor encoder, leveraging KV cache's distributional properties to encode a KV cache into more compact bitstream representations with negligible decoding overhead, to save bandwidth usage. Second, CacheGen adapts the compression level of different parts of a KV cache to cope with changes in available bandwidth, in order to maintain low context-loading delay and high generation quality. % When available bandwidth drops, CacheGen may raise the compression level for a part of the context or recompute its KV cache on the fly. We test CacheGen on popular LLMs and datasets. Compared to the recent systems that reuse the KV cache, CacheGen reduces the KV cache size by 3.5-4.3x and the total delay in fetching and processing contexts by 3.2-3.7x with negligible impact on the LLM response quality. Our code is at: https://github.com/UChi-JCL/CacheGen.",
+      "provider_summary": "[research paper] CacheGen introduces a tensor encoding and streaming mechanism to compress KV cache bitstreams for efficient network transmission, reducing bandwidth usage by 3.5–4.3× and total context loading delay by 3.2–3.7× without degrading LLM response quality. It leverages distributional properties of KV caches (e.g., token locality, layer-wise sensitivity) via custom quantization and arithmetic coding, with GPU-accelerated decoding and adaptive per-chunk streaming that adjusts compression levels based on real-time bandwidth to maintain quality under variable network conditions.",
+      "provider_score": 0.20666668,
+      "citation_count": 204,
+      "categories": [
+        "cs.NI",
+        "cs.LG"
+      ]
+    },
+    {
+      "title": "KVTuner: Sensitivity-Aware Layer-Wise Mixed-Precision KV Cache Quantization for Efficient and Nearly Lossless LLM Inference",
+      "authors": [
+        "Xing Li",
+        "Zeyu Xing",
+        "Yiming Li",
+        "Linping Qu",
+        "Hui-Ling Zhen",
+        "Wulong Liu",
+        "Yiwu Yao",
+        "Sinno Jialin Pan",
+        "Mingxuan Yuan"
+      ],
+      "publication_year": 2025,
+      "doi": null,
+      "arxiv_id": "2502.04420",
+      "canonical_url": "https://arxiv.org/abs/2502.04420",
+      "other_identifiers": {},
+      "abstract": "KV cache quantization can improve Large Language Models (LLMs) inference throughput and latency in long contexts and large batch-size scenarios while preserving LLMs effectiveness. However, current methods have three unsolved issues: overlooking layer-wise sensitivity to KV cache quantization, high overhead of online fine-grained decision-making, and low flexibility to different LLMs and constraints. Therefore, we theoretically analyze the inherent correlation of layer-wise transformer attention patterns to KV cache quantization errors and study why key cache is generally more important than value cache for quantization error reduction. We further propose a simple yet effective framework KVTuner to adaptively search for the optimal hardware-friendly layer-wise KV quantization precision pairs for coarse-grained KV cache with multi-objective optimization and directly utilize the offline searched configurations during online inference. To reduce the computational cost of offline calibration, we utilize the intra-layer KV precision pair pruning and inter-layer clustering to reduce the search space. Experimental results show that we can achieve nearly lossless 3.25-bit mixed precision KV cache quantization for LLMs like Llama-3.1-8B-Instruct and 4.0-bit for sensitive models like Qwen2.5-7B-Instruct on mathematical reasoning tasks. The maximum inference throughput can be improved by 21.25\\\\% compared with KIVI-KV8 quantization over various context lengths. Our code and searched configurations are available at https://github.com/cmd2001/KVTuner.",
+      "provider_summary": "[research paper] KVTuner introduces a sensitivity-aware, layer-wise mixed-precision KV cache quantization framework that leverages the inherent correlation between transformer attention patterns and quantization errors to identify optimal key-value precision pairs. By theoretically proving key cache's greater sensitivity than value cache due to error accumulation and attention distribution shifts, it enables coarse-grained, hardware-friendly quantization via offline multi-objective optimization with pruning and clustering, achieving nearly lossless 3.25-bit (up to 4.0-bit) compression on models like Llama-3.1-8B and Qwen2.5-7B with 21.25% throughput gains—without online overhead or fine-grained dynamic control.",
+      "provider_score": 0.18333334,
+      "citation_count": 26,
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.CL"
+      ]
+    },
+    {
+      "title": "MILLION: Mastering Long-Context LLM Inference Via Outlier-Immunized KV Product Quantization",
+      "authors": [
+        "Zongwu Wang",
+        "Peng Xu",
+        "Fangxin Liu",
+        "Yiwei Hu",
+        "Qingxiao Sun",
+        "Gezi Li",
+        "Cheng Li",
+        "Xuan Wang",
+        "Li Jiang",
+        "Haibing Guan"
+      ],
+      "publication_year": 2025,
+      "doi": null,
+      "arxiv_id": "2504.03661",
+      "canonical_url": "https://arxiv.org/abs/2504.03661",
+      "other_identifiers": {},
+      "abstract": "Large language models (LLMs) are increasingly utilized for complex tasks requiring longer context lengths, with some models supporting up to 128K or 1M tokens. This trend, however, presents significant challenges in inference speed and memory management. Quantization emerges as a promising approach to address the widening gap between LLM size and memory capacity. However, traditional quantization schemes often yield suboptimal compression results for KV caches due to two key factors: i) On-the-fly quantization and de-quantization, causing significant performance overhead; ii) Prevalence of outliers in KV values, challenging low-bitwidth uniform quantization. To this end, we propose MILLION, a novel quantization framework achieving low-bitwidth KV cache through product quantization. First, we conduct a thorough analysis of KV cache distribution, revealing the limitations of existing quantization schemes. Second, we introduce a non-uniform quantization algorithm based on product quantization, which efficiently compresses data while preserving accuracy. Third, we develop a high-performance GPU inference framework with efficient attention kernel and pipeline design for MILLION that leverages sparse computation and asynchronous quantization, significantly enhancing inference speed. Comprehensive evaluation results demonstrate that MILLION can achieve 4 bits quantization with trivial perplexity and accuracy loss, and achieve 2.09x end-to-end performance gains at 32K context length. Code is released at https://github.com/ZongwuWang/MILLION.",
+      "provider_summary": "[research paper] MILLION introduces a novel non-uniform quantization framework for KV cache compression in long-context LLMs, leveraging product quantization (PQ) to handle outliers and reduce de-quantization overhead. By clustering KV vectors and distributing quantization power unevenly across channels, it achieves 4-bit quantization with negligible accuracy loss and eliminates real-time de-quantization delays. The proposed GPU inference system integrates sparse computation and asynchronous quantization, delivering 2.09× end-to-end speedup at 32K context length while maintaining memory efficiency.",
+      "provider_score": 0.17142858,
+      "citation_count": 5,
+      "categories": [
+        "cs.DC"
+      ]
+    },
+    {
+      "title": "CommVQ: Commutative Vector Quantization for KV Cache Compression",
+      "authors": [
+        "Junyan Li",
+        "Yang Zhang",
+        "Muhammad Yusuf Hassan",
+        "Talha Chafekar",
+        "Tianle Cai",
+        "Zhile Ren",
+        "Pengsheng Guo",
+        "Binazir Karimzadeh",
+        "Colorado J Reed",
+        "Chong Wang",
+        "Chuang Gan"
+      ],
+      "publication_year": 2025,
+      "doi": null,
+      "arxiv_id": "2506.18879",
+      "canonical_url": "https://arxiv.org/abs/2506.18879",
+      "other_identifiers": {},
+      "abstract": "Large Language Models (LLMs) are increasingly used in applications requiring long context lengths, but the key-value (KV) cache often becomes a memory bottleneck on GPUs as context grows. To address this, we propose Commutative Vector Quantization (CommVQ) to significantly reduce memory usage for long-context LLM inference. We first introduce additive quantization with a lightweight encoder and codebook to compress the KV cache, which can be decoded via simple matrix multiplication. To further reduce computational costs during decoding, we design the codebook to be commutative with Rotary Position Embedding (RoPE) and train it using an Expectation-Maximization (EM) algorithm. This enables efficient integration of decoding into the self-attention mechanism. Our approach achieves high accuracy with additive quantization and low overhead via the RoPE-commutative codebook. Experiments on long-context benchmarks and GSM8K show that our method reduces FP16 KV cache size by 87.5% with 2-bit quantization, while outperforming state-of-the-art KV cache quantization methods. Notably, it enables 1-bit KV cache quantization with minimal accuracy loss, allowing a LLaMA-3.1 8B model to run with a 128K context length on a single RTX 4090 GPU. The source code is available at: https://github.com/UMass-Embodied-AGI/CommVQ.",
+      "provider_summary": "[research paper] CommVQ introduces vector-level additive quantization for KV cache compression in long-context LLMs, where each key/value vector is encoded into a low-bitwidth representation via a learned codebook. The codebook is designed to be commutative with Rotary Position Embedding (RoPE), enabling efficient, zero-cost integration into self-attention through pre-computed decoding, drastically reducing computational overhead. This allows 87.5% FP16 KV cache reduction with 2-bit quantization and enables 1-bit quantization with minimal accuracy loss, enabling LLaMA-3.1 8B to run on 128K context length with a single RTX 4090.",
+      "provider_score": 0.17142858,
+      "citation_count": 9,
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ]
+    }
+  ],
+  "retained": [
+    {
+      "index": 0,
+      "paper_ref": "paper_8d0f73cb-928c-474e-b88c-373ed39179c8",
+      "title": "KIVI: A Tuning-Free Asymmetric 2bit Quantization for KV Cache",
+      "arxiv_id": "2402.02750",
+      "rationale": "Foundational tuning-free asymmetric 2-bit method that motivates different key/value quantization axes from observed outlier structure."
+    },
+    {
+      "index": 1,
+      "paper_ref": "paper_044ada55-7479-4b4b-a0fe-d790b292cecf",
+      "title": "MiniKV: Pushing the Limits of LLM Inference via 2-Bit Layer-Discriminative KV Cache",
+      "arxiv_id": "2411.18077",
+      "rationale": "Intentional repeat of an already retained arXiv ID to verify deterministic identity dedup across search rounds."
+    },
+    {
+      "index": 3,
+      "paper_ref": "paper_78cb78ea-e9cf-432a-afa4-75dc56fb890c",
+      "title": "KVQuant: Towards 10 Million Context Length LLM Inference with KV Cache Quantization",
+      "arxiv_id": "2401.18079",
+      "rationale": "Independent foundational 3-bit route with dense-and-sparse handling and long-context quality evidence, useful for comparing quantization assumptions."
+    },
+    {
+      "index": 6,
+      "paper_ref": "paper_25c10025-1f10-42d2-b517-dc754d1bc6f2",
+      "title": "CacheGen: KV Cache Compression and Streaming for Fast Large Language Model Serving",
+      "arxiv_id": "2310.07240",
+      "rationale": "Mechanistically targets transfer bandwidth and context-loading delay through cache encoding/streaming rather than only GPU memory footprint."
+    }
+  ],
+  "retain_state_revision": 7
+}

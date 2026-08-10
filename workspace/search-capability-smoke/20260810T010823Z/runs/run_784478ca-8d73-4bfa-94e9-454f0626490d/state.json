@@ -1,0 +1,45 @@
+{
+  "completion_checks": {},
+  "contract": {
+    "current_revision": 1,
+    "revisions": [
+      {
+        "contract": {
+          "deliverable": {
+            "description": "Operational smoke result",
+            "required_artifacts": []
+          },
+          "mission": "Verify live DeepXiv date filtering and pagination",
+          "requirements": {
+            "requirement_f8e7d450-ca2f-4d80-9162-d3ed6cefc225": {
+              "id": "requirement_f8e7d450-ca2f-4d80-9162-d3ed6cefc225",
+              "statement": "Exercise unrestricted, filtered, and paged search"
+            }
+          },
+          "scope": "Read-only search observations; retain no papers"
+        },
+        "reason": "Initial contract",
+        "recorded_at": "2026-08-10T01:08:23.247702+00:00",
+        "revision": 1
+      }
+    ]
+  },
+  "delivery_basis": null,
+  "id": "run_784478ca-8d73-4bfa-94e9-454f0626490d",
+  "investigation_gaps": {},
+  "lifecycle": "RESEARCH",
+  "literature_landscape": {
+    "approach_families": {},
+    "findings": {},
+    "open_problems": {}
+  },
+  "outcome": null,
+  "papers": {},
+  "resources": {
+    "limits": {},
+    "usage": {
+      "paper_search_attempts": 4
+    }
+  },
+  "state_revision": 5
+}

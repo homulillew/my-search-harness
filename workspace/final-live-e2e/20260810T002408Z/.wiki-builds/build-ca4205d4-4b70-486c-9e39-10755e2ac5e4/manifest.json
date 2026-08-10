@@ -1,0 +1,151 @@
+{
+  "pages": [
+    {
+      "content_sha256": "eac52efcf503c6976f00cecc0afaa19a4711f864bd11e18af3f29e9470f32199",
+      "contributing_refs": [
+        {
+          "research_ref": "approach_95517d76-bb4d-44d5-8d01-190178c69e1c",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "finding_ad1e6ce0-ceac-4cac-b7ea-7e050081e44c",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "problem_825e2348-0d0e-4d50-bab3-5a01be79527c",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "paper_a84b0325-0a16-4191-9486-1994d5ab75d9",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "paper_bc121393-2a30-4f5f-b1c7-8a4a82ecd524",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        }
+      ],
+      "path": "pages/architectural-kv-sharing.md",
+      "title": "Architectural KV Head and Layer Sharing"
+    },
+    {
+      "content_sha256": "80923c3e23286bf55bf4c227b2ccb8494c7a0c0e3136b56fe9ce3fbd7a57fc14",
+      "contributing_refs": [
+        {
+          "research_ref": "approach_e93e0d98-1e40-4eb8-8180-374ffcf9cedc",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "finding_b96a21d5-724d-4d2c-97c3-f5913ce3a4e9",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "finding_1c70dddf-5bb4-4683-bf28-29423c606c76",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "problem_5e452a59-92ab-40b4-a3ee-aa20e646d924",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "paper_1b9422ce-9d25-4067-b427-900af360a482",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "paper_a7559efd-8df9-46e8-9b90-3554e02405df",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "paper_e18584f4-3b7d-4375-b4b6-3f6bf5a24296",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "paper_32d63710-6b3b-4dcd-af13-16eb8470de87",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "paper_c6e14a84-d38d-41c2-8ac3-2a7f6969a3b3",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        }
+      ],
+      "path": "pages/kv-cache-eviction.md",
+      "title": "KV Cache Eviction and Token Selection"
+    },
+    {
+      "content_sha256": "7d08efa8b3bf05755c49074b08a0f69287e2370c7a3c9435d4314fed0fd91a78",
+      "contributing_refs": [
+        {
+          "research_ref": "approach_1aa1ad25-f3d9-4369-ae7f-7eaad31a3509",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "finding_81c0bc55-3b07-4a05-ab88-5e86598d56f2",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "finding_c0997616-7ed2-4469-ab34-d21b53a62424",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "problem_ae7f9575-3621-4b8d-985a-c5fbbbd60e4f",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "paper_364b2f1f-88b3-4f48-9a5f-cc93f911ef71",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "paper_ecaebb02-f0c6-4b86-bcb5-3a2e9bbd38f2",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "paper_25c10025-1f10-42d2-b517-dc754d1bc6f2",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        }
+      ],
+      "path": "pages/kv-cache-offloading.md",
+      "title": "KV Cache Offloading and Memory Hierarchy"
+    },
+    {
+      "content_sha256": "b6c5f3ac809c238c00b53abf8215ef0996156d54e59e9cb17deecd719fc70aa2",
+      "contributing_refs": [
+        {
+          "research_ref": "approach_b566f492-f54c-455b-92ba-42f1e902f3ce",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "finding_df730fa1-d5c8-4cd0-9f3f-b8a96e40b90b",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "finding_0a9941a8-fad3-4216-91c0-a30537272448",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "problem_99d2a011-e3da-4d8f-81cc-919e2d05464b",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "paper_8d0f73cb-928c-474e-b88c-373ed39179c8",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "paper_78cb78ea-e9cf-432a-afa4-75dc56fb890c",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        },
+        {
+          "research_ref": "paper_044ada55-7479-4b4b-a0fe-d790b292cecf",
+          "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79"
+        }
+      ],
+      "path": "pages/kv-cache-quantization.md",
+      "title": "KV Cache Quantization"
+    }
+  ],
+  "schema_version": 1,
+  "source_runs": [
+    {
+      "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79",
+      "state_revision": 132
+    }
+  ]
+}

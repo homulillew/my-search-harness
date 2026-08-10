@@ -41,7 +41,15 @@ from my_search_harness.runtime import (
 
 
 class FakeProvider:
-    def search(self, query: str, *, limit: int) -> tuple[PaperSearchHit, ...]:
+    def search(
+        self,
+        query: str,
+        *,
+        limit: int,
+        offset: int = 0,
+        date_from: str | None = None,
+        date_to: str | None = None,
+    ) -> tuple[PaperSearchHit, ...]:
         return (
             PaperSearchHit(
                 title="Audited paper",
@@ -51,7 +59,15 @@ class FakeProvider:
 
 
 class FailingProvider:
-    def search(self, query: str, *, limit: int) -> tuple[PaperSearchHit, ...]:
+    def search(
+        self,
+        query: str,
+        *,
+        limit: int,
+        offset: int = 0,
+        date_from: str | None = None,
+        date_to: str | None = None,
+    ) -> tuple[PaperSearchHit, ...]:
         raise PaperSearchProviderError(
             ProviderFailureKind.RATE_LIMIT,
             "fixture rate limit",
@@ -141,7 +157,11 @@ class AuditTests(TestCase):
         searched = capabilities.researcher.search_papers(
             created.run_id,
             created.state_revision,
-            "private query text",
+            "historical query strategy",
+            limit=7,
+            offset=14,
+            date_from="2025-01-01",
+            date_to="2026-08-10",
         )
         retained = capabilities.researcher.retain_papers(
             created.run_id,
@@ -219,10 +239,20 @@ class AuditTests(TestCase):
             actions,
         )
         event_text = (self.root / created.run_id / "events.jsonl").read_text()
-        self.assertNotIn("private query text", event_text)
+        self.assertIn("historical query strategy", event_text)
         self.assertNotIn("Sensitive primary content", event_text)
         self.assertNotIn("No audit payload should copy", event_text)
-        self.assertEqual(1, events[1].details["hit_count"])
+        self.assertEqual(
+            {
+                "query": "historical query strategy",
+                "limit": 7,
+                "offset": 14,
+                "date_from": "2025-01-01",
+                "date_to": "2026-08-10",
+                "hit_count": 1,
+            },
+            events[1].details,
+        )
         self.assertEqual("SUCCESS", events[1].provider_outcome)
 
     def test_provider_failure_is_accounted_and_audited_distinctly(self) -> None:
@@ -239,6 +269,9 @@ class AuditTests(TestCase):
                 created.run_id,
                 created.state_revision,
                 "rate limited query",
+                limit=9,
+                offset=18,
+                date_from="2025-01-01",
             )
 
         run = self.repository.load(created.run_id)
@@ -249,6 +282,15 @@ class AuditTests(TestCase):
         self.assertEqual("paper_search_attempt", failure.action)
         self.assertEqual("FAILURE", failure.outcome)
         self.assertEqual("RATE_LIMIT", failure.provider_outcome)
+        self.assertEqual(
+            {
+                "query": "rate limited query",
+                "limit": 9,
+                "offset": 18,
+                "date_from": "2025-01-01",
+            },
+            failure.details,
+        )
 
     def test_local_rejection_creates_no_attempt_event(self) -> None:
         capabilities = build_runtime_capabilities(
@@ -264,6 +306,28 @@ class AuditTests(TestCase):
                 created.run_id,
                 created.state_revision,
                 "",
+            )
+
+        events = LocalAuditLog(self.root).read(created.run_id)
+        self.assertEqual(("run_created",), tuple(event.action for event in events))
+        self.assertEqual({}, self.repository.load(created.run_id).resources.usage)
+
+    def test_invalid_local_date_range_creates_no_attempt_event(self) -> None:
+        capabilities = build_runtime_capabilities(
+            self.repository,
+            self.artifacts,
+            paper_search_provider=FakeProvider(),
+            source_access_provider=None,
+        )
+        created = capabilities.researcher.create_run(self._request())
+
+        with self.assertRaises(PaperSearchRejectedError):
+            capabilities.researcher.search_papers(
+                created.run_id,
+                created.state_revision,
+                "invalid range",
+                date_from="2026-01-01",
+                date_to="2025-01-01",
             )
 
         events = LocalAuditLog(self.root).read(created.run_id)

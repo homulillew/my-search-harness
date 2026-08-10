@@ -1,0 +1,194 @@
+{
+  "workspace": "workspace/search-capability-smoke/20260810T010823Z",
+  "run_id": "run_784478ca-8d73-4bfa-94e9-454f0626490d",
+  "final_revision": 5,
+  "paper_search_attempts": 4,
+  "calls": [
+    {
+      "label": "unrestricted",
+      "query": "LLM KV cache optimization inference",
+      "parameters": {},
+      "hits": [
+        {
+          "arxiv_id": "2509.08315",
+          "title": "EvolKV: Evolutionary KV Cache Compression for LLM Inference",
+          "year": 2025
+        },
+        {
+          "arxiv_id": "2510.09665",
+          "title": "LMCache: An Efficient KV Cache Layer for Enterprise-Scale LLM Inference",
+          "year": 2025
+        },
+        {
+          "arxiv_id": "2412.05896",
+          "title": "XKV: Personalized KV Cache Memory Reduction for Long-Context LLM Inference",
+          "year": 2024
+        },
+        {
+          "arxiv_id": "2504.06319",
+          "title": "Accelerating LLM Inference Throughput via Asynchronous KV Cache Prefetching",
+          "year": 2025
+        },
+        {
+          "arxiv_id": "2502.07115",
+          "title": "Online Scheduling for LLM Inference with KV Cache Constraints",
+          "year": 2025
+        }
+      ]
+    },
+    {
+      "label": "date_from",
+      "query": "LLM KV cache recent advances inference",
+      "parameters": {
+        "date_from": "2025-01-01"
+      },
+      "hits": [
+        {
+          "arxiv_id": "2604.19769",
+          "title": "TTKV: Temporal-Tiered KV Cache for Long-Context LLM Inference",
+          "year": 2026
+        },
+        {
+          "arxiv_id": "2510.09665",
+          "title": "LMCache: An Efficient KV Cache Layer for Enterprise-Scale LLM Inference",
+          "year": 2025
+        },
+        {
+          "arxiv_id": "2605.17613",
+          "title": "VeriCache: Turning Lossy KV Cache into Lossless LLM Inference",
+          "year": 2026
+        },
+        {
+          "arxiv_id": "2603.28772",
+          "title": "Federated Inference for Heterogeneous LLM Communication and Collaboration",
+          "year": 2026
+        },
+        {
+          "arxiv_id": "2604.05012",
+          "title": "Comparative Characterization of KV Cache Management Strategies for LLM Inference",
+          "year": 2026
+        }
+      ]
+    },
+    {
+      "label": "offset_0",
+      "query": "KV cache quantization LLM inference",
+      "parameters": {
+        "offset": 0
+      },
+      "hits": [
+        {
+          "arxiv_id": "2503.23294",
+          "title": "Cocktail: Chunk-Adaptive Mixed-Precision Quantization for Long-Context LLM Inference",
+          "year": 2025
+        },
+        {
+          "arxiv_id": "2510.09665",
+          "title": "LMCache: An Efficient KV Cache Layer for Enterprise-Scale LLM Inference",
+          "year": 2025
+        },
+        {
+          "arxiv_id": "2411.18077",
+          "title": "MiniKV: Pushing the Limits of LLM Inference via 2-Bit Layer-Discriminative KV Cache",
+          "year": 2024
+        },
+        {
+          "arxiv_id": "2403.04643",
+          "title": "QAQ: Quality Adaptive Quantization for LLM KV Cache",
+          "year": 2024
+        },
+        {
+          "arxiv_id": "2405.03917",
+          "title": "KV Cache is 1 Bit Per Channel: Efficient Large Language Model Inference with Coupled Quantization",
+          "year": 2024
+        }
+      ]
+    },
+    {
+      "label": "offset_5",
+      "query": "KV cache quantization LLM inference",
+      "parameters": {
+        "offset": 5
+      },
+      "hits": [
+        {
+          "arxiv_id": "2502.04420",
+          "title": "KVTuner: Sensitivity-Aware Layer-Wise Mixed-Precision KV Cache Quantization for Efficient and Nearly Lossless LLM Inference",
+          "year": 2025
+        },
+        {
+          "arxiv_id": "2504.03661",
+          "title": "MILLION: Mastering Long-Context LLM Inference Via Outlier-Immunized KV Product Quantization",
+          "year": 2025
+        },
+        {
+          "arxiv_id": "2605.17613",
+          "title": "VeriCache: Turning Lossy KV Cache into Lossless LLM Inference",
+          "year": 2026
+        },
+        {
+          "arxiv_id": "2505.16210",
+          "title": "NQKV: A KV Cache Quantization Scheme Based on Normal Distribution Characteristics",
+          "year": 2025
+        },
+        {
+          "arxiv_id": "2403.05527",
+          "title": "GEAR: An Efficient KV Cache Compression Recipe for Near-Lossless Generative Inference of LLM",
+          "year": 2024
+        }
+      ]
+    }
+  ],
+  "filtered_years": [
+    2026,
+    2025,
+    2026,
+    2026,
+    2026
+  ],
+  "pagination": {
+    "offset_0_ids": [
+      "2403.04643",
+      "2405.03917",
+      "2411.18077",
+      "2503.23294",
+      "2510.09665"
+    ],
+    "offset_5_ids": [
+      "2403.05527",
+      "2502.04420",
+      "2504.03661",
+      "2505.16210",
+      "2605.17613"
+    ],
+    "overlap": []
+  },
+  "audit_details": [
+    {
+      "hit_count": 5,
+      "limit": 5,
+      "offset": 0,
+      "query": "LLM KV cache optimization inference"
+    },
+    {
+      "date_from": "2025-01-01",
+      "hit_count": 5,
+      "limit": 5,
+      "offset": 0,
+      "query": "LLM KV cache recent advances inference"
+    },
+    {
+      "hit_count": 5,
+      "limit": 5,
+      "offset": 0,
+      "query": "KV cache quantization LLM inference"
+    },
+    {
+      "hit_count": 5,
+      "limit": 5,
+      "offset": 5,
+      "query": "KV cache quantization LLM inference"
+    }
+  ],
+  "authoritative_paper_count": 0
+}

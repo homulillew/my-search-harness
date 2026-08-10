@@ -1,0 +1,295 @@
+{
+  "round": "02-eviction",
+  "query": "LLM KV cache eviction heavy hitter attention sink token selection H2O StreamingLLM SnapKV",
+  "purpose": "Fill the missing eviction and token-selection route with primary papers and distinguish fixed-window, heavy-hitter, and prompt-aware mechanisms",
+  "limit": 10,
+  "state_revision": 4,
+  "hit_count": 10,
+  "hits": [
+    {
+      "title": "LLMs Know What to Drop: Self-Attention Guided KV Cache Eviction for Efficient Long-Context Inference",
+      "authors": [
+        "Guangtao Wang",
+        "Shubhangi Upasani",
+        "Chen Wu",
+        "Darshan Gandhi",
+        "Jonathan Li",
+        "Changran Hu",
+        "Bo Li",
+        "Urmish Thakker"
+      ],
+      "publication_year": 2025,
+      "doi": null,
+      "arxiv_id": "2503.08879",
+      "canonical_url": "https://arxiv.org/abs/2503.08879",
+      "other_identifiers": {},
+      "abstract": "Efficient long-context inference is critical as large language models (LLMs) adopt context windows of ranging from 128K to 1M tokens. However, the growing key-value (KV) cache and the high computational complexity of attention create significant bottlenecks in memory usage and latency. In this paper, we find that attention in diverse long-context tasks exhibits sparsity, and LLMs implicitly \"know\" which tokens can be dropped or evicted at the head level after the pre-filling stage. Based on this insight, we propose Self-Attention Guided Eviction~(SAGE-KV), a simple and effective KV eviction cache method for long-context inference. After prefilling, our method performs a one-time top-k selection at both the token and head levels to compress the KV cache, enabling efficient inference with the reduced cache. Evaluations on LongBench and three long-context LLMs (Llama3.1-8B-Instruct-128k, Llama3-8B-Prolong-512k-Instruct, and Qwen2.5-7B-Instruct-128k) show that SAGE-KV maintains accuracy comparable to full attention while significantly improving efficiency. Specifically, SAGE-KV achieves 4x higher memory efficiency with improved accuracy over the static KV cache selection method StreamLLM, and 2x higher memory efficiency with better accuracy than the dynamic KV cache selection method Quest.",
+      "provider_summary": "[research paper] SAGE-KV leverages self-attention sparsity patterns post-prefill to guide selective KV cache eviction, using the last token's query as a representative embedding to compute attention scores across evicted tokens. A single-pass top-k selection at both token and head levels compresses the KV cache without runtime selection overhead, achieving 4x memory efficiency over static methods and 2x over dynamic methods while preserving accuracy in long-context inference.",
+      "provider_score": 0.6666667,
+      "citation_count": 13,
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG"
+      ]
+    },
+    {
+      "title": "H$_2$O: Heavy-Hitter Oracle for Efficient Generative Inference of Large Language Models",
+      "authors": [
+        "Zhenyu Zhang",
+        "Ying Sheng",
+        "Tianyi Zhou",
+        "Tianlong Chen",
+        "Lianmin Zheng",
+        "Ruisi Cai",
+        "Zhao Song",
+        "Yuandong Tian",
+        "Christopher Ré",
+        "Clark Barrett",
+        "Zhangyang Wang",
+        "Beidi Chen"
+      ],
+      "publication_year": 2023,
+      "doi": null,
+      "arxiv_id": "2306.14048",
+      "canonical_url": "https://arxiv.org/abs/2306.14048",
+      "other_identifiers": {},
+      "abstract": "Large Language Models (LLMs), despite their recent impressive accomplishments, are notably cost-prohibitive to deploy, particularly for applications involving long-content generation, such as dialogue systems and story writing. Often, a large amount of transient state information, referred to as the KV cache, is stored in GPU memory in addition to model parameters, scaling linearly with the sequence length and batch size. In this paper, we introduce a novel approach for implementing the KV cache which significantly reduces its memory footprint. Our approach is based on the noteworthy observation that a small portion of tokens contributes most of the value when computing attention scores. We call these tokens Heavy Hitters (H$_2$). Through a comprehensive investigation, we find that (i) the emergence of H$_2$ is natural and strongly correlates with the frequent co-occurrence of tokens in the text, and (ii) removing them results in significant performance degradation. Based on these insights, we propose Heavy Hitter Oracle (H$_2$O), a KV cache eviction policy that dynamically retains a balance of recent and H$_2$ tokens. We formulate the KV cache eviction as a dynamic submodular problem and prove (under mild assumptions) a theoretical guarantee for our novel eviction algorithm which could help guide future work. We validate the accuracy of our algorithm with OPT, LLaMA, and GPT-NeoX across a wide range of tasks. Our implementation of H$_2$O with 20% heavy hitters improves the throughput over three leading inference systems DeepSpeed Zero-Inference, Hugging Face Accelerate, and FlexGen by up to 29$\\\\times$, 29$\\\\times$, and 3$\\\\times$ on OPT-6.7B and OPT-30B. With the same batch size, H2O can reduce the latency by up to 1.9$\\\\times$. The code is available at https://github.com/FMInference/H2O.",
+      "provider_summary": "[research paper] The paper introduces Heavy-Hitter Oracle (H₂O), a KV cache eviction policy that leverages the observation that a small subset of tokens—called Heavy Hitters (H₂)—contribute disproportionately to attention scores, exhibiting strong co-occurrence patterns and critical importance for generation accuracy. By dynamically retaining H₂ tokens based on local attention score accumulation, H₂O reduces KV cache memory footprint by up to 20× while maintaining high generation accuracy, achieving up to 29× throughput gains and 1.9× latency reduction over state-of-the-art inference systems on large models like OPT-30B, under a theoretically grounded dynamic submodular optimization framework.",
+      "provider_score": 0.54761904,
+      "citation_count": 661,
+      "categories": [
+        "cs.LG"
+      ]
+    },
+    {
+      "title": "Efficient Streaming Language Models with Attention Sinks",
+      "authors": [
+        "Guangxuan Xiao",
+        "Yuandong Tian",
+        "Beidi Chen",
+        "Song Han",
+        "Mike Lewis"
+      ],
+      "publication_year": 2023,
+      "doi": null,
+      "arxiv_id": "2309.17453",
+      "canonical_url": "https://arxiv.org/abs/2309.17453",
+      "other_identifiers": {},
+      "abstract": "Deploying Large Language Models (LLMs) in streaming applications such as multi-round dialogue, where long interactions are expected, is urgently needed but poses two major challenges. Firstly, during the decoding stage, caching previous tokens' Key and Value states (KV) consumes extensive memory. Secondly, popular LLMs cannot generalize to longer texts than the training sequence length. Window attention, where only the most recent KVs are cached, is a natural approach -- but we show that it fails when the text length surpasses the cache size. We observe an interesting phenomenon, namely attention sink, that keeping the KV of initial tokens will largely recover the performance of window attention. In this paper, we first demonstrate that the emergence of attention sink is due to the strong attention scores towards initial tokens as a \"sink\" even if they are not semantically important. Based on the above analysis, we introduce StreamingLLM, an efficient framework that enables LLMs trained with a finite length attention window to generalize to infinite sequence lengths without any fine-tuning. We show that StreamingLLM can enable Llama-2, MPT, Falcon, and Pythia to perform stable and efficient language modeling with up to 4 million tokens and more. In addition, we discover that adding a placeholder token as a dedicated attention sink during pre-training can further improve streaming deployment. In streaming settings, StreamingLLM outperforms the sliding window recomputation baseline by up to 22.2x speedup. Code and datasets are provided at https://github.com/mit-han-lab/streaming-llm.",
+      "provider_summary": "[research paper] StreamingLLM introduces a novel mechanism called 'attention sink'—where initial tokens in autoregressive LLMs receive disproportionately high attention scores due to softmax normalization—enabling stable long-sequence generation without fine-tuning. By preserving just 4 initial tokens' Key-Value (KV) states alongside a sliding window, the framework maintains attention score distribution integrity, achieving up to 22.2× speedup over re-computation baselines while supporting up to 4M tokens across Llama-2, MPT, Falcon, and Pythia models without performance degradation.",
+      "provider_score": 0.37179488,
+      "citation_count": 1721,
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ]
+    },
+    {
+      "title": "RocketKV: Accelerating Long-Context LLM Inference via Two-Stage KV Cache Compression",
+      "authors": [
+        "Payman Behnam",
+        "Yaosheng Fu",
+        "Ritchie Zhao",
+        "Po-An Tsai",
+        "Zhiding Yu",
+        "Alexey Tumanov"
+      ],
+      "publication_year": 2025,
+      "doi": null,
+      "arxiv_id": "2502.14051",
+      "canonical_url": "https://arxiv.org/abs/2502.14051",
+      "other_identifiers": {},
+      "abstract": "Transformer-based Large Language Models rely critically on the KV cache to efficiently handle extended contexts during the decode phase. Yet, the size of the KV cache grows proportionally with the input length, burdening both memory bandwidth and capacity as decoding progresses. To address this challenge, we present RocketKV, a training-free KV cache compression strategy containing two consecutive stages. In the first stage, it performs coarse-grain permanent KV cache eviction on the input sequence tokens. In the second stage, it adopts a hybrid sparse attention method to conduct fine-grain top-k sparse attention, approximating the attention scores by leveraging both head and sequence dimensionality reductions. We show that RocketKV provides a compression ratio of up to 400$\\\\times$, end-to-end speedup of up to 3.7$\\\\times$ as well as peak memory reduction of up to 32.6% in the decode phase on an NVIDIA A100 GPU compared to the full KV cache baseline, while achieving negligible accuracy loss on a variety of long-context tasks. We also propose a variant of RocketKV for multi-turn scenarios, which consistently outperforms other existing methods and achieves accuracy nearly on par with an oracle top-k attention scheme. The source code is available here: https://github.com/NVlabs/RocketKV.",
+      "provider_summary": "[research paper] RocketKV introduces a two-stage training-free KV cache compression framework that combines coarse-grain permanent eviction (via SnapKV) with fine-grain dynamic top-k selection using hybrid sparse attention (HSA), achieving up to 400× compression, 3.7× end-to-end speedup, and 32.6% peak memory reduction on A100 with negligible accuracy loss. The method adapts compression ratios across stages via an adaptive decomposition mechanism, while RocketKV-MT extends it to multi-turn scenarios by preserving all KV tokens across turns and only applying dynamic selection per turn, matching oracle top-k performance without extra storage overhead.",
+      "provider_score": 0.3541667,
+      "citation_count": 24,
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ]
+    },
+    {
+      "title": "Hold Onto That Thought: Assessing KV Cache Compression On Reasoning",
+      "authors": [
+        "Minghui Liu",
+        "Aadi Palnitkar",
+        "Tahseen Rabbani",
+        "Kyle Rui Sang",
+        "Hyunwoo Jae",
+        "Dixi Yao",
+        "Shayan Shabihi",
+        "Fuheng Zhao",
+        "Kunpeng Zhang",
+        "Tian Li",
+        "Ce Zhang",
+        "Furong Huang"
+      ],
+      "publication_year": 2025,
+      "doi": null,
+      "arxiv_id": "2512.12008",
+      "canonical_url": "https://arxiv.org/abs/2512.12008",
+      "other_identifiers": {},
+      "abstract": "Large language models (LLMs) have demonstrated remarkable performance on long-context tasks, but are often bottlenecked by memory constraints. Namely, the KV cache, which is used to significantly speed up attention computations, grows linearly with context length. A suite of compression algorithms has been introduced to alleviate cache growth by evicting unimportant tokens. However, several popular strategies are targeted towards the prefill phase, i.e., processing long prompt context, and their performance is rarely assessed on reasoning tasks requiring long decoding. In particular, short but complex prompts, such as those in benchmarks like GSM8K and MATH500, often benefit from multi-step reasoning and self-reflection, resulting in thinking sequences thousands of tokens long. In this work, we benchmark the performance of several popular compression strategies on long-reasoning tasks. For the non-reasoning Llama-3.1-8B-Instruct, we determine that no singular strategy fits all, and that performance is heavily influenced by dataset type. However, we discover that H2O and our decoding-enabled variant of SnapKV are dominant strategies for reasoning models, indicating the utility of heavy-hitter tracking for reasoning traces. We also find that eviction strategies at low budgets can produce longer reasoning traces, revealing a tradeoff between cache size and inference costs.",
+      "provider_summary": "[research paper] The paper evaluates KV cache compression strategies on long-generation reasoning tasks, revealing that attention-based 'heavy-hitter' methods—particularly H2O and a decoding-enabled variant of SnapKV (SnapKV-Decoding)—outperform others across diverse reasoning benchmarks. These methods exploit accumulated attention scores to evict low-impact tokens, maintaining reasoning quality even under strict memory budgets, while showing superior performance on models that generate long, complex thought traces (e.g., DeepSeek-R1, Llama-Nemotron). The study highlights a critical tradeoff: low-budget eviction can extend reasoning sequences, suggesting that cache size and inference cost are inversely related in reasoning contexts.",
+      "provider_score": 0.3,
+      "citation_count": 3,
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.PF"
+      ]
+    },
+    {
+      "title": "LKV: End-to-End Learning of Head-wise Budgets and Token Selection for LLM KV Cache Eviction",
+      "authors": [
+        "Enshuai Zhou",
+        "Yifan Hao",
+        "Chao Wang",
+        "Rui Zhang",
+        "Di Huang",
+        "Jiaming Guo",
+        "Xing Hu",
+        "Zidong Du",
+        "Qi Guo",
+        "Yunji Chen"
+      ],
+      "publication_year": 2026,
+      "doi": null,
+      "arxiv_id": "2605.06676",
+      "canonical_url": "https://arxiv.org/abs/2605.06676",
+      "other_identifiers": {},
+      "abstract": "Long-context inference in Large Language Models (LLMs) is bottlenecked by the linear growth of Key-Value (KV) cache memory. Existing KV cache compression paradigms are fundamentally limited by heuristics: heuristic budgeting relies on statistical priors rather than task objectives, causing resource misallocation, while heuristic selection relies on coupled query-key interactions or static inductive biases (e.g., attention sinks). To address this limitation, we introduce LKV (Learned KV Eviction), which formulates KV compression as an end-to-end differentiable optimization problem. LKV integrates LKV-H to learn task-optimized global budgets, and LKV-T to derive intrinsic KV importance without materializing attention matrices. This design bypasses heuristic proxies, strictly aligning compression with task objectives. Extensive evaluations demonstrate that LKV achieves state-of-the-art performance on both LongBench and RULER benchmarks at high compression rates. In particular, on LongBench, LKV achieves near-lossless performance with only 15\\% KV cache retention. Crucially, our analysis identifies learned budgeting as the dominant driver of fidelity, demonstrating that data-driven allocation is essential to overcome the limitations of hand-crafted heuristics.",
+      "provider_summary": "[research paper] LKV introduces an end-to-end differentiable framework for KV cache eviction in LLMs, replacing heuristic budgeting and token selection with learned, task-optimized policies. LKV-H learns head-wise budget allocation through global competition without rigid priors or static decay, while LKV-T enables matrix-free token selection by predicting utility directly from KV states, avoiding costly attention computations. The framework achieves near-lossless performance at 15% KV retention on LongBench and RULER, with empirical evidence showing learned budgeting is the dominant factor driving fidelity over selection policies.",
+      "provider_score": 0.28333333,
+      "citation_count": 0,
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ]
+    },
+    {
+      "title": "MPCache: MPC-Friendly KV Cache Eviction for Efficient Private LLM Inference",
+      "authors": [
+        "Wenxuan Zeng",
+        "Ye Dong",
+        "Jinjin Zhou",
+        "Junming Ma",
+        "Jin Tan",
+        "Runsheng Wang",
+        "Meng Li"
+      ],
+      "publication_year": 2025,
+      "doi": null,
+      "arxiv_id": "2501.06807",
+      "canonical_url": "https://arxiv.org/abs/2501.06807",
+      "other_identifiers": {},
+      "abstract": "Private large language model (LLM) inference based on secure multi-party computation (MPC) achieves formal data privacy protection but suffers from significant latency overhead, especially for long input sequences. While key-value (KV) cache eviction and sparse attention algorithms have been proposed for efficient LLM inference in plaintext, they are not designed for MPC and cannot benefit private LLM inference directly. In this paper, we propose an accurate and MPC-friendly KV cache eviction framework, dubbed MPCache, building on the observation that historical tokens in a long sequence may have different effects on the downstream decoding. Hence, MPCache combines a look-once static eviction algorithm to discard unimportant KV cache and a query-aware dynamic selection algorithm to activate only a small subset of KV cache for attention computation. MPCache further incorporates a series of optimizations for efficient dynamic KV cache selection, including MPC-friendly similarity approximation, hierarchical KV cache clustering, and cross-layer index-sharing strategy. Extensive experiments demonstrate that MPCache consistently outperforms prior-art KV cache eviction baselines across different generation tasks and achieves 1.8 ~ 2.01x and 3.39 ~ 8.37x decoding latency and communication reduction on different sequence lengths, respectively.",
+      "provider_summary": "[research paper] MPCache introduces an MPC-friendly KV cache eviction framework that combines static token pruning with query-aware dynamic selection to reduce attention computation in private LLM inference. It addresses the inefficiency of existing eviction methods in MPC settings by proposing MPC-friendly similarity approximation, hierarchical clustering for token grouping, and cross-layer index sharing to minimize communication and latency—achieving up to 2.01× latency reduction and 8.37× communication savings on long sequences without model retraining or fine-tuning.",
+      "provider_score": 0.25,
+      "citation_count": 2,
+      "categories": [
+        "cs.CR"
+      ]
+    },
+    {
+      "title": "SnapKV: LLM Knows What You are Looking for Before Generation",
+      "authors": [
+        "Yuhong Li",
+        "Yingbing Huang",
+        "Bowen Yang",
+        "Bharat Venkitesh",
+        "Acyr Locatelli",
+        "Hanchen Ye",
+        "Tianle Cai",
+        "Patrick Lewis",
+        "Deming Chen"
+      ],
+      "publication_year": 2024,
+      "doi": null,
+      "arxiv_id": "2404.14469",
+      "canonical_url": "https://arxiv.org/abs/2404.14469",
+      "other_identifiers": {},
+      "abstract": "Large Language Models (LLMs) have made remarkable progress in processing extensive contexts, with the Key-Value (KV) cache playing a vital role in enhancing their performance. However, the growth of the KV cache in response to increasing input length poses challenges to memory and time efficiency. To address this problem, this paper introduces SnapKV, an innovative and fine-tuning-free approach that efficiently minimizes KV cache size while still delivering comparable performance in real-world applications.\\\n  We discover that each attention head in the model consistently focuses on specific prompt attention features during generation. Meanwhile, this robust pattern can be obtained from an 'observation' window located at the end of the prompts. Drawing on this insight, SnapKV automatically compresses KV caches by selecting clustered important KV positions for each attention head. Our approach significantly reduces the growing computational overhead and memory footprint when processing long input sequences. Specifically, SnapKV achieves a consistent decoding speed with a 3.6x increase in generation speed and an 8.2x enhancement in memory efficiency compared to the baseline when processing inputs of 16K tokens. At the same time, it maintains comparable performance to the baseline models across 16 long sequence datasets. Moreover, SnapKV can process up to 380K context tokens on a single A100-80GB GPU using HuggingFace implementation with minor changes, exhibiting only a negligible accuracy drop in the Needle-in-a-Haystack test. Further comprehensive studies suggest SnapKV's potential for practical applications.",
+      "provider_summary": "[research paper] SnapKV identifies a consistent attention allocation pattern in LLMs where only a small, stable subset of prompt tokens (near the end) carry essential information for generation, enabling pre-generation compression of KV caches. By clustering and retaining only these critical features from the prompt's observation window, SnapKV reduces KV cache size by up to 8.2x with minimal accuracy loss, achieving 3.6x faster decoding and supporting up to 380K tokens on a single A100-80GB GPU without fine-tuning.",
+      "provider_score": 0.2,
+      "citation_count": 579,
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ]
+    },
+    {
+      "title": "BUZZ: Beehive-structured Sparse KV Cache with Segmented Heavy Hitters for Efficient LLM Inference",
+      "authors": [
+        "Junqi Zhao",
+        "Zhijin Fang",
+        "Shu Li",
+        "Shaohui Yang",
+        "Shichao He"
+      ],
+      "publication_year": 2024,
+      "doi": null,
+      "arxiv_id": "2410.23079",
+      "canonical_url": "https://arxiv.org/abs/2410.23079",
+      "other_identifiers": {},
+      "abstract": "Large language models (LLMs) are essential in natural language processing but often struggle with inference speed and computational efficiency, limiting real-time deployment. The key-value (KV) cache mechanism reduces computational overhead in transformer models, but challenges in maintaining contextual understanding remain. In this paper, we propose BUZZ, a novel KV caching algorithm that leverages structured contextual information to minimize cache memory usage while enhancing inference speed. BUZZ employs a beehive-structured sparse cache, incorporating a sliding window to capture recent information and dynamically segmenting historical tokens into chunks to prioritize important tokens in local neighborhoods. We evaluate BUZZ on four real-world datasets: CNN/Daily Mail, XSUM, Wikitext, and 10-QA. Our results demonstrate that BUZZ (1) reduces cache memory usage by $\\\\textbf{2.5}\\\\times$ in LLM inference while maintaining over 99% accuracy in long-text summarization, and (2) surpasses state-of-the-art performance in multi-document question answering by $\\\\textbf{7.69%}$ under the same memory limit, where full cache methods encounter out-of-memory issues. Additionally, BUZZ achieves significant inference speedup with a $\\\\log{n}$ time complexity. The code is available at https://github.com/JunqiZhao888/buzz-llm.",
+      "provider_summary": "[research paper] BUZZ introduces a beehive-structured sparse KV cache that dynamically segments historical tokens into local neighborhoods using a sliding window and identifies 'heavy hitters' via local maxima extraction, achieving 2.5× cache memory reduction with over 99% accuracy in long-text summarization and 7.69% performance gain in multi-document QA under memory constraints. Unlike global heavy hitter selection, BUZZ preserves contextual structure through segmented local optimization, maintains attention score distribution, and achieves O(n) time complexity with human-like memory decay patterns (denser retention for older tokens), enabling efficient long-context inference without OOM failures.",
+      "provider_score": 0.16666667,
+      "citation_count": 6,
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ]
+    },
+    {
+      "title": "SmallKV: Small Model Assisted Compensation of KV Cache Compression for Efficient LLM Inference",
+      "authors": [
+        "Yi Zhao",
+        "Yajuan Peng",
+        "Cam-Tu Nguyen",
+        "Zuchao Li",
+        "Xiaoliang Wang",
+        "Hai Zhao",
+        "Xiaoming Fu"
+      ],
+      "publication_year": 2025,
+      "doi": null,
+      "arxiv_id": "2508.02751",
+      "canonical_url": "https://arxiv.org/abs/2508.02751",
+      "other_identifiers": {},
+      "abstract": "KV cache eviction has emerged as an effective solution to alleviate resource constraints faced by LLMs in long-context scenarios. However, existing token-level eviction methods often overlook two critical aspects: (1) their irreversible eviction strategy fails to adapt to dynamic attention patterns during decoding (the saliency shift problem), and (2) they treat both marginally important tokens and truly unimportant tokens equally, despite the collective significance of marginal tokens to model performance (the marginal information over-compression problem). To address these issues, we design two compensation mechanisms based on the high similarity of attention matrices between LLMs of different scales. We propose SmallKV, a small model assisted compensation method for KV cache compression. SmallKV can maintain attention matching between different-scale LLMs to: 1) assist the larger model in perceiving globally important information of attention; and 2) use the smaller model's attention scores to approximate those of marginal tokens in the larger model. Extensive experiments on benchmarks including GSM8K, BBH, MT-Bench, and LongBench demonstrate the effectiveness of SmallKV. Moreover, efficiency evaluations show that SmallKV achieves 1.75 - 2.56 times higher throughput than baseline methods, highlighting its potential for efficient and performant LLM inference in resource constrained environments.",
+      "provider_summary": "[research paper] SmallKV introduces a small model-assisted compensation framework to address two critical flaws in existing KV cache eviction methods: (1) irreversible eviction fails to adapt to dynamic attention shifts (saliency shift problem), and (2) marginal tokens—though individually low in attention—are collectively vital and are uniformly compressed. By leveraging the high attention similarity between small and large models, SmallKV uses a small language model (SLM) to predict and compensate for both dynamically shifting salient tokens and the collective contribution of marginal tokens, enabling hierarchical, adaptive compression. Experiments on GSM8K, BBH, MT-Bench, and LongBench show consistent performance gains under low KV budgets, with throughput improvements of 1.75–2.56× over baselines, demonstrating strong efficiency and robustness across model sizes and architectures.",
+      "provider_score": 0.15948276,
+      "citation_count": 2,
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ]
+    }
+  ],
+  "retained": [
+    {
+      "index": 1,
+      "paper_ref": "paper_1b9422ce-9d25-4067-b427-900af360a482",
+      "title": "H$_2$O: Heavy-Hitter Oracle for Efficient Generative Inference of Large Language Models",
+      "arxiv_id": "2306.14048",
+      "rationale": "Foundational heavy-hitter eviction work with explicit dynamic token-importance mechanism and strong primary-paper uptake."
+    },
+    {
+      "index": 2,
+      "paper_ref": "paper_a7559efd-8df9-46e8-9b90-3554e02405df",
+      "title": "Efficient Streaming Language Models with Attention Sinks",
+      "arxiv_id": "2309.17453",
+      "rationale": "Foundational attention-sink plus sliding-window mechanism that separates stable streaming from general long-context recall."
+    },
+    {
+      "index": 7,
+      "paper_ref": "paper_e18584f4-3b7d-4375-b4b6-3f6bf5a24296",
+      "title": "SnapKV: LLM Knows What You are Looking for Before Generation",
+      "arxiv_id": "2404.14469",
+      "rationale": "Representative prompt-aware pre-generation compression method, mechanistically distinct from decode-time heavy-hitter eviction."
+    }
+  ],
+  "retain_state_revision": 5
+}
