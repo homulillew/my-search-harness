@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import StrEnum
+from pathlib import Path
 from typing import Protocol, TypeAlias
 
 from my_search_harness.domain.model import SourceLocator
@@ -16,6 +17,27 @@ from .source_access import ReadSourceResult, SourceAccessAttemptError
 
 class ReportPipelineError(RuntimeError):
     """A report-stage boundary rejected semantic runner output."""
+
+
+class ReportWritingGuideLoadError(RuntimeError):
+    """The configured report writing guideline cannot be loaded."""
+
+
+def load_report_writing_guide(path: str | Path) -> str:
+    """Load the authoritative writing guideline without interpreting it."""
+
+    guide_path = Path(path)
+    try:
+        guideline = guide_path.read_text(encoding="utf-8")
+    except FileNotFoundError as exc:
+        raise ReportWritingGuideLoadError(
+            f"report writing guide not found: {guide_path}"
+        ) from exc
+    if not guideline.strip():
+        raise ReportWritingGuideLoadError(
+            f"report writing guide is empty: {guide_path}"
+        )
+    return guideline
 
 
 class ResearchEscalationRequired(RuntimeError):

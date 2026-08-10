@@ -53,6 +53,22 @@ delivery = runtime.delivery
 和 Wiki 的语义阶段通过对应 Protocol 注入，确定性完整示例见
 [`tests/test_end_to_end.py`](tests/test_end_to_end.py)。
 
+正式 Report Pipeline 由调用方显式指定权威写作指南路径：
+
+```python
+pipeline = runtime.report_pipeline(
+    planner=planner,
+    composer=composer,
+    integrator=integrator,
+    editor_factory=editor_factory,
+    reviser=reviser,
+    integrity_reviewer=integrity_reviewer,
+    writing_guideline_path=".vibe/REPORT_WRITING_GUIDE.md",
+)
+```
+
+Runtime 以 UTF-8 原样加载该文件，不依赖当前工作目录自动发现，也不复制指南内容。
+
 ## 验证
 
 ```bash

@@ -26,6 +26,7 @@ from .reporting import (
     ReportPipeline,
     ReportReviser,
     ResearchIntegrityReviewer,
+    load_report_writing_guide,
 )
 from .source_access import SourceAccessProvider
 from .wiki import (
@@ -115,9 +116,9 @@ class LocalV1Runtime:
         editor_factory: FreshEditorialReviewerFactory,
         reviser: ReportReviser,
         integrity_reviewer: ResearchIntegrityReviewer,
-        writing_guideline: str,
+        writing_guideline_path: str | Path,
     ) -> ReportPipeline:
-        """Bind semantic report actors to this workspace's Delivery capability."""
+        """Bind report actors and the explicitly configured writing guide."""
 
         return ReportPipeline(
             self._delivery,
@@ -128,7 +129,7 @@ class LocalV1Runtime:
             reviser=reviser,
             integrity_reviewer=integrity_reviewer,
             citation_renderer=DeterministicCitationRenderer(),
-            writing_guideline=writing_guideline,
+            writing_guideline=load_report_writing_guide(writing_guideline_path),
         )
 
     def wiki_runtime(

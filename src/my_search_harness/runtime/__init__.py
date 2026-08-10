@@ -126,9 +126,11 @@ from .reporting import (
     ReportResearchReopenedResult,
     ReportReviser,
     ReportRevisionRequiredError,
+    ReportWritingGuideLoadError,
     ResearchEscalationRequired,
     ResearchIntegrityReview,
     ResearchIntegrityReviewer,
+    load_report_writing_guide,
 )
 from .persistence import (
     JsonResearchRunRepository,
@@ -305,9 +307,11 @@ __all__ = [
     "ReportResearchReopenedResult",
     "ReportReviser",
     "ReportRevisionRequiredError",
+    "ReportWritingGuideLoadError",
     "ResearchEscalationRequired",
     "ResearchIntegrityReview",
     "ResearchIntegrityReviewer",
+    "load_report_writing_guide",
     "CitationAuditResult",
     "CitationValidationError",
     "DeterministicCitationRenderer",
