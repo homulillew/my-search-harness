@@ -139,8 +139,10 @@ class FreshCheckerFactory:
 class E2EPlanner:
     def __init__(self, finding_ref: str) -> None:
         self.finding_ref = finding_ref
+        self.writing_guideline: str | None = None
 
     def plan(self, view, writing_guideline):
+        self.writing_guideline = writing_guideline
         return NarrativePlan(
             audience="Technical readers",
             reader_takeaway="Understand the accepted result and its boundary",
@@ -369,18 +371,26 @@ class V1EndToEndTests(TestCase):
         self.assertFalse(checker_factory.instances[0].has_research_mutation)
 
         editor_factory = FreshEditorFactory()
+        planner = E2EPlanner(finding.entity_ref)
+        writing_guide_path = (
+            Path(__file__).parents[1] / ".vibe" / "REPORT_WRITING_GUIDE.md"
+        )
         report = runtime.report_pipeline(
-            planner=E2EPlanner(finding.entity_ref),
+            planner=planner,
             composer=E2EComposer(paper_ref),
             integrator=PassthroughIntegrator(),
             editor_factory=editor_factory,
             reviser=PassthroughReviser(),
             integrity_reviewer=PassingIntegrityReviewer(),
-            writing_guideline="Write concise claims grounded in retained papers.",
+            writing_guideline_path=writing_guide_path,
         ).run(created.run_id)
         self.assertIsInstance(report, PublishedReportPipelineResult)
         assert isinstance(report, PublishedReportPipelineResult)
         self.assertEqual(1, editor_factory.create_count)
+        self.assertEqual(
+            writing_guide_path.read_text(encoding="utf-8"),
+            planner.writing_guideline,
+        )
         self.assertIn("[1, section: Results]", report.artifact.path.read_text())
 
         validation = runtime.delivery.validate_delivery(created.run_id)

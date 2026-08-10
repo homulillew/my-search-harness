@@ -32,12 +32,14 @@ from my_search_harness.runtime import (
     ReportPipelineError,
     ReportResearchReopenedResult,
     ReportRevisionRequiredError,
+    ReportWritingGuideLoadError,
     ResearchEscalationRequired,
     ResearchIntegrityReview,
     SourceContent,
     SourceOutline,
     SourceOutlineEntry,
     build_runtime_capabilities,
+    load_report_writing_guide,
 )
 
 
@@ -236,6 +238,37 @@ class RecordingRenderer:
         return self.content
 
 
+class ReportWritingGuideLoaderTests(TestCase):
+    def test_authoritative_guide_loads_verbatim_as_utf8(self) -> None:
+        guide_path = Path(__file__).parents[1] / ".vibe" / "REPORT_WRITING_GUIDE.md"
+
+        guideline = load_report_writing_guide(guide_path)
+
+        self.assertEqual(guide_path.read_text(encoding="utf-8"), guideline)
+        self.assertIn("普通概念优先使用中文", guideline)
+
+    def test_missing_guide_fails_explicitly(self) -> None:
+        with TemporaryDirectory() as temporary:
+            missing = Path(temporary) / "missing-guide.md"
+
+            with self.assertRaisesRegex(
+                ReportWritingGuideLoadError,
+                "report writing guide not found",
+            ):
+                load_report_writing_guide(missing)
+
+    def test_empty_guide_fails_explicitly(self) -> None:
+        with TemporaryDirectory() as temporary:
+            empty = Path(temporary) / "empty-guide.md"
+            empty.write_text(" \n\t", encoding="utf-8")
+
+            with self.assertRaisesRegex(
+                ReportWritingGuideLoadError,
+                "report writing guide is empty",
+            ):
+                load_report_writing_guide(empty)
+
+
 class ReportPipelineTests(TestCase):
     def setUp(self) -> None:
         self.temporary = TemporaryDirectory()
@@ -342,6 +375,85 @@ class ReportPipelineTests(TestCase):
             "A concise cited report", editor_factory.instances[0].deliverable
         )
         self.assertEqual("# Report\n\nRendered [1].", self.report_path.read_text())
+
+    def test_complete_guide_reaches_all_semantic_writing_stages_only(self) -> None:
+        guide_path = Path(__file__).parents[1] / ".vibe" / "REPORT_WRITING_GUIDE.md"
+        guideline = load_report_writing_guide(guide_path)
+        received: dict[str, str] = {}
+        integrity_calls = 0
+        paper_ref = self.paper_ref
+
+        class Planner:
+            def plan(self, view, writing_guideline):
+                received["planner"] = writing_guideline
+                return NarrativePlan(
+                    audience="Technical readers",
+                    reader_takeaway="Understand the accepted finding",
+                    sections=(
+                        NarrativeSection(
+                            title="Finding",
+                            purpose="Explain the accepted finding",
+                            research_refs=(paper_ref,),
+                        ),
+                    ),
+                )
+
+        class Composer:
+            def compose(self, view, plan, writing_guideline, evidence):
+                received["composer"] = writing_guideline
+                return ReportManuscript(markdown="# Draft\n\nGrounded finding.")
+
+        class Integrator:
+            def integrate(self, view, plan, manuscript, writing_guideline, evidence):
+                received["integrator"] = writing_guideline
+                return manuscript
+
+        class Editor:
+            def review(self, deliverable, plan, writing_guideline, manuscript):
+                received["fresh_editor"] = writing_guideline
+                return EditorialReview()
+
+        class EditorFactory:
+            def create(self):
+                return Editor()
+
+        class Reviser:
+            def revise(
+                self,
+                view,
+                plan,
+                manuscript,
+                review,
+                writing_guideline,
+                evidence,
+            ):
+                received["reviser"] = writing_guideline
+                return manuscript
+
+        class IntegrityReviewer:
+            def review(self, view, manuscript, evidence):
+                nonlocal integrity_calls
+                integrity_calls += 1
+                return ResearchIntegrityReview(disposition=IntegrityDisposition.PASS)
+
+        ReportPipeline(
+            self.capabilities.delivery,
+            planner=Planner(),
+            composer=Composer(),
+            integrator=Integrator(),
+            editor_factory=EditorFactory(),
+            reviser=Reviser(),
+            integrity_reviewer=IntegrityReviewer(),
+            citation_renderer=RecordingRenderer([]),
+            writing_guideline=guideline,
+        ).run(self.run_id)
+
+        self.assertEqual(
+            {"planner", "composer", "integrator", "fresh_editor", "reviser"},
+            set(received),
+        )
+        self.assertEqual({guideline}, set(received.values()))
+        self.assertEqual(1, integrity_calls)
 
     def test_integrity_source_read_advances_revision_before_artifact_publish(
         self,
