@@ -9,7 +9,7 @@ quality.
 from __future__ import annotations
 
 from collections.abc import Iterable, Mapping
-from datetime import datetime
+from datetime import date, datetime
 from typing import NoReturn, Protocol, TypeVar
 from uuid import UUID
 
@@ -208,6 +208,15 @@ def _validate_paper_source(source: object, path: str) -> PaperSource:
         or isinstance(source.publication_year, bool)
     ):
         _fail(f"{path}.publication_year must be an integer or None")
+    if source.publication_date is not None:
+        if not isinstance(source.publication_date, str):
+            _fail(f"{path}.publication_date must use YYYY-MM-DD or be None")
+        try:
+            parsed_publication_date = date.fromisoformat(source.publication_date)
+        except ValueError:
+            _fail(f"{path}.publication_date must use YYYY-MM-DD or be None")
+        if source.publication_date != parsed_publication_date.isoformat():
+            _fail(f"{path}.publication_date must use YYYY-MM-DD or be None")
     for name, value in (
         ("doi", source.doi),
         ("arxiv_id", source.arxiv_id),

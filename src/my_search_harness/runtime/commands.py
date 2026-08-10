@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Mapping
 from copy import deepcopy
 from dataclasses import dataclass, field
+from datetime import date
 from typing import TypeAlias
 
 from my_search_harness.domain.model import (
@@ -1220,6 +1221,21 @@ class ResearchCommands:
             or isinstance(hit.publication_year, bool)
         ):
             raise CommandRejectedError("publication_year must be an integer or None")
+        if hit.publication_date is not None:
+            if not isinstance(hit.publication_date, str):
+                raise CommandRejectedError(
+                    "publication_date must use YYYY-MM-DD or be None"
+                )
+            try:
+                parsed_publication_date = date.fromisoformat(hit.publication_date)
+            except ValueError:
+                raise CommandRejectedError(
+                    "publication_date must use YYYY-MM-DD or be None"
+                ) from None
+            if hit.publication_date != parsed_publication_date.isoformat():
+                raise CommandRejectedError(
+                    "publication_date must use YYYY-MM-DD or be None"
+                )
         for name, value in (
             ("doi", hit.doi),
             ("arxiv_id", hit.arxiv_id),
@@ -1238,6 +1254,7 @@ class ResearchCommands:
             title=hit.title,
             authors=hit.authors,
             publication_year=hit.publication_year,
+            publication_date=hit.publication_date,
             doi=hit.doi,
             arxiv_id=hit.arxiv_id,
             canonical_url=(

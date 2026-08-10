@@ -25,6 +25,7 @@ class PaperSearchHit:
     title: str
     authors: tuple[str, ...] = ()
     publication_year: int | None = None
+    publication_date: str | None = None
     doi: str | None = None
     arxiv_id: str | None = None
     canonical_url: str | None = None
@@ -83,12 +84,21 @@ class PaperSearchProvider(Protocol):
         offset: int = 0,
         date_from: str | None = None,
         date_to: str | None = None,
-    ) -> tuple[PaperSearchHit, ...]: ...
+    ) -> PaperSearchPage: ...
+
+
+@dataclass(slots=True, frozen=True, kw_only=True)
+class PaperSearchPage:
+    """One provider page with the provider-reported matching-result count."""
+
+    total_count: int
+    hits: tuple[PaperSearchHit, ...]
 
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class PaperSearchResult:
     state_revision: int
+    total_count: int
     hits: tuple[PaperSearchHit, ...]
 
 
@@ -161,7 +171,7 @@ class PaperSearchService:
         self._repository.save(attempted, expected_revision)
 
         try:
-            hits = self._provider.search(
+            page = self._provider.search(
                 query.strip(),
                 limit=limit,
                 offset=offset,
@@ -199,8 +209,13 @@ class PaperSearchService:
                 failure_kind=ProviderFailureKind.OTHER,
             ) from None
 
-        if not isinstance(hits, tuple) or not all(
-            isinstance(hit, PaperSearchHit) for hit in hits
+        if (
+            not isinstance(page, PaperSearchPage)
+            or not isinstance(page.total_count, int)
+            or isinstance(page.total_count, bool)
+            or page.total_count < 0
+            or not isinstance(page.hits, tuple)
+            or not all(isinstance(hit, PaperSearchHit) for hit in page.hits)
         ):
             self._audit_attempt(
                 attempted,
@@ -225,11 +240,13 @@ class PaperSearchService:
             offset=offset,
             date_from=date_from,
             date_to=date_to,
-            hit_count=len(hits),
+            hit_count=len(page.hits),
+            total_count=page.total_count,
         )
         return PaperSearchResult(
             state_revision=attempted.state_revision,
-            hits=hits,
+            total_count=page.total_count,
+            hits=page.hits,
         )
 
     def _audit_attempt(
@@ -244,6 +261,7 @@ class PaperSearchService:
         date_from: str | None,
         date_to: str | None,
         hit_count: int | None = None,
+        total_count: int | None = None,
     ) -> None:
         details: dict[str, AuditScalar] = {
             "query": query,
@@ -256,6 +274,8 @@ class PaperSearchService:
             details["date_to"] = date_to
         if hit_count is not None:
             details["hit_count"] = hit_count
+        if total_count is not None:
+            details["total_count"] = total_count
         append_audit(
             self._audit_sink,
             AuditEvent(

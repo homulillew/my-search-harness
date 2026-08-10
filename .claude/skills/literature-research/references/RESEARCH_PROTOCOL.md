@@ -37,12 +37,36 @@ terms, method names, benchmark names, influential authors, and limitations can e
 different literature.
 
 For latest/current/recent requests, add frontier searches with explicit dates. Choose a
-window appropriate to the field and user intent. Search the first page and later offsets;
-compare returned identities to determine whether pagination adds useful coverage. A
-ranking without date filters is not evidence of recency coverage.
+window appropriate to the field and user intent, then execute a Frontier Sweep:
+
+```text
+broad recent search → inspect terminology in recent hits → emerging-term expansion
+→ route-specific recent searches → pagination → frontier-coverage reassessment
+```
+
+Do not build frontier queries only from paraphrases of the user's wording. Extract actual
+method names, training algorithms, reward designs, benchmarks, mechanisms, new terms,
+and authors when useful from recent hits and retained sources. Feed those terms back into
+the next search round. A ranking without date filters is not evidence of recency coverage.
+
+For broad discovery, request 30–100 results when provider cost permits. Tens of
+deduplicated candidates are normal for a deep survey, but retain selectively and read
+only the candidates that reduce a contract-relevant uncertainty. This preserves the
+large observation funnel → selective retention → targeted reading relationship.
+
+Treat provider-reported `total_count` as an observation for pagination planning. Compare
+new unique identities, new routes, and recent-paper novelty across offsets. Continue
+while marginal novelty remains useful; do not mechanically exhaust every page. Do not
+sort one semantic page by date and claim it represents the globally latest literature.
 
 Search results are observations. Retain only candidates useful for the current contract,
 and do so explicitly. Arbitrary provider identifiers do not establish paper identity.
+
+If a citation, related-work section, user-provided name, or known identifier identifies a
+specific primary paper, try its exact title or arXiv ID for verification or targeted
+discovery. Exact lookup does not replace broad search. Semantic search is not guaranteed
+exhaustive; if a required recent window or known relevant paper cannot be retrieved,
+record the provider limitation instead of silently claiming frontier completeness.
 
 A field-level deep survey normally progresses from broad discovery to route discovery,
 route-specific expansion, frontier search, and gap-driven follow-up. For a broad field,
@@ -55,6 +79,12 @@ development. No fixed paper count proves completion.
 Search history helps the Researcher judge exploration quality and resume work. It is
 operational evidence for planning, not an additional authority available to the
 Completion Checker.
+
+Before requesting Completion for a latest/recent task, the Researcher must be able to
+state the newest retained relevant publication date, searched recent window, frontier
+queries, terminology-driven follow-ups, and whether pagination exposed newer work. This
+is a self-check against the retained corpus and audit history. The fresh Completion
+Checker still sees only retained state and structured synthesis.
 
 ## Evidence acquisition
 
@@ -106,10 +136,10 @@ each contract requirement and explain known limits. A fresh checker then follows
 `COMPLETION_GUIDE.md`; it cannot search or mutate research state.
 
 A PASS moves the run to Delivery. Delivery produces a report from current authorized
-state, applies the full Writing Guide to each style-bearing semantic stage, performs a
-separate research-integrity review, resolves citations deterministically, publishes the
-artifact, validates it, and closes the run. Unsupported report content returns to
-Research instead of being repaired through prose alone.
+state, applies the separate Writing and Research Integrity guides to their respective
+semantic stages, resolves citations deterministically, publishes the artifact, validates
+it, and closes the run. Unsupported report content returns to Research instead of being
+repaired through prose alone.
 
 ## Recovery checklist
 

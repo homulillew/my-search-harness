@@ -252,11 +252,11 @@ class ReportWritingGuideLoaderTests(TestCase):
         guideline = load_report_writing_guide(guide_path)
 
         self.assertEqual(guide_path.read_text(encoding="utf-8"), guideline)
-        self.assertIn("普通概念优先使用中文", guideline)
-        self.assertIn("一个段落通常只完成一个主要论证任务", guideline)
+        self.assertIn("Synthesis 优先于 Summary", guideline)
+        self.assertIn("一个段落只完成一个主要论证任务", guideline)
+        self.assertIn("使用现代研究汉语", guideline)
         self.assertIn("第一次正式介绍该方法名称", guideline)
-        self.assertIn("方法超链接只提供导航，不替代 structured citation", guideline)
-        self.assertIn("领域技术路线报告不应只停留在路线名称层", guideline)
+        self.assertIn("不替代正式 citation", guideline)
 
     def test_curated_regression_links_methods_without_replacing_citations(
         self,

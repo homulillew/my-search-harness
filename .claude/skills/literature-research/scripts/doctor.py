@@ -64,6 +64,7 @@ def run_checks(workspace: Path, skill: Path | None = None) -> dict[str, object]:
         "RUNTIME_API.md",
         "COMPLETION_GUIDE.md",
         "REPORT_WRITING_GUIDE.md",
+        "RESEARCH_INTEGRITY_GUIDE.md",
     )
     reference_results = {
         name: (skill / "references" / name).is_file() for name in references
@@ -83,6 +84,9 @@ def run_checks(workspace: Path, skill: Path | None = None) -> dict[str, object]:
             "writable": _workspace_writable(workspace),
         },
         "writing_guide": {"exists": reference_results["REPORT_WRITING_GUIDE.md"]},
+        "research_integrity_guide": {
+            "exists": reference_results["RESEARCH_INTEGRITY_GUIDE.md"]
+        },
         "references": reference_results,
     }
     ok = (

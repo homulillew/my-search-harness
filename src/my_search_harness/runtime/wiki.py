@@ -62,6 +62,7 @@ class WikiPaperInput:
     title: str
     authors: tuple[str, ...]
     publication_year: int | None
+    publication_date: str | None
     doi: str | None
     arxiv_id: str | None
     canonical_url: str | None
@@ -259,6 +260,7 @@ class WikiProjectionService:
                     title=paper.source.title,
                     authors=paper.source.authors,
                     publication_year=paper.source.publication_year,
+                    publication_date=paper.source.publication_date,
                     doi=paper.source.doi,
                     arxiv_id=paper.source.arxiv_id,
                     canonical_url=paper.source.canonical_url,

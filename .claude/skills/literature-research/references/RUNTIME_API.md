@@ -43,11 +43,14 @@ wiki-query --query TEXT [--limit N]
 
 `search-papers` requires `--run-id`, `--expected-revision`, `--query`; it supports
 `--limit`, `--offset`, `--date-from`, and `--date-to`. Dates use `YYYY-MM-DD`. Search
-output is observation-only and contains all provider-neutral hit fields.
+output is observation-only, exposes the provider-reported `total_count`, and contains
+all provider-neutral hit fields. Each hit exposes `publication_date` (`YYYY-MM-DD`) and
+`publication_year` when available.
 
 `retain-papers --input FILE` accepts either `{"hits": [...]}` or one complete prior
 search result object containing a `hits` array. Each hit uses the fields emitted by
-`search-papers`. Retain changes state; search alone does not add papers.
+`search-papers`. Search hits remain observations. Retain changes state; search alone does
+not add papers, while an explicit retain preserves both date fields on `PaperSource`.
 
 ## Research evidence
 

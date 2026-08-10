@@ -221,6 +221,7 @@ _HIT_FIELDS = frozenset(
         "title",
         "authors",
         "publication_year",
+        "publication_date",
         "doi",
         "arxiv_id",
         "canonical_url",
@@ -279,6 +280,9 @@ def _hit(value: object) -> PaperSearchHit:
         authors=_strings(value.get("authors", []), "authors"),
         publication_year=_optional_int(
             value.get("publication_year"), "publication_year"
+        ),
+        publication_date=_optional_string(
+            value.get("publication_date"), "publication_date"
         ),
         doi=_optional_string(value.get("doi"), "doi"),
         arxiv_id=_optional_string(value.get("arxiv_id"), "arxiv_id"),

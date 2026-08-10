@@ -72,7 +72,8 @@ my-search-harness V1 Runtime
 Research, Completion, and Delivery capabilities are intentionally separate. Search hits
 and source text are observations until Claude explicitly retains and synthesizes them.
 Completion uses a fresh verification-only checker. Report style stages share the complete
-authoritative Writing Guide; Research Integrity remains a separate boundary.
+authoritative Writing Guide; Research Integrity uses its own guide and remains a separate
+boundary.
 
 ## Repository layout
 
@@ -88,6 +89,10 @@ workspace/                           # ignored runtime data
 
 The authoritative report style source is
 [`REPORT_WRITING_GUIDE.md`](.claude/skills/literature-research/references/REPORT_WRITING_GUIDE.md).
+It controls organization, prose, synthesis, and readability. The separate
+[`RESEARCH_INTEGRITY_GUIDE.md`](.claude/skills/literature-research/references/RESEARCH_INTEGRITY_GUIDE.md)
+controls claim strength, evidence boundaries, comparison validity, and benchmark
+interpretation.
 Runtime composition continues to receive its path explicitly:
 
 ```python

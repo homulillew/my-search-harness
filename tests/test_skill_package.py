@@ -52,6 +52,7 @@ class SkillLayoutTests(TestCase):
             "references/RUNTIME_API.md",
             "references/COMPLETION_GUIDE.md",
             "references/REPORT_WRITING_GUIDE.md",
+            "references/RESEARCH_INTEGRITY_GUIDE.md",
             "scripts/harness",
             "scripts/harness.py",
             "scripts/doctor.py",
@@ -71,6 +72,7 @@ class SkillLayoutTests(TestCase):
             "RUNTIME_API.md",
             "COMPLETION_GUIDE.md",
             "REPORT_WRITING_GUIDE.md",
+            "RESEARCH_INTEGRITY_GUIDE.md",
         ):
             self.assertIn(name, content)
         self.assertIn("${CLAUDE_SKILL_DIR}", content)
@@ -111,18 +113,46 @@ class SkillLayoutTests(TestCase):
         self.assertIn("never inside the skill directory", skill)
         self.assertIn("outside the Skill installation directory", normalized_standalone)
 
-    def test_guide_is_complete_and_is_the_only_tracked_guide(self) -> None:
-        guides = tuple(
+    def test_writing_and_integrity_guides_are_distinct_authorities(self) -> None:
+        writing_guides = tuple(
             path
             for path in ROOT.rglob("REPORT_WRITING_GUIDE.md")
             if "dist" not in path.relative_to(ROOT).parts
         )
-        self.assertEqual(guides, (SKILL / "references" / "REPORT_WRITING_GUIDE.md",))
-        content = guides[0].read_text(encoding="utf-8")
-        self.assertIn("## 1. 写作目标", content)
-        self.assertIn("## 10. 最终检查", content)
-        self.assertIn("方法名写为 Markdown 超链接", content)
-        self.assertIn("认知负担过高的长段", content)
+        integrity_guides = tuple(
+            path
+            for path in ROOT.rglob("RESEARCH_INTEGRITY_GUIDE.md")
+            if "dist" not in path.relative_to(ROOT).parts
+        )
+        writing_path = SKILL / "references" / "REPORT_WRITING_GUIDE.md"
+        integrity_path = SKILL / "references" / "RESEARCH_INTEGRITY_GUIDE.md"
+        self.assertEqual(writing_guides, (writing_path,))
+        self.assertEqual(integrity_guides, (integrity_path,))
+        writing = writing_path.read_text(encoding="utf-8")
+        integrity = integrity_path.read_text(encoding="utf-8")
+        self.assertNotEqual(writing, integrity)
+        for marker in (
+            "Synthesis 优先于 Summary",
+            "一个段落只完成",
+            "Primary Paper 导航",
+        ):
+            self.assertIn(marker, writing)
+        for marker in ("区分证据层级", "SOTA 是高风险表述", "Ablation 不自动证明机制"):
+            self.assertIn(marker, integrity)
+
+    def test_doctor_requires_research_integrity_guide(self) -> None:
+        doctor = load_module(
+            "literature_research_doctor_test", SKILL / "scripts" / "doctor.py"
+        )
+        with TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            fixture_skill = root / "literature-research"
+            shutil.copytree(SKILL, fixture_skill)
+            (fixture_skill / "references" / "RESEARCH_INTEGRITY_GUIDE.md").unlink()
+            result = doctor.run_checks(root / "workspace", fixture_skill)
+        references = result["checks"]["references"]
+        self.assertFalse(references["RESEARCH_INTEGRITY_GUIDE.md"])
+        self.assertFalse(result["healthy"])
 
 
 class SkillAdapterTests(TestCase):
@@ -229,11 +259,13 @@ class SkillAdapterTests(TestCase):
                 calls.append((run_id, revision, query, options))
                 return PaperSearchResult(
                     state_revision=8,
+                    total_count=41,
                     hits=(
                         PaperSearchHit(
                             title="Frontier paper",
                             authors=("A. Author",),
                             publication_year=2026,
+                            publication_date="2026-08-03",
                             arxiv_id="2608.00001",
                             canonical_url="https://arxiv.org/abs/2608.00001",
                             abstract="Abstract",
@@ -271,6 +303,7 @@ class SkillAdapterTests(TestCase):
             runtime_factory=lambda workspace, external: FakeRuntime(),
         )
         self.assertEqual(status, 0)
+        self.assertEqual(output["result"]["total_count"], 41)
         self.assertEqual(
             calls[0][3],
             {
@@ -285,6 +318,7 @@ class SkillAdapterTests(TestCase):
         self.assertEqual(hit["provider_summary"], "Summary")
         self.assertEqual(hit["provider_score"], 0.9)
         self.assertEqual(hit["citation_count"], 3)
+        self.assertEqual(hit["publication_date"], "2026-08-03")
 
     def test_retain_accepts_complete_adapter_search_output(self) -> None:
         retained = []
@@ -407,6 +441,9 @@ class StandalonePackageTests(TestCase):
             destination = packager.package_skill(fixture_root)
 
             self.assertTrue((destination / "SKILL.md").is_file())
+            self.assertTrue(
+                (destination / "references" / "RESEARCH_INTEGRITY_GUIDE.md").is_file()
+            )
             retired_example = "technical-" + "route-survey.md"
             self.assertFalse((destination / "examples").exists())
             self.assertFalse(
@@ -451,6 +488,9 @@ class StandalonePackageTests(TestCase):
             self.assertEqual(completed.returncode, 0, completed.stderr)
             diagnosis = json.loads(completed.stdout)
             self.assertTrue(diagnosis["healthy"])
+            self.assertTrue(
+                diagnosis["checks"]["references"]["RESEARCH_INTEGRITY_GUIDE.md"]
+            )
 
             imported = subprocess.run(
                 [

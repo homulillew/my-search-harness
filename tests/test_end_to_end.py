@@ -32,6 +32,7 @@ from my_search_harness.runtime import (
     NarrativeSection,
     PaperSearchConfigurationError,
     PaperSearchHit,
+    PaperSearchPage,
     PublishedReportPipelineResult,
     PutPaperAnalysis,
     ReportManuscript,
@@ -59,19 +60,23 @@ class FakeDeepXivSearch:
         offset: int = 0,
         date_from: str | None = None,
         date_to: str | None = None,
-    ) -> tuple[PaperSearchHit, ...]:
+    ) -> PaperSearchPage:
         self.calls.append((query, limit, offset, date_from, date_to))
-        return (
-            PaperSearchHit(
-                title="A Primary Study of Bounded Search",
-                authors=("Ada Author",),
-                publication_year=2026,
-                arxiv_id="2608.01234",
-                canonical_url="https://arxiv.org/abs/2608.01234",
-                abstract="Ephemeral provider abstract",
-                provider_summary="Ephemeral provider summary",
-                provider_score=0.99,
-                citation_count=42,
+        return PaperSearchPage(
+            total_count=1,
+            hits=(
+                PaperSearchHit(
+                    title="A Primary Study of Bounded Search",
+                    authors=("Ada Author",),
+                    publication_year=2026,
+                    publication_date="2026-08-01",
+                    arxiv_id="2608.01234",
+                    canonical_url="https://arxiv.org/abs/2608.01234",
+                    abstract="Ephemeral provider abstract",
+                    provider_summary="Ephemeral provider summary",
+                    provider_score=0.99,
+                    citation_count=42,
+                ),
             ),
         )
 

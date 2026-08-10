@@ -6,6 +6,10 @@ whether to request completion, and how to write. Python enforces lifecycle autho
 stable references, revision-safe commands, provenance, accounting, persistence,
 citations, and artifact validation.
 
+`REPORT_WRITING_GUIDE.md` governs organization, prose, synthesis, and readability.
+`RESEARCH_INTEGRITY_GUIDE.md` separately governs claim strength, evidence boundaries,
+comparison validity, and benchmark interpretation.
+
 ## Install a standalone export
 
 ```bash
@@ -66,4 +70,5 @@ literature-research/
 ```
 
 See `references/RUNTIME_API.md` for command schemas and
-`references/RESEARCH_PROTOCOL.md` for operating guidance.
+`references/RESEARCH_PROTOCOL.md` for operating guidance. Writing and integrity remain
+separate authorities in their respective reference guides.

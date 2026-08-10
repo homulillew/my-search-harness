@@ -26,6 +26,9 @@ Read only the supporting material needed for the current stage:
   boundary and PASS / CONTINUE / UNCERTAIN criteria.
 - [Report writing guide](references/REPORT_WRITING_GUIDE.md): the authoritative style
   and editorial standard used by all semantic writing stages.
+- [Research integrity guide](references/RESEARCH_INTEGRITY_GUIDE.md): evidence-strength,
+  benchmark, comparison, causality, recency, and high-risk claim checks used by the
+  independent Research Integrity Reviewer.
 
 ## Start from the request
 
@@ -88,13 +91,19 @@ seminal work, surveys, and competing framings. Vary query vocabulary and route r
 than repeating one prompt.
 
 For requests containing “latest”, “current”, “recent”, “state of the art”, or an
-equivalent time-sensitive requirement, also run frontier searches with explicit
-`--date-from` and `--date-to`. Derive the date window from the request and current date;
-do not rely on ranking alone to surface recent papers.
+equivalent time-sensitive requirement, run a Frontier Sweep:
 
-Use pagination deliberately. A first page is a sample, not proof of landscape
-coverage. Compare later pages with earlier results and stop only when marginal value
-falls or the current gap is resolved.
+```text
+broad recent search → inspect current terminology → emerging-term expansion
+→ route-specific recent searches → deliberate pagination → reassess coverage
+```
+
+Use explicit `--date-from` and `--date-to`, derived from the request and current date.
+Do not create frontier queries only by paraphrasing the request. Extract method names,
+training algorithms, reward designs, benchmarks, mechanisms, new terminology, and useful
+authors from recent hits, then use them as follow-up seeds. Deep surveys normally use a
+30–100-result discovery funnel when provider cost permits and observe tens of
+deduplicated candidates; retain only the useful subset.
 
 ```bash
 ${CLAUDE_SKILL_DIR}/scripts/harness --workspace workspace search-papers \
@@ -102,9 +111,17 @@ ${CLAUDE_SKILL_DIR}/scripts/harness --workspace workspace search-papers \
   --limit 20 --offset 0 --date-from YYYY-MM-DD --date-to YYYY-MM-DD
 ```
 
-Search hits include title, authors, year, arXiv ID, canonical URL, abstract, provider
-summary, provider score, citation count, and categories when available. They are
-ephemeral, observation-only provider output. A hit is not formal research knowledge.
+Search output includes provider-reported `total_count`, and hits include publication
+date as well as year when available. Use `total_count`, new unique identities, route
+novelty, and recent-paper novelty to decide whether to page; do not mechanically exhaust
+all results. A first page is discovery input, not proof of coverage, and local date
+sorting of retrieved candidates is not a global latest-paper search.
+
+Search hits remain ephemeral observations. If a citation, user input, or known identifier
+names a specific paper, use exact title or arXiv ID as a verification/targeted-discovery
+fallback, never as a replacement for broad search. Provider semantic search is not
+guaranteed exhaustive; record an explicit limitation when a required recent paper or
+window cannot be retrieved.
 
 Select useful candidates and call `retain-papers` explicitly. Provider summaries and
 abstract snippets may guide selection, but they must not become Findings, PaperAnalysis,
@@ -153,6 +170,12 @@ landscape why the scope is narrow enough that additional search is unlikely to r
 a major route, representative method, disagreement, or recent frontier development.
 This is workload guidance, not a paper-count or Completion threshold.
 
+Before requesting Completion for a latest/recent task, answer from the retained corpus:
+the newest relevant paper date, the searched recent window, the frontier queries used,
+whether emerging terminology triggered follow-up searches, and whether pagination added
+recent work. This is a Researcher self-check; the fresh Completion Checker still judges
+only retained state and the structured landscape, never audit history.
+
 ## Resume from authoritative state
 
 When resuming, ignore conversational memory as authority. Recover from:
@@ -186,15 +209,19 @@ specific repair plan. PASS alone authorizes complete Delivery.
 ## Deliver a report
 
 In DELIVERY, build the report from a fresh `delivery-view` and targeted inspections.
-Load the full authoritative writing guide from:
+Load the two authority documents separately:
 
 ```text
 ${CLAUDE_SKILL_DIR}/references/REPORT_WRITING_GUIDE.md
+${CLAUDE_SKILL_DIR}/references/RESEARCH_INTEGRITY_GUIDE.md
 ```
 
-Apply that same complete guide to the semantic Planner, Composer, Integrator, fresh
-Editor, and Reviser. The independent Research Integrity Reviewer receives the research
-state and manuscript, not the style guide.
+Apply the complete Writing Guide to the Narrative Planner, Report Composer, Editorial
+Integrator, fresh Editor, and Reviser. It governs organization, prose, synthesis, and
+readability. Create the independent Research Integrity Reviewer in a fresh context with
+the complete Integrity Guide, Delivery state, manuscript, and targeted inspection/source
+access. The Integrity Guide is its primary rubric; it does not receive the Writing Guide
+as a style rubric and does not perform prose polish.
 
 The semantic stages are:
 
@@ -214,6 +241,28 @@ Narrative Planner
 If integrity review finds a Delivery-only writing or citation repair, revise in Delivery.
 If it finds an unsupported claim or missing research, call `reopen-research` and return
 to the research loop.
+
+The fresh Editor reviews the whole report semantically: sections must be driven by
+research questions or judgments rather than paper order; taxonomy must state its
+classification criterion; each paragraph should make one main judgment and start with
+a self-contained claim; giant paragraphs, abstract-noun chains, bureaucratic or
+translated prose should be repaired. Representative methods must serve synthesis,
+carry the required first-use hyperlink, and lead naturally from evidence to gaps. These
+are editorial judgments, not Python paragraph-length or style validators.
+
+The fresh Integrity Reviewer checks author claims versus independent evidence,
+single-paper evidence versus consensus, correlation versus causation, ablation versus
+causal mechanism, numerical gains versus statistical significance, SOTA and
+generalization scope, benchmark validity, robustness and efficiency dimensions,
+test-time compute/tool budgets, comparison fairness, recency and absolute claims,
+corpus-bounded absence, and citation-to-claim alignment. It returns the existing typed
+integrity result without a numeric score.
+
+Integrity may inspect Delivery state and retained objects, reread targeted sources, and
+review the manuscript. It must not search broadly, retain papers, mutate Research state,
+create Findings, or silently add evidence. Completion asks whether Research State
+satisfies the Contract; Integrity asks whether the report faithfully represents that
+accepted State. Keep these authority boundaries separate.
 
 When a retained primary paper has a canonical URL, hyperlink the first formal occurrence
 of its method or system name to that URL. This navigation link never replaces a structured

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from copy import deepcopy
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -47,6 +48,7 @@ def make_rich_delivery_run():
             title="A paper",
             authors=("Ada Example", "Lin Example"),
             publication_year=2026,
+            publication_date="2026-08-03",
             doi="10.1000/example",
             arxiv_id="2608.00001v2",
             canonical_url="https://example.test/paper",
@@ -111,6 +113,16 @@ class JsonCodecTests(TestCase):
         self.assertIsInstance(approach.representative_papers, set)
         finding = next(iter(restored.literature_landscape.findings.values()))
         self.assertIsInstance(finding.sources, set)
+
+    def test_old_state_without_publication_date_loads_with_none(self) -> None:
+        serialized = json.loads(run_to_json(make_rich_delivery_run()))
+        paper = next(iter(serialized["papers"].values()))
+        paper["source"].pop("publication_date")
+
+        restored = run_from_json(json.dumps(serialized))
+
+        restored_paper = next(iter(restored.papers.values()))
+        self.assertIsNone(restored_paper.source.publication_date)
 
     def test_partial_authorization_tag_round_trips(self) -> None:
         original = make_minimal_run()

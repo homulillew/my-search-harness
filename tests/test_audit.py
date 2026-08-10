@@ -26,6 +26,7 @@ from my_search_harness.runtime import (
     LocalAuditLog,
     PaperSearchAttemptError,
     PaperSearchHit,
+    PaperSearchPage,
     PaperSearchProviderError,
     PaperSearchRejectedError,
     ProviderFailureKind,
@@ -49,11 +50,14 @@ class FakeProvider:
         offset: int = 0,
         date_from: str | None = None,
         date_to: str | None = None,
-    ) -> tuple[PaperSearchHit, ...]:
-        return (
-            PaperSearchHit(
-                title="Audited paper",
-                arxiv_id="2608.00020",
+    ) -> PaperSearchPage:
+        return PaperSearchPage(
+            total_count=23,
+            hits=(
+                PaperSearchHit(
+                    title="Audited paper",
+                    arxiv_id="2608.00020",
+                ),
             ),
         )
 
@@ -67,7 +71,7 @@ class FailingProvider:
         offset: int = 0,
         date_from: str | None = None,
         date_to: str | None = None,
-    ) -> tuple[PaperSearchHit, ...]:
+    ) -> PaperSearchPage:
         raise PaperSearchProviderError(
             ProviderFailureKind.RATE_LIMIT,
             "fixture rate limit",
@@ -250,6 +254,7 @@ class AuditTests(TestCase):
                 "date_from": "2025-01-01",
                 "date_to": "2026-08-10",
                 "hit_count": 1,
+                "total_count": 23,
             },
             events[1].details,
         )

@@ -19,6 +19,7 @@ from my_search_harness.runtime import (
     JsonResearchRunRepository,
     PaperSearchAttemptError,
     PaperSearchHit,
+    PaperSearchPage,
     PaperSearchProviderError,
     PaperSearchRejectedError,
     PaperSearchService,
@@ -33,9 +34,11 @@ class FakePaperSearchProvider:
         self,
         *,
         hits: tuple[PaperSearchHit, ...] = (),
+        total_count: int = 0,
         failure: Exception | None = None,
     ) -> None:
         self.hits = hits
+        self.total_count = total_count
         self.failure = failure
         self.calls: list[tuple[str, int, int, str | None, str | None]] = []
         self.before_return: Callable[[], None] | None = None
@@ -48,13 +51,13 @@ class FakePaperSearchProvider:
         offset: int = 0,
         date_from: str | None = None,
         date_to: str | None = None,
-    ) -> tuple[PaperSearchHit, ...]:
+    ) -> PaperSearchPage:
         self.calls.append((query, limit, offset, date_from, date_to))
         if self.before_return is not None:
             self.before_return()
         if self.failure is not None:
             raise self.failure
-        return self.hits
+        return PaperSearchPage(total_count=self.total_count, hits=self.hits)
 
 
 class PaperSearchServiceTests(TestCase):
@@ -114,7 +117,7 @@ class PaperSearchServiceTests(TestCase):
         self,
     ) -> None:
         hit = PaperSearchHit(title="A paper", arxiv_id="2608.00001")
-        provider = FakePaperSearchProvider(hits=(hit,))
+        provider = FakePaperSearchProvider(hits=(hit,), total_count=37)
         service = PaperSearchService(self.repository, provider)
 
         result = service.search_papers(
@@ -126,6 +129,7 @@ class PaperSearchServiceTests(TestCase):
 
         run = self.repository.load(self.run_id)
         self.assertEqual(2, result.state_revision)
+        self.assertEqual(37, result.total_count)
         self.assertEqual((hit,), result.hits)
         self.assertEqual([("agentic search", 3, 0, None, None)], provider.calls)
         self.assertEqual(2, run.state_revision)
@@ -159,6 +163,29 @@ class PaperSearchServiceTests(TestCase):
             provider.calls,
         )
 
+    def test_each_paginated_provider_call_consumes_exactly_one_attempt(self) -> None:
+        provider = FakePaperSearchProvider(total_count=250)
+        service = PaperSearchService(self.repository, provider)
+
+        first = service.search_papers(
+            self.run_id, 1, "paged query", limit=100, offset=0
+        )
+        second = service.search_papers(
+            self.run_id,
+            first.state_revision,
+            "paged query",
+            limit=100,
+            offset=100,
+        )
+
+        self.assertEqual(250, first.total_count)
+        self.assertEqual(250, second.total_count)
+        self.assertEqual(2, len(provider.calls))
+        self.assertEqual(
+            2,
+            self.repository.load(self.run_id).resources.usage["paper_search_attempts"],
+        )
+
     def test_attempt_is_persisted_before_provider_is_invoked(self) -> None:
         provider = FakePaperSearchProvider()
         observed: list[tuple[int, int]] = []
@@ -185,6 +212,7 @@ class PaperSearchServiceTests(TestCase):
         )
 
         self.assertEqual((), result.hits)
+        self.assertEqual(0, result.total_count)
         self.assertEqual(2, result.state_revision)
         self.assertEqual(
             1,
@@ -452,6 +480,24 @@ class PaperSearchServiceTests(TestCase):
     def test_provider_contract_violation_is_accounted_as_invalid_response(self) -> None:
         provider = FakePaperSearchProvider()
         provider.hits = []  # type: ignore[assignment]
+
+        with self.assertRaises(PaperSearchAttemptError) as captured:
+            PaperSearchService(self.repository, provider).search_papers(
+                self.run_id, 1, "query"
+            )
+
+        self.assertIs(
+            captured.exception.failure_kind,
+            ProviderFailureKind.INVALID_RESPONSE,
+        )
+        self.assertEqual(2, captured.exception.state_revision)
+        self.assertEqual(1, len(provider.calls))
+
+    def test_invalid_provider_total_count_is_accounted_as_invalid_response(
+        self,
+    ) -> None:
+        provider = FakePaperSearchProvider()
+        provider.total_count = -1
 
         with self.assertRaises(PaperSearchAttemptError) as captured:
             PaperSearchService(self.repository, provider).search_papers(
