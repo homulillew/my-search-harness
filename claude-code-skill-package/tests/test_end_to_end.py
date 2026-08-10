@@ -41,12 +41,9 @@ from my_search_harness.runtime import (
     SourceContent,
     SourceOutline,
     SourceOutlineEntry,
-    WikiDraft,
     WikiPageDraft,
     WikiProvenanceRef,
-    WikiSemanticReview,
 )
-from my_search_harness.runtime.wiki import _is_managed_link
 
 
 class FakeDeepXivSearch:
@@ -227,41 +224,6 @@ class PassingIntegrityReviewer:
         return ResearchIntegrityReview(disposition=IntegrityDisposition.PASS)
 
 
-class E2EWikiBuilder:
-    def build(self, projection):
-        run = projection.runs[0]
-        finding = run.findings[0]
-        paper = run.papers[0]
-        return WikiDraft(
-            pages=(
-                WikiPageDraft(
-                    slug="bounded-search",
-                    title="Bounded Search",
-                    markdown=(
-                        "# Bounded Search\n\n"
-                        "Accepted research reports an improvement; future runs "
-                        "must return to the primary paper."
-                    ),
-                    contributing_refs=(
-                        WikiProvenanceRef(
-                            run_id=run.run_id,
-                            research_ref=finding.ref,
-                        ),
-                        WikiProvenanceRef(
-                            run_id=run.run_id,
-                            research_ref=paper.ref,
-                        ),
-                    ),
-                ),
-            ),
-        )
-
-
-class PassingWikiValidator:
-    def validate(self, projection, draft):
-        return WikiSemanticReview(approved=True)
-
-
 class V1EndToEndTests(TestCase):
     def setUp(self) -> None:
         self.temporary = TemporaryDirectory()
@@ -422,13 +384,37 @@ class V1EndToEndTests(TestCase):
         )
         self.assertIs(closed.outcome, RunOutcome.COMPLETE)
 
-        publication = runtime.wiki_runtime(
-            E2EWikiBuilder(),
-            PassingWikiValidator(),
-        ).rebuild()
-        wiki_result = runtime.wiki_query.query("bounded search")
+        projection = runtime.wiki.project()
+        run = projection.runs[0]
+        finding = run.findings[0]
+        paper = run.papers[0]
+        runtime.wiki.publish(
+            projection.source_runs,
+            (
+                WikiPageDraft(
+                    slug="bounded-search",
+                    title="Bounded Search",
+                    markdown=(
+                        "# Bounded Search\n\n"
+                        "Accepted research reports an improvement; future runs "
+                        "must return to the primary paper."
+                    ),
+                    contributing_refs=(
+                        WikiProvenanceRef(
+                            run_id=run.run_id,
+                            research_ref=finding.ref,
+                        ),
+                        WikiProvenanceRef(
+                            run_id=run.run_id,
+                            research_ref=paper.ref,
+                        ),
+                    ),
+                ),
+            ),
+        )
+        self.assertTrue((self.workspace / "wiki" / "current.json").is_file())
+        wiki_result = runtime.wiki.query("bounded search")
         self.assertEqual(1, len(wiki_result.hits))
-        self.assertTrue(_is_managed_link(publication.wiki_path))
 
         final = repository.load(created.run_id)
         self.assertIs(final.lifecycle, LifecycleMode.CLOSED)

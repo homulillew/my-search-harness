@@ -31,12 +31,8 @@ from .reporting import (
 from .source_access import SourceAccessProvider
 from .wiki import (
     LocalWikiPublisher,
-    WikiProjection,
     WikiProjectionService,
-    WikiQueryService,
-    WikiRuntime,
-    WikiSemanticBuilder,
-    WikiSemanticValidator,
+    WikiService,
 )
 
 
@@ -68,7 +64,10 @@ class LocalV1Runtime:
         self._completion_checker = capabilities.completion_checker
         self._delivery = capabilities.delivery
         self._completion = CompletionCheckRuntime.from_capabilities(capabilities)
-        self._wiki_publisher = LocalWikiPublisher(root / "wiki")
+        self._wiki = WikiService(
+            WikiProjectionService(self._repository),
+            LocalWikiPublisher(root / "wiki"),
+        )
 
     @classmethod
     def from_deepxiv_env(
@@ -105,8 +104,8 @@ class LocalV1Runtime:
         return self._completion
 
     @property
-    def wiki_query(self) -> WikiQueryService:
-        return WikiQueryService(self._wiki_publisher)
+    def wiki(self) -> WikiService:
+        return self._wiki
 
     def report_pipeline(
         self,
@@ -132,27 +131,3 @@ class LocalV1Runtime:
             citation_renderer=DeterministicCitationRenderer(),
             writing_guideline=load_report_writing_guide(writing_guideline_path),
         )
-
-    def wiki_runtime(
-        self,
-        builder: WikiSemanticBuilder,
-        validator: WikiSemanticValidator,
-    ) -> WikiRuntime:
-        """Bind semantic Wiki actors to a fresh authoritative state projection."""
-
-        return WikiRuntime(
-            WikiProjectionService(self._repository),
-            builder,
-            validator,
-            self._wiki_publisher,
-        )
-
-    def wiki_projection(self) -> WikiProjection:
-        """Project CLOSED+COMPLETE runs for the semantic Wiki builder.
-
-        Read-only view of eligible authoritative state. Claude inspects this to
-        build a ``WikiDraft`` and perform a fresh ``WikiSemanticReview`` before
-        calling ``publish-wiki``. This reuses ``WikiProjectionService``; it does
-        not create State or run artifacts.
-        """
-        return WikiProjectionService(self._repository).project()

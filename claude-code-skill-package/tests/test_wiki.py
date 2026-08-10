@@ -1,8 +1,8 @@
-"""Local Wiki eligibility, projection boundaries, and atomic rebuild tests."""
+"""Local Wiki eligibility, projection boundaries, publication, and freshness tests."""
 
 from __future__ import annotations
 
-import os
+import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
@@ -24,79 +24,17 @@ from my_search_harness.runtime import (
     PaperSearchHit,
     ResearchCommands,
     WikiBuildError,
-    WikiDraft,
     WikiPageDraft,
-    WikiProjection,
     WikiProjectionService,
     WikiProvenanceRef,
     WikiPublicationError,
     WikiQueryService,
-    WikiRuntime,
-    WikiSemanticReview,
-    WikiSemanticValidationError,
+    WikiService,
     WikiUnavailableError,
 )
-from my_search_harness.runtime.wiki import _is_managed_link
 
 
-class ApprovingValidator:
-    def validate(self, projection, draft):
-        return WikiSemanticReview(approved=True)
-
-
-class RejectingValidator:
-    def validate(self, projection, draft):
-        return WikiSemanticReview(
-            approved=False,
-            issues=("The draft hides an important conflict",),
-        )
-
-
-class ProjectionPageBuilder:
-    def __init__(
-        self,
-        *,
-        slug: str = "methods",
-        title: str = "Methods",
-        markdown: str = "# Methods\n\nAccepted cross-run knowledge.",
-    ) -> None:
-        self.slug = slug
-        self.title = title
-        self.markdown = markdown
-        self.seen_projection: WikiProjection | None = None
-
-    def build(self, projection):
-        self.seen_projection = projection
-        if not projection.runs:
-            return WikiDraft(pages=())
-        run = projection.runs[0]
-        ref = run.findings[0].ref if run.findings else run.approaches[0].ref
-        return WikiDraft(
-            pages=(
-                WikiPageDraft(
-                    slug=self.slug,
-                    title=self.title,
-                    markdown=self.markdown,
-                    contributing_refs=(
-                        WikiProvenanceRef(
-                            run_id=run.run_id,
-                            research_ref=ref,
-                        ),
-                    ),
-                ),
-            )
-        )
-
-
-class StaticDraftBuilder:
-    def __init__(self, draft: WikiDraft) -> None:
-        self.draft = draft
-
-    def build(self, projection):
-        return self.draft
-
-
-class WikiRuntimeTests(TestCase):
+class WikiServiceTests(TestCase):
     def setUp(self) -> None:
         self.temporary = TemporaryDirectory()
         self.base = Path(self.temporary.name)
@@ -106,6 +44,8 @@ class WikiRuntimeTests(TestCase):
         self.artifacts = LocalArtifactStore(self.runs_root)
         self.research = ResearchCommands(self.repository)
         self.delivery = DeliveryCommands(self.repository, self.artifacts)
+        self.publisher = LocalWikiPublisher(self.wiki_path)
+        self.wiki = WikiService(WikiProjectionService(self.repository), self.publisher)
 
     def tearDown(self) -> None:
         self.temporary.cleanup()
@@ -220,13 +160,30 @@ class WikiRuntimeTests(TestCase):
         self.assertIs(closed.outcome, RunOutcome.PARTIAL)
         return created.run_id
 
-    def _runtime(self, builder, validator=None) -> WikiRuntime:
-        return WikiRuntime(
-            WikiProjectionService(self.repository),
-            builder,
-            validator or ApprovingValidator(),
-            LocalWikiPublisher(self.wiki_path),
+    def _page(
+        self,
+        refs: dict[str, str],
+        *,
+        slug: str = "methods",
+        title: str = "Methods",
+        markdown: str = "# Methods\n\nAccepted cross-run knowledge.",
+        ref_key: str = "finding_ref",
+    ) -> WikiPageDraft:
+        return WikiPageDraft(
+            slug=slug,
+            title=title,
+            markdown=markdown,
+            contributing_refs=(
+                WikiProvenanceRef(
+                    run_id=refs["run_id"],
+                    research_ref=refs[ref_key],
+                ),
+            ),
         )
+
+    def _current_build_id(self) -> str:
+        pointer = json.loads((self.wiki_path / "current.json").read_text(encoding="utf-8"))
+        return pointer["build"]
 
     def test_projection_selects_only_closed_complete_runs(self) -> None:
         complete = self._create_complete_run()
@@ -240,7 +197,7 @@ class WikiRuntimeTests(TestCase):
             )
         )
 
-        projection = WikiProjectionService(self.repository).project()
+        projection = self.wiki.project()
 
         self.assertEqual(
             (complete["run_id"],), tuple(run.run_id for run in projection.runs)
@@ -258,11 +215,8 @@ class WikiRuntimeTests(TestCase):
         artifacts = run_directory / "artifacts"
         artifacts.mkdir(exist_ok=True)
         (artifacts / "report.md").write_text("REPORT_POISON", encoding="utf-8")
-        builder = ProjectionPageBuilder()
 
-        self._runtime(builder).rebuild()
-        projection = builder.seen_projection
-        assert projection is not None
+        projection = self.wiki.project()
         projected = projection.runs[0]
 
         for forbidden in (
@@ -283,154 +237,181 @@ class WikiRuntimeTests(TestCase):
         self.assertEqual("2026-08-03", projected.papers[0].publication_date)
         self.assertNotIn(refs["unreferenced_ref"], repr(projection))
 
-    def test_rebuild_publishes_index_pages_and_complete_manifest(self) -> None:
+    def test_publish_writes_versioned_build_and_current_pointer(self) -> None:
         refs = self._create_complete_run()
+        projection = self.wiki.project()
 
-        result = self._runtime(ProjectionPageBuilder()).rebuild()
+        result = self.wiki.publish(
+            projection.source_runs,
+            (self._page(refs),),
+        )
 
-        self.assertTrue(_is_managed_link(result.wiki_path))
-        self.assertTrue((self.wiki_path / "INDEX.md").is_file())
-        self.assertTrue((self.wiki_path / "pages" / "methods.md").is_file())
-        self.assertTrue((self.wiki_path / "manifest.json").is_file())
+        self.assertEqual(self.wiki_path, result.wiki_path)
+        build_id = self._current_build_id()
+        build_dir = self.wiki_path / "builds" / build_id
+        self.assertTrue(build_dir.is_dir())
+        self.assertTrue((build_dir / "INDEX.md").is_file())
+        self.assertTrue((build_dir / "pages" / "methods.md").is_file())
+        self.assertTrue((build_dir / "manifest.json").is_file())
         self.assertEqual(1, result.manifest.schema_version)
         self.assertEqual(refs["run_id"], result.manifest.source_runs[0].run_id)
         page = result.manifest.pages[0]
         self.assertEqual("pages/methods.md", page.path)
         self.assertEqual(refs["finding_ref"], page.contributing_refs[0].research_ref)
 
-    def test_full_rebuild_does_not_use_or_retain_old_wiki_prose(self) -> None:
-        self._create_complete_run()
-        first = self._runtime(
-            ProjectionPageBuilder(
-                slug="old-topic",
-                title="Old Topic",
-                markdown="# Old\n\nOLD_WIKI_POISON",
-            )
+    def test_rebuild_replaces_current_pointer_and_preserves_old_build(self) -> None:
+        refs = self._create_complete_run()
+        projection = self.wiki.project()
+        self.wiki.publish(
+            projection.source_runs,
+            (self._page(refs, slug="old-topic", title="Old Topic", markdown="# Old\n\nOLD_WIKI_POISON"),),
         )
-        first.rebuild()
-        old_target = os.readlink(self.wiki_path)
+        first_build_id = self._current_build_id()
 
-        second = self._runtime(
-            ProjectionPageBuilder(
-                slug="new-topic",
-                title="New Topic",
-                markdown="# New\n\nFresh derivation only.",
-            )
+        self.wiki.publish(
+            projection.source_runs,
+            (
+                self._page(
+                    refs,
+                    slug="new-topic",
+                    title="New Topic",
+                    markdown="# New\n\nFresh derivation only.",
+                ),
+            ),
         )
-        second.rebuild()
+        second_build_id = self._current_build_id()
 
-        self.assertNotEqual(old_target, os.readlink(self.wiki_path))
-        self.assertFalse((self.wiki_path / "pages" / "old-topic.md").exists())
-        self.assertTrue((self.wiki_path / "pages" / "new-topic.md").is_file())
+        self.assertNotEqual(first_build_id, second_build_id)
+        current_build = self.wiki_path / "builds" / second_build_id
+        self.assertFalse((current_build / "pages" / "old-topic.md").exists())
+        self.assertTrue((current_build / "pages" / "new-topic.md").is_file())
         self.assertNotIn(
             "OLD_WIKI_POISON",
-            (self.wiki_path / "pages" / "new-topic.md").read_text(),
+            (current_build / "pages" / "new-topic.md").read_text(),
         )
+        # The old build is preserved on disk as an inert orphan.
+        self.assertTrue((self.wiki_path / "builds" / first_build_id).is_dir())
 
-    def test_semantic_rejection_preserves_previous_publication(self) -> None:
-        self._create_complete_run()
-        self._runtime(ProjectionPageBuilder()).rebuild()
-        old_target = os.readlink(self.wiki_path)
-        old_index = (self.wiki_path / "INDEX.md").read_bytes()
-
-        with self.assertRaises(WikiSemanticValidationError):
-            self._runtime(
-                ProjectionPageBuilder(slug="rejected"),
-                RejectingValidator(),
-            ).rebuild()
-
-        self.assertEqual(old_target, os.readlink(self.wiki_path))
-        self.assertEqual(old_index, (self.wiki_path / "INDEX.md").read_bytes())
-
-    def test_invalid_provenance_or_link_fails_before_publication(self) -> None:
+    def test_invalid_provenance_fails_before_publication(self) -> None:
         refs = self._create_complete_run()
-        invalid_ref = WikiDraft(
-            pages=(
-                WikiPageDraft(
-                    slug="invalid",
-                    title="Invalid",
-                    markdown="# Invalid",
-                    contributing_refs=(
-                        WikiProvenanceRef(
-                            run_id=refs["run_id"],
-                            research_ref=refs["gap_ref"],
-                        ),
-                    ),
+        projection = self.wiki.project()
+        invalid_page = WikiPageDraft(
+            slug="invalid",
+            title="Invalid",
+            markdown="# Invalid",
+            contributing_refs=(
+                WikiProvenanceRef(
+                    run_id=refs["run_id"],
+                    research_ref=refs["gap_ref"],
                 ),
-            )
+            ),
         )
         with self.assertRaisesRegex(WikiBuildError, "contributing"):
-            self._runtime(StaticDraftBuilder(invalid_ref)).rebuild()
+            self.wiki.publish(projection.source_runs, (invalid_page,))
+        self.assertFalse((self.wiki_path / "current.json").exists())
 
-        invalid_link = WikiDraft(
-            pages=(
-                WikiPageDraft(
-                    slug="invalid-link",
-                    title="Invalid link",
-                    markdown="# Invalid\n\n[Missing](missing.md)",
-                    contributing_refs=(
-                        WikiProvenanceRef(
-                            run_id=refs["run_id"],
-                            research_ref=refs["finding_ref"],
-                        ),
-                    ),
+    def test_invalid_link_fails_before_publication(self) -> None:
+        refs = self._create_complete_run()
+        projection = self.wiki.project()
+        invalid_link = WikiPageDraft(
+            slug="invalid-link",
+            title="Invalid link",
+            markdown="# Invalid\n\n[Missing](missing.md)",
+            contributing_refs=(
+                WikiProvenanceRef(
+                    run_id=refs["run_id"],
+                    research_ref=refs["finding_ref"],
                 ),
-            )
+            ),
         )
         with self.assertRaisesRegex(WikiBuildError, "link"):
-            self._runtime(StaticDraftBuilder(invalid_link)).rebuild()
-        self.assertFalse(self.wiki_path.exists())
+            self.wiki.publish(projection.source_runs, (invalid_link,))
+        self.assertFalse((self.wiki_path / "current.json").exists())
 
-    def test_atomic_pointer_failure_preserves_previous_wiki(self) -> None:
-        self._create_complete_run()
-        self._runtime(ProjectionPageBuilder()).rebuild()
-        old_target = os.readlink(self.wiki_path)
-        original_replace = os.replace
+    def test_failed_build_preserves_previous_current_pointer(self) -> None:
+        refs = self._create_complete_run()
+        projection = self.wiki.project()
+        self.wiki.publish(projection.source_runs, (self._page(refs),))
+        first_build_id = self._current_build_id()
+
+        original_replace = __import__("os").replace
         calls = 0
 
         def fail_pointer_replace(source, target):
             nonlocal calls
             calls += 1
+            # The second os.replace is the current.json pointer swap.
             if calls == 2:
                 raise OSError("simulated pointer replace failure")
             return original_replace(source, target)
 
         with patch("my_search_harness.runtime.wiki.os.replace", fail_pointer_replace):
             with self.assertRaises(WikiPublicationError):
-                self._runtime(ProjectionPageBuilder(slug="new-build")).rebuild()
+                self.wiki.publish(
+                    projection.source_runs,
+                    (self._page(refs, slug="new-build", title="New Build"),),
+                )
 
-        self.assertEqual(old_target, os.readlink(self.wiki_path))
-        self.assertTrue((self.wiki_path / "pages" / "methods.md").is_file())
+        self.assertEqual(first_build_id, self._current_build_id())
+        current_build = self.wiki_path / "builds" / first_build_id
+        self.assertTrue((current_build / "pages" / "methods.md").is_file())
 
-    def test_post_replace_fsync_failure_rolls_back_pointer(self) -> None:
-        self._create_complete_run()
-        self._runtime(ProjectionPageBuilder()).rebuild()
-        old_target = os.readlink(self.wiki_path)
+    def test_stale_publication_allowed_and_is_current_detects_it(self) -> None:
+        # Run A closes COMPLETE.
+        refs_a = self._create_complete_run()
+        projection_a = self.wiki.project()
+        source_runs_a = projection_a.source_runs
+        self.assertEqual(1, len(source_runs_a))
 
-        with patch.object(
-            LocalWikiPublisher,
-            "_fsync_directory",
-            side_effect=OSError("simulated fsync failure"),
-        ):
-            with self.assertRaises(WikiPublicationError):
-                self._runtime(ProjectionPageBuilder(slug="new-build")).rebuild()
+        # Publish with source_runs_a (fresh). is_current() is True.
+        self.wiki.publish(source_runs_a, (self._page(refs_a),))
+        self.assertTrue(self.wiki.is_current())
 
-        self.assertEqual(old_target, os.readlink(self.wiki_path))
-        self.assertTrue((self.wiki_path / "pages" / "methods.md").is_file())
-
-    def test_freshness_is_derived_from_eligible_run_revisions(self) -> None:
-        self._create_complete_run()
-        runtime = self._runtime(ProjectionPageBuilder())
-        runtime.rebuild()
-        self.assertTrue(runtime.is_current())
-
-        self._create_complete_run(
+        # Run B closes COMPLETE. The current projection is now A+B, but the
+        # published manifest still records A only — so it is stale.
+        refs_b = self._create_complete_run(
             mission="Second accepted run",
             finding_statement="A conflicting accepted result",
             doi="10.1000/wiki-second",
         )
+        self.assertFalse(self.wiki.is_current())
 
-        self.assertFalse(runtime.is_current())
+        # Stale publication is allowed, not rejected: publish with source_runs_a
+        # (stale) again. The manifest honestly records A only.
+        self.wiki.publish(source_runs_a, (self._page(refs_a),))
+        self.assertEqual(
+            source_runs_a,
+            LocalWikiPublisher(self.wiki_path).read_manifest().source_runs,
+        )
+        self.assertFalse(self.wiki.is_current())
+
+        # Re-project (now A+B) and publish fresh pages citing A and B.
+        projection_ab = self.wiki.project()
+        source_runs_ab = projection_ab.source_runs
+        self.assertEqual(2, len(source_runs_ab))
+        fresh_pages = (
+            WikiPageDraft(
+                slug="methods",
+                title="Methods",
+                markdown="# Methods\n\nBuilt from A and B.",
+                contributing_refs=(
+                    WikiProvenanceRef(
+                        run_id=refs_a["run_id"],
+                        research_ref=refs_a["finding_ref"],
+                    ),
+                    WikiProvenanceRef(
+                        run_id=refs_b["run_id"],
+                        research_ref=refs_b["finding_ref"],
+                    ),
+                ),
+            ),
+        )
+        self.wiki.publish(source_runs_ab, fresh_pages)
+        self.assertEqual(
+            source_runs_ab,
+            LocalWikiPublisher(self.wiki_path).read_manifest().source_runs,
+        )
+        self.assertTrue(self.wiki.is_current())
 
     def test_projection_preserves_conflicting_accepted_findings(self) -> None:
         self._create_complete_run(finding_statement="Method A succeeds")
@@ -439,7 +420,7 @@ class WikiRuntimeTests(TestCase):
             doi="10.1000/wiki-conflict",
         )
 
-        projection = WikiProjectionService(self.repository).project()
+        projection = self.wiki.project()
         statements = {
             finding.statement for run in projection.runs for finding in run.findings
         }
@@ -454,11 +435,16 @@ class WikiRuntimeTests(TestCase):
 
     def test_query_returns_observation_and_distinguishes_no_match(self) -> None:
         refs = self._create_complete_run()
-        self._runtime(
-            ProjectionPageBuilder(
-                markdown="# Methods\n\nA searchable mechanism description.",
-            )
-        ).rebuild()
+        projection = self.wiki.project()
+        self.wiki.publish(
+            projection.source_runs,
+            (
+                self._page(
+                    refs,
+                    markdown="# Methods\n\nA searchable mechanism description.",
+                ),
+            ),
+        )
         query = WikiQueryService(LocalWikiPublisher(self.wiki_path))
         state_before = (self.runs_root / refs["run_id"] / "state.json").read_bytes()
 
@@ -481,9 +467,11 @@ class WikiRuntimeTests(TestCase):
         with self.assertRaises(WikiUnavailableError):
             WikiQueryService(publisher).query("anything")
 
-        self._create_complete_run()
-        self._runtime(ProjectionPageBuilder()).rebuild()
-        page_path = self.wiki_path / "pages" / "methods.md"
+        refs = self._create_complete_run()
+        projection = self.wiki.project()
+        self.wiki.publish(projection.source_runs, (self._page(refs),))
+        build_id = self._current_build_id()
+        page_path = self.wiki_path / "builds" / build_id / "pages" / "methods.md"
         page_path.write_text("corrupt content", encoding="utf-8")
 
         with self.assertRaises(WikiUnavailableError):
@@ -491,11 +479,12 @@ class WikiRuntimeTests(TestCase):
 
     def test_empty_eligible_input_publishes_explicit_empty_index(self) -> None:
         self._create_partial_run()
-        result = self._runtime(ProjectionPageBuilder()).rebuild()
+        result = self.wiki.publish((), ())
 
         self.assertEqual((), result.manifest.source_runs)
         self.assertEqual((), result.manifest.pages)
+        build_id = self._current_build_id()
         self.assertIn(
             "No eligible research knowledge",
-            (self.wiki_path / "INDEX.md").read_text(),
+            (self.wiki_path / "builds" / build_id / "INDEX.md").read_text(),
         )

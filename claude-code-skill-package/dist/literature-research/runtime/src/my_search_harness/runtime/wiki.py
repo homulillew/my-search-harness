@@ -7,12 +7,9 @@ import json
 import os
 import re
 import shutil
-import subprocess
-import sys
 import tempfile
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Protocol
 from uuid import uuid4
 
 from my_search_harness.domain.model import (
@@ -36,67 +33,7 @@ _INTERNAL_REF = re.compile(
 
 
 class WikiBuildError(RuntimeError):
-    """Wiki projection, semantic build, or mechanical validation failed."""
-
-
-def _create_managed_link(link_path: Path, target_path: Path) -> None:
-    """Create an atomic managed link (symlink, or junction on Windows).
-
-    Symlinks are preferred for portability and accept relative targets. On Windows
-    without symlink privilege (WinError 1314), fall back to a directory junction,
-    which needs no privilege and can still be swapped via ``os.replace`` when the
-    destination is absent. Junctions require an absolute target, so a relative
-    ``target_path`` is resolved against the link's parent directory.
-    """
-    try:
-        os.symlink(target_path, link_path)
-        return
-    except OSError as exc:
-        if sys.platform != "win32" or getattr(exc, "winerror", None) != 1314:
-            raise
-    if not target_path.is_absolute():
-        target_path = (link_path.parent / target_path).resolve()
-    subprocess.run(
-        ["cmd", "/c", "mklink", "/J", str(link_path), str(target_path)],
-        capture_output=True,
-        check=True,
-    )
-
-
-def _is_managed_link(path: Path) -> bool:
-    """True if ``path`` is a symlink or a Windows directory junction."""
-    if path.is_symlink():
-        return True
-    if sys.platform == "win32" and path.is_dir():
-        try:
-            return bool(path.lstat().st_file_attributes & 0x0400)  # reparse point
-        except OSError:
-            return False
-    return False
-
-
-def _read_managed_link_target(path: Path) -> str | None:
-    """Return the stored target of a managed link, or None if not a link."""
-    if _is_managed_link(path):
-        try:
-            return os.readlink(path)
-        except OSError:
-            return None
-    return None
-
-
-class WikiSemanticValidationError(WikiBuildError):
-    """The semantic reviewer rejected a generated projection."""
-
-
-class WikiProjectionStaleError(WikiBuildError):
-    """The supplied projection basis no longer matches the current projection.
-
-    Raised before publication when a ``publish-wiki`` input carries a ``basis``
-    derived from an earlier ``wiki-projection`` while a new CLOSED+COMPLETE run
-    has since become eligible. The caller must rerun ``wiki-projection``,
-    rebuild the semantic draft against the fresh projection, and publish again.
-    """
+    """Wiki projection or mechanical validation failed."""
 
 
 class WikiPublicationError(WikiBuildError):
@@ -161,8 +98,22 @@ class WikiRunProjection:
 
 
 @dataclass(slots=True, frozen=True, kw_only=True)
+class WikiRunVersion:
+    """The ``(run_id, state_revision)`` identity of one eligible run.
+
+    A value object, not an entity. Carries the exact identity of an eligible
+    run at projection time so a published Wiki manifest can honestly record
+    which run revisions produced it. The same DTO is the projection's
+    ``source_runs`` element and the manifest's ``source_runs`` element.
+    """
+
+    run_id: str
+    state_revision: int
+
+
+@dataclass(slots=True, frozen=True, kw_only=True)
 class WikiProjection:
-    basis: "WikiProjectionBasis"
+    source_runs: tuple[WikiRunVersion, ...]
     runs: tuple[WikiRunProjection, ...]
 
 
@@ -181,48 +132,6 @@ class WikiPageDraft:
 
 
 @dataclass(slots=True, frozen=True, kw_only=True)
-class WikiDraft:
-    pages: tuple[WikiPageDraft, ...]
-
-
-@dataclass(slots=True, frozen=True, kw_only=True)
-class WikiSemanticReview:
-    approved: bool
-    issues: tuple[str, ...] = ()
-
-
-class WikiSemanticBuilder(Protocol):
-    def build(self, projection: WikiProjection) -> WikiDraft: ...
-
-
-class WikiSemanticValidator(Protocol):
-    def validate(
-        self,
-        projection: WikiProjection,
-        draft: WikiDraft,
-    ) -> WikiSemanticReview: ...
-
-
-@dataclass(slots=True, frozen=True, kw_only=True)
-class WikiManifestSourceRun:
-    run_id: str
-    state_revision: int
-
-
-@dataclass(slots=True, frozen=True, kw_only=True)
-class WikiProjectionBasis:
-    """Projection identity: which CLOSED+COMPLETE runs (and revisions) a projection was built from.
-
-    A value object, not an entity. Carries the exact ``(run_id, state_revision)``
-    identity of every eligible run at projection time so a later ``publish-wiki``
-    can verify the semantic draft was built from the current complete projection,
-    not a stale snapshot whose refs merely still exist.
-    """
-
-    source_runs: tuple[WikiManifestSourceRun, ...]
-
-
-@dataclass(slots=True, frozen=True, kw_only=True)
 class WikiManifestPage:
     path: str
     title: str
@@ -233,7 +142,7 @@ class WikiManifestPage:
 @dataclass(slots=True, frozen=True, kw_only=True)
 class WikiManifest:
     schema_version: int
-    source_runs: tuple[WikiManifestSourceRun, ...]
+    source_runs: tuple[WikiRunVersion, ...]
     pages: tuple[WikiManifestPage, ...]
 
 
@@ -350,16 +259,14 @@ class WikiProjectionService:
                     papers=papers,
                 )
             )
-        basis = WikiProjectionBasis(
-            source_runs=tuple(
-                WikiManifestSourceRun(
-                    run_id=run.run_id,
-                    state_revision=run.state_revision,
-                )
-                for run in runs
+        source_runs = tuple(
+            WikiRunVersion(
+                run_id=run.run_id,
+                state_revision=run.state_revision,
             )
+            for run in runs
         )
-        return WikiProjection(basis=basis, runs=tuple(runs))
+        return WikiProjection(source_runs=source_runs, runs=tuple(runs))
 
     @staticmethod
     def _sources(sources: set[LiteratureSource]) -> tuple[WikiSourceRef, ...]:
@@ -382,31 +289,37 @@ class WikiProjectionService:
 
 
 class LocalWikiPublisher:
-    """Publish validated builds by atomically replacing one symlink pointer."""
+    """Publish validated builds under a versioned directory with an atomic pointer.
+
+    Each publication writes a new ``builds/build-<UUID>/`` directory and
+    atomically replaces ``current.json`` (which names the active build) via
+    ``os.replace``. The layout is platform-agnostic: no symlink or junction is
+    used, so POSIX and Windows share one publication algorithm. A failed
+    publication leaves the previous ``current.json`` pointing at the previous
+    build, so the published Wiki is preserved; an orphaned build directory
+    left behind by a pointer-write failure is inert.
+    """
 
     def __init__(self, wiki_path: str | Path) -> None:
         self._wiki_path = Path(wiki_path)
-        self._builds_path = self._wiki_path.parent / f".{self._wiki_path.name}-builds"
+        self._builds_path = self._wiki_path / "builds"
+        self._pointer_path = self._wiki_path / "current.json"
 
     def publish(
         self,
-        projection: WikiProjection,
-        draft: WikiDraft,
+        source_runs: tuple[WikiRunVersion, ...],
+        pages: tuple[WikiPageDraft, ...],
     ) -> WikiPublicationResult:
-        if self._wiki_path.exists() and not _is_managed_link(self._wiki_path):
-            raise WikiPublicationError(
-                "published Wiki path must be an atomic managed link"
-            )
         self._wiki_path.parent.mkdir(parents=True, exist_ok=True)
         self._builds_path.mkdir(parents=True, exist_ok=True)
         staging = Path(tempfile.mkdtemp(prefix=".staging-", dir=self._builds_path))
-        published_build: Path | None = None
         try:
-            manifest = self._write_staging(staging, projection, draft)
+            manifest = self._write_staging(staging, source_runs, pages)
             self._validate_staging(staging, manifest)
-            published_build = self._builds_path / f"build-{uuid4()}"
+            build_id = f"build-{uuid4()}"
+            published_build = self._builds_path / build_id
             os.replace(staging, published_build)
-            self._swap_pointer(published_build)
+            self._swap_pointer(build_id)
             return WikiPublicationResult(
                 wiki_path=self._wiki_path,
                 manifest=manifest,
@@ -418,91 +331,97 @@ class LocalWikiPublisher:
         finally:
             if staging.exists():
                 shutil.rmtree(staging)
-            if published_build is not None and published_build.exists():
-                try:
-                    if not _is_managed_link(self._wiki_path) or (
-                        self._wiki_path.resolve() != published_build.resolve()
-                    ):
-                        shutil.rmtree(published_build)
-                except OSError:
-                    pass
 
-    def _swap_pointer(self, published_build: Path) -> None:
-        """Atomically (symlink) or best-effort (junction) swap the wiki pointer.
+    @staticmethod
+    def validate_pages_against(
+        pages: tuple[WikiPageDraft, ...],
+        projection: WikiProjection,
+    ) -> None:
+        """Validate page structure, links, and provenance against a projection.
 
-        Symlinks support ``os.replace`` over an existing link, giving a true atomic
-        swap with rollback on failure. Windows directory junctions cannot be
-        ``os.replace``-ed over an existing junction, so the junction path removes the
-        old pointer then renames the new one; if the rename fails, the old pointer is
-        recreated from its captured target. The old build directory is always
-        preserved on disk for either path.
+        Provenance is checked against the *current* projection so a page may
+        only cite real approaches, findings, open problems, or papers in
+        eligible runs. Structural checks (slugs, titles, markdown, internal
+        refs, link targets) run here too. ``WikiService.publish`` calls this
+        before publication so an invalid page raises ``WikiBuildError`` before
+        any build is written, preserving any previous publication.
         """
-        relative_target = os.path.relpath(published_build, self._wiki_path.parent)
-        temporary_link = self._wiki_path.with_name(
-            f".{self._wiki_path.name}.link-{uuid4()}"
-        )
-        _create_managed_link(temporary_link, Path(relative_target))
-        if temporary_link.is_symlink():
-            self._swap_symlink(temporary_link, relative_target)
-        else:
-            self._swap_junction(temporary_link)
-
-    def _swap_symlink(self, temporary_link: Path, relative_target: str) -> None:
-        old_link_target = _read_managed_link_target(self._wiki_path)
-        pointer_replaced = False
-        try:
-            os.replace(temporary_link, self._wiki_path)
-            pointer_replaced = True
-            self._fsync_directory(self._wiki_path.parent)
-        except BaseException:
-            temporary_link.unlink(missing_ok=True)
-            if pointer_replaced:
-                if old_link_target is None:
-                    self._wiki_path.unlink(missing_ok=True)
-                else:
-                    rollback_link = self._wiki_path.with_name(
-                        f".{self._wiki_path.name}.rollback-{uuid4()}"
-                    )
-                    try:
-                        _create_managed_link(rollback_link, Path(old_link_target))
-                        os.replace(rollback_link, self._wiki_path)
-                    finally:
-                        rollback_link.unlink(missing_ok=True)
-            raise
-
-    def _swap_junction(self, temporary_link: Path) -> None:
-        old_link_target = _read_managed_link_target(self._wiki_path)
-        had_old_link = _is_managed_link(self._wiki_path)
-        if had_old_link:
-            os.rmdir(self._wiki_path)
-        try:
-            os.replace(temporary_link, self._wiki_path)
-            self._fsync_directory(self._wiki_path.parent)
-        except BaseException:
-            temporary_link.unlink(missing_ok=True)
-            if _is_managed_link(self._wiki_path):
-                os.rmdir(self._wiki_path)
-            if had_old_link and old_link_target is not None:
-                rollback_link = self._wiki_path.with_name(
-                    f".{self._wiki_path.name}.rollback-{uuid4()}"
+        allowed_refs = {
+            run.run_id: {
+                *(item.ref for item in run.approaches),
+                *(item.ref for item in run.findings),
+                *(item.ref for item in run.open_problems),
+                *(item.ref for item in run.papers),
+            }
+            for run in projection.runs
+        }
+        slugs: set[str] = set()
+        pages_by_filename: set[str] = set()
+        for page in pages:
+            if (
+                not isinstance(page.slug, str)
+                or _SLUG.fullmatch(page.slug) is None
+                or page.slug in slugs
+            ):
+                raise WikiBuildError("Wiki page slugs must be unique safe slugs")
+            slugs.add(page.slug)
+            pages_by_filename.add(f"{page.slug}.md")
+            if not isinstance(page.title, str) or not page.title.strip():
+                raise WikiBuildError("Wiki page title must be non-empty")
+            if not isinstance(page.markdown, str) or not page.markdown.strip():
+                raise WikiBuildError("Wiki page markdown must be non-empty")
+            if _INTERNAL_REF.search(page.markdown):
+                raise WikiBuildError("Wiki prose must not expose internal stable refs")
+            if (
+                not isinstance(page.contributing_refs, tuple)
+                or not page.contributing_refs
+                or len(set(page.contributing_refs)) != len(page.contributing_refs)
+            ):
+                raise WikiBuildError(
+                    "Wiki page requires unique contributing Research refs"
                 )
-                try:
-                    _create_managed_link(rollback_link, Path(old_link_target))
-                    os.replace(rollback_link, self._wiki_path)
-                finally:
-                    rollback_link.unlink(missing_ok=True)
-            raise
+            for ref in page.contributing_refs:
+                if not isinstance(ref, WikiProvenanceRef) or ref.research_ref not in (
+                    allowed_refs.get(ref.run_id) or set()
+                ):
+                    raise WikiBuildError("Wiki page has invalid contributing ref")
+        for page in pages:
+            LocalWikiPublisher._validate_page_links(page.markdown, pages_by_filename)
+
+    def _swap_pointer(self, build_id: str) -> None:
+        """Atomically replace ``current.json`` to name the new active build.
+
+        Writes the pointer to a sibling temp file and ``os.replace``-es it over
+        any existing ``current.json``. ``os.replace`` is atomic on both POSIX
+        and Windows, so a failure before the replace leaves the previous
+        pointer intact. The new build directory is already on disk; if the
+        pointer swap fails it becomes an inert orphan rather than a corrupt
+        publication.
+        """
+        pointer_temp = self._pointer_path.with_name(
+            f".{self._pointer_path.name}.swap-{uuid4()}"
+        )
+        pointer_temp.write_text(
+            json.dumps({"build": build_id}, sort_keys=True) + "\n",
+            encoding="utf-8",
+            newline="\n",
+        )
+        os.replace(pointer_temp, self._pointer_path)
 
     def read_manifest(self) -> WikiManifest:
-        path = self._wiki_path / "manifest.json"
         try:
-            value = json.loads(path.read_text(encoding="utf-8"))
-            manifest = self._manifest_from_dict(value)
-            self._validate_staging(self._wiki_path, manifest)
+            pointer = json.loads(self._pointer_path.read_text(encoding="utf-8"))
+            build_id = pointer["build"]
+            build_dir = self._builds_path / build_id
+            manifest = self._manifest_from_dict(
+                json.loads((build_dir / "manifest.json").read_text(encoding="utf-8"))
+            )
+            self._validate_staging(build_dir, manifest)
             return manifest
         except (
             WikiBuildError,
             FileNotFoundError,
+            KeyError,
             OSError,
             UnicodeError,
             ValueError,
@@ -514,8 +433,10 @@ class LocalWikiPublisher:
 
     def read_page(self, page: WikiManifestPage) -> str:
         try:
-            content = (self._wiki_path / page.path).read_bytes()
-        except (FileNotFoundError, OSError) as exc:
+            pointer = json.loads(self._pointer_path.read_text(encoding="utf-8"))
+            build_dir = self._builds_path / pointer["build"]
+            content = (build_dir / page.path).read_bytes()
+        except (FileNotFoundError, KeyError, OSError, UnicodeError, ValueError) as exc:
             raise WikiUnavailableError(
                 f"published Wiki page is unavailable: {page.path}"
             ) from exc
@@ -533,13 +454,13 @@ class LocalWikiPublisher:
     def _write_staging(
         self,
         staging: Path,
-        projection: WikiProjection,
-        draft: WikiDraft,
+        source_runs: tuple[WikiRunVersion, ...],
+        pages: tuple[WikiPageDraft, ...],
     ) -> WikiManifest:
         pages_directory = staging / "pages"
         pages_directory.mkdir()
         manifest_pages: list[WikiManifestPage] = []
-        for page in sorted(draft.pages, key=lambda item: item.slug):
+        for page in sorted(pages, key=lambda item: item.slug):
             content = page.markdown.rstrip() + "\n"
             page_path = pages_directory / f"{page.slug}.md"
             page_path.write_text(content, encoding="utf-8", newline="\n")
@@ -551,19 +472,11 @@ class LocalWikiPublisher:
                     contributing_refs=page.contributing_refs,
                 )
             )
-        index = self._render_index(
-            tuple(sorted(draft.pages, key=lambda item: item.slug))
-        )
+        index = self._render_index(tuple(sorted(pages, key=lambda item: item.slug)))
         (staging / "INDEX.md").write_text(index, encoding="utf-8", newline="\n")
         manifest = WikiManifest(
             schema_version=1,
-            source_runs=tuple(
-                WikiManifestSourceRun(
-                    run_id=run.run_id,
-                    state_revision=run.state_revision,
-                )
-                for run in projection.runs
-            ),
+            source_runs=source_runs,
             pages=tuple(manifest_pages),
         )
         (staging / "manifest.json").write_text(
@@ -596,6 +509,17 @@ class LocalWikiPublisher:
             content = (staging / page.path).read_bytes()
             if hashlib.sha256(content).hexdigest() != page.content_sha256:
                 raise WikiBuildError(f"Wiki page digest mismatch: {page.path}")
+
+    @staticmethod
+    def _validate_page_links(markdown: str, page_filenames: set[str]) -> None:
+        for target in _MARKDOWN_LINK.findall(markdown):
+            if target.startswith(("https://", "http://", "#")):
+                continue
+            if target == "../INDEX.md":
+                continue
+            path = target.split("#", maxsplit=1)[0]
+            if "/" in path or path not in page_filenames:
+                raise WikiBuildError(f"Wiki page link is invalid: {target!r}")
 
     @staticmethod
     def _render_index(pages: tuple[WikiPageDraft, ...]) -> str:
@@ -631,12 +555,12 @@ class LocalWikiPublisher:
         raw_pages = value["pages"]
         if not isinstance(raw_runs, list) or not isinstance(raw_pages, list):
             raise WikiBuildError("Wiki manifest collections are invalid")
-        source_runs: list[WikiManifestSourceRun] = []
+        source_runs: list[WikiRunVersion] = []
         for raw in raw_runs:
             if not isinstance(raw, dict) or set(raw) != {"run_id", "state_revision"}:
                 raise WikiBuildError("Wiki manifest source run is invalid")
             source_runs.append(
-                WikiManifestSourceRun(
+                WikiRunVersion(
                     run_id=raw["run_id"],
                     state_revision=raw["state_revision"],
                 )
@@ -676,128 +600,8 @@ class LocalWikiPublisher:
             source_runs=tuple(source_runs),
             pages=tuple(pages),
         )
-        WikiRuntime._validate_manifest_shape(manifest)
+        LocalWikiPublisher._validate_manifest_shape(manifest)
         return manifest
-
-    @staticmethod
-    def _fsync_directory(path: Path) -> None:
-        if sys.platform == "win32":
-            return
-        descriptor = os.open(path, os.O_RDONLY)
-        try:
-            os.fsync(descriptor)
-        finally:
-            os.close(descriptor)
-
-
-class WikiRuntime:
-    """Full derivation coordinator; old Wiki prose is never a build input."""
-
-    def __init__(
-        self,
-        projection: WikiProjectionService,
-        builder: WikiSemanticBuilder,
-        validator: WikiSemanticValidator,
-        publisher: LocalWikiPublisher,
-    ) -> None:
-        self._projection = projection
-        self._builder = builder
-        self._validator = validator
-        self._publisher = publisher
-
-    def rebuild(self) -> WikiPublicationResult:
-        projection = self._projection.project()
-        draft = self._builder.build(projection)
-        self._validate_draft(projection, draft)
-        review = self._validator.validate(projection, draft)
-        self._validate_semantic_review(review)
-        if not review.approved:
-            raise WikiSemanticValidationError("; ".join(review.issues))
-        return self._publisher.publish(projection, draft)
-
-    def is_current(self) -> bool:
-        try:
-            manifest = self._publisher.read_manifest()
-        except WikiUnavailableError:
-            return False
-        projection = self._projection.project()
-        return manifest.source_runs == projection.basis.source_runs
-
-    @classmethod
-    def _validate_draft(
-        cls,
-        projection: WikiProjection,
-        draft: object,
-    ) -> None:
-        if not isinstance(draft, WikiDraft) or not isinstance(draft.pages, tuple):
-            raise WikiBuildError("semantic builder must return WikiDraft")
-        allowed_refs = {
-            run.run_id: {
-                *(item.ref for item in run.approaches),
-                *(item.ref for item in run.findings),
-                *(item.ref for item in run.open_problems),
-                *(item.ref for item in run.papers),
-            }
-            for run in projection.runs
-        }
-        slugs: set[str] = set()
-        pages_by_filename: set[str] = set()
-        for page in draft.pages:
-            if not isinstance(page, WikiPageDraft):
-                raise WikiBuildError("WikiDraft pages must contain WikiPageDraft")
-            if (
-                not isinstance(page.slug, str)
-                or _SLUG.fullmatch(page.slug) is None
-                or page.slug in slugs
-            ):
-                raise WikiBuildError("Wiki page slugs must be unique safe slugs")
-            slugs.add(page.slug)
-            pages_by_filename.add(f"{page.slug}.md")
-            if not isinstance(page.title, str) or not page.title.strip():
-                raise WikiBuildError("Wiki page title must be non-empty")
-            if not isinstance(page.markdown, str) or not page.markdown.strip():
-                raise WikiBuildError("Wiki page markdown must be non-empty")
-            if _INTERNAL_REF.search(page.markdown):
-                raise WikiBuildError("Wiki prose must not expose internal stable refs")
-            if (
-                not isinstance(page.contributing_refs, tuple)
-                or not page.contributing_refs
-                or len(set(page.contributing_refs)) != len(page.contributing_refs)
-            ):
-                raise WikiBuildError(
-                    "Wiki page requires unique contributing Research refs"
-                )
-            for ref in page.contributing_refs:
-                if not isinstance(ref, WikiProvenanceRef) or ref.research_ref not in (
-                    allowed_refs.get(ref.run_id) or set()
-                ):
-                    raise WikiBuildError("Wiki page has invalid contributing ref")
-
-        for page in draft.pages:
-            cls._validate_page_links(page.markdown, pages_by_filename)
-
-    @staticmethod
-    def _validate_page_links(markdown: str, page_filenames: set[str]) -> None:
-        for target in _MARKDOWN_LINK.findall(markdown):
-            if target.startswith(("https://", "http://", "#")):
-                continue
-            if target == "../INDEX.md":
-                continue
-            path = target.split("#", maxsplit=1)[0]
-            if "/" in path or path not in page_filenames:
-                raise WikiBuildError(f"Wiki page link is invalid: {target!r}")
-
-    @staticmethod
-    def _validate_semantic_review(review: object) -> None:
-        if (
-            not isinstance(review, WikiSemanticReview)
-            or not isinstance(review.approved, bool)
-            or not isinstance(review.issues, tuple)
-            or not all(isinstance(issue, str) and issue for issue in review.issues)
-            or (review.approved and review.issues)
-            or (not review.approved and not review.issues)
-        ):
-            raise WikiBuildError("semantic validator returned an invalid review")
 
     @staticmethod
     def _validate_manifest_shape(manifest: WikiManifest) -> None:
@@ -848,6 +652,52 @@ class WikiRuntime:
                 if prefix not in {"approach", "finding", "problem", "paper"}:
                     raise WikiBuildError("Wiki manifest provenance ref is invalid")
                 validate_ref(ref.research_ref, prefix, "Wiki provenance ref")
+
+
+class WikiService:
+    """Unified projection, publication, query, and freshness observation.
+
+    The Wiki is a rebuildable, non-authoritative Markdown projection of
+    CLOSED+COMPLETE runs. Python projects accepted structured state, validates
+    page provenance, publishes versioned local builds, and exposes query.
+    Claude performs semantic synthesis and review outside the harness; this
+    service does not re-abstract those semantic actors.
+
+    A published Wiki may go stale when a newer run closes COMPLETE, but the
+    manifest honestly records which run revisions produced it. ``is_current()``
+    detects staleness without rejecting publication: a stale Wiki is allowed
+    to exist and can be rebuilt when desired.
+    """
+
+    def __init__(
+        self,
+        projection: WikiProjectionService,
+        publisher: LocalWikiPublisher,
+    ) -> None:
+        self._projection = projection
+        self._publisher = publisher
+
+    def project(self) -> WikiProjection:
+        return self._projection.project()
+
+    def publish(
+        self,
+        source_runs: tuple[WikiRunVersion, ...],
+        pages: tuple[WikiPageDraft, ...],
+    ) -> WikiPublicationResult:
+        projection = self._projection.project()
+        self._publisher.validate_pages_against(pages, projection)
+        return self._publisher.publish(source_runs, pages)
+
+    def query(self, query: str, *, limit: int = 10) -> WikiQueryResult:
+        return WikiQueryService(self._publisher).query(query, limit=limit)
+
+    def is_current(self) -> bool:
+        try:
+            manifest = self._publisher.read_manifest()
+        except WikiUnavailableError:
+            return False
+        return manifest.source_runs == self._projection.project().source_runs
 
 
 class WikiQueryService:

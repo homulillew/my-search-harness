@@ -331,33 +331,32 @@ the rendered content to `publish-report`. Only close after `validate-delivery` s
 ## Wiki orchestration after closure
 
 After a run closes COMPLETE, project accepted cross-run knowledge into the Wiki. The
-Wiki is a rebuildable projection of CLOSED+COMPLETE runs, not a run artifact: it never
-enters the lifecycle, is not a required artifact, and its failure never breaks a closed
-run or invalidates the report. Only CLOSED+COMPLETE runs are eligible; partial runs are
-excluded.
+Wiki is a rebuildable, non-authoritative Markdown projection of CLOSED+COMPLETE runs,
+not a run artifact and not a second research runtime: it never enters the lifecycle, is
+not a required artifact, and its failure never breaks a closed run or invalidates the
+report. Only CLOSED+COMPLETE runs are eligible; partial runs are excluded.
 
 Call `wiki-projection` to read the current authoritative projection of eligible runs.
-The projection carries a `basis` — the exact `(run_id, state_revision)` identity of
-every eligible run at projection time. Preserve it. Build a `WikiDraft` from that
-projection — pages that synthesize accepted approaches, findings, and open problems
-across runs, each carrying contributing refs to real research entities. Perform a
-fresh `WikiSemanticReview` of the draft against the same projection. Then call
-`publish-wiki` with the typed draft, review, and the preserved `basis`.
+The projection carries `source_runs` — the `(run_id, state_revision)` identity of every
+eligible run at projection time. Preserve it. Synthesize Wiki pages from that projection
+— pages that synthesize accepted approaches, findings, and open problems across runs,
+each carrying contributing refs to real research entities. Perform the semantic review
+of those pages yourself, against the same projection; this is a Claude-side semantic act,
+not a harness command field.
 
-The `basis` lets the harness freshness-check that the semantic draft was built from
-the current complete projection, not a stale snapshot whose refs merely still exist.
-If a new run closed COMPLETE between projection and publish, the supplied `basis` is
-stale and `publish-wiki` raises `WikiProjectionStaleError` before publication. On that
-error, re-project, rebuild the draft against the fresh projection, perform a fresh
-review, and publish again — do not reuse the old draft against the new projection.
+Then call `publish-wiki` with `source_runs` (preserved from the projection) and the
+reviewed `pages`. Python validates structure and provenance deterministically and
+publishes a versioned local build, recording `source_runs` verbatim in the manifest as
+honest build provenance. A published Wiki may become stale if a newer run closes COMPLETE
+afterwards; that is allowed — the manifest honestly records which run revisions produced
+it. Detect staleness with `is_current()` (or by re-projecting and comparing) and rebuild
+when desired. There is no publish-time exact-current rejection: a stale `source_runs` is
+published, not refused.
 
-Python validates structure and provenance deterministically and publishes via
-managed-pointer replacement (atomic where supported; the Windows junction fallback
-uses rollback-protected best-effort replacement) only when the review is approved. A
-rejected review raises `WikiSemanticValidationError` and preserves any previous
-publication; invalid structure or provenance raises `WikiBuildError` before
-publication. Either way the run remains CLOSED COMPLETE and the report remains valid.
-See `RUNTIME_API.md` for the input shape.
+Invalid structure or provenance raises `WikiBuildError` before publication, preserving
+any previous Wiki. A rejected semantic review is your decision — do not call `publish-wiki`
+until the review passes. Either way the run remains CLOSED COMPLETE and the report remains
+valid. See `RUNTIME_API.md` for the input shape.
 
 ## Handle failures explicitly
 
