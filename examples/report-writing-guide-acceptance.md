@@ -10,7 +10,8 @@ The first V1 live-acceptance report remains an unchanged, closed-run baseline at
 No new raw workspace, state, or event log is part of this acceptance.
 
 The deterministic Delivery fixture verifies that the UTF-8 contents of
-`.vibe/REPORT_WRITING_GUIDE.md` reach the Planner, Composer, Integrator, fresh
+`.claude/skills/literature-research/references/REPORT_WRITING_GUIDE.md` reaches
+the Planner, Composer, Integrator, fresh
 Editor, and Reviser unchanged. The Research Integrity Reviewer retains its
 separate three-argument boundary and receives no style guideline.
 

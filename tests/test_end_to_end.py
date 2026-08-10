@@ -381,7 +381,12 @@ class V1EndToEndTests(TestCase):
         editor_factory = FreshEditorFactory()
         planner = E2EPlanner(finding.entity_ref)
         writing_guide_path = (
-            Path(__file__).parents[1] / ".vibe" / "REPORT_WRITING_GUIDE.md"
+            Path(__file__).parents[1]
+            / ".claude"
+            / "skills"
+            / "literature-research"
+            / "references"
+            / "REPORT_WRITING_GUIDE.md"
         )
         report = runtime.report_pipeline(
             planner=planner,

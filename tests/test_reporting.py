@@ -240,7 +240,14 @@ class RecordingRenderer:
 
 class ReportWritingGuideLoaderTests(TestCase):
     def test_authoritative_guide_loads_verbatim_as_utf8(self) -> None:
-        guide_path = Path(__file__).parents[1] / ".vibe" / "REPORT_WRITING_GUIDE.md"
+        guide_path = (
+            Path(__file__).parents[1]
+            / ".claude"
+            / "skills"
+            / "literature-research"
+            / "references"
+            / "REPORT_WRITING_GUIDE.md"
+        )
 
         guideline = load_report_writing_guide(guide_path)
 
@@ -404,7 +411,14 @@ class ReportPipelineTests(TestCase):
         self.assertEqual("# Report\n\nRendered [1].", self.report_path.read_text())
 
     def test_complete_guide_reaches_all_semantic_writing_stages_only(self) -> None:
-        guide_path = Path(__file__).parents[1] / ".vibe" / "REPORT_WRITING_GUIDE.md"
+        guide_path = (
+            Path(__file__).parents[1]
+            / ".claude"
+            / "skills"
+            / "literature-research"
+            / "references"
+            / "REPORT_WRITING_GUIDE.md"
+        )
         guideline = load_report_writing_guide(guide_path)
         received: dict[str, str] = {}
         integrity_calls = 0

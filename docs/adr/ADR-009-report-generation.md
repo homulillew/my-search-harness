@@ -191,7 +191,8 @@ Research State 被实质修改后，原 Completion approval 失效，需要重�
 
 ## Writing Guideline 是跨 Run 的写作策略
 
-V1 使用 `.vibe/REPORT_WRITING_GUIDE.md` 保存长期写作标准。
+V1 使用 `.claude/skills/literature-research/references/REPORT_WRITING_GUIDE.md`
+保存长期写作标准。
 
 它规定准确性、简洁性、自然表达、专业术语、叙事组织、结构节奏和常见反模式，但不规定固定报告模板。
 
