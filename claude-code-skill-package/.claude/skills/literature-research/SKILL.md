@@ -12,8 +12,31 @@ runtime for authority, persistence, stable references, provenance, accounting, a
 validation.
 
 Never edit `state.json`, event logs, report artifacts, or repository files directly.
-All authoritative mutations must go through `${CLAUDE_SKILL_DIR}/scripts/harness`;
-host Web observations remain ephemeral until promoted with `retain-papers`.
+All authoritative mutations must go through the platform launcher; host Web
+observations remain ephemeral until promoted with `retain-papers`.
+
+## Platform launcher
+
+Invoke the harness through the thin launcher for the current shell. Both
+launchers resolve the Skill root themselves, prefer the Skill-local `.venv`,
+fall back to a system Python, and delegate to the same `harness.py`.
+
+POSIX:
+
+```bash
+${CLAUDE_SKILL_DIR}/scripts/harness --workspace PATH COMMAND [OPTIONS]
+```
+
+PowerShell:
+
+```powershell
+& "$env:CLAUDE_SKILL_DIR\scripts\harness.ps1" --workspace PATH COMMAND [OPTIONS]
+```
+
+`CLAUDE_SKILL_DIR` is an optional override; each launcher resolves the Skill
+root from its own location otherwise. Command examples below use the POSIX form;
+in PowerShell, substitute the `.ps1` launcher. See `RUNTIME_API.md` for the
+universal `python harness.py` fallback.
 
 ## Read the protocol before acting
 

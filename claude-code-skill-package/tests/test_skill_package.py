@@ -47,7 +47,7 @@ class SkillLayoutTests(TestCase):
         self.assertTrue(frontmatter[0].startswith("name: literature-research"))
         self.assertTrue(frontmatter[1].startswith("description: "))
         self.assertGreaterEqual(len(lines), 150)
-        self.assertLessEqual(len(lines), 360)
+        self.assertLessEqual(len(lines), 390)
 
     def test_supporting_files_and_executables_exist(self) -> None:
         expected = (
@@ -58,9 +58,11 @@ class SkillLayoutTests(TestCase):
             "references/REPORT_WRITING_GUIDE.md",
             "references/RESEARCH_INTEGRITY_GUIDE.md",
             "scripts/harness",
+            "scripts/harness.ps1",
             "scripts/harness.py",
             "scripts/doctor.py",
             "scripts/setup.sh",
+            "scripts/setup.ps1",
         )
         for relative in expected:
             with self.subTest(relative=relative):
@@ -909,4 +911,126 @@ class WikiCliBridgeTests(TestCase):
         self.assertEqual(basis_a_b, manifest_source_runs)
         # is_current(): a fresh projection basis equals the manifest basis.
         self.assertEqual(self._basis(), manifest_source_runs)
+
+
+class CrossPlatformLauncherTests(TestCase):
+    """Windows / PowerShell standalone launcher compatibility.
+
+    The Runtime is already cross-platform; these tests cover the thin launchers
+    (harness.ps1, setup.ps1) and the doctor venv-detection fix so a Windows
+    PowerShell user can setup, doctor, and invoke the Skill without Bash/WSL.
+    """
+
+    def test_packaged_dist_contains_all_launchers(self) -> None:
+        packager = load_module(
+            "literature_skill_packager_launcher_test",
+            ROOT / "scripts" / "package_skill.py",
+        )
+        with TemporaryDirectory() as temporary:
+            fixture_root = Path(temporary) / "source"
+            shutil.copytree(
+                SKILL, fixture_root / ".claude" / "skills" / "literature-research"
+            )
+            shutil.copytree(
+                ROOT / "src" / "my_search_harness",
+                fixture_root / "src" / "my_search_harness",
+            )
+            destination = packager.package_skill(fixture_root)
+            for relative in (
+                "scripts/harness",
+                "scripts/harness.ps1",
+                "scripts/harness.py",
+                "scripts/setup.sh",
+                "scripts/setup.ps1",
+                "scripts/doctor.py",
+            ):
+                with self.subTest(relative=relative):
+                    self.assertTrue(
+                        (destination / relative).is_file(),
+                        f"dist missing {relative}",
+                    )
+
+    def test_powershell_launchers_are_identical_source_and_dist(self) -> None:
+        packager = load_module(
+            "literature_skill_packager_consistency_test",
+            ROOT / "scripts" / "package_skill.py",
+        )
+        with TemporaryDirectory() as temporary:
+            fixture_root = Path(temporary) / "source"
+            shutil.copytree(
+                SKILL, fixture_root / ".claude" / "skills" / "literature-research"
+            )
+            shutil.copytree(
+                ROOT / "src" / "my_search_harness",
+                fixture_root / "src" / "my_search_harness",
+            )
+            destination = packager.package_skill(fixture_root)
+            for relative in ("scripts/harness.ps1", "scripts/setup.ps1"):
+                with self.subTest(relative=relative):
+                    source_text = (SKILL / relative).read_text(encoding="utf-8")
+                    dist_text = (destination / relative).read_text(encoding="utf-8")
+                    self.assertEqual(source_text, dist_text)
+
+    def test_harness_ps1_static_behavior(self) -> None:
+        """harness.ps1 resolves the Skill venv, delegates to harness.py, passes args."""
+        script = (SKILL / "scripts" / "harness.ps1").read_text(encoding="utf-8")
+        self.assertIn(".venv\\Scripts\\python.exe", script)
+        self.assertIn("harness.py", script)
+        self.assertIn("@args", script)
+        self.assertIn("$LASTEXITCODE", script)
+        # Must not hardcode a drive letter or depend on cwd.
+        self.assertNotIn("C:\\", script)
+        self.assertNotIn("Set-Location", script)
+        self.assertNotIn("cd ", script)
+
+    def test_setup_ps1_static_behavior(self) -> None:
+        r"""setup.ps1 creates .venv, uses Scripts\python.exe, installs requirements."""
+        script = (SKILL / "scripts" / "setup.ps1").read_text(encoding="utf-8")
+        self.assertIn("-m venv", script)
+        self.assertIn(".venv\\Scripts\\python.exe", script)
+        self.assertIn("runtime\\requirements.txt", script)
+        self.assertIn("--upgrade pip", script)
+        # Must not activate the environment or hardcode a drive.
+        self.assertNotIn("Activate.ps1", script)
+        self.assertNotIn("C:\\", script)
+
+    def test_doctor_detects_windows_venv_layout(self) -> None:
+        r"""doctor._reexec_skill_venv must look for Scripts\python.exe, not only bin/python."""
+        source = (SKILL / "scripts" / "doctor.py").read_text(encoding="utf-8")
+        self.assertIn("Scripts", source)
+        self.assertIn("python.exe", source)
+        self.assertIn("bin", source)
+        # Must not assume POSIX execv works on Windows.
+        self.assertIn("os.name", source)
+
+    def test_harness_py_isolation_in_path_with_spaces(self) -> None:
+        """bundled runtime loads from a Skill path containing spaces, no PYTHONPATH."""
+        harness = load_module(
+            "literature_research_harness_isolation_test",
+            SKILL / "scripts" / "harness.py",
+        )
+        with TemporaryDirectory() as temporary:
+            # A Skill path with a space mirrors "C:\Users\Test User\My Project\...".
+            spaced_root = Path(temporary) / "spaced project"
+            spaced_skill = spaced_root / ".claude" / "skills" / "literature-research"
+            shutil.copytree(SKILL, spaced_skill)
+            environment = os.environ.copy()
+            environment["CLAUDE_SKILL_DIR"] = str(spaced_skill)
+            environment.pop("PYTHONPATH", None)
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    str(spaced_skill / "scripts" / "harness.py"),
+                    "--workspace",
+                    str(spaced_root / "workspace"),
+                    "--help",
+                ],
+                env=environment,
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+            # --help exits 0 and proves the bundled runtime imported cleanly.
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            self.assertIn("usage:", completed.stdout)
 

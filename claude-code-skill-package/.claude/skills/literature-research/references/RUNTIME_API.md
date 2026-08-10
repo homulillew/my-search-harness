@@ -1,10 +1,26 @@
 # Runtime Adapter API
 
-Invoke commands through:
+Invoke commands through the platform launcher for the current shell:
+
+POSIX:
 
 ```bash
 ${CLAUDE_SKILL_DIR}/scripts/harness --workspace PATH COMMAND [OPTIONS]
 ```
+
+PowerShell:
+
+```powershell
+& "$env:CLAUDE_SKILL_DIR\scripts\harness.ps1" --workspace PATH COMMAND [OPTIONS]
+```
+
+When invoked from the installed Skill path, `harness` / `harness.ps1` resolve the
+Skill root themselves from their own location; `CLAUDE_SKILL_DIR` is an optional
+override. Both launchers prefer the Skill-local `.venv`, fall back to a system
+Python, and delegate to the same `scripts/harness.py`, so all research logic runs
+through one Python entry point. As a universal fallback when no launcher is
+available, run `python "$CLAUDE_SKILL_DIR/scripts/harness.py"` (POSIX) or
+`python "$env:CLAUDE_SKILL_DIR\scripts\harness.py"` (PowerShell) directly.
 
 The adapter writes exactly one JSON object. Success goes to stdout with `"ok": true`.
 Errors go to stderr with `"ok": false`, an error type, and a safe message; exit status is

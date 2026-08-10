@@ -12,6 +12,8 @@ comparison validity, and benchmark interpretation.
 
 ## Install a standalone export
 
+### POSIX
+
 ```bash
 cp -R literature-research ~/.claude/skills/literature-research
 cd ~/.claude/skills/literature-research
@@ -28,6 +30,35 @@ mkdir -p ~/literature-research-workspace
 ./scripts/doctor.py --workspace ~/literature-research-workspace
 ```
 
+### PowerShell (Windows)
+
+```powershell
+Copy-Item -Recurse .\literature-research `
+  "$HOME\.claude\skills\literature-research"
+
+& "$HOME\.claude\skills\literature-research\scripts\setup.ps1"
+
+$env:DEEPXIV_TOKEN = "..."
+```
+
+Do not put the token in the skill, a JSON input file, `.env`, or PowerShell
+script. Keep it in the environment only.
+
+Check the installation (call the venv Python directly so file association is
+not assumed):
+
+```powershell
+New-Item -ItemType Directory -Force "$HOME\literature-research-workspace" | Out-Null
+& "$HOME\.claude\skills\literature-research\.venv\Scripts\python.exe" `
+  "$HOME\.claude\skills\literature-research\scripts\doctor.py" `
+  --workspace "$HOME\literature-research-workspace"
+```
+
+If local PowerShell execution policy blocks project scripts, invoke with the
+user's organization-approved PowerShell policy or call
+`python scripts\harness.py` directly; do not lower system security policy as a
+default install step.
+
 Runtime workspace is user or project data and must remain outside the Skill installation
 directory. A project may instead use its own `workspace/` directory.
 
@@ -41,7 +72,9 @@ directory. Then invoke:
 
 The project-local version is discovered from `.claude/skills/literature-research` and
 uses the repository Runtime source. A standalone export uses `runtime/src` bundled by
-the release packager. In both modes, use `${CLAUDE_SKILL_DIR}/scripts/harness`; do not
+the release packager. In both modes, use the platform launcher
+(`${CLAUDE_SKILL_DIR}/scripts/harness` on POSIX,
+`& "$env:CLAUDE_SKILL_DIR\scripts\harness.ps1"` on PowerShell); do not
 manipulate the workspace files directly.
 
 ## Export from the repository

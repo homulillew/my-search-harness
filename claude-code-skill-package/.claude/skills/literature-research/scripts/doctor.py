@@ -29,15 +29,33 @@ def _bootstrap_runtime(skill: Path) -> None:
 
 
 def _reexec_skill_venv(skill: Path) -> None:
-    venv_python = skill / ".venv" / "bin" / "python"
-    if not venv_python.is_file():
+    # Cross-platform venv Python discovery: Windows uses Scripts\python.exe,
+    # POSIX uses bin/python. Try both so the same doctor works regardless of
+    # which shell created the venv.
+    candidates = (
+        skill / ".venv" / "Scripts" / "python.exe",
+        skill / ".venv" / "bin" / "python",
+    )
+    venv_python = next((path for path in candidates if path.is_file()), None)
+    if venv_python is None:
         return
     if Path(sys.executable).resolve() == venv_python.resolve():
         return
-    os.execv(
-        str(venv_python),
-        [str(venv_python), str(Path(__file__).resolve()), *sys.argv[1:]],
-    )
+    # os.execv replaces the process cleanly on POSIX. On Windows execv does not
+    # fully replace the running image, so spawn the venv Python as a child and
+    # forward its exit code, preserving all original argv.
+    if os.name == "posix":
+        os.execv(
+            str(venv_python),
+            [str(venv_python), str(Path(__file__).resolve()), *sys.argv[1:]],
+        )
+    else:
+        import subprocess
+
+        result = subprocess.run(
+            [str(venv_python), str(Path(__file__).resolve()), *sys.argv[1:]]
+        )
+        raise SystemExit(result.returncode)
 
 
 def _workspace_writable(workspace: Path) -> bool:
