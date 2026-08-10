@@ -1,0 +1,14 @@
+{
+ "statement": "Standardized evaluation of search-agent RL: the field lacks a unified benchmark that evaluates both answer quality and search efficiency (query count, token cost, evidence precision) under controlled conditions, making cross-method comparison unreliable.",
+ "sources": [
+  {
+   "paper_ref": "paper_36607d0d-4e2f-42da-82ce-d53b3df533bb",
+   "relation": "QUALIFIES"
+  },
+  {
+   "paper_ref": "paper_66320223-b2b2-44bd-ba9b-898944c453ca",
+   "relation": "SUPPORTS"
+  }
+ ],
+ "approach_refs": []
+}

@@ -1,0 +1,11 @@
+{
+ "name": "Self-Play & Self-Evolving Search Agents",
+ "core_idea": "Train search agents via self-play where the same or coupled models generate, solve, and verify tasks without external supervision. Task generation is grounded in evidence chains or knowledge graphs, and search-depth or evidence-density rewards regulate browsing efficiency. The route includes self-evolving variants that accumulate reusable skills or co-evolve with a knowledge graph.",
+ "representative_paper_refs": [
+  "paper_36607d0d-4e2f-42da-82ce-d53b3df533bb",
+  "paper_129c24cc-e5d0-4cdc-b1fe-602ea9e21f77",
+  "paper_3283950c-da75-4c9a-b2e6-8f1895609134",
+  "paper_95dfdee4-5aca-431f-b124-1c7e41b1039d",
+  "paper_6b367c0e-35cf-4b44-a181-2a2e4515aee2"
+ ]
+}

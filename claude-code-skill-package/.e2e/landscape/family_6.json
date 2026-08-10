@@ -1,0 +1,10 @@
+{
+ "name": "RL for Tool Use in Agents",
+ "core_idea": "Apply reinforcement learning to optimize tool-use policies in LLM agents, deciding when and how to invoke tools within reasoning. Foundational works establish RL viability (ReTool) and sample efficiency (Tool-R1), with frontier work on evidence-aligned policy optimization (Contextual Information Policy Optimization) and guided retrieval training (Search-GRT).",
+ "representative_paper_refs": [
+  "paper_05b61cd4-2de6-4cfb-bb6b-c1885a187de7",
+  "paper_e128cbae-36f5-42b9-af32-a8795bb817f1",
+  "paper_7589c8f9-cba7-4962-b206-51fa360adf48",
+  "paper_e8e0b76f-ad3e-4e57-8172-dee7da680339"
+ ]
+}

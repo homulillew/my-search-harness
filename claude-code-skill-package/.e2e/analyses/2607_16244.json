@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_aa51d6a8-5143-4f58-982d-e64b5622e2be",
+ "summary": "CIGPO injects per-turn information-gain rewards to prevent reward-variance collapse and zero-advantage lock-in in outcome-only GRPO, providing a dense signal for multi-turn evidence-reading agents.",
+ "relevance_to_run": "GRPO-variant route addressing advantage collapse; relevant to reward design and the diagnosis of GRPO failure modes.",
+ "contributions": [
+  "Per-turn information-gain reward injection",
+  "Prevention of reward-variance collapse and zero-advantage lock-in"
+ ],
+ "key_results": [
+  "Information-gain rewards restore advantage variance in long multi-turn trajectories"
+ ],
+ "limitations": [
+  "Information-gain estimation may be noisy"
+ ]
+}

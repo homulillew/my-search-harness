@@ -1,0 +1,15 @@
+{
+  "completion_check_ref": "check_9c9b435e-3bc3-4e66-b55a-5a9ebfe7e0dd",
+  "verdict": "PASS",
+  "reasons": [
+    "Coverage: 7 technical routes mapped with discrimination criteria (self-play, credit assignment, process reward models, GRPO variants, deep research systems, self-distillation, tool-use RL), satisfying the route-mapping and discrimination-criteria requirement.",
+    "Mechanism and representative method per route: each approach family has a core_idea describing the mechanism and 3-7 representative papers, satisfying the mechanism-per-route requirement.",
+    "Empirical results and evidence strength: 30 paper analyses include key_results capturing empirical findings; evidence grounded in abstracts and read-source primary content (SearchMaster Method section verified at 16925 chars).",
+    "Evidence conflicts and non-comparability: investigation gaps explicitly note that cross-method comparison is only inferable from per-paper benchmarks, and that credit-assignment sub-routes lack head-to-head comparison, satisfying the evidence-conflicts requirement.",
+    "Frontier work: newest retained paper 2026-08-07; 41/51 papers from 2026; frontier works (SearchMaster, ABSeeker, AREX, Contextual Information Policy Optimization, Search-GRT) covered, satisfying the frontier-work requirement.",
+    "Route trade-offs: findings capture the online-vs-offline trade-off (OffSeeker/LiteResearcher), the PRM-vs-structural-credit trade-off, and the grounded-vs-ungrounded self-play trade-off, satisfying the route-trade-offs requirement.",
+    "Open problems: 5 field-level open problems (verifier reliability, credit without ground truth, long-horizon context, standardized evaluation, reward hacking) satisfying the open-problems requirement.",
+    "Key training and reward designs: credit assignment, process rewards, search-depth/evidence-density rewards, GRPO advantage-collapse mitigations all covered, satisfying the training/reward-design requirement.",
+    "Complete cited survey: 51 retained papers with 30 analyses, 7 approach families, 6 findings, 5 open problems, 3 gaps — sufficient for a complete cited technical survey."
+  ]
+}

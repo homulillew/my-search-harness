@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_57e11b54-d6a8-46e4-9e64-eeec6bbb655a",
+ "summary": "AgentOPSD employs recursive Bayesian belief updates to convert sparse outcome rewards into dense turn-level credit without a critic, providing a critic-free self-distillation method for agentic RL.",
+ "relevance_to_run": "Critic-free self-distillation route; relevant to credit assignment and self-distillation technical routes.",
+ "contributions": [
+  "Recursive Bayesian belief updates for turn-level credit",
+  "Critic-free self-distillation for agentic RL"
+ ],
+ "key_results": [
+  "Critic-free design reduces model requirements while providing dense credit"
+ ],
+ "limitations": [
+  "Bayesian belief update accuracy depends on reward distribution assumptions"
+ ]
+}

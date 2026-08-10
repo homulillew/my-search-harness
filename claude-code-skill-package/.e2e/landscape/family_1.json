@@ -1,0 +1,13 @@
+{
+ "name": "Credit Assignment for Search Trajectories",
+ "core_idea": "Address the sparse outcome-reward problem in long-horizon search by assigning step-level credit to intermediate search actions. Sub-routes differ by the credit signal source: answer-backtracking (ABSeeker), pivot/information-peak identification (PiCA), graph-distance proximity (Beyond Trajectory Rewards), provenance/first-exposure citation (STAMP), role-typed action classification (TRIAGE), and counterfactual sibling rollouts (CRAFT).",
+ "representative_paper_refs": [
+  "paper_3a4899d1-9ccf-4239-9d10-5123c22cf569",
+  "paper_72bccb23-1606-4214-b39b-9f083e926b32",
+  "paper_cefb88c9-c3f5-4c64-96a6-3744215b8562",
+  "paper_2ec71c8b-82d5-4bcd-b202-099cd3913b37",
+  "paper_70ff7f5a-568a-4ad7-b866-4e3b63cbe51a",
+  "paper_33169668-c48a-4c0f-a2c3-b5216191a1e8",
+  "paper_37c3e2bb-f024-4a0e-b5ed-cae8fb35d65a"
+ ]
+}

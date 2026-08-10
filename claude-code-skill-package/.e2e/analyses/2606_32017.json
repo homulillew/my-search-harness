@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_70ff7f5a-568a-4ad7-b866-4e3b63cbe51a",
+ "summary": "TRIAGE proposes role-typed credit assignment that corrects standard GRPO's outcome-only signals by classifying agent actions into progress, exploration, or regression categories, applying role-specific credit rather than uniform outcome credit.",
+ "relevance_to_run": "Role-typed credit-assignment route; the action-role taxonomy is a discrimination criterion for credit assignment.",
+ "contributions": [
+  "Action-role classification (progress/exploration/regression) for credit assignment",
+  "Correction of GRPO's uniform outcome credit via role-specific signals"
+ ],
+ "key_results": [
+  "Role-typed credit reduces redundant actions by distinguishing productive from regressive steps"
+ ],
+ "limitations": [
+  "Role classification requires a reliable classifier"
+ ]
+}

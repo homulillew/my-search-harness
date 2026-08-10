@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_d7295ad7-eba9-4585-b06e-0565fb7bd4df",
+ "summary": "SciResearcher introduces an automated framework for synthesizing scientific tasks and trains an 8B agent using agentic RL to achieve state-of-the-art frontier scientific reasoning performance.",
+ "relevance_to_run": "Scientific-domain deep-research route; demonstrates domain-specific task synthesis and agentic RL for frontier reasoning.",
+ "contributions": [
+  "Automated scientific task synthesis framework",
+  "8B agent trained via agentic RL for frontier scientific reasoning"
+ ],
+ "key_results": [
+  "Achieves SOTA frontier scientific reasoning with an 8B model"
+ ],
+ "limitations": [
+  "Task synthesis tailored to scientific domain may not transfer to general research"
+ ]
+}

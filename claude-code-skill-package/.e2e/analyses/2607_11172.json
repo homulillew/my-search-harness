@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_2ec71c8b-82d5-4bcd-b202-099cd3913b37",
+ "summary": "STAMP traces first-exposure citations to credit supporting actions via sign-preserving advantage modulation. It identifies which search actions first introduced evidence later used in the answer, and modulates advantages while preserving their sign.",
+ "relevance_to_run": "Provenance-based credit-assignment route; the first-exposure-citation concept is a discrimination criterion for credit assignment.",
+ "contributions": [
+  "First-exposure citation tracing for provenance-based credit",
+  "Sign-preserving advantage modulation that avoids reward sign flipping"
+ ],
+ "key_results": [
+  "Provenance tracing credits the specific actions that introduced useful evidence"
+ ],
+ "limitations": [
+  "Citation tracing requires reliable evidence-to-action mapping"
+ ]
+}

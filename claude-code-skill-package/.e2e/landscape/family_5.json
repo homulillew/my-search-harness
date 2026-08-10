@@ -1,0 +1,9 @@
+{
+ "name": "Self-Distillation & Hindsight for Agentic RL",
+ "core_idea": "Convert sparse outcome rewards into dense supervision via self-distillation and hindsight techniques without external critics. Sub-routes include recursive Bayesian belief updates (AgentOPSD), trajectory-relative hindsight allocation (TRIAL), and hindsight critique of failed trajectories (HindSearch).",
+ "representative_paper_refs": [
+  "paper_57e11b54-d6a8-46e4-9e64-eeec6bbb655a",
+  "paper_e1cd98a1-20f2-47bf-96cd-8d7711b7d655",
+  "paper_855832de-c9be-46b0-8fcb-ad08a3947d9c"
+ ]
+}

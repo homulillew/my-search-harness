@@ -1,0 +1,17 @@
+{
+  "mission": "Deep technical survey of reinforcement-learning-based agent training for Agent Search / Deep Research",
+  "requirements": [
+    "Map major technical routes and discrimination criteria",
+    "Cover mechanism and representative method per route",
+    "Cover key training and reward designs",
+    "Cover empirical results and evidence strength",
+    "Cover route trade-offs",
+    "Cover evidence conflicts or non-comparability",
+    "Cover the latest frontier work up to the research cutoff date",
+    "Cover open problems",
+    "Produce a complete cited technical survey using real Primary Papers"
+  ],
+  "scope": "Peer-reviewed and arXiv primary literature on RL-based training of search/research agents",
+  "deliverable_description": "Chinese technical-route survey report with Primary Paper citations",
+  "required_artifacts": ["REPORT"]
+}

@@ -1,0 +1,1060 @@
+{
+ "hits": [
+  {
+   "title": "SEM: Reinforcement Learning for Search-Efficient Large Language Models",
+   "publication_year": 2025,
+   "publication_date": "2025-05-12",
+   "arxiv_id": "2505.07903",
+   "canonical_url": "https://arxiv.org/abs/2505.07903",
+   "authors": [
+    "Zeyang Sha",
+    "Shiwen Cui",
+    "Weiqiang Wang"
+   ],
+   "categories": [
+    "cs.CL",
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Reinforcement Learning for Long-Horizon Multi-Turn Search Agents",
+   "publication_year": 2025,
+   "publication_date": "2025-10-28",
+   "arxiv_id": "2510.24126",
+   "canonical_url": "https://arxiv.org/abs/2510.24126",
+   "authors": [
+    "Vivek Kalyan",
+    "Martin Andrews"
+   ],
+   "categories": [
+    "cs.CL"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "ReTool: Reinforcement Learning for Strategic Tool Use in LLMs",
+   "publication_year": 2025,
+   "publication_date": "2025-04-15",
+   "arxiv_id": "2504.11536",
+   "canonical_url": "https://arxiv.org/abs/2504.11536",
+   "authors": [
+    "Jiazhan Feng",
+    "Shijue Huang",
+    "Xingwei Qu",
+    "Ge Zhang",
+    "Yujia Qin",
+    "Baoquan Zhong",
+    "Chengquan Jiang",
+    "Jinxin Chi",
+    "Wanjun Zhong"
+   ],
+   "categories": [
+    "cs.CL",
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "VerlTool: Towards Holistic Agentic Reinforcement Learning with Tool Use",
+   "publication_year": 2025,
+   "publication_date": "2025-09-01",
+   "arxiv_id": "2509.01055",
+   "canonical_url": "https://arxiv.org/abs/2509.01055",
+   "authors": [
+    "Dongfu Jiang",
+    "Yi Lu",
+    "Zhuofeng Li",
+    "Zhiheng Lyu",
+    "Ping Nie",
+    "Haozhe Wang",
+    "Alex Su",
+    "Hui Chen",
+    "Kai Zou",
+    "Chao Du",
+    "Tianyu Pang",
+    "Wenhu Chen"
+   ],
+   "categories": [
+    "cs.AI",
+    "cs.CL",
+    "cs.CV"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Tool-R1: Sample-Efficient Reinforcement Learning for Agentic Tool Use",
+   "publication_year": 2025,
+   "publication_date": "2025-09-16",
+   "arxiv_id": "2509.12867",
+   "canonical_url": "https://arxiv.org/abs/2509.12867",
+   "authors": [
+    "Yabo Zhang",
+    "Yihan Zeng",
+    "Qingyun Li",
+    "Zhen Hu",
+    "Kavin Han",
+    "Wangmeng Zuo"
+   ],
+   "categories": [
+    "cs.LG",
+    "cs.CV"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "SearchMaster: Grounded and Regulated Self-Play for Search Agents",
+   "publication_year": 2026,
+   "publication_date": "2026-08-03",
+   "arxiv_id": "2608.01822",
+   "canonical_url": "https://arxiv.org/abs/2608.01822",
+   "authors": [
+    "Wentao Tan",
+    "Qiong Cao",
+    "Jiaqi Wang",
+    "Nan Duan"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Search Self-play: Pushing the Frontier of Agent Capability without Supervision",
+   "publication_year": 2025,
+   "publication_date": "2025-10-21",
+   "arxiv_id": "2510.18821",
+   "canonical_url": "https://arxiv.org/abs/2510.18821",
+   "authors": [
+    "Hongliang Lu",
+    "Yuhang Wen",
+    "Pengyu Cheng",
+    "Ruijin Ding",
+    "Jiaqi Guo",
+    "Haotian Xu",
+    "Chutian Wang",
+    "Haonan Chen",
+    "Xiaoxi Jiang",
+    "Guanjun Jiang"
+   ],
+   "categories": [
+    "cs.LG"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Self-Play Meets Skill Evolution: Self-Evolving Search Agents that Pose, Solve, and Remember",
+   "publication_year": 2026,
+   "publication_date": "2026-07-31",
+   "arxiv_id": "2607.29468",
+   "canonical_url": "https://arxiv.org/abs/2607.29468",
+   "authors": [
+    "Zenghuang Fu",
+    "Zhaoyang Li",
+    "Qiuyuan Ai",
+    "Haoyu Wu",
+    "Minghui Wu",
+    "Chenxu Zhao",
+    "Ante Wang",
+    "Guannan He",
+    "Changwei Wang"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Knowledge-Graph Paths as Intermediate Supervision for Self-Evolving Search Agents",
+   "publication_year": 2026,
+   "publication_date": "2026-05-07",
+   "arxiv_id": "2605.05702",
+   "canonical_url": "https://arxiv.org/abs/2605.05702",
+   "authors": [
+    "Huyu Wu",
+    "Jun Liu",
+    "Xiaochi Wei",
+    "Yan Gao",
+    "Yi Wu",
+    "Yao Hu"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "CoEvoKG: Co-Evolving Knowledge Graphs with Self-Evolving Search Agents",
+   "publication_year": 2026,
+   "publication_date": "2026-08-03",
+   "arxiv_id": "2608.01904",
+   "canonical_url": "https://arxiv.org/abs/2608.01904",
+   "authors": [
+    "Zhaoyang Li",
+    "Zenghuang Fu",
+    "Qiuyuan Ai",
+    "Ping Jiang",
+    "Haoyu Wu",
+    "Minghui Wu",
+    "Chenxu Zhao",
+    "Jie Song",
+    "Guannan He"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Fathom-DeepResearch: Unlocking Long Horizon Information Retrieval and Synthesis for SLMs",
+   "publication_year": 2025,
+   "publication_date": "2025-09-28",
+   "arxiv_id": "2509.24107",
+   "canonical_url": "https://arxiv.org/abs/2509.24107",
+   "authors": [
+    "Shreyas Singh",
+    "Kunal Singh",
+    "Pradeep Moturi"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "ABSeeker: Training Long-Horizon Search Agents via Answer-Backtracked Credit Assignment",
+   "publication_year": 2026,
+   "publication_date": "2026-08-05",
+   "arxiv_id": "2608.05102",
+   "canonical_url": "https://arxiv.org/abs/2608.05102",
+   "authors": [
+    "Yijun Lu",
+    "Rui Ye",
+    "Jiajun Wang",
+    "Yuwen Du",
+    "Tian Jin",
+    "Songhua Liu",
+    "Siheng Chen"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "PiCA: Pivot-Based Credit Assignment for Search Agentic Reinforcement Learning",
+   "publication_year": 2026,
+   "publication_date": "2026-05-10",
+   "arxiv_id": "2605.09287",
+   "canonical_url": "https://arxiv.org/abs/2605.09287",
+   "authors": [
+    "Dongyi Liu",
+    "Yifan Niu",
+    "Qinwen Wang",
+    "Han Xiao",
+    "Jia Li"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Beyond Trajectory Rewards: Step-level Credit Assignment for Agentic Search via Graph Modeling",
+   "publication_year": 2026,
+   "publication_date": "2026-05-28",
+   "arxiv_id": "2605.29697",
+   "canonical_url": "https://arxiv.org/abs/2605.29697",
+   "authors": [
+    "Yuchen Liu",
+    "Yingjie Feng",
+    "Lixiong Qin",
+    "Jiasi Chen",
+    "Jianing Yu",
+    "Sheng Gao",
+    "Sheng Yang",
+    "Weiran Xu"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "STAMP: Provenance-Guided Credit Assignment for Deep Search Agents",
+   "publication_year": 2026,
+   "publication_date": "2026-07-13",
+   "arxiv_id": "2607.11172",
+   "canonical_url": "https://arxiv.org/abs/2607.11172",
+   "authors": [
+    "Ke Xu",
+    "Han Xu",
+    "Xinran Chen",
+    "Yuqian Wang",
+    "Zhixuan Li",
+    "Xiaojian Liu",
+    "Changwo Wu",
+    "Jianqiang Xia",
+    "Yuchen Li"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Enhancing LLM-based Search Agents via Contribution Weighted Group Relative Policy Optimization",
+   "publication_year": 2026,
+   "publication_date": "2026-04-15",
+   "arxiv_id": "2604.14267",
+   "canonical_url": "https://arxiv.org/abs/2604.14267",
+   "authors": [
+    "Junzhe Wang",
+    "Zhiheng Xi",
+    "Yajie Yang",
+    "Hao Luo",
+    "Shihan Dou",
+    "Tao Gui",
+    "Qi Zhang"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "TRIAGE: Role-Typed Credit Assignment for Agentic Reinforcement Learning",
+   "publication_year": 2026,
+   "publication_date": "2026-06-30",
+   "arxiv_id": "2606.32017",
+   "canonical_url": "https://arxiv.org/abs/2606.32017",
+   "authors": [
+    "Yuanda Xu",
+    "Zhengze Zhou",
+    "Hejian Sang",
+    "Xiaomin Li",
+    "Jiaxin Zhang",
+    "Xinchen Du",
+    "Sen Na",
+    "Zhipeng Wang",
+    "Alborz Geramifard"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "CRAFT: Counterfactual Credit Assignment from Free Sibling Rollouts for Self-Distilled Agentic Reinforcement Learning",
+   "publication_year": 2026,
+   "publication_date": "2026-06-28",
+   "arxiv_id": "2606.29476",
+   "canonical_url": "https://arxiv.org/abs/2606.29476",
+   "authors": [
+    "Zibin Meng",
+    "Kani Chen"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "RTMC: Step-Level Credit Assignment via Rollout Trees",
+   "publication_year": 2026,
+   "publication_date": "2026-04-13",
+   "arxiv_id": "2604.11037",
+   "canonical_url": "https://arxiv.org/abs/2604.11037",
+   "authors": [
+    "Tao Wang",
+    "Suhang Zheng",
+    "Xiaoxiao Xu"
+   ],
+   "categories": [
+    "cs.LG",
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Reducing Credit Assignment Variance via Counterfactual Reasoning Paths",
+   "publication_year": 2026,
+   "publication_date": "2026-04-20",
+   "arxiv_id": "2605.16302",
+   "canonical_url": "https://arxiv.org/abs/2605.16302",
+   "authors": [
+    "Fei Ding",
+    "Yongkang Zhang",
+    "Yeling Peng",
+    "Youwei Wang",
+    "Guoxiong Zhou",
+    "Zijian Zeng"
+   ],
+   "categories": [
+    "cs.LG",
+    "cs.AI",
+    "cs.CL"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Verifiable Process Rewards for Agentic Reasoning",
+   "publication_year": 2026,
+   "publication_date": "2026-05-11",
+   "arxiv_id": "2605.10325",
+   "canonical_url": "https://arxiv.org/abs/2605.10325",
+   "authors": [
+    "Huining Yuan",
+    "Zelai Xu",
+    "Huaijie Wang",
+    "Xiangmin Yi",
+    "Jiaxuan Gao",
+    "Xiao-Ping Zhang",
+    "Yu Wang",
+    "Chao Yu",
+    "Yi Wu"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "OASES: Outcome-Aligned Search-Evaluation Co-Training for Agentic Search",
+   "publication_year": 2026,
+   "publication_date": "2026-04-04",
+   "arxiv_id": "2604.03675",
+   "canonical_url": "https://arxiv.org/abs/2604.03675",
+   "authors": [
+    "Erhan Zhang",
+    "Yiqun Chen",
+    "Zechun Niu",
+    "Wei Yang",
+    "Xiaochi Wei",
+    "Yan Gao",
+    "Yi Wu",
+    "Yao Hu",
+    "Jiaxin Mao"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "SmartSearch: Process Reward-Guided Query Refinement for Search Agents",
+   "publication_year": 2026,
+   "publication_date": "2026-01-08",
+   "arxiv_id": "2601.04888",
+   "canonical_url": "https://arxiv.org/abs/2601.04888",
+   "authors": [
+    "Tongyu Wen",
+    "Guanting Dong",
+    "Zhicheng Dou"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Process Reward Agents for Steering Knowledge-Intensive Reasoning",
+   "publication_year": 2026,
+   "publication_date": "2026-04-10",
+   "arxiv_id": "2604.09482",
+   "canonical_url": "https://arxiv.org/abs/2604.09482",
+   "authors": [
+    "Jiwoong Sohn",
+    "Tomasz Sternal",
+    "Kenneth Styppa",
+    "Torsten Hoefler",
+    "Michael Moor"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "InfoFlow: Reinforcing Search Agent Via Reward Density Optimization",
+   "publication_year": 2025,
+   "publication_date": "2025-10-30",
+   "arxiv_id": "2510.26575",
+   "canonical_url": "https://arxiv.org/abs/2510.26575",
+   "authors": [
+    "Kun Luo",
+    "Hongjin Qian",
+    "Zheng Liu",
+    "Ziyi Xia",
+    "Shitao Xiao",
+    "Siqi Bao",
+    "Jun Zhao",
+    "Kang Liu"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Search-R2: Enhancing Search-Integrated Reasoning via Actor-Refiner Collaboration",
+   "publication_year": 2026,
+   "publication_date": "2026-02-03",
+   "arxiv_id": "2602.03647",
+   "canonical_url": "https://arxiv.org/abs/2602.03647",
+   "authors": [
+    "Bowei He",
+    "Minda Hu",
+    "Zenan Xu",
+    "Hongru Wang",
+    "Licheng Zong",
+    "Yankai Chen",
+    "Chen Ma",
+    "Xue Liu",
+    "Pluto Zhou",
+    "Irwin King"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "SEVA: Self-Evolving Verification Agent with Process Reward for Fact Attribution",
+   "publication_year": 2026,
+   "publication_date": "2026-06-29",
+   "arxiv_id": "2606.29713",
+   "canonical_url": "https://arxiv.org/abs/2606.29713",
+   "authors": [
+    "Aojie Yuan",
+    "Yi Nian",
+    "Haiyue Zhang",
+    "Zijian Su",
+    "Yue Zhao"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "RSPO: Reward-Swap Policy Optimization for Multi-Turn LLM Agents",
+   "publication_year": 2026,
+   "publication_date": "2026-07-06",
+   "arxiv_id": "2607.04713",
+   "canonical_url": "https://arxiv.org/abs/2607.04713",
+   "authors": [
+    "Qiang Liu",
+    "Taian Guo",
+    "Ruizhi Qiao",
+    "Xing Sun"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "CIGPO: Contextual Information-Gain Policy Optimization for Multi-Turn Evidence-Reading LLM Agents",
+   "publication_year": 2026,
+   "publication_date": "2026-06-26",
+   "arxiv_id": "2607.16244",
+   "canonical_url": "https://arxiv.org/abs/2607.16244",
+   "authors": [
+    "Hao Dou"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Advantage Collapse in Group Relative Policy Optimization: Diagnosis and Mitigation",
+   "publication_year": 2026,
+   "publication_date": "2026-05-20",
+   "arxiv_id": "2605.21125",
+   "canonical_url": "https://arxiv.org/abs/2605.21125",
+   "authors": [
+    "Xixiang He",
+    "Qiyao Sun",
+    "Ao Cheng",
+    "Xingming Li",
+    "Xuanyu Ji",
+    "Hailun Lu",
+    "Runke Huang",
+    "Qingyong Hu"
+   ],
+   "categories": [
+    "cs.LG"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Tournament-GRPO: Group-Wise Tournament Rewards for Reinforcement Learning in Open-Ended Long-Form Generation",
+   "publication_year": 2026,
+   "publication_date": "2026-05-26",
+   "arxiv_id": "2605.26958",
+   "canonical_url": "https://arxiv.org/abs/2605.26958",
+   "authors": [
+    "Zixuan Yang",
+    "Yiqun Chen",
+    "Wei Yang",
+    "Erhan Zhang",
+    "Zihan Shen",
+    "Xiaochi Wei",
+    "Yan Gao",
+    "Yi Wu",
+    "Yao Hu",
+    "Jiaxin Mao"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "APPO: Agentic Procedural Policy Optimization",
+   "publication_year": 2026,
+   "publication_date": "2026-06-10",
+   "arxiv_id": "2606.12384",
+   "canonical_url": "https://arxiv.org/abs/2606.12384",
+   "authors": [
+    "Xucong Wang",
+    "Ziyu Ma",
+    "Yong Wang",
+    "Yuxiang Ji",
+    "Shidong Yang",
+    "Guanhua Chen",
+    "Pengkun Wang",
+    "Xiangxiang Chu"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Single-Rollout Asynchronous Optimization for Agentic Reinforcement Learning",
+   "publication_year": 2026,
+   "publication_date": "2026-07-08",
+   "arxiv_id": "2607.07508",
+   "canonical_url": "https://arxiv.org/abs/2607.07508",
+   "authors": [
+    "Zhenyu Hou",
+    "Yujiang Li",
+    "Jie Tang",
+    "Yuxiao Dong"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "AREX: Towards a Recursively Self-Improving Agent for Deep Research",
+   "publication_year": 2026,
+   "publication_date": "2026-07-23",
+   "arxiv_id": "2607.21461",
+   "canonical_url": "https://arxiv.org/abs/2607.21461",
+   "authors": [
+    "Shuqi Lu",
+    "Chaofan Li",
+    "Kun Luo",
+    "Zhang Zhang",
+    "Hui Wang",
+    "Hongwang Xiao",
+    "Lei Xiong",
+    "Jiahao Wang",
+    "Sen Wang",
+    "Xiyan Jiang",
+    "Wanli Li",
+    "Yuyang Hu",
+    "Hongjin Qian",
+    "Bingyu Yan",
+    "Jianlyu Chen",
+    "Ziyi Xia",
+    "Yingxia Shao",
+    "Kang Liu",
+    "Zhicheng Dou",
+    "Di He",
+    "Chaozhuo Li",
+    "Qiwei Ye",
+    "Zhongyuan Wang",
+    "Zheng Liu"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Argus: Evidence Assembly for Scalable Deep Research Agents",
+   "publication_year": 2026,
+   "publication_date": "2026-05-15",
+   "arxiv_id": "2605.16217",
+   "canonical_url": "https://arxiv.org/abs/2605.16217",
+   "authors": [
+    "Zhen Zhang",
+    "Liangcai Su",
+    "Zhuo Chen",
+    "Xiang Lin",
+    "Haotian Xu",
+    "Simon Shaolei Du",
+    "Kaiyu Yang",
+    "Bo An",
+    "Lidong Bing",
+    "Xinyu Wang"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "SciResearcher: Scaling Deep Research Agents for Frontier Scientific Reasoning",
+   "publication_year": 2026,
+   "publication_date": "2026-05-02",
+   "arxiv_id": "2605.01489",
+   "canonical_url": "https://arxiv.org/abs/2605.01489",
+   "authors": [
+    "Tianshi Zheng",
+    "Rui Wang",
+    "Xiyun Li",
+    "Kelvin Kiu Wai Tam",
+    "Newt Nguyen Kim Hue Nam",
+    "Wei Fan",
+    "Yangqiu Song",
+    "Tianqing Fang"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "LiteResearcher: A Scalable Agentic RL Training Framework for Deep Research Agent",
+   "publication_year": 2026,
+   "publication_date": "2026-04-20",
+   "arxiv_id": "2604.17931",
+   "canonical_url": "https://arxiv.org/abs/2604.17931",
+   "authors": [
+    "Bince Qu",
+    "Wanli Li",
+    "Bo Pan",
+    "Jianyu Zhang",
+    "Zheng Liu",
+    "Pan Zhang",
+    "Wei Chen",
+    "Bo Zhang"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "DR-Venus: Towards Frontier Edge-Scale Deep Research Agents with Only 10K Open Data",
+   "publication_year": 2026,
+   "publication_date": "2026-04-21",
+   "arxiv_id": "2604.19859",
+   "canonical_url": "https://arxiv.org/abs/2604.19859",
+   "authors": [
+    "Venus Team",
+    "Sunhao Dai",
+    "Yong Deng",
+    "Jinzhen Lin",
+    "Yusheng Song",
+    "Guoqing Wang",
+    "Xiaofeng Wu",
+    "Yuqi Zhou",
+    "Shuo Yang",
+    "Zhenzhe Ying",
+    "Zhanwei Zhang",
+    "Changhua Meng",
+    "Weiqiang Wang"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "OffSeeker: Online Reinforcement Learning Is Not All You Need for Deep Research Agents",
+   "publication_year": 2026,
+   "publication_date": "2026-01-26",
+   "arxiv_id": "2601.18467",
+   "canonical_url": "https://arxiv.org/abs/2601.18467",
+   "authors": [
+    "Yuhang Zhou",
+    "Kai Zheng",
+    "Qiguang Chen",
+    "Mengkang Hu",
+    "Qingfeng Sun",
+    "Can Xu",
+    "Jingjing Chen"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "MetaResearcher: Scaling Deep Research via Self-Reflective Reinforcement Learning in Adversarial Virtual Environments",
+   "publication_year": 2026,
+   "publication_date": "2026-06-18",
+   "arxiv_id": "2606.19893",
+   "canonical_url": "https://arxiv.org/abs/2606.19893",
+   "authors": [
+    "Wei Yu",
+    "Suxing Liu",
+    "Minjie Yu",
+    "Jiahao Wang",
+    "Zhijian Zheng",
+    "Haocheng Deng",
+    "Bing Li"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Planner-Centric Reinforcement Learning for Deep Research with Structure-Aware Reward",
+   "publication_year": 2026,
+   "publication_date": "2026-05-29",
+   "arxiv_id": "2605.30824",
+   "canonical_url": "https://arxiv.org/abs/2605.30824",
+   "authors": [
+    "Mustafa Anis Hussain",
+    "Xinle Wu",
+    "Yao Lu"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "AgentOPSD: Recursive Self-Distillation for Agentic Reinforcement Learning",
+   "publication_year": 2026,
+   "publication_date": "2026-08-06",
+   "arxiv_id": "2608.05987",
+   "canonical_url": "https://arxiv.org/abs/2608.05987",
+   "authors": [
+    "Zi-Han Wang",
+    "Zhengxi Lu",
+    "Zhiyuan Yao",
+    "Jinyang Wu",
+    "Jie Wu",
+    "Zhengzhou Cai",
+    "Yueqing Sun",
+    "Ziang Ye",
+    "Linji Hao",
+    "Qi Gu",
+    "Xunliang Cai",
+    "Yongliang Shen",
+    "Yujiu Yang"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Trajectory-Relative Hindsight Distillation for Agentic Reinforcement Learning",
+   "publication_year": 2026,
+   "publication_date": "2026-08-07",
+   "arxiv_id": "2608.07371",
+   "canonical_url": "https://arxiv.org/abs/2608.07371",
+   "authors": [
+    "Haoyu Zheng",
+    "Yun Zhu",
+    "Qing Wang",
+    "Wenqiao Zhang"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "HindSearch: Trajectory-Level Hindsight Critique for Search-Augmented Reinforcement Learning",
+   "publication_year": 2026,
+   "publication_date": "2026-08-03",
+   "arxiv_id": "2608.01597",
+   "canonical_url": "https://arxiv.org/abs/2608.01597",
+   "authors": [
+    "Haowei Liu",
+    "Jiamian Wang",
+    "Hsin-Tai Wu",
+    "Zhiqiang Tao",
+    "Yi Fang"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Contextual Information Policy Optimization for Search Agents",
+   "publication_year": 2026,
+   "publication_date": "2026-08-06",
+   "arxiv_id": "2608.06128",
+   "canonical_url": "https://arxiv.org/abs/2608.06128",
+   "authors": [
+    "Xingyu Guo",
+    "Wei Chen",
+    "Linlin Yang",
+    "Baochang Zhang"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Search-GRT: Guided Retrieval Training of Search Agents to Optimize for Complex Question Answering",
+   "publication_year": 2026,
+   "publication_date": "2026-08-02",
+   "arxiv_id": "2608.00974",
+   "canonical_url": "https://arxiv.org/abs/2608.00974",
+   "authors": [
+    "Aounon Kumar",
+    "Sudipta Paul",
+    "Vivek Kulkarni",
+    "Vijay Srinivasan",
+    "Srinivas Chappidi"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "PROGRESS: Coverage-guided RL to Train Search-augmented LLM Agent",
+   "publication_year": 2026,
+   "publication_date": "2026-08-02",
+   "arxiv_id": "2608.00969",
+   "canonical_url": "https://arxiv.org/abs/2608.00969",
+   "authors": [
+    "Sudipta Paul",
+    "Vijay Srinivasan",
+    "Vivek Kulkarni",
+    "Aounon Kumar",
+    "Yashas Malur Saidutta",
+    "Wenbo Li",
+    "Srinivas Chappidi"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "EviBack: Search-Agent Reinforcement Learning via Evidence-Constrained Teacher Backoff",
+   "publication_year": 2026,
+   "publication_date": "2026-07-27",
+   "arxiv_id": "2607.23955",
+   "canonical_url": "https://arxiv.org/abs/2607.23955",
+   "authors": [
+    "Xiao Ma",
+    "Zhiquan Hu",
+    "Yi Wei",
+    "Chenchen Zhao",
+    "Yijun Chen",
+    "Jicheng Zhao",
+    "Yuming Li",
+    "Chuang Dai"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "Deep Research: A Systematic Survey",
+   "publication_year": 2025,
+   "publication_date": "2025-11-24",
+   "arxiv_id": "2512.02038",
+   "canonical_url": "https://arxiv.org/abs/2512.02038",
+   "authors": [
+    "Zhengliang Shi",
+    "Yiqun Chen",
+    "Haitao Li",
+    "Weiwei Sun",
+    "Shiyu Ni",
+    "Yougang Lyu",
+    "Run-Ze Fan",
+    "Bowen Jin",
+    "Yixuan Weng",
+    "Minjun Zhu",
+    "Qiujie Xie",
+    "Xinyu Guo",
+    "Qu Yang",
+    "Jiayi Wu",
+    "Jujia Zhao",
+    "Xiaqiang Tang",
+    "Xinbei Ma",
+    "Cunxiang Wang",
+    "Jiaxin Mao",
+    "Qingyao Ai",
+    "Jen-Tse Huang",
+    "Wenxuan Wang",
+    "Yue Zhang",
+    "Yiming Yang",
+    "Zhaopeng Tu",
+    "Zhaochun Ren"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "DeepResearch-9K: A Challenging Benchmark Dataset of Deep-Research Agent",
+   "publication_year": 2026,
+   "publication_date": "2026-03-01",
+   "arxiv_id": "2603.01152",
+   "canonical_url": "https://arxiv.org/abs/2603.01152",
+   "authors": [
+    "Tongzhou Wu",
+    "Yuhao Wang",
+    "Xinyu Ma",
+    "Xiuqiang He",
+    "Shuaiqiang Wang",
+    "Dawei Yin",
+    "Xiangyu Zhao"
+   ],
+   "categories": [
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  },
+  {
+   "title": "RLFactory: A Plug-and-Play Reinforcement Learning Post-Training Framework for LLM Multi-Turn Tool-Use",
+   "publication_year": 2025,
+   "publication_date": "2025-08-31",
+   "arxiv_id": "2509.06980",
+   "canonical_url": "https://arxiv.org/abs/2509.06980",
+   "authors": [
+    "Jiajun Chai",
+    "Guojun Yin",
+    "Zekun Xu",
+    "Chuhuai Yue",
+    "Yi Jia",
+    "Siyu Xia",
+    "Xiaohan Wang",
+    "Jiwen Jiang",
+    "Xiaoguang Li",
+    "Chengqi Dong",
+    "Hang He",
+    "Wei Lin"
+   ],
+   "categories": [
+    "cs.LG",
+    "cs.AI"
+   ],
+   "other_identifiers": {}
+  }
+ ]
+}

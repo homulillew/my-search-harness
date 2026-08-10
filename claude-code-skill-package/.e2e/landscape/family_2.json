@@ -1,0 +1,11 @@
+{
+ "name": "Process Reward Models for Search",
+ "core_idea": "Provide dense per-step or per-turn supervision via process reward models, converting symbolic/algorithmic oracles (Verifiable Process Rewards), co-trained evaluators (OASES), or LLM judges into turn-level rewards. Sub-routes include query-refinement curricula (SmartSearch), reward-density optimization (InfoFlow), and actor-refiner evidence-density coupling (Search-R2).",
+ "representative_paper_refs": [
+  "paper_050d496d-0069-4264-b789-b3885c9b5e83",
+  "paper_d7c2ead5-0ac6-4f15-9147-fcd0972f1cec",
+  "paper_73d34220-600e-4082-9a78-a28ba2f65a2c",
+  "paper_4da9e96d-40c7-4a5f-9aab-fbfc53a277b0",
+  "paper_bb6aa07d-052f-4f87-9fb1-6f0001f5051b"
+ ]
+}

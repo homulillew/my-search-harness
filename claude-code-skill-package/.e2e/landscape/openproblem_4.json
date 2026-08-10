@@ -1,0 +1,14 @@
+{
+ "statement": "Reward hacking and over-search in RL-trained search agents: as agents learn to maximize correctness rewards, they may develop over-search behaviors (excessive querying) or exploit reward shortcuts. Search-depth rewards partially address this, but a general defense against reward hacking in multi-turn search RL is missing.",
+ "sources": [
+  {
+   "paper_ref": "paper_36607d0d-4e2f-42da-82ce-d53b3df533bb",
+   "relation": "SUPPORTS"
+  },
+  {
+   "paper_ref": "paper_4da9e96d-40c7-4a5f-9aab-fbfc53a277b0",
+   "relation": "SUPPORTS"
+  }
+ ],
+ "approach_refs": []
+}

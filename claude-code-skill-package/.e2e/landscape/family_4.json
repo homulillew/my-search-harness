@@ -1,0 +1,11 @@
+{
+ "name": "Deep Research Agent Systems",
+ "core_idea": "Build end-to-end deep-research agents that iteratively gather evidence and synthesize answers over long horizons. Architectures range from recursive self-improvement with constraint auditing (AREX), evidence-graph-based Searcher-Navigator cooperation (Argus), domain-specific scientific reasoning (SciResearcher), to cost-reducing virtual worlds (LiteResearcher) and offline training (OffSeeker).",
+ "representative_paper_refs": [
+  "paper_7d4da387-333b-49bf-bd2f-4faf5789e1d2",
+  "paper_a0c8668c-b9c9-46b1-b8f7-22ae7dfe6458",
+  "paper_d7295ad7-eba9-4585-b06e-0565fb7bd4df",
+  "paper_c8256b4e-04b8-4166-86df-10a9d6aa448b",
+  "paper_d7f29aa3-caf9-4204-9b6f-2c8ceca3120e"
+ ]
+}

@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_7589c8f9-cba7-4962-b206-51fa360adf48",
+ "summary": "Contextual Information Policy Optimization proposes an evidence-oriented RL framework that aligns policy optimization with external evidence to reduce confirmation bias in search agents, ensuring that search behavior is driven by evidence rather than prior beliefs.",
+ "relevance_to_run": "Frontier 2026 work on evidence-aligned policy optimization; relevant to reward design and the frontier-work requirement.",
+ "contributions": [
+  "Evidence-oriented policy optimization reducing confirmation bias",
+  "Alignment of RL optimization with external evidence signals"
+ ],
+ "key_results": [
+  "Evidence alignment reduces confirmation bias in search agent behavior"
+ ],
+ "limitations": [
+  "Evidence-alignment mechanism design is non-trivial"
+ ]
+}

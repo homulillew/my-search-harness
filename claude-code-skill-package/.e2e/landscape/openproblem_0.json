@@ -1,0 +1,14 @@
+{
+ "statement": "Verifier reliability in self-play: all self-play routes depend on a Verifier (frozen or co-evolving) to judge task correctness. A weak or drifting Verifier propagates incorrect supervision, but the field lacks a principled method for detecting Verifier failure during training and recovering from it without external ground truth.",
+ "sources": [
+  {
+   "paper_ref": "paper_36607d0d-4e2f-42da-82ce-d53b3df533bb",
+   "relation": "SUPPORTS"
+  },
+  {
+   "paper_ref": "paper_95dfdee4-5aca-431f-b124-1c7e41b1039d",
+   "relation": "SUPPORTS"
+  }
+ ],
+ "approach_refs": []
+}

@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_95dfdee4-5aca-431f-b124-1c7e41b1039d",
+ "summary": "CoEvoKG introduces a framework using knowledge graphs as persistent memory for both task generation and reward computation, enabling closed-loop agent evolution. The knowledge graph stores evidence and generates training tasks, creating a co-evolutionary dynamic between the agent and the KG.",
+ "relevance_to_run": "Represents the knowledge-graph-grounded self-evolution route; the KG-as-memory and KG-as-reward-design addresses the reward design and self-evolution requirements.",
+ "contributions": [
+  "Knowledge graph as persistent memory substrate for search agents",
+  "KG-driven task generation and reward computation for closed-loop evolution"
+ ],
+ "key_results": [
+  "KG-grounded rewards provide structured, verifiable training signal"
+ ],
+ "limitations": [
+  "KG construction and maintenance overhead"
+ ]
+}

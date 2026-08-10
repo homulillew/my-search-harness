@@ -1,0 +1,1 @@
+{"command": "search-papers", "error": {"message": "paper search attempt failed: INVALID_RESPONSE", "state_revision": 4, "type": "PaperSearchAttemptError"}, "ok": false}

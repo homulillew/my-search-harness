@@ -1,0 +1,11 @@
+{
+ "name": "GRPO Variants for Multi-Turn Agents",
+ "core_idea": "Adapt Group Relative Policy Optimization for multi-turn agentic settings, addressing failure modes such as advantage collapse and zero-advantage lock-in. Variants include reward-swap consistency guarantees (RSPO), information-gain injection (CIGPO), tournament-based relative rewards (Tournament-GRPO), procedural advantage scaling (APPO), and single-rollout asynchronous optimization (SAO). The advantage-collapse diagnosis provides the theoretical basis.",
+ "representative_paper_refs": [
+  "paper_a90ccaa2-e4a8-46a4-975f-039216e34642",
+  "paper_aa51d6a8-5143-4f58-982d-e64b5622e2be",
+  "paper_979e94aa-f011-479c-afe1-a31cdc4a2cb7",
+  "paper_ce721ef0-7ad1-4c9d-a010-53a22b67dc5b",
+  "paper_b138ad48-5a22-42c2-8fdb-9b1cb1162110"
+ ]
+}

@@ -1,0 +1,21 @@
+{
+ "paper_ref": "paper_36607d0d-4e2f-42da-82ce-d53b3df533bb",
+ "summary": "SearchMaster proposes a grounded and regulated self-play framework for training search agents. A single policy pi_theta simultaneously acts as Proposer (generating tasks from seed documents with evidence chains) and Solver (answering tasks via browser tools search/open/find), while a frozen Verifier judges correctness. The framework uses evidence-chain-grounded task generation and a search-depth reward to regulate browsing efficiency, preventing the agent from excessive inefficient querying.",
+ "relevance_to_run": "Directly defines the self-play route for search-agent training, which is a core technical route of this survey. Its evidence-chain grounding and search-depth regulation address the key training/reward design requirement and the frontier-work requirement (2026-08).",
+ "contributions": [
+  "Single-policy self-play where the same model serves as both Proposer and Solver, eliminating the need for separate specialized models",
+  "Evidence-Chain-Grounded (ECG) task generation that ties each generated task to a verifiable evidence chain in the document collection",
+  "Search-depth reward component that penalizes inefficient browsing by rewarding correct answers achieved with fewer unique search queries",
+  "Frozen Verifier design that provides stable judgment signals across self-play iterations"
+ ],
+ "key_results": [
+  "Demonstrates that self-play with evidence-chain grounding produces solvable, verifiable tasks without human-labeled data",
+  "Search-depth reward reduces average query count while maintaining answer accuracy, addressing the over-search problem",
+  "The single-policy design enables parameter sharing between task generation and task solving, improving sample efficiency"
+ ],
+ "limitations": [
+  "Self-play quality depends on the frozen Verifier's reliability; a weak Verifier can propagate incorrect judgment signals",
+  "Evidence chains are constrained to the document collection D, potentially limiting coverage of topics outside D",
+  "The Proposer-Solver role sharing may create a coupling where improvements in one role do not directly transfer to the other"
+ ]
+}

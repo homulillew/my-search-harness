@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_d7c2ead5-0ac6-4f15-9147-fcd0972f1cec",
+ "summary": "OASES co-trains search policies and state evaluators to derive outcome-aligned process rewards that adapt to evolving agent behavior, providing reliable supervision as the policy improves.",
+ "relevance_to_run": "Co-training route for search-evaluation; the outcome-alignment mechanism is a reward-design contribution.",
+ "contributions": [
+  "Joint co-training of search policy and state evaluator",
+  "Outcome-aligned process rewards that adapt to policy evolution"
+ ],
+ "key_results": [
+  "Co-trained evaluators stay aligned with outcomes as the policy improves"
+ ],
+ "limitations": [
+  "Co-training stability and evaluator-policy coupling risks"
+ ]
+}

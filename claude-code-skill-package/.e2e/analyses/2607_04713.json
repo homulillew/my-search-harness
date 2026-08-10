@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_a90ccaa2-e4a8-46a4-975f-039216e34642",
+ "summary": "RSPO leverages dense process rewards to guide training while guaranteeing consistency with true outcome rewards via a swapping mechanism, ensuring that process-reward optimization does not diverge from outcome objectives.",
+ "relevance_to_run": "GRPO-variant route with reward-swapping consistency guarantee; relevant to reward design and policy optimization.",
+ "contributions": [
+  "Reward-swap mechanism guaranteeing process-outcome reward consistency",
+  "Dense process reward guidance within multi-turn agent training"
+ ],
+ "key_results": [
+  "Swapping guarantee prevents process rewards from diverging from outcomes"
+ ],
+ "limitations": [
+  "Swapping mechanism adds implementation complexity"
+ ]
+}

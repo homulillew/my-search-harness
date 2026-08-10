@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_e128cbae-36f5-42b9-af32-a8795bb817f1",
+ "summary": "Tool-R1 proposes sample-efficient reinforcement learning for agentic tool use, reducing the number of rollouts needed to learn effective tool-use policies through improved reward shaping and trajectory utilization.",
+ "relevance_to_run": "Sample-efficient tool-use-RL route; addresses the efficiency trade-off in tool-use training.",
+ "contributions": [
+  "Sample-efficient RL for agentic tool use",
+  "Reward shaping and trajectory utilization for efficiency"
+ ],
+ "key_results": [
+  "Reduces rollout count needed for effective tool-use policies"
+ ],
+ "limitations": [
+  "Sample efficiency gains may vary across tool complexity"
+ ]
+}

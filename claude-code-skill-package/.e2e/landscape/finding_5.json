@@ -1,0 +1,14 @@
+{
+ "statement": "Search-depth and evidence-density rewards are emerging as efficiency regulators: SearchMaster's search-depth reward and Search-R2's evidence-density reward both penalize inefficient browsing, indicating a shared recognition that answer correctness alone is insufficient—search efficiency must be explicitly rewarded to prevent over-search behavior in trained agents.",
+ "sources": [
+  {
+   "paper_ref": "paper_36607d0d-4e2f-42da-82ce-d53b3df533bb",
+   "relation": "SUPPORTS"
+  },
+  {
+   "paper_ref": "paper_bb6aa07d-052f-4f87-9fb1-6f0001f5051b",
+   "relation": "SUPPORTS"
+  }
+ ],
+ "approach_refs": []
+}

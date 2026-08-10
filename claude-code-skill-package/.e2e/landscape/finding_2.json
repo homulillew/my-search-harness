@@ -1,0 +1,18 @@
+{
+ "statement": "Self-play with evidence grounding enables supervision-free search-agent training, but grounding quality determines task quality: SearchMaster's evidence-chain grounding and CoEvoKG's knowledge-graph grounding both show that the grounding substrate (evidence chains vs. KGs) directly affects whether generated tasks are solvable and verifiable. Ungrounded self-play (Search Self-play) risks trivial or unsolvable tasks, while grounded variants trade off coverage against verifiability.",
+ "sources": [
+  {
+   "paper_ref": "paper_36607d0d-4e2f-42da-82ce-d53b3df533bb",
+   "relation": "SUPPORTS"
+  },
+  {
+   "paper_ref": "paper_95dfdee4-5aca-431f-b124-1c7e41b1039d",
+   "relation": "SUPPORTS"
+  },
+  {
+   "paper_ref": "paper_129c24cc-e5d0-4cdc-b1fe-602ea9e21f77",
+   "relation": "QUALIFIES"
+  }
+ ],
+ "approach_refs": []
+}

@@ -1,0 +1,9 @@
+{
+ "Self-Play & Self-Evolving Search Agents": "approach_07d0445d-1906-4382-92f2-71484f2d93df",
+ "GRPO Variants for Multi-Turn Agents": "approach_30b28e3a-777f-4aea-9ee3-ae70707e73cd",
+ "Process Reward Models for Search": "approach_36752248-88a4-4b5b-8e62-242f4b4cf7ca",
+ "Credit Assignment for Search Trajectories": "approach_46751714-7f21-4ddb-b267-3b73a67c63d8",
+ "Deep Research Agent Systems": "approach_4cde35a9-3c9b-4df0-8510-25cdca4b277b",
+ "RL for Tool Use in Agents": "approach_b349a1f3-6695-4e8d-887e-16bb227b38e0",
+ "Self-Distillation & Hindsight for Agentic RL": "approach_c7e4125b-d5ac-422b-abcf-a3318929b3fa"
+}

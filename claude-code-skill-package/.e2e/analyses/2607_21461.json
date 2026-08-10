@@ -1,0 +1,16 @@
+{
+ "paper_ref": "paper_7d4da387-333b-49bf-bd2f-4faf5789e1d2",
+ "summary": "AREX presents a recursively self-improving research agent that alternates between evidence gathering and constraint-wise auditing to refine answers over long horizons, using compressed context updates and long-horizon RL to maintain coherence.",
+ "relevance_to_run": "Defines the recursive-self-improvement route for deep-research agents; directly relevant to the deep-research technical route.",
+ "contributions": [
+  "Recursive evidence-gathering and constraint-auditing alternation",
+  "Compressed context updates for long-horizon coherence",
+  "Long-horizon RL training for research agents"
+ ],
+ "key_results": [
+  "Recursive refinement improves answer quality over long research horizons"
+ ],
+ "limitations": [
+  "Constraint auditing adds computational overhead per iteration"
+ ]
+}

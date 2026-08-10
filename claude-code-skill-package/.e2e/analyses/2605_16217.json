@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_a0c8668c-b9c9-46b1-b8f7-22ae7dfe6458",
+ "summary": "Argus deploys a Searcher and Navigator that cooperate via a shared evidence graph, using RL to optimize dispatch and synthesis while supporting parallel rollouts without retraining, enabling scalable deep research.",
+ "relevance_to_run": "Evidence-graph-based deep-research route; the Searcher-Navigator cooperation is a distinct architecture within deep-research agents.",
+ "contributions": [
+  "Searcher-Navigator cooperation via shared evidence graph",
+  "RL-optimized dispatch and synthesis with parallel rollout support"
+ ],
+ "key_results": [
+  "Shared evidence graph enables parallel rollouts without retraining"
+ ],
+ "limitations": [
+  "Evidence-graph synchronization across parallel rollouts adds complexity"
+ ]
+}

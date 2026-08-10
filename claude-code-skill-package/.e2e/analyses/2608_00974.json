@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_e8e0b76f-ad3e-4e57-8172-dee7da680339",
+ "summary": "Search-GRT introduces Guided Retrieval Training, which restricts RL retrieval to ground-truth documents to mitigate sparse rewards and improve multi-hop QA performance, providing a curriculum-like guided training signal.",
+ "relevance_to_run": "Frontier 2026 work on guided-retrieval training; relevant to reward design and curriculum learning for search agents.",
+ "contributions": [
+  "Guided Retrieval Training restricting RL to ground-truth documents",
+  "Sparse-reward mitigation via retrieval guidance"
+ ],
+ "key_results": [
+  "Guided retrieval improves multi-hop QA by reducing reward sparsity"
+ ],
+ "limitations": [
+  "Requires ground-truth document labels, limiting scalability"
+ ]
+}

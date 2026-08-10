@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_bb6aa07d-052f-4f87-9fb1-6f0001f5051b",
+ "summary": "Search-R2 uses an Actor-Refiner framework with a hybrid reward coupling outcome correctness and dense process rewards to quantify and improve the density of retrieved evidence during search-integrated reasoning.",
+ "relevance_to_run": "Actor-Refiner route with hybrid reward; relevant to reward design and search-integrated reasoning.",
+ "contributions": [
+  "Actor-Refiner collaboration for search-integrated reasoning",
+  "Hybrid reward coupling outcome correctness with evidence density"
+ ],
+ "key_results": [
+  "Evidence-density reward improves the informativeness of retrieved content"
+ ],
+ "limitations": [
+  "Evidence-density metric design affects reward quality"
+ ]
+}

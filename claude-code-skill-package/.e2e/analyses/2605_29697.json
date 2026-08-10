@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_cefb88c9-c3f5-4c64-96a6-3744215b8562",
+ "summary": "Beyond Trajectory Rewards introduces a graph-distance contribution reward that scores search steps based on proximity to the answer node within a latent entity-relation graph, providing step-level credit without external process supervision.",
+ "relevance_to_run": "Graph-based credit-assignment route; the graph-distance formulation is a distinct discrimination criterion within credit assignment.",
+ "contributions": [
+  "Graph-distance contribution reward using latent entity-relation graphs",
+  "Step-level credit without external process labels"
+ ],
+ "key_results": [
+  "Graph proximity provides a geometric credit signal correlated with answer progress"
+ ],
+ "limitations": [
+  "Graph construction quality affects credit accuracy"
+ ]
+}

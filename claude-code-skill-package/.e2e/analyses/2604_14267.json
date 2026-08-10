@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_37c3e2bb-f024-4a0e-b5ed-cae8fb35d65a",
+ "summary": "Enhancing LLM-based Search Agents via Contribution Weighted GRPO integrates process supervision into GRPO by using an LLM judge to score retrieval utility and reasoning correctness, subsequently rescaling outcome advantages along the trajectory based on per-step contributions.",
+ "relevance_to_run": "Integrates process supervision with GRPO for search agents; relevant to both credit-assignment and GRPO-variant routes.",
+ "contributions": [
+  "LLM-judge-based contribution scoring for retrieval and reasoning",
+  "Contribution-weighted advantage rescaling within GRPO"
+ ],
+ "key_results": [
+  "Combining process and outcome signals improves search-agent performance over outcome-only GRPO"
+ ],
+ "limitations": [
+  "LLM judge introduces its own biases and computational cost"
+ ]
+}

@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_05b61cd4-2de6-4cfb-bb6b-c1885a187de7",
+ "summary": "ReTool applies reinforcement learning for strategic tool use in LLMs, training the model to decide when and how to use tools within a reasoning trajectory, establishing RL as a viable approach for tool-use policy optimization.",
+ "relevance_to_run": "Foundational work on RL for tool use; relevant to the tool-use-RL technical route and the key training/reward design requirement.",
+ "contributions": [
+  "RL framework for strategic tool-use decisions in LLMs",
+  "Integration of tool use into the RL reward and policy optimization loop"
+ ],
+ "key_results": [
+  "Demonstrates RL can optimize tool-use policies in LLMs"
+ ],
+ "limitations": [
+  "Tool-use reward design is task-specific"
+ ]
+}

@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_4da9e96d-40c7-4a5f-9aab-fbfc53a277b0",
+ "summary": "InfoFlow addresses low reward density in deep search by decomposing tasks, injecting failure-guided hints, and using a dual-agent architecture to compress and refine exploration trajectories, increasing the density of useful training signal.",
+ "relevance_to_run": "Reward-density-optimization route; directly addresses the sparse-reward problem in deep search.",
+ "contributions": [
+  "Task decomposition and failure-guided hint injection for reward density",
+  "Dual-agent architecture for trajectory compression and refinement"
+ ],
+ "key_results": [
+  "Reward density optimization mitigates sparse-signal problems in deep search"
+ ],
+ "limitations": [
+  "Hint injection may bias exploration toward known failure modes"
+ ]
+}

@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_979e94aa-f011-479c-afe1-a31cdc4a2cb7",
+ "summary": "Advantage Collapse in GRPO diagnoses a failure mode where group-relative advantages collapse to zero as training progresses, reducing effective learning signal. It analyzes the causes and implications for multi-turn agent training.",
+ "relevance_to_run": "Diagnostic work on GRPO failure modes; provides the theoretical basis for understanding why naive GRPO fails on long-horizon agents, relevant to route trade-offs.",
+ "contributions": [
+  "Formal diagnosis of advantage collapse in group-relative policy optimization",
+  "Analysis of causes and implications for multi-turn agent training"
+ ],
+ "key_results": [
+  "Identifies advantage collapse as a key failure mode in GRPO for long-horizon tasks"
+ ],
+ "limitations": [
+  "Diagnostic focus; proposed mitigations may require further empirical validation"
+ ]
+}

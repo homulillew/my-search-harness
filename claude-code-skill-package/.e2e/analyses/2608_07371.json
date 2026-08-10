@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_e1cd98a1-20f2-47bf-96cd-8d7711b7d655",
+ "summary": "TRIAL allocates hindsight signals across decision turns via a unified scoring protocol, consistently outperforming GRPO benchmarks by leveraging trajectory-relative hindsight distillation.",
+ "relevance_to_run": "Hindsight-distillation route; relevant to credit assignment and self-distillation.",
+ "contributions": [
+  "Trajectory-relative hindsight signal allocation across turns",
+  "Unified scoring protocol outperforming GRPO"
+ ],
+ "key_results": [
+  "Hindsight distillation outperforms standard GRPO on agentic tasks"
+ ],
+ "limitations": [
+  "Hindsight signals require successful trajectories to distill from"
+ ]
+}

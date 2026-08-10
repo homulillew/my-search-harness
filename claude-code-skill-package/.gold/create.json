@@ -1,0 +1,7 @@
+{
+  "mission": "Frontier discovery smoke: recent RL-trained search/deep-research agents",
+  "requirements": ["Verify important very-recent papers can enter Primary Evidence path", "Cover search behavior control, self-play, GRPO-style training, reward design, new training mechanisms"],
+  "scope": "arXiv/OpenReview primary literature, recent months",
+  "deliverable_description": "frontier discovery smoke (not a full survey)",
+  "required_artifacts": ["REPORT"]
+}

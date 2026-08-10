@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_3283950c-da75-4c9a-b2e6-8f1895609134",
+ "summary": "Self-Play Meets Skill Evolution proposes a self-evolving search agent that converts procedural failures into reusable skills written to a memory bank, creating a bidirectional learning loop between task generation and skill evolution. Skills accumulate across episodes and guide future search behavior.",
+ "relevance_to_run": "Extends the self-play route with skill memory, representing the self-evolving sub-route. Directly relevant to the self-play and self-evolution technical routes.",
+ "contributions": [
+  "Bidirectional learning loop coupling task generation with skill evolution",
+  "Procedural-failure-to-skill conversion mechanism for accumulating reusable search strategies"
+ ],
+ "key_results": [
+  "Skill memory improves search efficiency by reusing successful strategies across episodes"
+ ],
+ "limitations": [
+  "Skill bank quality depends on the diversity of encountered failures"
+ ]
+}

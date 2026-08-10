@@ -1,0 +1,14 @@
+{
+ "statement": "Online RL is not strictly necessary for deep-research agents: OffSeeker demonstrates that fully offline training with curated trajectories can rival costly online RL loops, and LiteResearcher's virtual world reduces external API costs. This challenges the prevailing assumption that online interaction is required, opening a cost-quality trade-off axis between online, offline, and virtual-world training.",
+ "sources": [
+  {
+   "paper_ref": "paper_d7f29aa3-caf9-4204-9b6f-2c8ceca3120e",
+   "relation": "SUPPORTS"
+  },
+  {
+   "paper_ref": "paper_c8256b4e-04b8-4166-86df-10a9d6aa448b",
+   "relation": "SUPPORTS"
+  }
+ ],
+ "approach_refs": []
+}

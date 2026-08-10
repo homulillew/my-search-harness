@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_050d496d-0069-4264-b789-b3885c9b5e83",
+ "summary": "Verifiable Process Rewards for Agentic Reasoning converts symbolic or algorithmic oracles into dense turn-level supervision, solving long-horizon credit assignment challenges by providing verifiable per-step rewards rather than heuristic process labels.",
+ "relevance_to_run": "Defines the verifiable-process-reward route; the oracle-to-reward conversion is a key reward-design mechanism.",
+ "contributions": [
+  "Conversion of symbolic/algorithmic oracles into dense turn-level rewards",
+  "Verifiable process rewards avoiding heuristic label noise"
+ ],
+ "key_results": [
+  "Oracle-derived rewards are verifiable and dense, addressing long-horizon sparsity"
+ ],
+ "limitations": [
+  "Requires a symbolic or algorithmic oracle, limiting applicability to domains with verifiable correctness"
+ ]
+}

@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_72bccb23-1606-4214-b39b-9f083e926b32",
+ "summary": "PiCA defines process rewards as success probabilities dependent on historical context, identifying pivot steps as information peaks that guide search agents toward correct answers. Pivot steps are the turns where the most critical information is acquired.",
+ "relevance_to_run": "Defines the pivot-based credit-assignment route; the information-peak concept is a discrimination criterion for the credit-assignment technical route.",
+ "contributions": [
+  "Pivot-step identification as information peaks in search trajectories",
+  "Context-dependent process reward formulation"
+ ],
+ "key_results": [
+  "Pivot-based rewards focus credit on the most informative steps"
+ ],
+ "limitations": [
+  "Pivot identification may be noisy without accurate information-peak detection"
+ ]
+}

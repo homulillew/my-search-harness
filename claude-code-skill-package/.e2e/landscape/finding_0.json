@@ -1,0 +1,18 @@
+{
+ "statement": "Outcome-only GRPO suffers from advantage collapse on long-horizon search tasks: as trajectories lengthen, group-relative advantages collapse toward zero, eliminating the learning signal. This is a shared failure mode diagnosed independently by the advantage-collapse analysis and addressed by CIGPO (information-gain injection), RSPO (reward-swap), and the credit-assignment family, indicating that naive outcome-only GRPO is insufficient for multi-turn search agents.",
+ "approach_refs": [],
+ "sources": [
+  {
+   "paper_ref": "paper_979e94aa-f011-479c-afe1-a31cdc4a2cb7",
+   "relation": "SUPPORTS"
+  },
+  {
+   "paper_ref": "paper_aa51d6a8-5143-4f58-982d-e64b5622e2be",
+   "relation": "SUPPORTS"
+  },
+  {
+   "paper_ref": "paper_a90ccaa2-e4a8-46a4-975f-039216e34642",
+   "relation": "SUPPORTS"
+  }
+ ]
+}

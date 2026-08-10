@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_3a4899d1-9ccf-4239-9d10-5123c22cf569",
+ "summary": "ABSeeker trains long-horizon search agents via answer-backtracked credit assignment. It traces back from ground-truth answers to score intermediate search steps, enabling efficient credit assignment over long trajectories where outcome-only rewards are too sparse.",
+ "relevance_to_run": "Defines the answer-backtracking credit-assignment route, a major technical route for search-agent training. Directly addresses the key training/reward design requirement.",
+ "contributions": [
+  "Answer-backtracking mechanism that propagates credit from ground-truth answers to intermediate steps",
+  "Step-level scoring for long-horizon search trajectories overcoming outcome-reward sparsity"
+ ],
+ "key_results": [
+  "Backtracked credit enables training on long-horizon tasks where outcome-only RL fails"
+ ],
+ "limitations": [
+  "Requires ground-truth answers for backtracking, limiting applicability to verifiable tasks"
+ ]
+}

@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_c8256b4e-04b8-4166-86df-10a9d6aa448b",
+ "summary": "LiteResearcher enables scalable RL training by constructing a lightweight virtual world that mirrors real-world search dynamics without relying on expensive external API calls, reducing training cost.",
+ "relevance_to_run": "Virtual-world training route for deep-research agents; addresses the cost/scalability trade-off in deep-research RL.",
+ "contributions": [
+  "Lightweight virtual world mirroring real-world search dynamics",
+  "Scalable RL training without external API costs"
+ ],
+ "key_results": [
+  "Virtual world reduces training cost while preserving search dynamics"
+ ],
+ "limitations": [
+  "Virtual world fidelity to real search environments may be imperfect"
+ ]
+}

@@ -1,0 +1,14 @@
+{
+ "statement": "Credit assignment without ground-truth answers: most credit-assignment methods (ABSeeker, Verifiable Process Rewards) require ground-truth answers or symbolic oracles, limiting applicability to verifiable domains. Extending credit assignment to open-ended, non-verifiable research tasks where no ground truth exists remains an open problem.",
+ "sources": [
+  {
+   "paper_ref": "paper_3a4899d1-9ccf-4239-9d10-5123c22cf569",
+   "relation": "SUPPORTS"
+  },
+  {
+   "paper_ref": "paper_050d496d-0069-4264-b789-b3885c9b5e83",
+   "relation": "SUPPORTS"
+  }
+ ],
+ "approach_refs": []
+}

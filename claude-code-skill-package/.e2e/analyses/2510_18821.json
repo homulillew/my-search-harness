@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_129c24cc-e5d0-4cdc-b1fe-602ea9e21f77",
+ "summary": "Search Self-play proposes a self-play framework that pushes the frontier of agent capability without external supervision. It generates search tasks from unlabeled data and uses the agent's own search behavior to define training signals, enabling capability improvement without human annotations.",
+ "relevance_to_run": "Foundational work on the self-play route for search agents; establishes that self-play can drive frontier capability without labels, a key motivation for the self-play technical route.",
+ "contributions": [
+  "Self-play training paradigm for search agents requiring no external supervision or labeled data",
+  "Task generation from unlabeled documents enabling scalable training data"
+ ],
+ "key_results": [
+  "Shows self-play can push agent capability frontier without human annotations"
+ ],
+ "limitations": [
+  "Self-play without grounding risks generating trivially solvable or unsolvable tasks"
+ ]
+}

@@ -1,0 +1,14 @@
+{
+ "statement": "Long-horizon context management under RL: as research horizons grow, context windows fill and must be compressed (AREX) or managed via memory (CoEvoKG, skill evolution). How to train RL policies that jointly optimize answer quality and context/memory management without reward interference is unresolved.",
+ "sources": [
+  {
+   "paper_ref": "paper_7d4da387-333b-49bf-bd2f-4faf5789e1d2",
+   "relation": "SUPPORTS"
+  },
+  {
+   "paper_ref": "paper_95dfdee4-5aca-431f-b124-1c7e41b1039d",
+   "relation": "SUPPORTS"
+  }
+ ],
+ "approach_refs": []
+}

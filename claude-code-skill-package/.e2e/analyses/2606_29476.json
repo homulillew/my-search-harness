@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_33169668-c48a-4c0f-a2c3-b5216191a1e8",
+ "summary": "CRAFT uses importance-weighted sibling rollouts and asymmetric KL control to provide signed, counterfactual token-level credit at near-zero extra cost, enabling fine-grained credit assignment from free sibling rollouts.",
+ "relevance_to_run": "Counterfactual credit-assignment route using sibling rollouts; relevant to credit-assignment and self-distillation routes.",
+ "contributions": [
+  "Importance-weighted sibling rollouts for counterfactual credit",
+  "Asymmetric KL control providing signed token-level credit"
+ ],
+ "key_results": [
+  "Sibling-based counterfactual credit is near-zero-cost and signed"
+ ],
+ "limitations": [
+  "Sibling rollout quality depends on policy stochasticity"
+ ]
+}

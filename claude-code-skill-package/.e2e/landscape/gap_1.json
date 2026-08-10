@@ -1,0 +1,3 @@
+{
+ "description": "The interaction between self-play task generation and credit assignment is under-explored: whether grounded self-play tasks produce better credit signals than externally provided tasks has not been directly studied in the retained papers."
+}

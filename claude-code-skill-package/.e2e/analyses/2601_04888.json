@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_73d34220-600e-4082-9a78-a28ba2f65a2c",
+ "summary": "SmartSearch employs dual-level credit assessment via process rewards to selectively refine low-quality intermediate search queries through a structured curriculum learning framework, improving query quality over training.",
+ "relevance_to_run": "Process-reward-guided query refinement route; relevant to credit assignment and curriculum design.",
+ "contributions": [
+  "Dual-level credit assessment for query quality",
+  "Curriculum-based selective refinement of low-quality queries"
+ ],
+ "key_results": [
+  "Selective refinement improves intermediate query quality"
+ ],
+ "limitations": [
+  "Curriculum design requires careful difficulty scheduling"
+ ]
+}

@@ -1,0 +1,15 @@
+{
+ "paper_ref": "paper_d7f29aa3-caf9-4204-9b6f-2c8ceca3120e",
+ "summary": "OffSeeker demonstrates that fully offline training with curated trajectories and a task synthesis framework can rival models trained with costly online RL loops, challenging the assumption that online RL is necessary for deep-research agents.",
+ "relevance_to_run": "Offline-RL route for deep-research agents; provides a key trade-off between online and offline training, relevant to route trade-offs.",
+ "contributions": [
+  "Offline training framework with curated trajectories for deep research",
+  "Task synthesis enabling offline-only training"
+ ],
+ "key_results": [
+  "Offline training rivals online RL at lower cost"
+ ],
+ "limitations": [
+  "Offline trajectory quality and diversity are critical"
+ ]
+}

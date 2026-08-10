@@ -1,0 +1,14 @@
+{
+  "hits": [
+    {
+      "title": "SearchMaster: Grounded and Regulated Self-Play for Search Agents",
+      "publication_year": 2026,
+      "publication_date": "2026-08-03",
+      "arxiv_id": "2608.01822",
+      "canonical_url": "https://arxiv.org/abs/2608.01822",
+      "authors": ["Wentao Tan", "Qiong Cao", "Jiaqi Wang", "Nan Duan"],
+      "categories": ["cs.AI"],
+      "other_identifiers": {}
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+{
+ "description": "Frontier 2026 work on evidence-aligned policy optimization (Contextual Information Policy Optimization) and guided retrieval training (Search-GRT) introduces new reward designs whose relationship to the credit-assignment and PRM routes needs explicit synthesis; the current analyses treat them as separate routes without cross-route comparison."
+}
