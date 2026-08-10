@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "my-search-harness"
+version = "0.1.0"
+description = "Controlled, recoverable academic research runtime"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["deepxiv-sdk==0.3.1"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
