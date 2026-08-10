@@ -144,6 +144,7 @@ class PaperSource:
     title: str
     authors: tuple[str, ...] = ()
     publication_year: int | None = None
+    publication_date: str | None = None
     doi: str | None = None
     arxiv_id: str | None = None
     canonical_url: str | None = None

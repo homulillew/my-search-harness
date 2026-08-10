@@ -21,6 +21,7 @@ from my_search_harness.runtime import (
     JsonResearchRunRepository,
     LocalArtifactStore,
     PaperSearchHit,
+    PaperSearchPage,
     ResearchView,
     SourceContent,
     SourceOutline,
@@ -30,11 +31,22 @@ from my_search_harness.runtime import (
 
 
 class FakePaperSearchProvider:
-    def search(self, query: str, *, limit: int) -> tuple[PaperSearchHit, ...]:
-        return (
-            PaperSearchHit(
-                title="Capability Paper",
-                arxiv_id="2608.00001",
+    def search(
+        self,
+        query: str,
+        *,
+        limit: int,
+        offset: int = 0,
+        date_from: str | None = None,
+        date_to: str | None = None,
+    ) -> PaperSearchPage:
+        return PaperSearchPage(
+            total_count=1,
+            hits=(
+                PaperSearchHit(
+                    title="Capability Paper",
+                    arxiv_id="2608.00001",
+                ),
             ),
         )
 

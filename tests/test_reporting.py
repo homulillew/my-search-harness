@@ -240,12 +240,46 @@ class RecordingRenderer:
 
 class ReportWritingGuideLoaderTests(TestCase):
     def test_authoritative_guide_loads_verbatim_as_utf8(self) -> None:
-        guide_path = Path(__file__).parents[1] / ".vibe" / "REPORT_WRITING_GUIDE.md"
+        guide_path = (
+            Path(__file__).parents[1]
+            / ".claude"
+            / "skills"
+            / "literature-research"
+            / "references"
+            / "REPORT_WRITING_GUIDE.md"
+        )
 
         guideline = load_report_writing_guide(guide_path)
 
         self.assertEqual(guide_path.read_text(encoding="utf-8"), guideline)
-        self.assertIn("普通概念优先使用中文", guideline)
+        self.assertIn("Synthesis 优先于 Summary", guideline)
+        self.assertIn("一个段落只完成一个主要论证任务", guideline)
+        self.assertIn("使用现代研究汉语", guideline)
+        self.assertIn("第一次正式介绍该方法名称", guideline)
+        self.assertIn("不替代正式 citation", guideline)
+
+    def test_curated_regression_links_methods_without_replacing_citations(
+        self,
+    ) -> None:
+        example_path = (
+            Path(__file__).parents[1]
+            / "examples"
+            / "speculative-decoding-guide-regression.md"
+        )
+        example = example_path.read_text(encoding="utf-8")
+
+        expected_pairs = (
+            ("https://arxiv.org/abs/2211.17192", "[1, section:"),
+            ("https://arxiv.org/abs/2311.08981", "[2, section:"),
+            ("https://arxiv.org/abs/2502.01662", "[3, section:"),
+        )
+        for canonical_url, citation in expected_pairs:
+            linked_paragraph = next(
+                paragraph
+                for paragraph in example.split("\n\n")
+                if f"]({canonical_url})" in paragraph
+            )
+            self.assertIn(citation, linked_paragraph)
 
     def test_missing_guide_fails_explicitly(self) -> None:
         with TemporaryDirectory() as temporary:
@@ -377,7 +411,14 @@ class ReportPipelineTests(TestCase):
         self.assertEqual("# Report\n\nRendered [1].", self.report_path.read_text())
 
     def test_complete_guide_reaches_all_semantic_writing_stages_only(self) -> None:
-        guide_path = Path(__file__).parents[1] / ".vibe" / "REPORT_WRITING_GUIDE.md"
+        guide_path = (
+            Path(__file__).parents[1]
+            / ".claude"
+            / "skills"
+            / "literature-research"
+            / "references"
+            / "REPORT_WRITING_GUIDE.md"
+        )
         guideline = load_report_writing_guide(guide_path)
         received: dict[str, str] = {}
         integrity_calls = 0

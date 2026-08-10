@@ -60,6 +60,8 @@ class ContextProjectionTests(TestCase):
                 PaperSearchHit(
                     title="Paper Alpha",
                     authors=("Ada",),
+                    publication_year=2026,
+                    publication_date="2026-08-03",
                     arxiv_id="2608.00001",
                 ),
                 PaperSearchHit(
@@ -206,6 +208,10 @@ class ContextProjectionTests(TestCase):
             self.resolved_gap_ref, {gap.ref for gap in view.open_gaps.items}
         )
         self.assertEqual(3, view.papers.total)
+        alpha = next(
+            paper for paper in view.papers.items if paper.title == "Paper Alpha"
+        )
+        self.assertEqual("2026-08-03", alpha.publication_date)
         self.assertTrue(any(paper.has_analysis for paper in view.papers.items))
         self.assertFalse(hasattr(view.papers.items[0], "analysis"))
         self.assertIsNone(view.latest_completion_feedback)
@@ -424,6 +430,9 @@ class ContextProjectionTests(TestCase):
             ),
             tuple(item.kind for item in result.objects),
         )
+        inspected_paper = result.objects[1].value
+        assert hasattr(inspected_paper, "source")
+        self.assertEqual("2026-08-03", inspected_paper.source.publication_date)
 
     def test_inspect_returns_detached_copy_not_a_write_path(self) -> None:
         result = self._service().inspect(

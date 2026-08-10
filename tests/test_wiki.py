@@ -132,6 +132,7 @@ class WikiRuntimeTests(TestCase):
                     title="Representative paper",
                     authors=("Ada Author",),
                     publication_year=2026,
+                    publication_date="2026-08-03",
                     doi=doi,
                 ),
                 PaperSearchHit(
@@ -278,6 +279,7 @@ class WikiRuntimeTests(TestCase):
             {refs["paper_ref"]},
             {paper.ref for paper in projected.papers},
         )
+        self.assertEqual("2026-08-03", projected.papers[0].publication_date)
         self.assertNotIn(refs["unreferenced_ref"], repr(projection))
 
     def test_rebuild_publishes_index_pages_and_complete_manifest(self) -> None:

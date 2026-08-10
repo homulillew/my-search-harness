@@ -60,6 +60,7 @@ def _paper_source_to_dict(source: PaperSource) -> JsonObject:
         "title": source.title,
         "authors": list(source.authors),
         "publication_year": source.publication_year,
+        "publication_date": source.publication_date,
         "doi": source.doi,
         "arxiv_id": source.arxiv_id,
         "canonical_url": source.canonical_url,
@@ -412,12 +413,16 @@ def _paper_source_from_dict(value: object, path: str) -> PaperSource:
             "canonical_url",
             "other_identifiers",
         },
+        {"publication_date"},
     )
     return PaperSource(
         title=_string(data["title"], f"{path}.title"),
         authors=_strings(data["authors"], f"{path}.authors"),
         publication_year=_optional_integer(
             data["publication_year"], f"{path}.publication_year"
+        ),
+        publication_date=_optional_string(
+            data.get("publication_date"), f"{path}.publication_date"
         ),
         doi=_optional_string(data["doi"], f"{path}.doi"),
         arxiv_id=_optional_string(data["arxiv_id"], f"{path}.arxiv_id"),

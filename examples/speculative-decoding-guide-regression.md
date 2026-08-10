@@ -2,7 +2,9 @@
 
 ## 基本机制与收益条件
 
-大语言模型（Large Language Model，LLM）的自回归生成通常一次只确定一个新词元（token）。在批次较小、推理受内存带宽限制时，模型权重读取和串行依赖使并行硬件难以被充分利用。推测解码（Speculative Decoding）的基本做法是：先由低成本的草稿模型（draft model）顺序提出一段候选词元，再由昂贵的目标模型（target model）在一次并行前向计算中同时评分这些候选。系统从左到右接受候选；首次拒绝时丢弃后续候选，并从目标模型与草稿模型的残差分布中重新采样；如果候选全部被接受，还可以从目标模型分布追加一个奖励词元。该接受—拒绝过程保证最终输出仍服从原目标模型的采样分布，而不是用近似模型替代目标模型。[1, section: Speculative Decoding]
+大语言模型（Large Language Model，LLM）的自回归生成通常一次只确定一个新词元（token）。在批次较小、推理受内存带宽限制时，模型权重读取和串行依赖使并行硬件难以被充分利用。
+
+[推测解码（Speculative Decoding）](https://arxiv.org/abs/2211.17192)先由低成本的草稿模型（draft model）顺序提出一段候选词元，再由昂贵的目标模型（target model）在一次并行前向计算中同时评分这些候选。系统从左到右接受候选；首次拒绝时丢弃后续候选，并从目标模型与草稿模型的残差分布中重新采样；如果候选全部被接受，还可以从目标模型分布追加一个奖励词元。该接受—拒绝过程保证最终输出仍服从原目标模型的采样分布，而不是用近似模型替代目标模型。[1, section: Speculative Decoding]
 
 实际加速取决于每轮验证平均能够提交多少词元，以及草稿模型相对目标模型的计算成本。Leviathan 等在 T5-XXL、单 TPU、批次大小为 1 的翻译与摘要实验中报告了约 2.3–3.4 倍的实际运行时间加速。更大的草稿模型虽然可能提高接受率，却也可能因为自身计算成本增加而降低整体速度。[1, section: Experiments]
 
@@ -14,13 +16,13 @@
 
 ### 推测式对比解码
 
-推测式对比解码（Speculative Contrastive Decoding，SCD）不再以原专家模型分布作为唯一目标，而是结合较小模型与专家模型的 logits 构造对比分布，再用推测式接受过程加速这个新目标。简单词元可以快速通过，遭到拒绝的困难词元则接受对比修正，因此该方法同时讨论生成质量与效率，而不是只复现专家模型的输出。[2, section: Speculative Contrastive Decoding]
+[推测式对比解码（Speculative Contrastive Decoding，SCD）](https://arxiv.org/abs/2311.08981)不再以原专家模型分布作为唯一目标，而是结合较小模型与专家模型的 logits 构造对比分布，再用推测式接受过程加速这个新目标。简单词元可以快速通过，遭到拒绝的困难词元则接受对比修正，因此该方法同时讨论生成质量与效率，而不是只复现专家模型的输出。[2, section: Speculative Contrastive Decoding]
 
 在 Llama-2 7B/70B 以及 WikiText、GSM8K、HumanEval、AlpacaEval 的实验设置中，原始 SCD 的 HumanEval Pass@1 为 37.20，而 70B 对照为 28.66；改进版 SCD 在 WikiText 上取得 15.20 的困惑度。不过，改进版在 HumanEval 和 AlpacaEval 上明显弱于原始版本，说明不同任务上不存在统一占优的对比解码实现。[2, section: Experiments] 其速度还共同受接受率、小模型与专家模型的成本比以及超参数影响；当所有候选都被接受时，系统仍需执行一次额外的小模型前向计算。[2, section: Analysis]
 
 ### 基于推测的协作解码
 
-基于推测的协作解码（Collaborative Decoding via Speculation，CoS）面向集成生成、对比解码等多模型协作场景。它先明确组合分布，再用候选分布对该组合分布执行具有正确性保证的接受过程与残差重采样。交替候选框架还会把验证模型产生的奖励词元交给下一轮反向验证，使两个模型轮流担任候选生成者，并可进一步推广到多个模型。[3, section: Collaborative Decoding via Speculation]
+[基于推测的协作解码（Collaborative Decoding via Speculation，CoS）](https://arxiv.org/abs/2502.01662)面向集成生成、对比解码等多模型协作场景。它先明确组合分布，再用候选分布对该组合分布执行具有正确性保证的接受过程与残差重采样。交替候选框架还会把验证模型产生的奖励词元交给下一轮反向验证，使两个模型轮流担任候选生成者，并可进一步推广到多个模型。[3, section: Collaborative Decoding via Speculation]
 
 相对于标准协作解码，论文中的加权集成 CoS 获得约 1.27–1.85 倍加速，对比解码 CoS 获得约 1.11–2.23 倍加速。这些数字不能直接解释为相对于单个目标模型自回归生成的收益，因为实验基线本来就需要调用多个模型。实验还表明，把普通推测解码直接套用于协作场景并不保证加速；接受率较低时，速度可能降至基线的 0.92–0.98 倍。[3, section: Experiments]
 

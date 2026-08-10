@@ -80,20 +80,25 @@ class DeepXivPaperSearchProviderTests(TestCase):
         reader.search.return_value = deepxiv_response()
         provider, _ = self._provider(reader)
 
-        hits = provider.search("agentic search", limit=3)
+        page = provider.search("agentic search", limit=3)
 
         reader.search.assert_called_once_with(
             "agentic search",
-            size=3,
             source="arxiv",
+            size=3,
+            offset=0,
+            date_from=None,
+            date_to=None,
         )
-        self.assertEqual(1, len(hits))
-        hit = hits[0]
+        self.assertEqual(1, page.total_count)
+        self.assertEqual(1, len(page.hits))
+        hit = page.hits[0]
         self.assertEqual("2608.00001v2", hit.arxiv_id)
         self.assertEqual("Agentic Search Systems", hit.title)
         self.assertEqual(("Ada Example", "Lin Example"), hit.authors)
         self.assertEqual("https://arxiv.org/abs/2608.00001", hit.canonical_url)
         self.assertEqual(2026, hit.publication_year)
+        self.assertEqual("2026-08-01", hit.publication_date)
         self.assertEqual(
             "A primary-source abstract supplied by the provider.", hit.abstract
         )
@@ -102,6 +107,55 @@ class DeepXivPaperSearchProviderTests(TestCase):
         self.assertEqual(7, hit.citation_count)
         self.assertEqual(("cs.IR", "cs.AI"), hit.categories)
         self.assertIsNone(hit.doi)
+
+    def test_search_maps_offset_and_date_range_mechanically(self) -> None:
+        reader = Mock()
+        reader.search.return_value = deepxiv_response()
+        provider, _ = self._provider(reader)
+
+        provider.search(
+            "frontier cache",
+            limit=20,
+            offset=40,
+            date_from="2025-01-01",
+            date_to="2026-08-10",
+        )
+
+        reader.search.assert_called_once_with(
+            "frontier cache",
+            source="arxiv",
+            size=20,
+            offset=40,
+            date_from="2025-01-01",
+            date_to="2026-08-10",
+        )
+
+    def test_search_maps_individual_date_bounds(self) -> None:
+        cases = (
+            ("2025-01-01", None),
+            (None, "2026-08-10"),
+        )
+        for date_from, date_to in cases:
+            with self.subTest(date_from=date_from, date_to=date_to):
+                reader = Mock()
+                reader.search.return_value = deepxiv_response()
+                provider, _ = self._provider(reader)
+
+                provider.search(
+                    "bounded cache",
+                    limit=5,
+                    date_from=date_from,
+                    date_to=date_to,
+                )
+
+                reader.search.assert_called_once_with(
+                    "bounded cache",
+                    source="arxiv",
+                    size=5,
+                    offset=0,
+                    date_from=date_from,
+                    date_to=date_to,
+                )
 
     def test_missing_optional_observation_metadata_maps_to_empty_values(self) -> None:
         reader = Mock()
@@ -112,10 +166,11 @@ class DeepXivPaperSearchProviderTests(TestCase):
         }
         provider, _ = self._provider(reader)
 
-        hit = provider.search("minimal", limit=1)[0]
+        hit = provider.search("minimal", limit=1).hits[0]
 
         self.assertEqual((), hit.authors)
         self.assertIsNone(hit.publication_year)
+        self.assertIsNone(hit.publication_date)
         self.assertIsNone(hit.canonical_url)
         self.assertIsNone(hit.abstract)
         self.assertIsNone(hit.provider_summary)
@@ -138,7 +193,7 @@ class DeepXivPaperSearchProviderTests(TestCase):
         }
         provider, _ = self._provider(reader)
 
-        hit = provider.search("current shape", limit=1)[0]
+        hit = provider.search("current shape", limit=1).hits[0]
 
         self.assertEqual(("Ada Example", "Lin Example"), hit.authors)
 
@@ -157,7 +212,7 @@ class DeepXivPaperSearchProviderTests(TestCase):
         }
         provider, _ = self._provider(reader)
 
-        hit = provider.search("current string shape", limit=1)[0]
+        hit = provider.search("current string shape", limit=1).hits[0]
 
         self.assertEqual(("Ada Example", "Lin Example"), hit.authors)
 
@@ -170,7 +225,26 @@ class DeepXivPaperSearchProviderTests(TestCase):
         }
         provider, _ = self._provider(reader)
 
-        self.assertEqual((), provider.search("no matches", limit=10))
+        page = provider.search("no matches", limit=10)
+
+        self.assertEqual(0, page.total_count)
+        self.assertEqual((), page.hits)
+
+    def test_calendar_date_is_preserved_without_a_time_component(self) -> None:
+        response = deepxiv_response()
+        result = response["result"]
+        assert isinstance(result, list)
+        item = result[0]
+        assert isinstance(item, dict)
+        item["date"] = "2026-08-03"
+        reader = Mock()
+        reader.search.return_value = response
+        provider, _ = self._provider(reader)
+
+        hit = provider.search("calendar date", limit=1).hits[0]
+
+        self.assertEqual("2026-08-03", hit.publication_date)
+        self.assertEqual(2026, hit.publication_year)
 
     def test_malformed_top_level_response_is_explicit_invalid_response(self) -> None:
         responses: tuple[object, ...] = (
@@ -326,6 +400,11 @@ class DeepXivRetainIntegrationTests(TestCase):
         after_search = self.repository.load(self.created.run_id)
 
         self.assertEqual({}, after_search.papers)
+        self.assertEqual(1, searched.total_count)
+        state_payload = (self.root / self.created.run_id / "state.json").read_text(
+            encoding="utf-8"
+        )
+        self.assertNotIn("total_count", state_payload)
         self.assertEqual(
             "Provider-generated interpretation.", searched.hits[0].provider_summary
         )
@@ -340,6 +419,7 @@ class DeepXivRetainIntegrationTests(TestCase):
         self.assertEqual("Agentic Search Systems", paper.source.title)
         self.assertEqual(("Ada Example", "Lin Example"), paper.source.authors)
         self.assertEqual(2026, paper.source.publication_year)
+        self.assertEqual("2026-08-01", paper.source.publication_date)
         self.assertEqual("2608.00001v2", paper.source.arxiv_id)
         self.assertEqual("https://arxiv.org/abs/2608.00001", paper.source.canonical_url)
         self.assertIsNone(paper.source.doi)

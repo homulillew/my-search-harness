@@ -1,16 +1,20 @@
-# Codex 开发入口
+# Claude Code repository router
 
-本文件只作为 Router，告诉 Codex **应该去哪读**，不保存具体规则。
+For literature research, use the project Skill:
 
-在修改仓库前，请先阅读：
+- `.claude/skills/literature-research/SKILL.md`
+- supporting protocol and API documents under its `references/` directory
 
-1. `.vibe/AI_WORKFLOW.md` — AI 协作与 GitHub 工作流
-2. `.vibe/LEARNING_RULES.md` — 学习型开发与模块讲解规则
+For product semantics, the frozen authorities are:
 
-如果提供了任务文件，请阅读 `.vibe/tasks/` 下对应文件。
+- `docs/ARCHITECTURE.md`
+- `docs/DOMAIN_MODEL.md`
+- `docs/adr/`
 
-当前项目背景，请按需阅读 `.vibe/context/` 下对应文件。
+For repository development, read:
 
-不要将 `.vibe/archive/` 视为有效指令。
+- `docs/development/AI_WORKFLOW.md`
+- `docs/development/LEARNING_RULES.md`
 
-保持产品代码、项目文档、运行产物与 AI 开发指导相互分离，符合仓库结构约定。
+Keep semantic research in Claude, deterministic authority in the Runtime, and runtime
+data in an ignored workspace. Do not edit persisted ResearchRun state directly.

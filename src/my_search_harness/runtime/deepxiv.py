@@ -26,6 +26,7 @@ from my_search_harness.domain.paper_identity import normalize_arxiv_id
 from .paper_search import (
     PaperSearchConfigurationError,
     PaperSearchHit,
+    PaperSearchPage,
     PaperSearchProviderError,
     ProviderFailureKind,
 )
@@ -46,6 +47,9 @@ class _Reader(Protocol):
         *,
         size: int,
         source: str,
+        offset: int,
+        date_from: str | None,
+        date_to: str | None,
     ) -> object: ...
 
     def head(self, arxiv_id: str) -> object: ...
@@ -87,9 +91,19 @@ class DeepXivPaperSearchProvider:
         query: str,
         *,
         limit: int,
-    ) -> tuple[PaperSearchHit, ...]:
+        offset: int = 0,
+        date_from: str | None = None,
+        date_to: str | None = None,
+    ) -> PaperSearchPage:
         try:
-            response = self._reader.search(query, size=limit, source="arxiv")
+            response = self._reader.search(
+                query,
+                source="arxiv",
+                size=limit,
+                offset=offset,
+                date_from=date_from,
+                date_to=date_to,
+            )
         except AuthenticationError:
             raise PaperSearchProviderError(
                 ProviderFailureKind.AUTHENTICATION,
@@ -119,7 +133,7 @@ class DeepXivPaperSearchProvider:
         return self._map_response(response)
 
     @classmethod
-    def _map_response(cls, response: object) -> tuple[PaperSearchHit, ...]:
+    def _map_response(cls, response: object) -> PaperSearchPage:
         if not isinstance(response, Mapping):
             cls._invalid_response("top-level response must be an object")
         if response.get("status") != "success":
@@ -135,8 +149,11 @@ class DeepXivPaperSearchProvider:
         if not isinstance(results, list):
             cls._invalid_response("result must be an array")
 
-        return tuple(
-            cls._map_hit(item, index=index) for index, item in enumerate(results)
+        return PaperSearchPage(
+            total_count=total_count,
+            hits=tuple(
+                cls._map_hit(item, index=index) for index, item in enumerate(results)
+            ),
         )
 
     @classmethod
@@ -148,7 +165,7 @@ class DeepXivPaperSearchProvider:
         arxiv_id = cls._required_string(value.get("arxiv_id"), f"{path}.arxiv_id")
         title = cls._required_string(value.get("title"), f"{path}.title")
         authors = cls._authors(value.get("authors"), f"{path}.authors")
-        publication_year = cls._publication_year(value.get("date"), f"{path}.date")
+        publication_date = cls._publication_date(value.get("date"), f"{path}.date")
         canonical_url = cls._optional_string(value.get("url"), f"{path}.url")
         abstract = cls._optional_string(value.get("abstract"), f"{path}.abstract")
         provider_summary = cls._optional_string(value.get("tldr"), f"{path}.tldr")
@@ -161,7 +178,10 @@ class DeepXivPaperSearchProvider:
         return PaperSearchHit(
             title=title,
             authors=authors,
-            publication_year=publication_year,
+            publication_year=(
+                None if publication_date is None else int(publication_date[:4])
+            ),
+            publication_date=publication_date,
             doi=None,
             arxiv_id=arxiv_id,
             canonical_url=canonical_url,
@@ -200,12 +220,12 @@ class DeepXivPaperSearchProvider:
         return tuple(names)
 
     @classmethod
-    def _publication_year(cls, value: object, path: str) -> int | None:
+    def _publication_date(cls, value: object, path: str) -> str | None:
         if value is None:
             return None
         raw = cls._required_string(value, path)
         try:
-            return datetime.fromisoformat(raw.replace("Z", "+00:00")).year
+            return datetime.fromisoformat(raw.replace("Z", "+00:00")).date().isoformat()
         except ValueError:
             cls._invalid_response(f"{path} must be an ISO 8601 date")
 

@@ -32,6 +32,7 @@ from my_search_harness.runtime import (
     NarrativeSection,
     PaperSearchConfigurationError,
     PaperSearchHit,
+    PaperSearchPage,
     PublishedReportPipelineResult,
     PutPaperAnalysis,
     ReportManuscript,
@@ -49,21 +50,33 @@ from my_search_harness.runtime import (
 
 class FakeDeepXivSearch:
     def __init__(self) -> None:
-        self.calls: list[tuple[str, int]] = []
+        self.calls: list[tuple[str, int, int, str | None, str | None]] = []
 
-    def search(self, query: str, *, limit: int) -> tuple[PaperSearchHit, ...]:
-        self.calls.append((query, limit))
-        return (
-            PaperSearchHit(
-                title="A Primary Study of Bounded Search",
-                authors=("Ada Author",),
-                publication_year=2026,
-                arxiv_id="2608.01234",
-                canonical_url="https://arxiv.org/abs/2608.01234",
-                abstract="Ephemeral provider abstract",
-                provider_summary="Ephemeral provider summary",
-                provider_score=0.99,
-                citation_count=42,
+    def search(
+        self,
+        query: str,
+        *,
+        limit: int,
+        offset: int = 0,
+        date_from: str | None = None,
+        date_to: str | None = None,
+    ) -> PaperSearchPage:
+        self.calls.append((query, limit, offset, date_from, date_to))
+        return PaperSearchPage(
+            total_count=1,
+            hits=(
+                PaperSearchHit(
+                    title="A Primary Study of Bounded Search",
+                    authors=("Ada Author",),
+                    publication_year=2026,
+                    publication_date="2026-08-01",
+                    arxiv_id="2608.01234",
+                    canonical_url="https://arxiv.org/abs/2608.01234",
+                    abstract="Ephemeral provider abstract",
+                    provider_summary="Ephemeral provider summary",
+                    provider_score=0.99,
+                    citation_count=42,
+                ),
             ),
         )
 
@@ -282,7 +295,7 @@ class V1EndToEndTests(TestCase):
             limit=3,
         )
         self.assertEqual([], list(repository.load(created.run_id).papers))
-        self.assertEqual([("bounded search", 3)], search_provider.calls)
+        self.assertEqual([("bounded search", 3, 0, None, None)], search_provider.calls)
 
         retained = runtime.researcher.retain_papers(
             created.run_id,
@@ -373,7 +386,12 @@ class V1EndToEndTests(TestCase):
         editor_factory = FreshEditorFactory()
         planner = E2EPlanner(finding.entity_ref)
         writing_guide_path = (
-            Path(__file__).parents[1] / ".vibe" / "REPORT_WRITING_GUIDE.md"
+            Path(__file__).parents[1]
+            / ".claude"
+            / "skills"
+            / "literature-research"
+            / "references"
+            / "REPORT_WRITING_GUIDE.md"
         )
         report = runtime.report_pipeline(
             planner=planner,
