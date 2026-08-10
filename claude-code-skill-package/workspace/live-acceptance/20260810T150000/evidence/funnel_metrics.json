@@ -1,0 +1,39 @@
+{
+  "run_id": "run_b3d2057a-e66b-434b-aa2e-46b442a0bf58",
+  "workspace": "workspace_e2e_rc",
+  "topic": "RL-based agent training for Agent Search / Deep Research",
+  "funnel": {
+    "candidates_total": 236,
+    "candidates_by_source": {
+      "deepxiv": 105,
+      "deepxiv_gold": 20,
+      "webfetch_arxiv": 111
+    },
+    "retained_papers": 51,
+    "retained_by_year": {
+      "2025": 10,
+      "2026": 41
+    },
+    "analyses": 30,
+    "citations": 33,
+    "citation_placeholder_uses": 45,
+    "approach_families": 7,
+    "findings": 6,
+    "open_problems": 5,
+    "investigation_gaps": 3,
+    "markdown_chars": 5908,
+    "published_content_chars": 13110
+  },
+  "funnel_targets": {
+    "candidates": "150-250",
+    "retained": "40-60",
+    "analyses": "25-40",
+    "citations": "25-35"
+  },
+  "funnel_pass": {
+    "candidates": "236 PASS",
+    "retained": "51 PASS",
+    "analyses": "30 PASS",
+    "citations": "33 PASS"
+  }
+}

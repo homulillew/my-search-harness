@@ -1,0 +1,134 @@
+[
+  {
+    "citation_id": "SM",
+    "paper_ref": "paper_36607d0d-4e2f-42da-82ce-d53b3df533bb"
+  },
+  {
+    "citation_id": "SSP",
+    "paper_ref": "paper_129c24cc-e5d0-4cdc-b1fe-602ea9e21f77"
+  },
+  {
+    "citation_id": "SESE",
+    "paper_ref": "paper_3283950c-da75-4c9a-b2e6-8f1895609134"
+  },
+  {
+    "citation_id": "CoEvoKG",
+    "paper_ref": "paper_95dfdee4-5aca-431f-b124-1c7e41b1039d"
+  },
+  {
+    "citation_id": "KGP",
+    "paper_ref": "paper_6b367c0e-35cf-4b44-a181-2a2e4515aee2"
+  },
+  {
+    "citation_id": "ABS",
+    "paper_ref": "paper_3a4899d1-9ccf-4239-9d10-5123c22cf569"
+  },
+  {
+    "citation_id": "PiCA",
+    "paper_ref": "paper_72bccb23-1606-4214-b39b-9f083e926b32"
+  },
+  {
+    "citation_id": "BTR",
+    "paper_ref": "paper_cefb88c9-c3f5-4c64-96a6-3744215b8562"
+  },
+  {
+    "citation_id": "STAMP",
+    "paper_ref": "paper_2ec71c8b-82d5-4bcd-b202-099cd3913b37"
+  },
+  {
+    "citation_id": "TRIAGE",
+    "paper_ref": "paper_70ff7f5a-568a-4ad7-b866-4e3b63cbe51a"
+  },
+  {
+    "citation_id": "CRAFT",
+    "paper_ref": "paper_33169668-c48a-4c0f-a2c3-b5216191a1e8"
+  },
+  {
+    "citation_id": "CWGRPO",
+    "paper_ref": "paper_37c3e2bb-f024-4a0e-b5ed-cae8fb35d65a"
+  },
+  {
+    "citation_id": "VPR",
+    "paper_ref": "paper_050d496d-0069-4264-b789-b3885c9b5e83"
+  },
+  {
+    "citation_id": "OASES",
+    "paper_ref": "paper_d7c2ead5-0ac6-4f15-9147-fcd0972f1cec"
+  },
+  {
+    "citation_id": "SS",
+    "paper_ref": "paper_73d34220-600e-4082-9a78-a28ba2f65a2c"
+  },
+  {
+    "citation_id": "InfoFlow",
+    "paper_ref": "paper_4da9e96d-40c7-4a5f-9aab-fbfc53a277b0"
+  },
+  {
+    "citation_id": "SR2",
+    "paper_ref": "paper_bb6aa07d-052f-4f87-9fb1-6f0001f5051b"
+  },
+  {
+    "citation_id": "RSPO",
+    "paper_ref": "paper_a90ccaa2-e4a8-46a4-975f-039216e34642"
+  },
+  {
+    "citation_id": "CIGPO",
+    "paper_ref": "paper_aa51d6a8-5143-4f58-982d-e64b5622e2be"
+  },
+  {
+    "citation_id": "AC",
+    "paper_ref": "paper_979e94aa-f011-479c-afe1-a31cdc4a2cb7"
+  },
+  {
+    "citation_id": "TGRPO",
+    "paper_ref": "paper_ce721ef0-7ad1-4c9d-a010-53a22b67dc5b"
+  },
+  {
+    "citation_id": "APPO",
+    "paper_ref": "paper_b138ad48-5a22-42c2-8fdb-9b1cb1162110"
+  },
+  {
+    "citation_id": "AREX",
+    "paper_ref": "paper_7d4da387-333b-49bf-bd2f-4faf5789e1d2"
+  },
+  {
+    "citation_id": "Argus",
+    "paper_ref": "paper_a0c8668c-b9c9-46b1-b8f7-22ae7dfe6458"
+  },
+  {
+    "citation_id": "SciR",
+    "paper_ref": "paper_d7295ad7-eba9-4585-b06e-0565fb7bd4df"
+  },
+  {
+    "citation_id": "LiteR",
+    "paper_ref": "paper_c8256b4e-04b8-4166-86df-10a9d6aa448b"
+  },
+  {
+    "citation_id": "OffS",
+    "paper_ref": "paper_d7f29aa3-caf9-4204-9b6f-2c8ceca3120e"
+  },
+  {
+    "citation_id": "AOPSD",
+    "paper_ref": "paper_57e11b54-d6a8-46e4-9e64-eeec6bbb655a"
+  },
+  {
+    "citation_id": "TRIAL",
+    "paper_ref": "paper_e1cd98a1-20f2-47bf-96cd-8d7711b7d655"
+  },
+  {
+    "citation_id": "CIPO",
+    "paper_ref": "paper_7589c8f9-cba7-4962-b206-51fa360adf48"
+  },
+  {
+    "citation_id": "SGRT",
+    "paper_ref": "paper_e8e0b76f-ad3e-4e57-8172-dee7da680339"
+  },
+  {
+    "citation_id": "ReTool",
+    "paper_ref": "paper_05b61cd4-2de6-4cfb-bb6b-c1885a187de7"
+  },
+  {
+    "citation_id": "ToolR1",
+    "paper_ref": "paper_e128cbae-36f5-42b9-af32-a8795bb817f1"
+  }
+]
