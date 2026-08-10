@@ -89,6 +89,16 @@ class WikiSemanticValidationError(WikiBuildError):
     """The semantic reviewer rejected a generated projection."""
 
 
+class WikiProjectionStaleError(WikiBuildError):
+    """The supplied projection basis no longer matches the current projection.
+
+    Raised before publication when a ``publish-wiki`` input carries a ``basis``
+    derived from an earlier ``wiki-projection`` while a new CLOSED+COMPLETE run
+    has since become eligible. The caller must rerun ``wiki-projection``,
+    rebuild the semantic draft against the fresh projection, and publish again.
+    """
+
+
 class WikiPublicationError(WikiBuildError):
     """A validated Wiki could not atomically replace the published pointer."""
 
@@ -152,6 +162,7 @@ class WikiRunProjection:
 
 @dataclass(slots=True, frozen=True, kw_only=True)
 class WikiProjection:
+    basis: "WikiProjectionBasis"
     runs: tuple[WikiRunProjection, ...]
 
 
@@ -196,6 +207,19 @@ class WikiSemanticValidator(Protocol):
 class WikiManifestSourceRun:
     run_id: str
     state_revision: int
+
+
+@dataclass(slots=True, frozen=True, kw_only=True)
+class WikiProjectionBasis:
+    """Projection identity: which CLOSED+COMPLETE runs (and revisions) a projection was built from.
+
+    A value object, not an entity. Carries the exact ``(run_id, state_revision)``
+    identity of every eligible run at projection time so a later ``publish-wiki``
+    can verify the semantic draft was built from the current complete projection,
+    not a stale snapshot whose refs merely still exist.
+    """
+
+    source_runs: tuple[WikiManifestSourceRun, ...]
 
 
 @dataclass(slots=True, frozen=True, kw_only=True)
@@ -326,7 +350,16 @@ class WikiProjectionService:
                     papers=papers,
                 )
             )
-        return WikiProjection(runs=tuple(runs))
+        basis = WikiProjectionBasis(
+            source_runs=tuple(
+                WikiManifestSourceRun(
+                    run_id=run.run_id,
+                    state_revision=run.state_revision,
+                )
+                for run in runs
+            )
+        )
+        return WikiProjection(basis=basis, runs=tuple(runs))
 
     @staticmethod
     def _sources(sources: set[LiteratureSource]) -> tuple[WikiSourceRef, ...]:
@@ -688,14 +721,7 @@ class WikiRuntime:
         except WikiUnavailableError:
             return False
         projection = self._projection.project()
-        expected = tuple(
-            WikiManifestSourceRun(
-                run_id=run.run_id,
-                state_revision=run.state_revision,
-            )
-            for run in projection.runs
-        )
-        return manifest.source_runs == expected
+        return manifest.source_runs == projection.basis.source_runs
 
     @classmethod
     def _validate_draft(

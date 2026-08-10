@@ -398,6 +398,8 @@ class ShallowEvidenceRegressionTests(TestCase):
         )
         paper_ref = retained.paper_refs[0]
         # NOTE: no inspect_source / read_source call — analysis is abstract-derived.
+        # This is the semantic precondition the checker below judges; it is not a
+        # signal the Runtime detects mechanically.
         analyzed = self.capabilities.researcher.apply_research_mutation(
             self.created.run_id,
             retained.state_revision,
@@ -414,6 +416,9 @@ class ShallowEvidenceRegressionTests(TestCase):
                             contributions=("A novel bounding mechanism.",),
                             limitations=("The evaluation scope is narrow.",),
                             # key_locators intentionally empty: no primary-source read.
+                            # Empty locators are not by themselves a failure; the
+                            # checker below makes the semantic call that this analysis
+                            # is abstract-derived.
                             key_locators=(),
                         ),
                     ),
@@ -470,7 +475,7 @@ class ShallowEvidenceRegressionTests(TestCase):
         self.assertEqual(2, diag.landscape_source_count)
         self.assertEqual(0, diag.landscape_source_with_locator_count)
 
-    def test_shallow_evidence_yields_continue_not_pass(self) -> None:
+    def test_shallow_evidence_checker_returns_continue_via_diagnostics(self) -> None:
         revision = self._build_shallow_state()
         run_id = self.created.run_id
         paper_ref = next(
@@ -479,13 +484,24 @@ class ShallowEvidenceRegressionTests(TestCase):
         )
 
         class ShallowEvidenceChecker:
-            """Checker applying COMPLETION_GUIDE P0-B: abstract-derived analysis blocks.
+            """Semantic checker applying COMPLETION_GUIDE criterion 4.
 
-            Scans ``evidence_diagnostics`` for the shallow-evidence signal: a
-            representative paper whose ``has_analysis`` is True but whose
-            ``analysis_locator_count`` is zero. Per the P0-B criterion, this is a
-            blocking deficiency — the detailed analysis rests on discovery metadata,
-            not primary-source evidence — and must return CONTINUE, never PASS.
+            This is a *semantic* judgment, not mechanical detection: per
+            COMPLETION_GUIDE criterion 4, detailed ``PaperAnalysis`` resting on
+            discovery metadata rather than a primary-source read is
+            abstract-derived and is a blocking deficiency. The checker applies
+            that judgment by reading ``evidence_diagnostics`` (which surface the
+            ``has_analysis`` / ``analysis_locator_count`` signal) and returning
+            CONTINUE when a representative paper carries analysis with zero
+            locators. An empty ``key_locators`` is not by itself a failure — the
+            blocking call is the semantic one that the analysis was
+            abstract-derived, made here by this checker, not by the Runtime.
+
+            This test proves the deterministic *plumbing*: the diagnostics
+            surface the shallow-analysis signal, the checker returns CONTINUE,
+            and the completion lifecycle routes the run to RESEARCH. It does not
+            prove the Runtime mechanically detects abstract-derived analysis, nor
+            that zero locators mechanically prove no source was read.
             """
 
             def evaluate(self, view, evidence):

@@ -314,16 +314,27 @@ run or invalidates the report. Only CLOSED+COMPLETE runs are eligible; partial r
 excluded.
 
 Call `wiki-projection` to read the current authoritative projection of eligible runs.
-Build a `WikiDraft` from that projection — pages that synthesize accepted approaches,
-findings, and open problems across runs, each carrying contributing refs to real
-research entities. Perform a fresh `WikiSemanticReview` of the draft. Then call
-`publish-wiki` with the typed draft and review.
+The projection carries a `basis` — the exact `(run_id, state_revision)` identity of
+every eligible run at projection time. Preserve it. Build a `WikiDraft` from that
+projection — pages that synthesize accepted approaches, findings, and open problems
+across runs, each carrying contributing refs to real research entities. Perform a
+fresh `WikiSemanticReview` of the draft against the same projection. Then call
+`publish-wiki` with the typed draft, review, and the preserved `basis`.
 
-Python re-projects current state, validates structure and provenance deterministically,
-and publishes atomically only when the review is approved. A rejected review raises
-`WikiSemanticValidationError` and preserves any previous publication; invalid structure
-or provenance raises `WikiBuildError` before publication. Either way the run remains
-CLOSED COMPLETE and the report remains valid. See `RUNTIME_API.md` for the input shape.
+The `basis` lets the harness freshness-check that the semantic draft was built from
+the current complete projection, not a stale snapshot whose refs merely still exist.
+If a new run closed COMPLETE between projection and publish, the supplied `basis` is
+stale and `publish-wiki` raises `WikiProjectionStaleError` before publication. On that
+error, re-project, rebuild the draft against the fresh projection, perform a fresh
+review, and publish again — do not reuse the old draft against the new projection.
+
+Python validates structure and provenance deterministically and publishes via
+managed-pointer replacement (atomic where supported; the Windows junction fallback
+uses rollback-protected best-effort replacement) only when the review is approved. A
+rejected review raises `WikiSemanticValidationError` and preserves any previous
+publication; invalid structure or provenance raises `WikiBuildError` before
+publication. Either way the run remains CLOSED COMPLETE and the report remains valid.
+See `RUNTIME_API.md` for the input shape.
 
 ## Handle failures explicitly
 

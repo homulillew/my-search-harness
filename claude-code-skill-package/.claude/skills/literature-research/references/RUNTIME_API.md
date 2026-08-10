@@ -184,12 +184,21 @@ any previously published Wiki is preserved.
 `wiki-projection` returns the current authoritative projection of eligible runs.
 Claude inspects it to build a `WikiDraft` and perform a fresh `WikiSemanticReview`
 outside the harness. The projection omits process, delivery, and report data — it
-carries only approaches, findings, open problems, and papers with stable refs.
+carries only approaches, findings, open problems, and papers with stable refs. The
+projection also carries a top-level `basis`: the exact `(run_id, state_revision)`
+identity of every eligible run at projection time. Claude must preserve this `basis`
+and pass it back into `publish-wiki` so the harness can freshness-check that the
+semantic draft was built from the current complete projection, not a stale snapshot
+whose refs merely still exist.
 
 `publish-wiki --input FILE` accepts the typed semantic decision and delegates to the
-existing `WikiRuntime.rebuild` path for deterministic validation and atomic
-publication. Python re-projects current state so contributing refs are validated
-against live authority, not a stale snapshot. Input shape:
+existing `WikiRuntime.rebuild` path for deterministic validation and managed-pointer
+publication (atomic managed-pointer replacement where supported; the Windows junction
+fallback uses rollback-protected best-effort replacement). Before publication, the
+adapter fresh-computes the current projection basis and compares it to the supplied
+`basis`. A stale basis — one derived from an earlier `wiki-projection` while a new
+CLOSED+COMPLETE run has since become eligible — is rejected before `rebuild` runs, so
+no publication occurs and any previous Wiki is preserved. Input shape:
 
 ```json
 {
@@ -205,9 +214,17 @@ against live authority, not a stale snapshot. Input shape:
       }
     ]
   },
-  "review": {"approved": true}
+  "review": {"approved": true},
+  "basis": [
+    {"run_id": "run_...", "state_revision": 116}
+  ]
 }
 ```
+
+The `basis` array is required and must be the `basis.source_runs` value returned by
+the `wiki-projection` the draft was built from. There is no silent fallback for input
+that omits it: the adapter rejects the call so a stale interface is surfaced
+explicitly.
 
 A rejected review carries `issues`:
 
@@ -219,8 +236,11 @@ Slugs must be unique safe slugs (`[a-z0-9]+(?:-[a-z0-9]+)*`). Each page requires
 least one contributing ref pointing at a real approach, finding, open problem, or
 paper in an eligible run. Markdown links must resolve to sibling pages or external
 URLs; internal stable refs must not appear in prose. A rejected review raises
-`WikiSemanticValidationError` and leaves any previous publication intact. Invalid
-structure or provenance raises `WikiBuildError` before any publication occurs.
+`WikiSemanticValidationError` and leaves any previous publication intact. A stale
+basis raises `WikiProjectionStaleError` before any publication occurs, likewise
+leaving any previous publication intact; rerun `wiki-projection`, rebuild the
+semantic draft against the fresh projection, and publish again. Invalid structure or
+provenance raises `WikiBuildError` before any publication occurs.
 
 ## Revision failures
 

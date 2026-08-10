@@ -651,6 +651,20 @@ class WikiCliBridgeTests(TestCase):
         output = stdout.getvalue() if status == 0 else stderr.getvalue()
         return status, json.loads(output)
 
+    def _basis(self) -> list:
+        """Return the current projection basis via ``wiki-projection``.
+
+        Mirrors the real flow: Claude calls ``wiki-projection`` first and carries
+        the returned ``basis`` into ``publish-wiki`` so the adapter can
+        freshness-check that the semantic draft was built from the current complete
+        projection, not a stale snapshot.
+        """
+        status, output = self._invoke(
+            ["--workspace", str(self.workspace), "wiki-projection"]
+        )
+        self.assertEqual(status, 0, output)
+        return output["result"]["basis"]["source_runs"]
+
     def _draft_input(self, slug: str = "methods") -> dict:
         return {
             "draft": {
@@ -669,6 +683,7 @@ class WikiCliBridgeTests(TestCase):
                 ]
             },
             "review": {"approved": True},
+            "basis": self._basis(),
         }
 
     def test_wiki_projection_returns_only_closed_complete_runs(self) -> None:
@@ -736,6 +751,7 @@ class WikiCliBridgeTests(TestCase):
                         "approved": False,
                         "issues": ["The draft hides an important conflict"],
                     },
+                    "basis": self._basis(),
                 }
             ),
             encoding="utf-8",
@@ -778,6 +794,7 @@ class WikiCliBridgeTests(TestCase):
                         ]
                     },
                     "review": {"approved": True},
+                    "basis": self._basis(),
                 }
             ),
             encoding="utf-8",
@@ -794,4 +811,102 @@ class WikiCliBridgeTests(TestCase):
         self.assertEqual(status, 2, output)
         self.assertEqual("WikiBuildError", output["error"]["type"])
         self.assertFalse((self.workspace / "wiki").exists())
+
+    def test_publish_wiki_rejects_stale_projection_basis(self) -> None:
+        # Step A: run A is already built in setUp. Capture its projection basis
+        # and the draft built from that basis.
+        basis_a = self._basis()
+        run_a_id = self.run_id
+        finding_a_ref = self.finding_ref
+        draft_a = {
+            "pages": [
+                {
+                    "slug": "methods",
+                    "title": "Methods",
+                    "markdown": "# Methods\n\nBuilt from run A only.",
+                    "contributing_refs": [
+                        {"run_id": run_a_id, "research_ref": finding_a_ref}
+                    ],
+                }
+            ]
+        }
+
+        # Step B: build run B. This closes COMPLETE and makes the current
+        # projection A+B, so basis_a (A only) is now stale.
+        self._build_closed_complete_run()
+        run_b_id = self.run_id
+        finding_b_ref = self.finding_ref
+        self.assertNotEqual(run_a_id, run_b_id)
+
+        # Step C: publish draft_a with the stale basis_a. The adapter must
+        # fresh-compute the current basis (A+B), see it differs from basis_a,
+        # and reject before publication. No wiki is published.
+        stale_input = self.root / "stale.json"
+        stale_input.write_text(
+            json.dumps(
+                {
+                    "draft": draft_a,
+                    "review": {"approved": True},
+                    "basis": basis_a,
+                }
+            ),
+            encoding="utf-8",
+        )
+        status, output = self._invoke(
+            [
+                "--workspace",
+                str(self.workspace),
+                "publish-wiki",
+                "--input",
+                str(stale_input),
+            ]
+        )
+        self.assertEqual(status, 2, output)
+        self.assertEqual(
+            "WikiProjectionStaleError", output["error"]["type"]
+        )
+        self.assertFalse((self.workspace / "wiki").exists())
+
+        # Step D: re-project (now A+B), build a fresh draft against the current
+        # projection, and publish with the fresh basis. Publication succeeds and
+        # the manifest records exactly the basis the accepted draft was built from.
+        basis_a_b = self._basis()
+        self.assertEqual(2, len(basis_a_b))
+        fresh_input = self.root / "fresh.json"
+        fresh_input.write_text(
+            json.dumps(
+                {
+                    "draft": {
+                        "pages": [
+                            {
+                                "slug": "methods",
+                                "title": "Methods",
+                                "markdown": "# Methods\n\nBuilt from A+B.",
+                                "contributing_refs": [
+                                    {"run_id": run_a_id, "research_ref": finding_a_ref},
+                                    {"run_id": run_b_id, "research_ref": finding_b_ref},
+                                ],
+                            }
+                        ]
+                    },
+                    "review": {"approved": True},
+                    "basis": basis_a_b,
+                }
+            ),
+            encoding="utf-8",
+        )
+        status, output = self._invoke(
+            [
+                "--workspace",
+                str(self.workspace),
+                "publish-wiki",
+                "--input",
+                str(fresh_input),
+            ]
+        )
+        self.assertEqual(status, 0, output)
+        manifest_source_runs = output["result"]["manifest"]["source_runs"]
+        self.assertEqual(basis_a_b, manifest_source_runs)
+        # is_current(): a fresh projection basis equals the manifest basis.
+        self.assertEqual(self._basis(), manifest_source_runs)
 

@@ -60,8 +60,10 @@ from my_search_harness.runtime import (  # noqa: E402
     ReportManuscript,
     ResearchMutationBatch,
     WikiDraft,
+    WikiManifestSourceRun,
     WikiPageDraft,
     WikiProjection,
+    WikiProjectionStaleError,
     WikiProvenanceRef,
     WikiRuntime,
     WikiSemanticBuilder,
@@ -763,6 +765,19 @@ def _wiki_provenance_ref(value: object) -> WikiProvenanceRef:
     )
 
 
+def _wiki_manifest_source_run(value: object) -> WikiManifestSourceRun:
+    if not isinstance(value, dict):
+        raise AdapterInputError("basis entries must be objects")
+    _shape(value, required=frozenset({"run_id", "state_revision"}))
+    revision = value["state_revision"]
+    if not isinstance(revision, int) or isinstance(revision, bool):
+        raise AdapterInputError("state_revision must be an integer")
+    return WikiManifestSourceRun(
+        run_id=_string(value["run_id"], "run_id"),
+        state_revision=revision,
+    )
+
+
 def _wiki_page_draft(value: object) -> WikiPageDraft:
     if not isinstance(value, dict):
         raise AdapterInputError("pages entries must be objects")
@@ -792,15 +807,21 @@ def _wiki_dispatch(args: argparse.Namespace, runtime: LocalV1Runtime) -> object:
     and delegates to ``WikiRuntime.rebuild`` via pass-through semantic actors: the
     parsed draft is returned verbatim by the builder, the parsed review by the
     validator, so the existing runtime performs the re-projection, structural and
-    provenance validation, semantic-review enforcement, and atomic publication.
-    A rejected review raises ``WikiSemanticValidationError`` and leaves any previous
-    publication intact. Wiki failure never affects run state.
+    provenance validation, semantic-review enforcement, and managed-pointer
+    publication. Before any of that, the adapter fresh-computes the current
+    projection basis and rejects a stale one: a ``publish-wiki`` input must carry
+    the ``basis`` returned by the ``wiki-projection`` the draft was built from, so
+    a draft built from an earlier projection cannot be published against a newer
+    one whose runs its prose never saw. A rejected review raises
+    ``WikiSemanticValidationError`` and leaves any previous publication intact.
+    A stale basis raises ``WikiProjectionStaleError`` before publication, likewise
+    leaving any previous publication intact. Wiki failure never affects run state.
     """
     if args.command == "wiki-projection":
         return runtime.wiki_projection()
 
     value = _load_input(args.input)
-    _shape(value, required=frozenset({"draft", "review"}))
+    _shape(value, required=frozenset({"basis", "draft", "review"}))
     raw_draft = value["draft"]
     if not isinstance(raw_draft, dict):
         raise AdapterInputError("draft must be an object")
@@ -828,6 +849,17 @@ def _wiki_dispatch(args: argparse.Namespace, runtime: LocalV1Runtime) -> object:
     ):
         raise AdapterInputError("review.issues must be an array of non-empty strings")
     review = WikiSemanticReview(approved=approved, issues=tuple(raw_issues))
+
+    raw_basis = value["basis"]
+    if not isinstance(raw_basis, list):
+        raise AdapterInputError("basis must be an array")
+    supplied_basis = tuple(_wiki_manifest_source_run(item) for item in raw_basis)
+    fresh = runtime.wiki_projection()
+    if supplied_basis != fresh.basis.source_runs:
+        raise WikiProjectionStaleError(
+            "Wiki projection basis is stale; rerun wiki-projection and rebuild "
+            "the semantic draft"
+        )
 
     bridge = _WikiRuntimeBridge(draft, review)
     return runtime.wiki_runtime(bridge, bridge).rebuild()
