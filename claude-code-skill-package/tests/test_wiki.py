@@ -36,6 +36,7 @@ from my_search_harness.runtime import (
     WikiSemanticValidationError,
     WikiUnavailableError,
 )
+from my_search_harness.runtime.wiki import _is_managed_link
 
 
 class ApprovingValidator:
@@ -287,7 +288,7 @@ class WikiRuntimeTests(TestCase):
 
         result = self._runtime(ProjectionPageBuilder()).rebuild()
 
-        self.assertTrue(result.wiki_path.is_symlink())
+        self.assertTrue(_is_managed_link(result.wiki_path))
         self.assertTrue((self.wiki_path / "INDEX.md").is_file())
         self.assertTrue((self.wiki_path / "pages" / "methods.md").is_file())
         self.assertTrue((self.wiki_path / "manifest.json").is_file())

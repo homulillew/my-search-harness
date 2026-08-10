@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
-"""Build approach families, findings, open problems, and investigation gaps.
+"""FIXTURE / MECHANICAL SMOKE ONLY — not semantic Research Loop proof.
 
-Taxonomy derived from the 30 analyzed papers, with discrimination criteria
-for each technical route.
+Bulk-builds approach families, findings, open problems, and investigation gaps from a
+fixed analyzed-paper set. It populates the landscape for mechanical end-to-end smoke and
+does NOT demonstrate the adaptive research loop. A real run derives each family's
+discrimination criterion from interleaved reading and reassessment, not from a pre-staged
+batch. Treat the taxonomy below as fixture data, not as evidence of correct loop
+discipline.
 """
 import json
 

@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
-"""Build put-paper-analysis inputs for 30 retained papers.
+"""FIXTURE / MECHANICAL SMOKE ONLY — not semantic Research Loop proof.
 
-Analyses are grounded in:
-- Paper abstracts (from candidate pool)
-- Read source content (SearchMaster Method section, read earlier)
-- WebFetch summaries (arXiv API abstracts)
+This script bulk-builds put-paper-analysis inputs for a fixed candidate pool. It exists
+to exercise the harness command surface and produce a populated run for mechanical
+end-to-end smoke, NOT to demonstrate an adaptive research loop. The real research loop
+interleaves discovery, primary-source reading, synthesis, and reassessment per turn; this
+batch builder instead stages search → retain-all → batch-analysis, which is the exact
+anti-pattern P0-D forbids. Treat its output as fixture data, not as evidence that the
+loop was run correctly.
 
-Each analysis has: summary, relevance_to_run, contributions, key_results, limitations.
+Analyses below were drafted from a mix of abstracts, one read source, and WebFetch
+summaries — i.e. discovery metadata, not uniform primary-source evidence. A real run must
+satisfy the Primary Evidence Gate (inspect-source / read-source before detailed analysis)
+for every representative paper before put-paper-analysis.
 """
 import json
 

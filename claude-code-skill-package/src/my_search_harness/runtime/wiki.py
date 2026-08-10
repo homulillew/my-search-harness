@@ -7,6 +7,8 @@ import json
 import os
 import re
 import shutil
+import subprocess
+import sys
 import tempfile
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -35,6 +37,52 @@ _INTERNAL_REF = re.compile(
 
 class WikiBuildError(RuntimeError):
     """Wiki projection, semantic build, or mechanical validation failed."""
+
+
+def _create_managed_link(link_path: Path, target_path: Path) -> None:
+    """Create an atomic managed link (symlink, or junction on Windows).
+
+    Symlinks are preferred for portability and accept relative targets. On Windows
+    without symlink privilege (WinError 1314), fall back to a directory junction,
+    which needs no privilege and can still be swapped via ``os.replace`` when the
+    destination is absent. Junctions require an absolute target, so a relative
+    ``target_path`` is resolved against the link's parent directory.
+    """
+    try:
+        os.symlink(target_path, link_path)
+        return
+    except OSError as exc:
+        if sys.platform != "win32" or getattr(exc, "winerror", None) != 1314:
+            raise
+    if not target_path.is_absolute():
+        target_path = (link_path.parent / target_path).resolve()
+    subprocess.run(
+        ["cmd", "/c", "mklink", "/J", str(link_path), str(target_path)],
+        capture_output=True,
+        check=True,
+    )
+
+
+def _is_managed_link(path: Path) -> bool:
+    """True if ``path`` is a symlink or a Windows directory junction."""
+    if path.is_symlink():
+        return True
+    if sys.platform == "win32" and path.is_dir():
+        try:
+            return bool(path.lstat().st_file_attributes & 0x0400)  # reparse point
+        except OSError:
+            return False
+    return False
+
+
+def _read_managed_link_target(path: Path) -> str | None:
+    """Return the stored target of a managed link, or None if not a link."""
+    if _is_managed_link(path):
+        try:
+            return os.readlink(path)
+        except OSError:
+            return None
+    return None
 
 
 class WikiSemanticValidationError(WikiBuildError):
@@ -312,9 +360,9 @@ class LocalWikiPublisher:
         projection: WikiProjection,
         draft: WikiDraft,
     ) -> WikiPublicationResult:
-        if self._wiki_path.exists() and not self._wiki_path.is_symlink():
+        if self._wiki_path.exists() and not _is_managed_link(self._wiki_path):
             raise WikiPublicationError(
-                "published Wiki path must be an atomic managed symlink"
+                "published Wiki path must be an atomic managed link"
             )
         self._wiki_path.parent.mkdir(parents=True, exist_ok=True)
         self._builds_path.mkdir(parents=True, exist_ok=True)
@@ -325,37 +373,7 @@ class LocalWikiPublisher:
             self._validate_staging(staging, manifest)
             published_build = self._builds_path / f"build-{uuid4()}"
             os.replace(staging, published_build)
-            relative_target = os.path.relpath(
-                published_build,
-                self._wiki_path.parent,
-            )
-            temporary_link = self._wiki_path.with_name(
-                f".{self._wiki_path.name}.link-{uuid4()}"
-            )
-            old_link_target = (
-                os.readlink(self._wiki_path) if self._wiki_path.is_symlink() else None
-            )
-            pointer_replaced = False
-            try:
-                os.symlink(relative_target, temporary_link)
-                os.replace(temporary_link, self._wiki_path)
-                pointer_replaced = True
-                self._fsync_directory(self._wiki_path.parent)
-            except BaseException:
-                temporary_link.unlink(missing_ok=True)
-                if pointer_replaced:
-                    if old_link_target is None:
-                        self._wiki_path.unlink(missing_ok=True)
-                    else:
-                        rollback_link = self._wiki_path.with_name(
-                            f".{self._wiki_path.name}.rollback-{uuid4()}"
-                        )
-                        try:
-                            os.symlink(old_link_target, rollback_link)
-                            os.replace(rollback_link, self._wiki_path)
-                        finally:
-                            rollback_link.unlink(missing_ok=True)
-                raise
+            self._swap_pointer(published_build)
             return WikiPublicationResult(
                 wiki_path=self._wiki_path,
                 manifest=manifest,
@@ -369,12 +387,78 @@ class LocalWikiPublisher:
                 shutil.rmtree(staging)
             if published_build is not None and published_build.exists():
                 try:
-                    if not self._wiki_path.is_symlink() or (
+                    if not _is_managed_link(self._wiki_path) or (
                         self._wiki_path.resolve() != published_build.resolve()
                     ):
                         shutil.rmtree(published_build)
                 except OSError:
                     pass
+
+    def _swap_pointer(self, published_build: Path) -> None:
+        """Atomically (symlink) or best-effort (junction) swap the wiki pointer.
+
+        Symlinks support ``os.replace`` over an existing link, giving a true atomic
+        swap with rollback on failure. Windows directory junctions cannot be
+        ``os.replace``-ed over an existing junction, so the junction path removes the
+        old pointer then renames the new one; if the rename fails, the old pointer is
+        recreated from its captured target. The old build directory is always
+        preserved on disk for either path.
+        """
+        relative_target = os.path.relpath(published_build, self._wiki_path.parent)
+        temporary_link = self._wiki_path.with_name(
+            f".{self._wiki_path.name}.link-{uuid4()}"
+        )
+        _create_managed_link(temporary_link, Path(relative_target))
+        if temporary_link.is_symlink():
+            self._swap_symlink(temporary_link, relative_target)
+        else:
+            self._swap_junction(temporary_link)
+
+    def _swap_symlink(self, temporary_link: Path, relative_target: str) -> None:
+        old_link_target = _read_managed_link_target(self._wiki_path)
+        pointer_replaced = False
+        try:
+            os.replace(temporary_link, self._wiki_path)
+            pointer_replaced = True
+            self._fsync_directory(self._wiki_path.parent)
+        except BaseException:
+            temporary_link.unlink(missing_ok=True)
+            if pointer_replaced:
+                if old_link_target is None:
+                    self._wiki_path.unlink(missing_ok=True)
+                else:
+                    rollback_link = self._wiki_path.with_name(
+                        f".{self._wiki_path.name}.rollback-{uuid4()}"
+                    )
+                    try:
+                        _create_managed_link(rollback_link, Path(old_link_target))
+                        os.replace(rollback_link, self._wiki_path)
+                    finally:
+                        rollback_link.unlink(missing_ok=True)
+            raise
+
+    def _swap_junction(self, temporary_link: Path) -> None:
+        old_link_target = _read_managed_link_target(self._wiki_path)
+        had_old_link = _is_managed_link(self._wiki_path)
+        if had_old_link:
+            os.rmdir(self._wiki_path)
+        try:
+            os.replace(temporary_link, self._wiki_path)
+            self._fsync_directory(self._wiki_path.parent)
+        except BaseException:
+            temporary_link.unlink(missing_ok=True)
+            if _is_managed_link(self._wiki_path):
+                os.rmdir(self._wiki_path)
+            if had_old_link and old_link_target is not None:
+                rollback_link = self._wiki_path.with_name(
+                    f".{self._wiki_path.name}.rollback-{uuid4()}"
+                )
+                try:
+                    _create_managed_link(rollback_link, Path(old_link_target))
+                    os.replace(rollback_link, self._wiki_path)
+                finally:
+                    rollback_link.unlink(missing_ok=True)
+            raise
 
     def read_manifest(self) -> WikiManifest:
         path = self._wiki_path / "manifest.json"
@@ -464,7 +548,7 @@ class LocalWikiPublisher:
             *(page.path for page in manifest.pages),
         }
         actual_files = {
-            str(path.relative_to(staging))
+            path.relative_to(staging).as_posix()
             for path in staging.rglob("*")
             if path.is_file()
         }
@@ -564,6 +648,8 @@ class LocalWikiPublisher:
 
     @staticmethod
     def _fsync_directory(path: Path) -> None:
+        if sys.platform == "win32":
+            return
         descriptor = os.open(path, os.O_RDONLY)
         try:
             os.fsync(descriptor)

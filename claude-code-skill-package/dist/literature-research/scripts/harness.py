@@ -59,6 +59,15 @@ from my_search_harness.runtime import (  # noqa: E402
     ReopenBlockingGap,
     ReportManuscript,
     ResearchMutationBatch,
+    WikiDraft,
+    WikiPageDraft,
+    WikiProjection,
+    WikiProvenanceRef,
+    WikiRuntime,
+    WikiSemanticBuilder,
+    WikiSemanticReview,
+    WikiSemanticValidationError,
+    WikiSemanticValidator,
 )
 
 
@@ -467,6 +476,11 @@ def _parser() -> argparse.ArgumentParser:
     wiki = commands.add_parser("wiki-query")
     wiki.add_argument("--query", required=True)
     wiki.add_argument("--limit", type=int, default=10)
+
+    commands.add_parser("wiki-projection")
+
+    publish_wiki = commands.add_parser("publish-wiki")
+    publish_wiki.add_argument("--input", required=True)
     return parser
 
 
@@ -739,6 +753,109 @@ def _delivery_dispatch(args: argparse.Namespace, runtime: LocalV1Runtime) -> obj
     raise AdapterInputError(f"unsupported delivery command: {args.command}")
 
 
+def _wiki_provenance_ref(value: object) -> WikiProvenanceRef:
+    if not isinstance(value, dict):
+        raise AdapterInputError("contributing_refs entries must be objects")
+    _shape(value, required=frozenset({"run_id", "research_ref"}))
+    return WikiProvenanceRef(
+        run_id=_string(value["run_id"], "run_id"),
+        research_ref=_string(value["research_ref"], "research_ref"),
+    )
+
+
+def _wiki_page_draft(value: object) -> WikiPageDraft:
+    if not isinstance(value, dict):
+        raise AdapterInputError("pages entries must be objects")
+    _shape(
+        value,
+        required=frozenset({"slug", "title", "markdown", "contributing_refs"}),
+    )
+    raw_refs = value["contributing_refs"]
+    if not isinstance(raw_refs, list) or not raw_refs:
+        raise AdapterInputError("contributing_refs must be a non-empty array")
+    return WikiPageDraft(
+        slug=_string(value["slug"], "slug"),
+        title=_string(value["title"], "title"),
+        markdown=_string(value["markdown"], "markdown"),
+        contributing_refs=tuple(
+            _wiki_provenance_ref(item) for item in raw_refs
+        ),
+    )
+
+
+def _wiki_dispatch(args: argparse.Namespace, runtime: LocalV1Runtime) -> object:
+    """Wiki CLI bridge: Claude builds + reviews; Python validates + publishes.
+
+    ``wiki-projection`` returns the current authoritative projection of
+    CLOSED+COMPLETE runs so Claude can build a ``WikiDraft`` and perform a fresh
+    ``WikiSemanticReview``. ``publish-wiki`` accepts that typed semantic decision
+    and delegates to ``WikiRuntime.rebuild`` via pass-through semantic actors: the
+    parsed draft is returned verbatim by the builder, the parsed review by the
+    validator, so the existing runtime performs the re-projection, structural and
+    provenance validation, semantic-review enforcement, and atomic publication.
+    A rejected review raises ``WikiSemanticValidationError`` and leaves any previous
+    publication intact. Wiki failure never affects run state.
+    """
+    if args.command == "wiki-projection":
+        return runtime.wiki_projection()
+
+    value = _load_input(args.input)
+    _shape(value, required=frozenset({"draft", "review"}))
+    raw_draft = value["draft"]
+    if not isinstance(raw_draft, dict):
+        raise AdapterInputError("draft must be an object")
+    _shape(raw_draft, required=frozenset({"pages"}))
+    raw_pages = raw_draft["pages"]
+    if not isinstance(raw_pages, list) or not raw_pages:
+        raise AdapterInputError("draft.pages must be a non-empty array")
+    draft = WikiDraft(
+        pages=tuple(_wiki_page_draft(item) for item in raw_pages),
+    )
+    raw_review = value["review"]
+    if not isinstance(raw_review, dict):
+        raise AdapterInputError("review must be an object")
+    _shape(
+        raw_review,
+        required=frozenset({"approved"}),
+        optional=frozenset({"issues"}),
+    )
+    approved = raw_review["approved"]
+    if not isinstance(approved, bool):
+        raise AdapterInputError("review.approved must be a boolean")
+    raw_issues = raw_review.get("issues", [])
+    if not isinstance(raw_issues, list) or not all(
+        isinstance(item, str) and item for item in raw_issues
+    ):
+        raise AdapterInputError("review.issues must be an array of non-empty strings")
+    review = WikiSemanticReview(approved=approved, issues=tuple(raw_issues))
+
+    bridge = _WikiRuntimeBridge(draft, review)
+    return runtime.wiki_runtime(bridge, bridge).rebuild()
+
+
+class _WikiRuntimeBridge(WikiSemanticBuilder, WikiSemanticValidator):
+    """Pass-through semantic actors carrying a parsed draft and review.
+
+    Claude performs the semantic build and fresh review outside the harness; this
+    bridge hands the already-typed decisions to ``WikiRuntime.rebuild`` so the
+    deterministic validation and publication path is reused without duplication.
+    """
+
+    def __init__(self, draft: WikiDraft, review: WikiSemanticReview) -> None:
+        self._draft = draft
+        self._review = review
+
+    def build(self, projection: WikiProjection) -> WikiDraft:
+        return self._draft
+
+    def validate(
+        self,
+        projection: WikiProjection,
+        draft: WikiDraft,
+    ) -> WikiSemanticReview:
+        return self._review
+
+
 _RESEARCH_COMMANDS = {
     "view",
     "inspect",
@@ -781,6 +898,11 @@ _EXTERNAL_COMMANDS = {
     "read-source",
     "completion-read-source",
     "delivery-read-source",
+}
+_WIKI_COMMANDS = {
+    "wiki-query",
+    "wiki-projection",
+    "publish-wiki",
 }
 
 
@@ -837,6 +959,8 @@ def _execute(
     runtime = runtime_factory(workspace, args.command in _EXTERNAL_COMMANDS)
     if args.command == "wiki-query":
         return runtime.wiki_query.query(args.query, limit=args.limit)
+    if args.command in _WIKI_COMMANDS:
+        return _wiki_dispatch(args, runtime)
     if args.command in _RESEARCH_COMMANDS:
         return _research_dispatch(args, runtime)
     if args.command in _COMPLETION_COMMANDS:

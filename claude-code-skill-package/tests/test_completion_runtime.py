@@ -7,10 +7,14 @@ from tempfile import TemporaryDirectory
 from unittest import TestCase
 
 from my_search_harness.domain import (
+    ApproachFamily,
     CompletionVerdict,
     LifecycleMode,
+    LiteratureSource,
+    PaperAnalysis,
     PaperSource,
     SourceLocator,
+    SourceRelation,
 )
 from my_search_harness.runtime import (
     CompletionCheckDecision,
@@ -21,6 +25,8 @@ from my_search_harness.runtime import (
     LocalArtifactStore,
     NewBlockingGap,
     PaperSearchHit,
+    PutPaperAnalysis,
+    ResearchMutationBatch,
     SourceContent,
     SourceAccessAttemptError,
     SourceAccessFailureKind,
@@ -339,3 +345,189 @@ class CompletionRuntimeTests(TestCase):
 
         self.assertNotIn("checker_session", state_text)
         self.assertNotIn("completion_score", state_text)
+
+
+class ShallowEvidenceRegressionTests(TestCase):
+    """P0-B regression: an abstract-derived PaperAnalysis must yield CONTINUE.
+
+    The regression target is the shallow-evidence PASS: a representative paper
+    carries detailed ``key_results`` / ``contributions`` / ``limitations`` but was
+    never inspected or read through the primary-source path. The Completion View's
+    ``evidence_diagnostics`` must surface this as a structural signal (analysis
+    present, zero analysis locators), and a checker applying the COMPLETION_GUIDE
+    P0-B criterion must return CONTINUE with a blocking gap naming the missing
+    primary-source evidence — never PASS.
+    """
+
+    def setUp(self) -> None:
+        self.temporary = TemporaryDirectory()
+        self.root = Path(self.temporary.name) / "runs"
+        self.repository = JsonResearchRunRepository(self.root)
+        self.capabilities = build_runtime_capabilities(
+            self.repository,
+            LocalArtifactStore(self.root),
+            paper_search_provider=None,
+            source_access_provider=FakeSourceAccessProvider(),
+        )
+        self.runtime = CompletionCheckRuntime.from_capabilities(self.capabilities)
+        self.created = self.capabilities.researcher.create_run(
+            CreateRunRequest(
+                mission="Map a shallow-evidence field",
+                requirements=("Explain the primary result",),
+                scope="A shallow-evidence regression fixture",
+                deliverable_description="A grounded report",
+            )
+        )
+        self.requirement_ref = self.created.requirement_refs[0]
+
+    def tearDown(self) -> None:
+        self.temporary.cleanup()
+
+    def _build_shallow_state(self) -> str:
+        """Retain a paper and write a detailed analysis without inspecting/reading.
+
+        This is the shallow-evidence shape: the PaperAnalysis records mechanism-level
+        claims (key_results, contributions, limitations) but no key_locators, because
+        the primary source was never inspected or read. The paper was retained on its
+        abstract alone.
+        """
+        retained = self.capabilities.researcher.retain_papers(
+            self.created.run_id,
+            self.created.state_revision,
+            (PaperSearchHit(title="Shallow Paper", arxiv_id="2608.00001"),),
+        )
+        paper_ref = retained.paper_refs[0]
+        # NOTE: no inspect_source / read_source call — analysis is abstract-derived.
+        analyzed = self.capabilities.researcher.apply_research_mutation(
+            self.created.run_id,
+            retained.state_revision,
+            ResearchMutationBatch(
+                puts=(
+                    PutPaperAnalysis(
+                        paper_ref=paper_ref,
+                        analysis=PaperAnalysis(
+                            summary="The paper reports a bounded-search improvement.",
+                            relevance_to_run="It directly addresses the requirement.",
+                            key_results=(
+                                "A bounded-search improvement is reported.",
+                            ),
+                            contributions=("A novel bounding mechanism.",),
+                            limitations=("The evaluation scope is narrow.",),
+                            # key_locators intentionally empty: no primary-source read.
+                            key_locators=(),
+                        ),
+                    ),
+                )
+            ),
+        )
+        approach = self.capabilities.researcher.put_approach_family(
+            self.created.run_id,
+            analyzed.state_revision,
+            name="Bounded Search",
+            core_idea="Constrain search while preserving useful exploration.",
+            representative_paper_refs=frozenset({paper_ref}),
+        )
+        source = frozenset(
+            {
+                LiteratureSource(
+                    paper_ref=paper_ref,
+                    relation=SourceRelation.SUPPORTS,
+                    # locator intentionally None: landscape source not grounded.
+                )
+            }
+        )
+        finding = self.capabilities.researcher.put_landscape_finding(
+            self.created.run_id,
+            approach.state_revision,
+            statement="Bounded search improves the evaluated task.",
+            approach_refs=frozenset({approach.entity_ref}),
+            sources=source,
+        )
+        problem = self.capabilities.researcher.put_open_problem(
+            self.created.run_id,
+            finding.state_revision,
+            statement="Generalization beyond the evaluated task remains open.",
+            approach_refs=frozenset({approach.entity_ref}),
+            sources=source,
+        )
+        return problem.state_revision
+
+    def test_evidence_diagnostics_surface_shallow_analysis_signal(self) -> None:
+        revision = self._build_shallow_state()
+        requested = self.capabilities.researcher.request_completion_check(
+            self.created.run_id,
+            revision,
+            "Researcher claims the abstract-derived landscape is sufficient.",
+        )
+        view = self.capabilities.completion_checker.view(self.created.run_id)
+        self.assertEqual(requested.state_revision, view.state_revision)
+        self.assertEqual(1, len(view.evidence_diagnostics))
+        diag = view.evidence_diagnostics[0]
+        self.assertTrue(diag.has_analysis)
+        self.assertEqual(0, diag.analysis_locator_count)
+        # The same ungrounded LiteratureSource appears in both the finding and the
+        # open problem, so landscape_source_count is 2; both lack a locator.
+        self.assertEqual(2, diag.landscape_source_count)
+        self.assertEqual(0, diag.landscape_source_with_locator_count)
+
+    def test_shallow_evidence_yields_continue_not_pass(self) -> None:
+        revision = self._build_shallow_state()
+        run_id = self.created.run_id
+        paper_ref = next(
+            ref
+            for ref in self.repository.load(run_id).papers
+        )
+
+        class ShallowEvidenceChecker:
+            """Checker applying COMPLETION_GUIDE P0-B: abstract-derived analysis blocks.
+
+            Scans ``evidence_diagnostics`` for the shallow-evidence signal: a
+            representative paper whose ``has_analysis`` is True but whose
+            ``analysis_locator_count`` is zero. Per the P0-B criterion, this is a
+            blocking deficiency — the detailed analysis rests on discovery metadata,
+            not primary-source evidence — and must return CONTINUE, never PASS.
+            """
+
+            def evaluate(self, view, evidence):
+                shallow = [
+                    diag
+                    for diag in view.evidence_diagnostics
+                    if diag.has_analysis and diag.analysis_locator_count == 0
+                ]
+                if shallow:
+                    return CompletionCheckDecision(
+                        verdict=CompletionVerdict.CONTINUE,
+                        reasons=(
+                            (
+                                f"Representative paper {shallow[0].paper_ref} carries "
+                                "detailed PaperAnalysis without primary-source evidence; "
+                                "abstract-derived analysis is a P0 blocking deficiency."
+                            ),
+                        ),
+                        blocking_gaps=(
+                            NewBlockingGap(
+                                description=(
+                                    f"Inspect and read {paper_ref} before writing its "
+                                    "PaperAnalysis; the current analysis is abstract-derived."
+                                ),
+                                requirement_refs=frozenset(),
+                            ),
+                        ),
+                    )
+                return CompletionCheckDecision(
+                    verdict=CompletionVerdict.PASS,
+                    reasons=("The landscape is grounded in primary evidence.",),
+                )
+
+        result = self.runtime.request_and_run(
+            run_id,
+            revision,
+            "Independent shallow-evidence check",
+            StaticFactory(ShallowEvidenceChecker()),
+        )
+        run = self.repository.load(run_id)
+
+        self.assertIs(result.verdict, CompletionVerdict.CONTINUE)
+        self.assertEqual(1, len(result.blocking_gap_refs))
+        self.assertIs(run.lifecycle, LifecycleMode.RESEARCH)
+

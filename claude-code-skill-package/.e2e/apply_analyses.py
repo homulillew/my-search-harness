@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Apply all 30 paper analyses via harness, tracking revision after each call."""
+"""FIXTURE / MECHANICAL SMOKE ONLY — not semantic Research Loop proof.
+
+Applies a fixed batch of paper analyses via harness, tracking revision after each call.
+This mechanically exercises put-paper-analysis at scale; it does NOT run an adaptive
+research loop. Treat it as smoke tooling for the command surface, not as evidence of
+correct loop discipline.
+"""
 import json, subprocess, os, glob
 
 HARNESS = ".claude/skills/literature-research/scripts/harness.py"

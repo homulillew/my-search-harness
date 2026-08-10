@@ -149,6 +149,23 @@ class GapContext:
 
 
 @dataclass(slots=True, frozen=True, kw_only=True)
+class RepresentativePaperEvidence:
+    """Derived structural facts about a representative paper's evidence grounding.
+
+    These are observations derived from authoritative state, not quality scores or
+    thresholds. The Completion Checker applies semantic criteria to judge whether the
+    grounding is sufficient; an empty locator count is a signal to inspect the paper,
+    not an automatic block.
+    """
+
+    paper_ref: str
+    has_analysis: bool
+    analysis_locator_count: int
+    landscape_source_count: int
+    landscape_source_with_locator_count: int
+
+
+@dataclass(slots=True, frozen=True, kw_only=True)
 class CompletionFeedbackContext:
     completion_check_ref: str
     verdict: str
@@ -180,6 +197,7 @@ class CompletionView:
     open_problems: tuple[OpenProblemContext, ...]
     open_gaps: tuple[GapContext, ...]
     representative_paper_refs: tuple[str, ...]
+    evidence_diagnostics: tuple[RepresentativePaperEvidence, ...]
     completion_check_ref: str
     requester_rationale: str
 
@@ -412,6 +430,10 @@ class ContextProjectionService:
                 }
             )
         )
+        evidence_diagnostics = tuple(
+            self._representative_paper_evidence(run, paper_ref)
+            for paper_ref in representative_refs
+        )
         self._enforce_item_limit(
             "Completion View",
             len(approaches)
@@ -419,6 +441,7 @@ class ContextProjectionService:
             + len(problems)
             + len(gaps)
             + len(representative_refs)
+            + len(evidence_diagnostics)
             + len(self._current_contract(run).requirements),
             self._limits.completion_max_items,
         )
@@ -431,6 +454,7 @@ class ContextProjectionService:
             open_problems=problems,
             open_gaps=gaps,
             representative_paper_refs=representative_refs,
+            evidence_diagnostics=evidence_diagnostics,
             completion_check_ref=pending[0].id,
             requester_rationale=pending[0].requester_rationale,
         )
@@ -616,6 +640,45 @@ class ContextProjectionService:
             requirement_refs=tuple(sorted(gap.requirement_refs)),
             approach_refs=tuple(sorted(gap.approach_refs)),
             resolution=gap.resolution,
+        )
+
+    @staticmethod
+    def _representative_paper_evidence(
+        run: ResearchRun,
+        paper_ref: str,
+    ) -> RepresentativePaperEvidence:
+        """Derive structural evidence facts for a representative paper.
+
+        No scores or thresholds: these are counts the Checker scans to decide which
+        papers to inspect. An empty locator count signals that grounding may need
+        inspection, not that the paper is automatically deficient.
+        """
+        paper = run.papers.get(paper_ref)
+        has_analysis = paper is not None and paper.analysis is not None
+        analysis_locator_count = (
+            len(paper.analysis.key_locators)
+            if has_analysis and paper is not None
+            else 0
+        )
+        landscape_sources: list[LiteratureSource] = []
+        for finding in run.literature_landscape.findings.values():
+            landscape_sources.extend(
+                source for source in finding.sources if source.paper_ref == paper_ref
+            )
+        for problem in run.literature_landscape.open_problems.values():
+            landscape_sources.extend(
+                source for source in problem.sources if source.paper_ref == paper_ref
+            )
+        landscape_source_count = len(landscape_sources)
+        landscape_source_with_locator_count = sum(
+            1 for source in landscape_sources if source.locator is not None
+        )
+        return RepresentativePaperEvidence(
+            paper_ref=paper_ref,
+            has_analysis=has_analysis,
+            analysis_locator_count=analysis_locator_count,
+            landscape_source_count=landscape_source_count,
+            landscape_source_with_locator_count=landscape_source_with_locator_count,
         )
 
     @staticmethod

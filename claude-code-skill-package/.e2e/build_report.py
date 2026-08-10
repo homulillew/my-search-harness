@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
-"""Build the report manuscript (markdown + citations) for render-report.
+"""FIXTURE / MECHANICAL SMOKE ONLY — not semantic Research Loop proof.
 
-The survey covers RL-based agent training for Agent Search / Deep Research.
-Citations map citation_ids to paper_refs for deterministic rendering.
+Builds a report manuscript (markdown + citations) for render-report from a fixed
+landscape. It exercises the deterministic citation renderer and publish path for
+mechanical end-to-end smoke and does NOT demonstrate the adaptive research loop or a
+fresh semantic editorial pass. Treat the manuscript below as fixture data, not as
+evidence of a correctly run research loop.
 """
 import json
 

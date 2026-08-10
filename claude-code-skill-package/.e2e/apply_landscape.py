@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
-"""Apply approach families, findings, open problems, and gaps via harness.
-Captures approach_ref from each family to link findings/open-problems.
+"""FIXTURE / MECHANICAL SMOKE ONLY — not semantic Research Loop proof.
+
+Applies a fixed batch of approach families, findings, open problems, and gaps via
+harness, capturing approach_ref from each family to link findings/open-problems. This
+mechanically exercises the landscape command surface; it does NOT run an adaptive
+research loop. Treat it as smoke tooling, not as evidence of correct loop discipline.
 """
 import json, subprocess, os, glob
 

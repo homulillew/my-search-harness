@@ -46,6 +46,7 @@ from my_search_harness.runtime import (
     WikiProvenanceRef,
     WikiSemanticReview,
 )
+from my_search_harness.runtime.wiki import _is_managed_link
 
 
 class FakeDeepXivSearch:
@@ -427,7 +428,7 @@ class V1EndToEndTests(TestCase):
         ).rebuild()
         wiki_result = runtime.wiki_query.query("bounded search")
         self.assertEqual(1, len(wiki_result.hits))
-        self.assertTrue(publication.wiki_path.is_symlink())
+        self.assertTrue(_is_managed_link(publication.wiki_path))
 
         final = repository.load(created.run_id)
         self.assertIs(final.lifecycle, LifecycleMode.CLOSED)

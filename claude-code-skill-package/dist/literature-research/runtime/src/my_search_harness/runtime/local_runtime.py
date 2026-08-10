@@ -31,6 +31,7 @@ from .reporting import (
 from .source_access import SourceAccessProvider
 from .wiki import (
     LocalWikiPublisher,
+    WikiProjection,
     WikiProjectionService,
     WikiQueryService,
     WikiRuntime,
@@ -145,3 +146,13 @@ class LocalV1Runtime:
             validator,
             self._wiki_publisher,
         )
+
+    def wiki_projection(self) -> WikiProjection:
+        """Project CLOSED+COMPLETE runs for the semantic Wiki builder.
+
+        Read-only view of eligible authoritative state. Claude inspects this to
+        build a ``WikiDraft`` and perform a fresh ``WikiSemanticReview`` before
+        calling ``publish-wiki``. This reuses ``WikiProjectionService``; it does
+        not create State or run artifacts.
+        """
+        return WikiProjectionService(self._repository).project()

@@ -15,7 +15,11 @@ from types import ModuleType
 from typing import Any
 from unittest import TestCase
 
-from my_search_harness.runtime import PaperSearchHit, PaperSearchResult
+from my_search_harness.runtime import (
+    PaperSearchHit,
+    PaperSearchResult,
+)
+from my_search_harness.runtime.wiki import _is_managed_link
 
 
 ROOT = Path(__file__).parents[1]
@@ -43,7 +47,7 @@ class SkillLayoutTests(TestCase):
         self.assertTrue(frontmatter[0].startswith("name: literature-research"))
         self.assertTrue(frontmatter[1].startswith("description: "))
         self.assertGreaterEqual(len(lines), 150)
-        self.assertLessEqual(len(lines), 300)
+        self.assertLessEqual(len(lines), 360)
 
     def test_supporting_files_and_executables_exist(self) -> None:
         expected = (
@@ -212,6 +216,8 @@ class SkillAdapterTests(TestCase):
             "close-run",
             "audit-history",
             "wiki-query",
+            "wiki-projection",
+            "publish-wiki",
         }
         for command in required:
             with self.subTest(command=command):
@@ -512,3 +518,280 @@ class StandalonePackageTests(TestCase):
                     self.assertNotIn(
                         retired_workspace, path.read_text(encoding="utf-8")
                     )
+
+
+class WikiCliBridgeTests(TestCase):
+    """P0-C: wiki-projection and publish-wiki reuse the existing Wiki runtime.
+
+    Claude performs the semantic build (WikiDraft) and fresh review
+    (WikiSemanticReview); the harness accepts the typed decision and delegates to
+    WikiRuntime.rebuild for deterministic validation + atomic publication. A
+    rejected review raises WikiSemanticValidationError and preserves any previous
+    publication. Wiki failure never affects run state.
+    """
+
+    harness: Any
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.harness = load_module(
+            "literature_research_harness_wiki_test",
+            SKILL / "scripts" / "harness.py",
+        )
+
+    def setUp(self) -> None:
+        self.temporary = TemporaryDirectory()
+        self.root = Path(self.temporary.name)
+        self.workspace = self.root / "workspace"
+        self._build_closed_complete_run()
+
+    def tearDown(self) -> None:
+        self.temporary.cleanup()
+
+    def _build_closed_complete_run(self) -> None:
+        """Build a CLOSED+COMPLETE run via the real LocalV1Runtime.
+
+        Reuses the same construction path as test_wiki._create_complete_run so the
+        CLI bridge is exercised against genuine authoritative state, not a fake.
+        """
+        from my_search_harness.domain import (
+            CompletionVerdict,
+            LiteratureSource,
+            SourceRelation,
+        )
+        from my_search_harness.runtime import (
+            CreateRunRequest,
+            DeliveryCommands,
+            JsonResearchRunRepository,
+            LocalArtifactStore,
+            ResearchCommands,
+        )
+
+        repository = JsonResearchRunRepository(self.workspace / "runs")
+        artifacts = LocalArtifactStore(repository.root)
+        research = ResearchCommands(repository)
+        delivery = DeliveryCommands(repository, artifacts)
+        created = research.create_run(
+            CreateRunRequest(
+                mission="Map methods",
+                requirements=("Map accepted knowledge",),
+                scope="A Wiki CLI fixture",
+                deliverable_description="No artifact required",
+            )
+        )
+        retained = research.retain_papers(
+            created.run_id,
+            created.state_revision,
+            (
+                PaperSearchHit(
+                    title="Representative paper",
+                    authors=("Ada Author",),
+                    publication_year=2026,
+                    publication_date="2026-08-03",
+                    doi="10.1000/wiki-cli",
+                ),
+            ),
+        )
+        paper_ref = retained.paper_refs[0]
+        approach = research.put_approach_family(
+            created.run_id,
+            retained.state_revision,
+            name="Method A",
+            core_idea="Use accepted evidence",
+            representative_paper_refs=frozenset({paper_ref}),
+        )
+        source = frozenset(
+            {
+                LiteratureSource(
+                    paper_ref=paper_ref,
+                    relation=SourceRelation.SUPPORTS,
+                )
+            }
+        )
+        finding = research.put_landscape_finding(
+            created.run_id,
+            approach.state_revision,
+            statement="Method A improves the bounded task",
+            approach_refs=frozenset({approach.entity_ref}),
+            sources=source,
+        )
+        problem = research.put_open_problem(
+            created.run_id,
+            finding.state_revision,
+            statement="Generalization remains open",
+            approach_refs=frozenset({approach.entity_ref}),
+            sources=source,
+        )
+        gap = research.put_investigation_gap(
+            created.run_id,
+            problem.state_revision,
+            description="Run-local gap must not enter Wiki input",
+        )
+        requested = research.request_completion_check(
+            created.run_id,
+            gap.state_revision,
+            "Ready for closure",
+        )
+        completed = research.submit_completion_check(
+            created.run_id,
+            requested.state_revision,
+            requested.completion_check_ref,
+            CompletionVerdict.PASS,
+            ("Accepted state covers the contract",),
+        )
+        delivery.close_run(created.run_id, completed.state_revision)
+        self.run_id = created.run_id
+        self.finding_ref = finding.entity_ref
+        self.paper_ref = paper_ref
+
+    def _invoke(self, arguments):
+        stdout = StringIO()
+        stderr = StringIO()
+        status = self.harness.main(arguments, stdout=stdout, stderr=stderr)
+        output = stdout.getvalue() if status == 0 else stderr.getvalue()
+        return status, json.loads(output)
+
+    def _draft_input(self, slug: str = "methods") -> dict:
+        return {
+            "draft": {
+                "pages": [
+                    {
+                        "slug": slug,
+                        "title": "Methods",
+                        "markdown": "# Methods\n\nAccepted cross-run knowledge.",
+                        "contributing_refs": [
+                            {
+                                "run_id": self.run_id,
+                                "research_ref": self.finding_ref,
+                            }
+                        ],
+                    }
+                ]
+            },
+            "review": {"approved": True},
+        }
+
+    def test_wiki_projection_returns_only_closed_complete_runs(self) -> None:
+        status, output = self._invoke(
+            ["--workspace", str(self.workspace), "wiki-projection"]
+        )
+        self.assertEqual(status, 0, output)
+        runs = output["result"]["runs"]
+        self.assertEqual(1, len(runs))
+        self.assertEqual(self.run_id, runs[0]["run_id"])
+        self.assertEqual(
+            self.finding_ref, runs[0]["findings"][0]["ref"]
+        )
+
+    def test_publish_wiki_accepts_typed_draft_and_publishes(self) -> None:
+        input_path = self.root / "publish.json"
+        input_path.write_text(
+            json.dumps(self._draft_input()), encoding="utf-8"
+        )
+        status, output = self._invoke(
+            [
+                "--workspace",
+                str(self.workspace),
+                "publish-wiki",
+                "--input",
+                str(input_path),
+            ]
+        )
+        self.assertEqual(status, 0, output)
+        wiki_path = Path(output["result"]["wiki_path"])
+        self.assertTrue(_is_managed_link(wiki_path))
+        self.assertTrue((wiki_path / "INDEX.md").is_file())
+        self.assertTrue((wiki_path / "pages" / "methods.md").is_file())
+        self.assertEqual(
+            self.run_id,
+            output["result"]["manifest"]["source_runs"][0]["run_id"],
+        )
+
+    def test_rejected_review_preserves_previous_publication(self) -> None:
+        # First publish succeeds.
+        first_input = self.root / "first.json"
+        first_input.write_text(
+            json.dumps(self._draft_input(slug="first")), encoding="utf-8"
+        )
+        status, _ = self._invoke(
+            [
+                "--workspace",
+                str(self.workspace),
+                "publish-wiki",
+                "--input",
+                str(first_input),
+            ]
+        )
+        self.assertEqual(status, 0)
+        wiki_path = self.workspace / "wiki"
+        first_index = (wiki_path / "INDEX.md").read_bytes()
+
+        # Second publish with a rejected review must fail and preserve the first.
+        rejected_input = self.root / "rejected.json"
+        rejected_input.write_text(
+            json.dumps(
+                {
+                    "draft": self._draft_input(slug="second")["draft"],
+                    "review": {
+                        "approved": False,
+                        "issues": ["The draft hides an important conflict"],
+                    },
+                }
+            ),
+            encoding="utf-8",
+        )
+        status, output = self._invoke(
+            [
+                "--workspace",
+                str(self.workspace),
+                "publish-wiki",
+                "--input",
+                str(rejected_input),
+            ]
+        )
+        self.assertEqual(status, 2, output)
+        self.assertEqual(
+            "WikiSemanticValidationError", output["error"]["type"]
+        )
+        self.assertEqual(first_index, (wiki_path / "INDEX.md").read_bytes())
+        self.assertTrue((wiki_path / "pages" / "first.md").is_file())
+        self.assertFalse((wiki_path / "pages" / "second.md").exists())
+
+    def test_invalid_provenance_fails_before_publication(self) -> None:
+        invalid_input = self.root / "invalid.json"
+        invalid_input.write_text(
+            json.dumps(
+                {
+                    "draft": {
+                        "pages": [
+                            {
+                                "slug": "invalid",
+                                "title": "Invalid",
+                                "markdown": "# Invalid",
+                                "contributing_refs": [
+                                    {
+                                        "run_id": self.run_id,
+                                        "research_ref": "gap_nonexistent",
+                                    }
+                                ],
+                            }
+                        ]
+                    },
+                    "review": {"approved": True},
+                }
+            ),
+            encoding="utf-8",
+        )
+        status, output = self._invoke(
+            [
+                "--workspace",
+                str(self.workspace),
+                "publish-wiki",
+                "--input",
+                str(invalid_input),
+            ]
+        )
+        self.assertEqual(status, 2, output)
+        self.assertEqual("WikiBuildError", output["error"]["type"])
+        self.assertFalse((self.workspace / "wiki").exists())
+

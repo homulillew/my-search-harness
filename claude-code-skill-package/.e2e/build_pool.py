@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Build merged candidate pool from DeepXiv + WebFetch-on-arXiv frontier searches.
+"""FIXTURE / MECHANICAL SMOKE ONLY — not semantic Research Loop proof.
+
+Builds a merged candidate pool from DeepXiv + WebFetch-on-arXiv frontier searches for
+fixture use. This pre-stages a candidate set; it does NOT run an adaptive research loop.
+Treat the pool as fixture data, not as evidence of correct loop discipline.
 
 WebFetch-on-arXiv results are transcribed into provider-neutral hit shape and
 promoted into the candidate pool (the Skill-sanctioned Web-discovered paper

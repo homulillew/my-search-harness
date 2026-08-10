@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# FIXTURE / MECHANICAL SMOKE ONLY — not semantic Research Loop proof.
+# Runs a fixed sequence of search-papers calls to populate a run for mechanical
+# end-to-end smoke. This is a staged search batch, NOT an adaptive research loop.
+# Per P0-D, a search call is not a research iteration; treat this as smoke tooling
+# for the command surface, not as evidence of correct loop discipline.
 set -uo pipefail
 # DEEPXIV_TOKEN must be provided via environment; never hardcode the secret.
 : "${DEEPXIV_TOKEN:?DEEPXIV_TOKEN not set in environment}"

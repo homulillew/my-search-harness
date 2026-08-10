@@ -30,7 +30,12 @@ following:
 2. Major technical routes within scope are represented and meaningfully distinguished.
 3. Important claims have retained-paper provenance and suitable evidence locators.
 4. Representative methods have been inspected deeply enough to support mechanism-level
-   comparisons, not merely named from search results.
+   comparisons, not merely named from search results. A PaperAnalysis derived only
+   from abstract or search/discovery metadata does not satisfy this criterion: it is
+   a blocking deficiency, not a borderline case. If a representative paper carries
+   detailed `key_results`, `contributions`, or `limitations` but has no corresponding
+   `inspect-source`/`read-source` grounding, return CONTINUE with a blocking gap
+   naming that paper and the missing primary-source evidence.
 5. Experimental results preserve model, task, baseline, hardware, or other material
    conditions needed to interpret them.
 6. Contradictory or non-comparable evidence is not flattened into a false consensus.
@@ -45,6 +50,12 @@ following:
 
 Do not demand a fixed number of papers. A mature narrow topic may need fewer sources than
 a broad fragmented field. Conversely, a large hit count does not establish coverage.
+
+An empty `key_locators` tuple or a null `LiteratureSource.locator` is not by itself a
+failure. Locators are required where one meaningfully exists for the cited claim; their
+absence is a signal to inspect the paper and confirm the grounding, not an automatic
+block. The block is the missing primary-source evidence behind a detailed claim, not
+the empty field.
 
 ## Verdicts
 
@@ -62,8 +73,12 @@ to affected requirement or approach references when possible. Do not prescribe a
 query; describe the knowledge deficit.
 
 Examples include a missing major route, inadequate primary-source evidence, absent
-frontier coverage, unresolved contradiction, or a representative paper that has not been
-analyzed beyond its abstract.
+frontier coverage, unresolved contradiction, or a representative paper whose
+PaperAnalysis records detailed mechanism-level or empirical claims but rests only on
+its abstract or search metadata rather than inspected primary source. The last case is
+a P0 signal: name the paper and the missing primary-source grounding in the blocking
+gap. A representative paper that has not been analyzed beyond its abstract is also a
+blocking case when the contract requires mechanism-level understanding.
 
 ### UNCERTAIN
 

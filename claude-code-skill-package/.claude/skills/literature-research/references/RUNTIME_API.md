@@ -168,6 +168,60 @@ close-run --run-id RUN --expected-revision REV
 `publish-report` input contains a non-empty `content` string. It calls the Delivery
 capability and never writes the artifact store directly. Validate before closing.
 
+## Wiki projection and publication
+
+```text
+wiki-projection
+publish-wiki --input FILE
+```
+
+The Wiki is a cross-run rebuildable projection of CLOSED+COMPLETE runs, not a run
+artifact. It never enters the run lifecycle and is not a required artifact. Only
+runs closed COMPLETE are eligible; partial runs are excluded. Wiki failure never
+breaks a closed run: the run remains CLOSED COMPLETE, the report remains valid, and
+any previously published Wiki is preserved.
+
+`wiki-projection` returns the current authoritative projection of eligible runs.
+Claude inspects it to build a `WikiDraft` and perform a fresh `WikiSemanticReview`
+outside the harness. The projection omits process, delivery, and report data — it
+carries only approaches, findings, open problems, and papers with stable refs.
+
+`publish-wiki --input FILE` accepts the typed semantic decision and delegates to the
+existing `WikiRuntime.rebuild` path for deterministic validation and atomic
+publication. Python re-projects current state so contributing refs are validated
+against live authority, not a stale snapshot. Input shape:
+
+```json
+{
+  "draft": {
+    "pages": [
+      {
+        "slug": "methods",
+        "title": "Methods",
+        "markdown": "# Methods\n\nAccepted cross-run knowledge.",
+        "contributing_refs": [
+          {"run_id": "run_...", "research_ref": "finding_..."}
+        ]
+      }
+    ]
+  },
+  "review": {"approved": true}
+}
+```
+
+A rejected review carries `issues`:
+
+```json
+{"review": {"approved": false, "issues": ["The draft hides an important conflict"]}}
+```
+
+Slugs must be unique safe slugs (`[a-z0-9]+(?:-[a-z0-9]+)*`). Each page requires at
+least one contributing ref pointing at a real approach, finding, open problem, or
+paper in an eligible run. Markdown links must resolve to sibling pages or external
+URLs; internal stable refs must not appear in prose. A rejected review raises
+`WikiSemanticValidationError` and leaves any previous publication intact. Invalid
+structure or provenance raises `WikiBuildError` before any publication occurs.
+
 ## Revision failures
 
 Most commands use optimistic `expected_revision`. Search and source access record an

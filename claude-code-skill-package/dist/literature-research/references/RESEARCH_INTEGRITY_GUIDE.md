@@ -61,6 +61,13 @@ Research Integrity Reviewer 可以要求修改 Delivery，也可以在发现实�
 
 > 研究表明……
 
+### 摘要与 discovery metadata 不是 Primary Evidence
+
+报告中的机制级判断、实证结果与详细比较，必须来自 `inspect-source` / `read-source`
+获得的一手原文，而不是 abstract 或搜索元数据。如果 State 中的 PaperAnalysis 仅基于
+摘要，Integrity Reviewer 应将其视为证据不足，要求返回 Research 补充一手证据，而非
+通过润色强化表述。详见 RESEARCH_PROTOCOL.md 的 Primary Evidence Gate。
+
 ---
 
 ## 3. SOTA 是高风险表述

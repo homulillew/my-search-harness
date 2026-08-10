@@ -29,6 +29,32 @@ observe state → select uncertainty → acquire evidence → retain → synthes
 Search is useful for discovery. Source inspection and reading establish evidence.
 Structured synthesis makes knowledge recoverable. Completion is a separate judgment.
 
+## Loop discipline
+
+Distinguish a search loop from a research loop. A search loop is paging or reformulating
+queries to gather candidates; a research loop is the adaptive cycle above, where each
+turn starts from a specific uncertainty, acquires evidence for it, and updates State
+before the next turn. Broad discovery may contain multiple search calls inside one
+research iteration, but it must end by returning to State reassessment — not by proceeding
+to a fixed analysis stage.
+
+The failure mode is staged batching: search a broad batch → retain all → batch analysis →
+one synthesis → request completion. That collapses the adaptive outer loop into a
+pipeline and lets search volume substitute for judgment. To keep the loop real:
+
+- After each meaningful evidence cluster, integrate durable State (PaperAnalysis,
+  ApproachFamily, Finding, OpenProblem) before choosing the next action.
+- Reassess the highest-value uncertainty against the updated State, and let that
+  reassessment choose the next search or read — not the momentum of the previous step.
+- Interleave discovery, Primary Source reading, synthesis, and reassessment throughout
+  the run. Do not finish a broad discovery batch before beginning source reading.
+- Completion is a feedback boundary, not a loop counter. A CONTINUE verdict names
+  concrete blocking gaps and returns specific repair work to the loop; there is no
+  forced number of iterations before completion is allowed.
+
+This is a semantic policy, not a Runtime mechanism. The Harness does not detect loops,
+count iterations, or gate completion on a fixed loop count.
+
 ## Discovery and frontier coverage
 
 Use broad discovery to learn field vocabulary, seminal work, surveys, major mechanism
@@ -126,6 +152,38 @@ If canonical Web discovery and retention succeed but DeepXiv source inspection f
 record a primary-source provider coverage gap. Do not add a source fallback in this
 workflow; source-provider expansion requires a separate architecture decision.
 
+## Primary Evidence Gate
+
+Search results, abstracts, and provider/Web metadata are **discovery only**. They
+identify candidates; they do not establish the technical content of a survey. A
+PaperAnalysis that records mechanism-level claims, empirical results, or detailed
+comparisons must rest on primary-source evidence acquired through `inspect-source`
+and `read-source` after retention — not on the abstract or search metadata that
+selected the paper.
+
+The gate is enforced at the point of writing `PaperAnalysis`:
+
+- A paper selected only by abstract may be retained, but its PaperAnalysis must not
+  contain mechanism-level or empirical claims that the abstract alone cannot support.
+- Before `put-paper-analysis` records detailed `key_results`, `contributions`, or
+  `limitations` for a representative paper, that paper must have been inspected and
+  the relevant section read via the primary-source path.
+- `key_locators` record where in the primary source a claim is grounded. Populate
+  them when a locator meaningfully points to the supporting section, table, or
+  figure; leave them empty when no targeted locator applies rather than inventing
+  one. An empty locator is a signal to the Completion Checker that the claim's
+  grounding needs inspection, not a mechanical failure by itself.
+- Landscape Findings and Open Problems synthesize across papers. Their
+  `LiteratureSource.locator` should carry a locator where one meaningfully exists
+  for the cited relation; omitting it is acceptable only when no targeted locator
+  applies, not as a default.
+
+Abstract-derived analysis is the single most common cause of a shallow-evidence
+PASS. If the only grounding for a detailed PaperAnalysis is the abstract or search
+metadata, the correct action is to inspect and read the source before writing the
+analysis — or to narrow the analysis to what the abstract can honestly support and
+record the missing depth as an Investigation Gap.
+
 ## Evidence acquisition
 
 Inspect a retained source before reading it. Select method, experiment, results,
@@ -139,7 +197,10 @@ locators.
 
 ## Structured synthesis
 
-Write PaperAnalysis after evidence is sufficiently understood. Preserve:
+Write PaperAnalysis only after primary-source evidence is sufficiently understood
+(see Primary Evidence Gate). A PaperAnalysis derived only from abstract or search
+metadata does not satisfy mechanism-level or empirical-evidence requirements.
+Preserve:
 
 - the paper's actual contribution;
 - relevance to the current mission;
@@ -155,8 +216,9 @@ Investigation Gaps describe research work still blocking this run.
 Use `SUPPORTS`, `CHALLENGES`, and `QUALIFIES` deliberately. A source that demonstrates a
 result in a narrow setting may qualify a broad claim rather than support it outright.
 
-Synthesize throughout the run. Waiting until the end creates an unrecoverable pile of
-ephemeral observations and encourages report-first reasoning.
+Synthesize throughout the run, inside each research iteration. Waiting until the end
+creates an unrecoverable pile of ephemeral observations and encourages report-first
+reasoning. Synthesis is what turns a search loop into a research loop.
 
 ## State and revision discipline
 

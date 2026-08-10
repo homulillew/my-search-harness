@@ -72,18 +72,33 @@ adaptive outer loop:
 ```text
 view current state
 → identify the highest-value uncertainty or gap
-→ search, inspect, or read evidence
-→ retain selected papers explicitly
-→ synthesize durable research objects
-→ reassess coverage and contradictions
+→ search, inspect, or read evidence for that uncertainty
+→ retain selected papers and synthesize durable research objects
+→ reassess coverage and contradictions against updated State
 → repeat, request completion, or explain a blocker
 ```
 
-Choose the next action from current evidence. Do not perform a ritual sequence merely
-because it appeared in a previous run.
+Each turn of this loop is one research iteration: it starts from a specific uncertainty,
+acquires evidence for it, and updates State before the next turn. Do not run the loop as
+a pipeline where a discovery phase feeds a fixed analysis phase. Choose the next action
+from the reassessed State, not from the previous step's momentum.
 
 After every state-changing command, use the returned `state_revision` for the next
 command. On a revision conflict, discard the stale plan, call `view`, and reason again.
+
+## Keep discovery inside the research loop
+
+A search call is not a research iteration. For deep research, do not finish a broad
+discovery batch before beginning source reading and synthesis. After each meaningful
+evidence cluster: integrate durable State, reassess current uncertainty, and let that
+updated State choose the next search or read action. Discovery, Primary Source reading,
+synthesis, and reassessment should interleave throughout the run.
+
+The failure mode to avoid is staged batching: search a broad batch → retain all → batch
+analysis → one synthesis → request completion. That collapses the adaptive outer loop
+into a pipeline and lets volume substitute for judgment. A broad discovery sweep may
+contain multiple search calls inside one research iteration, but it must end by returning
+to State reassessment, not by proceeding to a fixed analysis stage.
 
 ## Search through independent discovery channels
 
@@ -137,14 +152,19 @@ Then call `read-source` with a targeted locator for methods, experiments, limita
 or another specific need. Read the full source only when the structure is unavailable
 or broad context is genuinely necessary.
 
-`SourceContent` is ephemeral. Do not treat retrieved text as durable state. Convert the
-evidence that matters into a concise `PaperAnalysis`, preserving experimental conditions,
-limitations, and useful locators.
+This is the Primary Evidence Gate: a `PaperAnalysis` with mechanism-level claims,
+empirical results, or detailed comparisons must rest on `inspect-source` /
+`read-source` evidence, not on the abstract or search metadata that selected the
+paper. A paper may be retained on abstract alone, but its detailed analysis may not
+be written from the abstract. If primary-source access fails, record a source coverage
+gap rather than manufacturing analysis from discovery metadata. `SourceContent` is
+ephemeral; convert the evidence that matters into a concise `PaperAnalysis` with
+useful `key_locators`, leaving them empty when no targeted locator applies.
 
 ## Synthesize periodically
 
-Do not postpone synthesis until the end. After each meaningful cluster of reading,
-update the structured landscape:
+Synthesis is part of each research iteration, not a final stage. After each meaningful
+cluster of reading, update the structured landscape before choosing the next action:
 
 - `PaperAnalysis` records what a retained paper contributes, shows, and fails to show.
 - `ApproachFamily` groups methods sharing a real mechanism, not merely vocabulary.
@@ -194,9 +214,14 @@ needed Web counter-search after resume when a frontier gap remains unresolved.
 
 ## Request independent completion
 
-When the Research Contract appears satisfied, call `request-completion`. Then create a
-fresh checker context that has not participated in the research loop and follow
-[COMPLETION_GUIDE.md](references/COMPLETION_GUIDE.md).
+When the Research Contract appears satisfied, call `request-completion`. Completion is a
+feedback boundary, not a loop counter: a CONTINUE verdict names concrete blocking gaps
+that the Researcher resolves by returning to the loop, and a PASS authorizes Delivery.
+There is no forced number of research iterations before completion is allowed, and a
+CONTINUE does not reset a counter — it returns specific repair work to the loop.
+
+Then create a fresh checker context that has not participated in the research loop and
+follow [COMPLETION_GUIDE.md](references/COMPLETION_GUIDE.md).
 
 The fresh Completion Checker may only:
 
@@ -279,6 +304,26 @@ validators. Preserve experimental conditions and qualifications while improving 
 
 Use `render-report` to resolve structured citation tokens deterministically, then pass
 the rendered content to `publish-report`. Only close after `validate-delivery` succeeds.
+
+## Wiki orchestration after closure
+
+After a run closes COMPLETE, project accepted cross-run knowledge into the Wiki. The
+Wiki is a rebuildable projection of CLOSED+COMPLETE runs, not a run artifact: it never
+enters the lifecycle, is not a required artifact, and its failure never breaks a closed
+run or invalidates the report. Only CLOSED+COMPLETE runs are eligible; partial runs are
+excluded.
+
+Call `wiki-projection` to read the current authoritative projection of eligible runs.
+Build a `WikiDraft` from that projection — pages that synthesize accepted approaches,
+findings, and open problems across runs, each carrying contributing refs to real
+research entities. Perform a fresh `WikiSemanticReview` of the draft. Then call
+`publish-wiki` with the typed draft and review.
+
+Python re-projects current state, validates structure and provenance deterministically,
+and publishes atomically only when the review is approved. A rejected review raises
+`WikiSemanticValidationError` and preserves any previous publication; invalid structure
+or provenance raises `WikiBuildError` before publication. Either way the run remains
+CLOSED COMPLETE and the report remains valid. See `RUNTIME_API.md` for the input shape.
 
 ## Handle failures explicitly
 

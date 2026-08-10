@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Aggregate all E2E discovery candidates (DeepXiv + WebFetch-on-arXiv) into a deduped list."""
+"""FIXTURE / MECHANICAL SMOKE ONLY — not semantic Research Loop proof.
+
+Aggregates all E2E discovery candidates (DeepXiv + WebFetch-on-arXiv) into a deduped
+list for fixture use. This is mechanical post-processing of saved search files; it does
+NOT run an adaptive research loop. Treat the output as fixture data, not as evidence of
+correct loop discipline.
+"""
 import json
 import glob
 import os
