@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Mapping
 from copy import deepcopy
 from dataclasses import dataclass, field
+from datetime import date
 from enum import StrEnum
 from typing import Protocol
 
@@ -79,6 +80,9 @@ class PaperSearchProvider(Protocol):
         query: str,
         *,
         limit: int,
+        offset: int = 0,
+        date_from: str | None = None,
+        date_to: str | None = None,
     ) -> tuple[PaperSearchHit, ...]: ...
 
 
@@ -108,6 +112,9 @@ class PaperSearchService:
         query: str,
         *,
         limit: int = 10,
+        offset: int = 0,
+        date_from: str | None = None,
+        date_to: str | None = None,
     ) -> PaperSearchResult:
         current = self._repository.load(run_id)
         if current.state_revision != expected_revision:
@@ -128,6 +135,18 @@ class PaperSearchService:
             or limit > 100
         ):
             raise PaperSearchRejectedError("limit must be an integer from 1 to 100")
+        if not isinstance(offset, int) or isinstance(offset, bool) or offset < 0:
+            raise PaperSearchRejectedError("offset must be a non-negative integer")
+        normalized_date_from = self._validate_date("date_from", date_from)
+        normalized_date_to = self._validate_date("date_to", date_to)
+        if (
+            normalized_date_from is not None
+            and normalized_date_to is not None
+            and normalized_date_from > normalized_date_to
+        ):
+            raise PaperSearchRejectedError(
+                "date_from must be earlier than or equal to date_to"
+            )
         if self._provider is None:
             raise PaperSearchRejectedError("paper search provider is not configured")
 
@@ -142,13 +161,23 @@ class PaperSearchService:
         self._repository.save(attempted, expected_revision)
 
         try:
-            hits = self._provider.search(query.strip(), limit=limit)
+            hits = self._provider.search(
+                query.strip(),
+                limit=limit,
+                offset=offset,
+                date_from=date_from,
+                date_to=date_to,
+            )
         except PaperSearchProviderError as exc:
             self._audit_attempt(
                 attempted,
                 outcome="FAILURE",
                 provider_outcome=exc.failure_kind.value,
+                query=query.strip(),
                 limit=limit,
+                offset=offset,
+                date_from=date_from,
+                date_to=date_to,
             )
             raise PaperSearchAttemptError(
                 state_revision=attempted.state_revision,
@@ -159,7 +188,11 @@ class PaperSearchService:
                 attempted,
                 outcome="FAILURE",
                 provider_outcome=ProviderFailureKind.OTHER.value,
+                query=query.strip(),
                 limit=limit,
+                offset=offset,
+                date_from=date_from,
+                date_to=date_to,
             )
             raise PaperSearchAttemptError(
                 state_revision=attempted.state_revision,
@@ -173,7 +206,11 @@ class PaperSearchService:
                 attempted,
                 outcome="FAILURE",
                 provider_outcome=ProviderFailureKind.INVALID_RESPONSE.value,
+                query=query.strip(),
                 limit=limit,
+                offset=offset,
+                date_from=date_from,
+                date_to=date_to,
             )
             raise PaperSearchAttemptError(
                 state_revision=attempted.state_revision,
@@ -183,7 +220,11 @@ class PaperSearchService:
             attempted,
             outcome="SUCCESS",
             provider_outcome="SUCCESS",
+            query=query.strip(),
             limit=limit,
+            offset=offset,
+            date_from=date_from,
+            date_to=date_to,
             hit_count=len(hits),
         )
         return PaperSearchResult(
@@ -197,10 +238,22 @@ class PaperSearchService:
         *,
         outcome: str,
         provider_outcome: str,
+        query: str,
         limit: int,
+        offset: int,
+        date_from: str | None,
+        date_to: str | None,
         hit_count: int | None = None,
     ) -> None:
-        details: dict[str, AuditScalar] = {"limit": limit}
+        details: dict[str, AuditScalar] = {
+            "query": query,
+            "limit": limit,
+            "offset": offset,
+        }
+        if date_from is not None:
+            details["date_from"] = date_from
+        if date_to is not None:
+            details["date_to"] = date_to
         if hit_count is not None:
             details["hit_count"] = hit_count
         append_audit(
@@ -215,3 +268,17 @@ class PaperSearchService:
                 details=details,
             ),
         )
+
+    @staticmethod
+    def _validate_date(name: str, value: str | None) -> date | None:
+        if value is None:
+            return None
+        if not isinstance(value, str):
+            raise PaperSearchRejectedError(f"{name} must be an ISO date")
+        try:
+            parsed = date.fromisoformat(value)
+        except ValueError:
+            raise PaperSearchRejectedError(f"{name} must use YYYY-MM-DD") from None
+        if value != parsed.isoformat():
+            raise PaperSearchRejectedError(f"{name} must use YYYY-MM-DD")
+        return parsed

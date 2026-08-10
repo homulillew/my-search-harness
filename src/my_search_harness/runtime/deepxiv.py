@@ -46,6 +46,9 @@ class _Reader(Protocol):
         *,
         size: int,
         source: str,
+        offset: int,
+        date_from: str | None,
+        date_to: str | None,
     ) -> object: ...
 
     def head(self, arxiv_id: str) -> object: ...
@@ -87,9 +90,19 @@ class DeepXivPaperSearchProvider:
         query: str,
         *,
         limit: int,
+        offset: int = 0,
+        date_from: str | None = None,
+        date_to: str | None = None,
     ) -> tuple[PaperSearchHit, ...]:
         try:
-            response = self._reader.search(query, size=limit, source="arxiv")
+            response = self._reader.search(
+                query,
+                source="arxiv",
+                size=limit,
+                offset=offset,
+                date_from=date_from,
+                date_to=date_to,
+            )
         except AuthenticationError:
             raise PaperSearchProviderError(
                 ProviderFailureKind.AUTHENTICATION,

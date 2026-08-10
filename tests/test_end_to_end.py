@@ -49,10 +49,18 @@ from my_search_harness.runtime import (
 
 class FakeDeepXivSearch:
     def __init__(self) -> None:
-        self.calls: list[tuple[str, int]] = []
+        self.calls: list[tuple[str, int, int, str | None, str | None]] = []
 
-    def search(self, query: str, *, limit: int) -> tuple[PaperSearchHit, ...]:
-        self.calls.append((query, limit))
+    def search(
+        self,
+        query: str,
+        *,
+        limit: int,
+        offset: int = 0,
+        date_from: str | None = None,
+        date_to: str | None = None,
+    ) -> tuple[PaperSearchHit, ...]:
+        self.calls.append((query, limit, offset, date_from, date_to))
         return (
             PaperSearchHit(
                 title="A Primary Study of Bounded Search",
@@ -282,7 +290,7 @@ class V1EndToEndTests(TestCase):
             limit=3,
         )
         self.assertEqual([], list(repository.load(created.run_id).papers))
-        self.assertEqual([("bounded search", 3)], search_provider.calls)
+        self.assertEqual([("bounded search", 3, 0, None, None)], search_provider.calls)
 
         retained = runtime.researcher.retain_papers(
             created.run_id,

@@ -84,8 +84,11 @@ class DeepXivPaperSearchProviderTests(TestCase):
 
         reader.search.assert_called_once_with(
             "agentic search",
-            size=3,
             source="arxiv",
+            size=3,
+            offset=0,
+            date_from=None,
+            date_to=None,
         )
         self.assertEqual(1, len(hits))
         hit = hits[0]
@@ -102,6 +105,55 @@ class DeepXivPaperSearchProviderTests(TestCase):
         self.assertEqual(7, hit.citation_count)
         self.assertEqual(("cs.IR", "cs.AI"), hit.categories)
         self.assertIsNone(hit.doi)
+
+    def test_search_maps_offset_and_date_range_mechanically(self) -> None:
+        reader = Mock()
+        reader.search.return_value = deepxiv_response()
+        provider, _ = self._provider(reader)
+
+        provider.search(
+            "frontier cache",
+            limit=20,
+            offset=40,
+            date_from="2025-01-01",
+            date_to="2026-08-10",
+        )
+
+        reader.search.assert_called_once_with(
+            "frontier cache",
+            source="arxiv",
+            size=20,
+            offset=40,
+            date_from="2025-01-01",
+            date_to="2026-08-10",
+        )
+
+    def test_search_maps_individual_date_bounds(self) -> None:
+        cases = (
+            ("2025-01-01", None),
+            (None, "2026-08-10"),
+        )
+        for date_from, date_to in cases:
+            with self.subTest(date_from=date_from, date_to=date_to):
+                reader = Mock()
+                reader.search.return_value = deepxiv_response()
+                provider, _ = self._provider(reader)
+
+                provider.search(
+                    "bounded cache",
+                    limit=5,
+                    date_from=date_from,
+                    date_to=date_to,
+                )
+
+                reader.search.assert_called_once_with(
+                    "bounded cache",
+                    source="arxiv",
+                    size=5,
+                    offset=0,
+                    date_from=date_from,
+                    date_to=date_to,
+                )
 
     def test_missing_optional_observation_metadata_maps_to_empty_values(self) -> None:
         reader = Mock()
