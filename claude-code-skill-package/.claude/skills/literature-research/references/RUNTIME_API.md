@@ -52,6 +52,34 @@ search result object containing a `hits` array. Each hit uses the fields emitted
 `search-papers`. Search hits remain observations. Retain changes state; search alone does
 not add papers, while an explicit retain preserves both date fields on `PaperSource`.
 
+## Web-discovered paper promotion
+
+Claude Code native Web tools are host-level discovery capabilities, not Harness commands.
+After `WebSearch` discovers a candidate, use `WebFetch` on its canonical arXiv,
+OpenReview, DOI, or publisher page and construct the same provider-neutral hit shape for
+`retain-papers`. Fill only metadata verified on that page; optional fields may be omitted.
+
+```json
+{
+  "hits": [
+    {
+      "title": "SearchMaster: Grounded and Regulated Self-Play for Search Agents",
+      "publication_year": 2026,
+      "publication_date": "2026-08-03",
+      "arxiv_id": "2608.01822",
+      "canonical_url": "https://arxiv.org/abs/2608.01822",
+      "other_identifiers": {},
+      "categories": []
+    }
+  ]
+}
+```
+
+This input promotes bibliographic identity into authoritative State; it does not promote
+a Web snippet or page into technical evidence. Use `inspect-source` and `read-source`
+before synthesis. Do not invent missing authors, dates, identifiers, abstracts, or venue
+metadata, and do not create host-Web audit events in the Harness.
+
 ## Research evidence
 
 ```text

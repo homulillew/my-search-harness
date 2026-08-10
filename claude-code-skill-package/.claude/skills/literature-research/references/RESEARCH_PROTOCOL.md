@@ -82,9 +82,49 @@ Completion Checker.
 
 Before requesting Completion for a latest/recent task, the Researcher must be able to
 state the newest retained relevant publication date, searched recent window, frontier
-queries, terminology-driven follow-ups, and whether pagination exposed newer work. This
-is a self-check against the retained corpus and audit history. The fresh Completion
-Checker still sees only retained state and structured synthesis.
+queries, terminology-driven follow-ups, whether pagination exposed newer work, whether
+an independent Web counter-search ran, what it found beyond DeepXiv, and whether every
+important Web discovery was retained and source-verified. This is a self-check against
+the retained corpus and audit history. The fresh Completion Checker still sees only
+retained state and structured synthesis.
+
+## Independent frontier counter-recall
+
+Keep DeepXiv as the primary scholarly discovery and source-access path. Use Claude Code
+native `WebSearch` as an independent frontier counter-recall channel for recent papers,
+terminology-shifted work, and known papers absent from semantic results. Explicit
+latest/current/recent/SOTA intent requires both a DeepXiv recent sweep and at least one
+independent Web frontier sweep. A suspicious gap between the current date and newest
+retained relevant paper also blocks Completion until counter-recall is attempted.
+
+Design Web queries from terminology learned during research rather than surface
+paraphrases: method and model names, training algorithms, reward designs, mechanisms,
+benchmarks, authors, and lab names can expose different candidate sets. Prefer scholarly
+targets on arXiv and OpenReview. A publisher page or DOI is also suitable; a lab post,
+repository, blog, news item, or social post is only a lead to a canonical paper.
+
+Use `WebSearch` to discover scholarly URLs and `WebFetch` to verify canonical identity and
+metadata. Confirm only fields actually present on the canonical page; leave unavailable
+authors, dates, identifiers, or venue data empty instead of inferring them from memory,
+an identifier, title, or snippet. Promote a selected candidate through the existing
+provider-neutral `retain-papers` command. No Web observation creates State directly.
+
+`WebSearch` results, snippets, and `WebFetch` pages are not research evidence. After
+retention, use Harness `inspect-source` and `read-source`; only targeted primary-source
+evidence may become `PaperAnalysis`, Findings, Landscape synthesis, or report claims.
+Agreement between DeepXiv and Web discovery does not prove exhaustive coverage. A
+Web-only relevant paper or disagreement between channels is a reason to continue.
+
+Native Web calls belong to the Claude Code host. Do not manufacture Python resource
+counters or audit events for them, and do not persist raw Web results. Resume from State,
+gaps, retained papers, Landscape, and DeepXiv audit history; rerun only the Web search
+needed to repair an unresolved frontier gap. Completion Checkers cannot use WebSearch or
+broad discovery, and Integrity Reviewers cannot use snippets or non-primary Web pages to
+support report claims.
+
+If canonical Web discovery and retention succeed but DeepXiv source inspection fails,
+record a primary-source provider coverage gap. Do not add a source fallback in this
+workflow; source-provider expansion requires a separate architecture decision.
 
 ## Evidence acquisition
 

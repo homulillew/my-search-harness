@@ -1,6 +1,6 @@
 ---
 name: literature-research
-description: Conduct deep, recoverable academic literature research with DeepXiv search, primary-source reading, explicit synthesis, independent completion checking, and cited report delivery.
+description: Conduct deep, recoverable academic literature research with DeepXiv scholarly search, native Web frontier discovery, primary-source reading, explicit synthesis, independent completion checking, and cited report delivery.
 ---
 
 # Literature Research
@@ -12,7 +12,8 @@ runtime for authority, persistence, stable references, provenance, accounting, a
 validation.
 
 Never edit `state.json`, event logs, report artifacts, or repository files directly.
-All observations and mutations must go through `${CLAUDE_SKILL_DIR}/scripts/harness`.
+All authoritative mutations must go through `${CLAUDE_SKILL_DIR}/scripts/harness`;
+host Web observations remain ephemeral until promoted with `retain-papers`.
 
 ## Read the protocol before acting
 
@@ -84,26 +85,28 @@ because it appeared in a previous run.
 After every state-changing command, use the returned `state_revision` for the next
 command. On a revision conflict, discard the stale plan, call `view`, and reason again.
 
-## Search in two complementary modes
+## Search through independent discovery channels
 
-Begin with broad discovery queries that reveal terminology, canonical route names,
-seminal work, surveys, and competing framings. Vary query vocabulary and route rather
-than repeating one prompt.
+Use DeepXiv through `search-papers` first. It remains the primary scholarly semantic
+search, pagination, source inspection, and targeted reading path. Begin broadly, learn
+canonical routes and terminology, then expand by mechanism and explicit date windows.
 
-For requests containing “latest”, “current”, “recent”, “state of the art”, or an
-equivalent time-sensitive requirement, run a Frontier Sweep:
+Use Claude Code native `WebSearch` as an independent frontier counter-recall channel,
+not a second authoritative paper database. For explicit latest/current/recent/SOTA
+requests, always perform at least one Web frontier counter-search in addition to a
+DeepXiv recent sweep. Also use it when retained recency is suspiciously stale, recent
+terminology shifts, or a known paper is missing from DeepXiv results.
 
 ```text
-broad recent search → inspect current terminology → emerging-term expansion
-→ route-specific recent searches → deliberate pagination → reassess coverage
+foundation and route discovery → DeepXiv recent sweep → emerging-term expansion
+→ native WebSearch counter-search → WebFetch canonical scholarly page
+→ retain selected identity → Harness source verification → gap-driven follow-up
 ```
 
-Use explicit `--date-from` and `--date-to`, derived from the request and current date.
-Do not create frontier queries only by paraphrasing the request. Extract method names,
-training algorithms, reward designs, benchmarks, mechanisms, new terminology, and useful
-authors from recent hits, then use them as follow-up seeds. Deep surveys normally use a
-30–100-result discovery funnel when provider cost permits and observe tens of
-deduplicated candidates; retain only the useful subset.
+Keep this adaptive. Generate Web queries from actual methods, algorithms, rewards,
+benchmarks, mechanisms, authors, and emerging terms; use `site:arxiv.org` or
+`site:openreview.net` when useful. Prefer native `WebSearch` and `WebFetch`; never call
+search engines through Bash or custom APIs.
 
 ```bash
 ${CLAUDE_SKILL_DIR}/scripts/harness --workspace workspace search-papers \
@@ -117,15 +120,15 @@ novelty, and recent-paper novelty to decide whether to page; do not mechanically
 all results. A first page is discovery input, not proof of coverage, and local date
 sorting of retrieved candidates is not a global latest-paper search.
 
-Search hits remain ephemeral observations. If a citation, user input, or known identifier
-names a specific paper, use exact title or arXiv ID as a verification/targeted-discovery
-fallback, never as a replacement for broad search. Provider semantic search is not
-guaranteed exhaustive; record an explicit limitation when a required recent paper or
-window cannot be retrieved.
+DeepXiv hits, WebSearch results/snippets, and WebFetch pages are observations, not
+evidence. Use WebSearch to find scholarly URLs and `WebFetch` to verify canonical
+metadata. Follow blogs, labs, repositories, or news to an arXiv, OpenReview, DOI, or
+publisher paper page; never retain the lead or fabricate an unconfirmed field.
 
-Select useful candidates and call `retain-papers` explicitly. Provider summaries and
-abstract snippets may guide selection, but they must not become Findings, PaperAnalysis,
-or report claims without appropriate primary-source evidence.
+Promote an important Web-discovered candidate with the existing `retain-papers` input,
+using only verified metadata. Then use `inspect-source` and `read-source` before formal
+analysis or claims; WebFetch does not bypass evidence access. If DeepXiv cannot inspect a
+retained Web-only paper, record a source coverage gap rather than inventing a fallback.
 
 ## Inspect before reading
 
@@ -172,9 +175,10 @@ This is workload guidance, not a paper-count or Completion threshold.
 
 Before requesting Completion for a latest/recent task, answer from the retained corpus:
 the newest relevant paper date, the searched recent window, the frontier queries used,
-whether emerging terminology triggered follow-up searches, and whether pagination added
-recent work. This is a Researcher self-check; the fresh Completion Checker still judges
-only retained state and the structured landscape, never audit history.
+whether emerging terminology triggered follow-up searches, whether pagination added
+recent work, whether native Web counter-search found DeepXiv misses, and whether every
+important Web discovery was retained and source-verified. This is a Researcher self-check;
+the fresh Completion Checker judges only retained state and the structured landscape.
 
 ## Resume from authoritative state
 
@@ -185,8 +189,8 @@ When resuming, ignore conversational memory as authority. Recover from:
 3. targeted source reads when evidence must be rechecked;
 4. `audit-history` for prior search queries, pagination, filters, and external attempts.
 
-Do not repeat searches blindly. Use the audit trail to identify missing routes, stale
-date coverage, or unexamined pages.
+Raw Web results are not recoverable state. Do not repeat searches blindly, but rerun a
+needed Web counter-search after resume when a frontier gap remains unresolved.
 
 ## Request independent completion
 
@@ -202,9 +206,10 @@ The fresh Completion Checker may only:
 - submit PASS, CONTINUE, or UNCERTAIN.
 
 It must not search, retain papers, mutate research objects, or inherit the Researcher's
-private reasoning. CONTINUE must identify concrete blocking gaps; control then returns
-to Research. UNCERTAIN is used when available evidence cannot justify either PASS or a
-specific repair plan. PASS alone authorizes complete Delivery.
+private reasoning. It must not use WebSearch or broad Web discovery. CONTINUE must
+identify concrete blocking gaps; control then returns to Research. UNCERTAIN is used
+when available evidence cannot justify either PASS or a specific repair plan. PASS alone
+authorizes complete Delivery.
 
 ## Deliver a report
 
