@@ -1,0 +1,7 @@
+{
+  "indices": {
+    "1": "Foundational heavy-hitter eviction work with explicit dynamic token-importance mechanism and strong primary-paper uptake.",
+    "2": "Foundational attention-sink plus sliding-window mechanism that separates stable streaming from general long-context recall.",
+    "7": "Representative prompt-aware pre-generation compression method, mechanistically distinct from decode-time heavy-hitter eviction."
+  }
+}

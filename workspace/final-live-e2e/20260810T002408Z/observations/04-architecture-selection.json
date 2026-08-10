@@ -1,0 +1,6 @@
+{
+  "indices": {
+    "1": "Representative cross-layer KV sharing work with direct comparison to MQA/GQA and explicit training/inference implications.",
+    "2": "Independent multi-layer KV-head sharing design that grounds how head sharing and layer sharing can be combined rather than treated as eviction."
+  }
+}

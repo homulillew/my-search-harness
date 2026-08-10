@@ -1,0 +1,29 @@
+{
+  "recorded_at": "2026-08-10T00:32:01.451285+00:00",
+  "run_id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79",
+  "state_revision": 55,
+  "lifecycle": "RESEARCH",
+  "view_counts": {
+    "approach_families": 3,
+    "findings": 6,
+    "open_problems": 3,
+    "open_gaps": 4,
+    "papers": 12
+  },
+  "view_continuations": {
+    "approach_families": false,
+    "findings": false,
+    "open_problems": false,
+    "open_gaps": false,
+    "papers": false
+  },
+  "inspected_kinds": [
+    "approach_family",
+    "approach_family",
+    "approach_family",
+    "investigation_gap",
+    "investigation_gap",
+    "investigation_gap",
+    "investigation_gap"
+  ]
+}

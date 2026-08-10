@@ -1,0 +1,8 @@
+{
+  "artifact_kind": "REPORT",
+  "content_sha256": "2bacc44f805c61158ab6aef69a1820530466a27f7dc747aeb501dd83339bcaaa",
+  "delivery_basis": {
+    "completion_check_ref": "check_d8e26b18-81df-4d64-b859-4d367b1442f6",
+    "type": "completion_pass"
+  }
+}

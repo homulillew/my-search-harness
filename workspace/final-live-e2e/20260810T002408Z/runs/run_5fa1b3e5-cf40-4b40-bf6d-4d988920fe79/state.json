@@ -1,0 +1,1632 @@
+{
+  "completion_checks": {
+    "check_d8e26b18-81df-4d64-b859-4d367b1442f6": {
+      "basis_contract_revision": 1,
+      "basis_revision": 112,
+      "blocking_gap_refs": [],
+      "completed_at": "2026-08-10T00:46:56.729945+00:00",
+      "id": "check_d8e26b18-81df-4d64-b859-4d367b1442f6",
+      "reasons": [
+        "The accepted landscape covers four substantively different mechanism families with active, analyzed primary-paper representatives: token-selective retention, low-bit representation, trained head/layer sharing, and exact-or-encoded serving memory management/reuse/hierarchy.",
+        "The fifteen sourced cross-paper findings cover the KV bottleneck, which resource each route reduces, quality/latency/throughput/memory and hardware/kernel tradeoffs, inference-only versus training-time deployment boundaries, conditional composition, limitations, and a concrete literature disagreement.",
+        "Four sourced open problems cover unresolved quality adaptation, portable extreme quantization, large-model architectural validation and composition, and joint serving control; no accepted investigation gap remains open.",
+        "Stable-ref inspection found fourteen active analyzed papers, and targeted primary-source reads independently confirmed the network-transfer distinction, the missing end-to-end serving validation for cross-layer sharing, and the demonstrated non-plug-and-play behavior of eviction-plus-INT2 composition.",
+        "The accepted evidence is sufficient for the required mechanism-organized Chinese survey; remaining work is delivery synthesis and citation rendering rather than additional research."
+      ],
+      "requested_at": "2026-08-10T00:43:33.345957+00:00",
+      "requester_rationale": "The adaptive research loop has resolved all four investigation gaps and now covers the contract through four mechanism-level routes, current-run primary-paper analyses, cross-paper findings, and grounded open problems.",
+      "verdict": "PASS"
+    }
+  },
+  "contract": {
+    "current_revision": 1,
+    "revisions": [
+      {
+        "contract": {
+          "deliverable": {
+            "description": "\u4e00\u4efd\u4e2d\u6587 KV Cache \u4f18\u5316\u6280\u672f\u8def\u7ebf Survey\uff0c\u8986\u76d6\u4e3b\u8981\u8def\u7ebf\u3001\u4ee3\u8868\u8bba\u6587\u3001\u673a\u5236\u3001\u65b9\u6cd5\u6bd4\u8f83\u3001\u5de5\u7a0b\u6743\u8861\u3001\u8def\u7ebf\u5173\u7cfb\u3001limitations\u3001open problems \u4e0e\u53ef\u8ffd\u6eaf\u5f15\u7528\u3002",
+            "required_artifacts": [
+              "REPORT"
+            ]
+          },
+          "mission": "\u7406\u89e3 LLM inference \u4e2d KV Cache \u4f18\u5316\u7684\u4e3b\u8981\u6280\u672f\u8def\u7ebf\uff0c\u4ee5\u53ca\u4e0d\u540c\u8def\u7ebf\u5982\u4f55\u5728 memory\u3001latency\u3001throughput\u3001quality \u4e0e\u90e8\u7f72\u590d\u6742\u5ea6\u4e4b\u95f4\u8fdb\u884c\u6743\u8861\u3002",
+          "requirements": {
+            "requirement_29ae7bcc-1884-4ccb-a17e-6398e693c51b": {
+              "id": "requirement_29ae7bcc-1884-4ccb-a17e-6398e693c51b",
+              "statement": "\u660e\u786e\u5f53\u524d\u6587\u732e\u4e2d\u7684\u91cd\u8981 limitation \u4e0e disagreement\u3002"
+            },
+            "requirement_380f214b-5ba9-455c-bd9d-3be247774b9e": {
+              "id": "requirement_380f214b-5ba9-455c-bd9d-3be247774b9e",
+              "statement": "\u5f62\u6210\u6309\u6280\u672f\u673a\u5236\u548c\u8def\u7ebf\u7ec4\u7ec7\u3001\u800c\u4e0d\u662f\u6309\u8bba\u6587\u6392\u5217\u7684\u4e2d\u6587\u9886\u57df Survey\u3002"
+            },
+            "requirement_43fd81a5-cfa5-41d9-a9ef-b5b267b77824": {
+              "id": "requirement_43fd81a5-cfa5-41d9-a9ef-b5b267b77824",
+              "statement": "\u89e3\u91ca KV Cache \u4e3a\u4ec0\u4e48\u6210\u4e3a\u957f\u4e0a\u4e0b\u6587\u548c\u9ad8\u5e76\u53d1 LLM inference \u7684\u5173\u952e\u74f6\u9888\u3002"
+            },
+            "requirement_6bf430d1-bca5-4dee-b7ef-0a6199afd70a": {
+              "id": "requirement_6bf430d1-bca5-4dee-b7ef-0a6199afd70a",
+              "statement": "\u603b\u7ed3\u6709\u6587\u732e\u4f9d\u636e\u7684 open problems\u3002"
+            },
+            "requirement_739574d0-1234-439b-b0f1-2532771ad69b": {
+              "id": "requirement_739574d0-1234-439b-b0f1-2532771ad69b",
+              "statement": "\u6bd4\u8f83\u4e0d\u540c\u8def\u7ebf\u4e3b\u8981\u51cf\u5c11\u7684 memory footprint\u3001bandwidth\u3001transfer cost\u3001compute \u4e0e serving pressure\u3002"
+            },
+            "requirement_94c24a84-efda-49fb-af02-cbe7fe5b5a9b": {
+              "id": "requirement_94c24a84-efda-49fb-af02-cbe7fe5b5a9b",
+              "statement": "\u533a\u5206 inference-only \u65b9\u6cd5\u4e0e\u9700\u8981\u8bad\u7ec3\u3001finetuning \u6216 architectural modification \u7684\u65b9\u6cd5\u3002"
+            },
+            "requirement_94f53018-fc09-4177-a5ea-77d031916b16": {
+              "id": "requirement_94f53018-fc09-4177-a5ea-77d031916b16",
+              "statement": "\u4e3a\u6bcf\u6761\u4e3b\u8981\u8def\u7ebf\u63d0\u4f9b\u771f\u5b9e Primary Papers\u3002"
+            },
+            "requirement_bb01a139-2ccd-4f72-9ac4-651a9fc486d4": {
+              "id": "requirement_bb01a139-2ccd-4f72-9ac4-651a9fc486d4",
+              "statement": "\u8ba8\u8bba\u4e0d\u540c KV Cache \u4f18\u5316\u8def\u7ebf\u4e4b\u95f4\u662f\u5426\u53ef\u4ee5\u7ec4\u5408\u3002"
+            },
+            "requirement_bdec21f5-00c1-4e5e-a26a-9c7ec6207aa7": {
+              "id": "requirement_bdec21f5-00c1-4e5e-a26a-9c7ec6207aa7",
+              "statement": "\u8bc6\u522b\u4e3b\u8981\u4e14\u6709\u5b9e\u8d28\u673a\u5236\u5dee\u5f02\u7684 KV Cache \u4f18\u5316\u6280\u672f\u8def\u7ebf\u3002"
+            },
+            "requirement_d3d18dc5-5248-4b15-aae3-1b9554c688b6": {
+              "id": "requirement_d3d18dc5-5248-4b15-aae3-1b9554c688b6",
+              "statement": "\u6bd4\u8f83 quality degradation\u3001latency\u3001throughput\u3001memory saving\u3001implementation complexity \u4e0e hardware dependence\u3002"
+            }
+          },
+          "scope": "\u805a\u7126 Transformer/LLM inference-time KV Cache\uff1b\u4e3b\u8981\u4f7f\u7528 DeepXiv \u53ef\u53d1\u73b0\u3001\u53ef\u8bbf\u95ee\u7684 arXiv Primary Papers\u3002Survey \u4ec5\u4f5c discovery lead\uff0c\u4e0d\u4f5c\u4e3b\u8981 proof\uff1b\u4e0d\u6269\u5c55\u4e3a\u6240\u6709 serving optimization\uff0cgeneral model quantization\u3001weight pruning \u4e0e speculative decoding \u4ec5\u5728\u76f4\u63a5\u6d89\u53ca KV Cache \u65f6\u7eb3\u5165\u3002"
+        },
+        "reason": "Initial contract",
+        "recorded_at": "2026-08-10T00:24:45.182099+00:00",
+        "revision": 1
+      }
+    ]
+  },
+  "delivery_basis": {
+    "completion_check_ref": "check_d8e26b18-81df-4d64-b859-4d367b1442f6",
+    "type": "completion_pass"
+  },
+  "id": "run_5fa1b3e5-cf40-4b40-bf6d-4d988920fe79",
+  "investigation_gaps": {
+    "gap_0597a4b8-8903-4422-b74e-d394f727bfd4": {
+      "approach_refs": [
+        "approach_b566f492-f54c-455b-92ba-42f1e902f3ce",
+        "approach_e93e0d98-1e40-4eb8-8180-374ffcf9cedc"
+      ],
+      "description": "Layer/head-adaptive hybrid evidence remains weak: analyze XKV and MiniKV and determine whether budget allocation plus eviction/quantization forms a distinct route or a combination strategy.",
+      "id": "gap_0597a4b8-8903-4422-b74e-d394f727bfd4",
+      "requirement_refs": [
+        "requirement_94c24a84-efda-49fb-af02-cbe7fe5b5a9b",
+        "requirement_bb01a139-2ccd-4f72-9ac4-651a9fc486d4",
+        "requirement_bdec21f5-00c1-4e5e-a26a-9c7ec6207aa7",
+        "requirement_d3d18dc5-5248-4b15-aae3-1b9554c688b6"
+      ],
+      "resolution": "Resolved by analyzing XKV and MiniKV. Layer-adaptive budgets are classified as a policy inside token selection, while MiniKV is an explicit selection-plus-INT2 composition. New findings capture calibration costs, medium-budget assumptions, kernel co-design, and the failed SnapKV-plus-KIVI composition."
+    },
+    "gap_09b27824-b2ab-4b3b-a68f-2497425c6187": {
+      "approach_refs": [],
+      "description": "The architecture-changing route is retained but not yet analyzed: read CLA, MLKV, and bounded-cache Transformer to distinguish head/layer sharing and trained bounded state from inference-only compression.",
+      "id": "gap_09b27824-b2ab-4b3b-a68f-2497425c6187",
+      "requirement_refs": [
+        "requirement_94c24a84-efda-49fb-af02-cbe7fe5b5a9b",
+        "requirement_94f53018-fc09-4177-a5ea-77d031916b16",
+        "requirement_bdec21f5-00c1-4e5e-a26a-9c7ec6207aa7",
+        "requirement_d3d18dc5-5248-4b15-aae3-1b9554c688b6"
+      ],
+      "resolution": "Resolved by analyzing CLA and MLKV and adding the architectural head/layer-sharing family. Both require training or uptraining and reduce distinct KV tensors, unlike inference-only compression; both also show that cache capacity reduction need not reduce per-layer bandwidth. The predefined-capacity paper was analyzed but retired because its method and results are not sufficiently specified for representative use."
+    },
+    "gap_95549d7e-02c6-48f8-b2ae-aa4f6398da23": {
+      "approach_refs": [
+        "approach_b566f492-f54c-455b-92ba-42f1e902f3ce",
+        "approach_e93e0d98-1e40-4eb8-8180-374ffcf9cedc"
+      ],
+      "description": "Current primary papers underrepresent reasoning and long-generation failure modes of cache compression; perform a targeted follow-up search and verify at least one independent limitation study or challenging benchmark.",
+      "id": "gap_95549d7e-02c6-48f8-b2ae-aa4f6398da23",
+      "requirement_refs": [
+        "requirement_29ae7bcc-1884-4ccb-a17e-6398e693c51b",
+        "requirement_6bf430d1-bca5-4dee-b7ef-0a6199afd70a",
+        "requirement_d3d18dc5-5248-4b15-aae3-1b9554c688b6"
+      ],
+      "resolution": "Resolved through two targeted, independent primary evaluations: Hold Onto That Thought tests up to 2048 generated reasoning tokens and identifies accuracy collapse, longer traces, and nontermination at small budgets; KVFundaBench covers six capabilities and roughly 4K-token generation, showing task-, model-, prompt-, and policy-specific degradation and a material disagreement about reasoning-model robustness."
+    },
+    "gap_c572bedb-1c96-4de5-bcc7-b09c86f2578a": {
+      "approach_refs": [
+        "approach_1aa1ad25-f3d9-4369-ae7f-7eaad31a3509"
+      ],
+      "description": "Serving-level reuse and offloading evidence is thin: analyze LMCache and search for representative paged/prefix-cache or heterogeneous-memory primary work before generalizing the memory-hierarchy route.",
+      "id": "gap_c572bedb-1c96-4de5-bcc7-b09c86f2578a",
+      "requirement_refs": [
+        "requirement_739574d0-1234-439b-b0f1-2532771ad69b",
+        "requirement_94f53018-fc09-4177-a5ea-77d031916b16",
+        "requirement_bb01a139-2ccd-4f72-9ac4-651a9fc486d4",
+        "requirement_bdec21f5-00c1-4e5e-a26a-9c7ec6207aa7",
+        "requirement_d3d18dc5-5248-4b15-aae3-1b9554c688b6"
+      ],
+      "resolution": "Resolved by targeted DeepXiv discovery and analysis of PagedAttention/vLLM plus LMCache. The memory-hierarchy family now distinguishes exact paged allocation/prefix sharing, heterogeneous exact reuse/offload, and CacheGen's encoded transfer; findings record their workload, bandwidth, and hit-rate conditions."
+    }
+  },
+  "lifecycle": "CLOSED",
+  "literature_landscape": {
+    "approach_families": {
+      "approach_1aa1ad25-f3d9-4369-ae7f-7eaad31a3509": {
+        "core_idea": "Preserve exact or encoded KV state while eliminating allocation waste, sharing common prefixes, avoiding repeated prefill, and moving cache through GPU/CPU/disk/network tiers according to bandwidth, reuse, and SLOs.",
+        "id": "approach_1aa1ad25-f3d9-4369-ae7f-7eaad31a3509",
+        "name": "Serving memory management, KV reuse, and hierarchy",
+        "representative_papers": [
+          "paper_25c10025-1f10-42d2-b517-dc754d1bc6f2",
+          "paper_364b2f1f-88b3-4f48-9a5f-cc93f911ef71",
+          "paper_ecaebb02-f0c6-4b86-bcb5-3a2e9bbd38f2"
+        ]
+      },
+      "approach_95517d76-bb4d-44d5-8d01-190178c69e1c": {
+        "core_idea": "Reduce how many distinct KV projections and cache tensors a model creates by sharing KV heads within or across layers. This changes the trained architecture and capacity-quality frontier rather than compressing an existing cache at inference time.",
+        "id": "approach_95517d76-bb4d-44d5-8d01-190178c69e1c",
+        "name": "Architectural KV head and layer sharing",
+        "representative_papers": [
+          "paper_a84b0325-0a16-4191-9486-1994d5ab75d9",
+          "paper_bc121393-2a30-4f5f-b1c7-8a4a82ecd524"
+        ]
+      },
+      "approach_b566f492-f54c-455b-92ba-42f1e902f3ce": {
+        "core_idea": "Reduce bytes per retained KV element with key/value-aware quantization, residual high-precision regions, outlier protection, calibration, and compressed attention kernels; hybrid systems may quantize an already selected subset.",
+        "id": "approach_b566f492-f54c-455b-92ba-42f1e902f3ce",
+        "name": "Low-bit numerical KV representation",
+        "representative_papers": [
+          "paper_044ada55-7479-4b4b-a0fe-d790b292cecf",
+          "paper_78cb78ea-e9cf-432a-afa4-75dc56fb890c",
+          "paper_8d0f73cb-928c-474e-b88c-373ed39179c8"
+        ]
+      },
+      "approach_e93e0d98-1e40-4eb8-8180-374ffcf9cedc": {
+        "core_idea": "Reduce cache length by retaining task-, attention-, or semantic-chunk-important tokens plus local/sink context; selection can be fixed after prefill, updated during decode, or allocated unevenly across layers.",
+        "id": "approach_e93e0d98-1e40-4eb8-8180-374ffcf9cedc",
+        "name": "Token-selective retention and bounded attention",
+        "representative_papers": [
+          "paper_044ada55-7479-4b4b-a0fe-d790b292cecf",
+          "paper_1b9422ce-9d25-4067-b427-900af360a482",
+          "paper_32d63710-6b3b-4dcd-af13-16eb8470de87",
+          "paper_a7559efd-8df9-46e8-9b90-3554e02405df",
+          "paper_e18584f4-3b7d-4375-b4b6-3f6bf5a24296"
+        ]
+      }
+    },
+    "findings": {
+      "finding_003bc3f2-acc0-4fd4-a017-1742663ca031": {
+        "approach_refs": [
+          "approach_1aa1ad25-f3d9-4369-ae7f-7eaad31a3509",
+          "approach_95517d76-bb4d-44d5-8d01-190178c69e1c",
+          "approach_b566f492-f54c-455b-92ba-42f1e902f3ce",
+          "approach_e93e0d98-1e40-4eb8-8180-374ffcf9cedc"
+        ],
+        "id": "finding_003bc3f2-acc0-4fd4-a017-1742663ca031",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Method"
+            },
+            "paper_ref": "paper_044ada55-7479-4b4b-a0fe-d790b292cecf",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Introduction"
+            },
+            "paper_ref": "paper_32d63710-6b3b-4dcd-af13-16eb8470de87",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Cross-Layer Attention"
+            },
+            "paper_ref": "paper_a84b0325-0a16-4191-9486-1994d5ab75d9",
+            "relation": "QUALIFIES"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Limitations"
+            },
+            "paper_ref": "paper_bc121393-2a30-4f5f-b1c7-8a4a82ecd524",
+            "relation": "QUALIFIES"
+          }
+        ],
+        "statement": "Deployment boundary is now explicit: H2O, StreamingLLM, SnapKV, XKV, MiniKV, KIVI, KVQuant, PagedAttention, CacheGen, and LMCache operate on existing weights, while CLA/MLKV require pretraining or uptraining and alter the model architecture; the two classes can in principle be layered but need joint evaluation."
+      },
+      "finding_0a9941a8-fad3-4216-91c0-a30537272448": {
+        "approach_refs": [
+          "approach_b566f492-f54c-455b-92ba-42f1e902f3ce",
+          "approach_e93e0d98-1e40-4eb8-8180-374ffcf9cedc"
+        ],
+        "id": "finding_0a9941a8-fad3-4216-91c0-a30537272448",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Limitations"
+            },
+            "paper_ref": "paper_044ada55-7479-4b4b-a0fe-d790b292cecf",
+            "relation": "QUALIFIES"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Method"
+            },
+            "paper_ref": "paper_044ada55-7479-4b4b-a0fe-d790b292cecf",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Hybrid compression is not mechanically composable: MiniKV makes H2O-style persistent selection plus KIVI-style INT2 quantization work through co-designed grouping and kernels, yet substituting SnapKV selection causes a reported LongBench drop from about 35 to 32 because selected tokens differ in quantization sensitivity."
+      },
+      "finding_11d0945f-925e-45a7-af77-b6828fa2824a": {
+        "approach_refs": [
+          "approach_e93e0d98-1e40-4eb8-8180-374ffcf9cedc"
+        ],
+        "id": "finding_11d0945f-925e-45a7-af77-b6828fa2824a",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Empirical Evaluation"
+            },
+            "paper_ref": "paper_1b9422ce-9d25-4067-b427-900af360a482",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Appendix D Long-Range Benchmark Evaluation"
+            },
+            "paper_ref": "paper_a7559efd-8df9-46e8-9b90-3554e02405df",
+            "relation": "QUALIFIES"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Experiments"
+            },
+            "paper_ref": "paper_e18584f4-3b7d-4375-b4b6-3f6bf5a24296",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Irreversible token eviction trades global recall for bounded compute and memory: heavy-hitter-plus-recency and pooled prompt clusters outperform naive windows/top-k in tested workloads, but content outside the retained cache cannot be recovered and task-dependent saliency remains a quality boundary."
+      },
+      "finding_1c70dddf-5bb4-4683-bf28-29423c606c76": {
+        "approach_refs": [
+          "approach_e93e0d98-1e40-4eb8-8180-374ffcf9cedc"
+        ],
+        "id": "finding_1c70dddf-5bb4-4683-bf28-29423c606c76",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Experiments"
+            },
+            "paper_ref": "paper_044ada55-7479-4b4b-a0fe-d790b292cecf",
+            "relation": "QUALIFIES"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Benchmark Design"
+            },
+            "paper_ref": "paper_04ebb6b3-c160-4e38-adae-ac28e5bfeb7d",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Experiments \\& Analysis"
+            },
+            "paper_ref": "paper_c6e14a84-d38d-41c2-8ac3-2a7f6969a3b3",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Independent benchmarks show that cache quality is task-, model-, prompt-, budget-, and generation-regime-dependent: arithmetic, code, safety, and long self-generated reasoning can degrade far more than retrieval or knowledge tasks, and aggressive eviction may lengthen or prevent termination of reasoning traces."
+      },
+      "finding_55db5f0f-20a3-4cdb-9027-1ce3add4ef24": {
+        "approach_refs": [
+          "approach_1aa1ad25-f3d9-4369-ae7f-7eaad31a3509",
+          "approach_b566f492-f54c-455b-92ba-42f1e902f3ce",
+          "approach_e93e0d98-1e40-4eb8-8180-374ffcf9cedc"
+        ],
+        "id": "finding_55db5f0f-20a3-4cdb-9027-1ce3add4ef24",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Empirical Evaluation"
+            },
+            "paper_ref": "paper_1b9422ce-9d25-4067-b427-900af360a482",
+            "relation": "QUALIFIES"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Evaluation"
+            },
+            "paper_ref": "paper_25c10025-1f10-42d2-b517-dc754d1bc6f2",
+            "relation": "QUALIFIES"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Experiments"
+            },
+            "paper_ref": "paper_8d0f73cb-928c-474e-b88c-373ed39179c8",
+            "relation": "QUALIFIES"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Experiments"
+            },
+            "paper_ref": "paper_e18584f4-3b7d-4375-b4b6-3f6bf5a24296",
+            "relation": "QUALIFIES"
+          }
+        ],
+        "statement": "Published memory and speedup numbers are corpus-, model-, kernel-, hardware-, batch-, and baseline-dependent: H2O gains partly come from larger batches or avoiding offload, SnapKV fixes prompt-cache size, KIVI increases batch capacity, and CacheGen assumes cache reuse over constrained networks; direct scalar ranking would be invalid."
+      },
+      "finding_76db67d8-c1cc-4c8a-9cd6-95f69b083cf2": {
+        "approach_refs": [
+          "approach_b566f492-f54c-455b-92ba-42f1e902f3ce",
+          "approach_e93e0d98-1e40-4eb8-8180-374ffcf9cedc"
+        ],
+        "id": "finding_76db67d8-c1cc-4c8a-9cd6-95f69b083cf2",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Method"
+            },
+            "paper_ref": "paper_044ada55-7479-4b4b-a0fe-d790b292cecf",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Introduction"
+            },
+            "paper_ref": "paper_32d63710-6b3b-4dcd-af13-16eb8470de87",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Layer-adaptive allocation is a policy dimension inside token selection rather than a separate compression primitive: XKV calibrates application-specific per-layer budgets, whereas MiniKV's pyramid policy combines layer allocation with persistent-token selection and INT2 representation."
+      },
+      "finding_81c0bc55-3b07-4a05-ab88-5e86598d56f2": {
+        "approach_refs": [
+          "approach_1aa1ad25-f3d9-4369-ae7f-7eaad31a3509"
+        ],
+        "id": "finding_81c0bc55-3b07-4a05-ab88-5e86598d56f2",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "CacheGen Design"
+            },
+            "paper_ref": "paper_25c10025-1f10-42d2-b517-dc754d1bc6f2",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "4. Method"
+            },
+            "paper_ref": "paper_364b2f1f-88b3-4f48-9a5f-cc93f911ef71",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Overview of LMCACHE"
+            },
+            "paper_ref": "paper_ecaebb02-f0c6-4b86-bcb5-3a2e9bbd38f2",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Serving memory management reduces a different cost than lossy compression: PagedAttention removes reservation/fragmentation and enables exact prefix sharing inside GPU memory, LMCache extends exact reuse and movement across storage tiers, and CacheGen reduces bytes transferred when cross-machine bandwidth is the bottleneck."
+      },
+      "finding_ad1e6ce0-ceac-4cac-b7ea-7e050081e44c": {
+        "approach_refs": [
+          "approach_95517d76-bb4d-44d5-8d01-190178c69e1c"
+        ],
+        "id": "finding_ad1e6ce0-ceac-4cac-b7ea-7e050081e44c",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Cross-Layer Attention"
+            },
+            "paper_ref": "paper_a84b0325-0a16-4191-9486-1994d5ab75d9",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Results"
+            },
+            "paper_ref": "paper_bc121393-2a30-4f5f-b1c7-8a4a82ecd524",
+            "relation": "QUALIFIES"
+          }
+        ],
+        "statement": "Architectural sharing is a distinct training-time route: CLA and MLKV reduce the layer dimension of the cache and compose with MQA/GQA head sharing, but unchanged per-layer cache reads mean capacity reduction alone does not guarantee decode latency or throughput gains."
+      },
+      "finding_b1c2d6c8-6dec-4477-8b9b-25f2d33d3e1f": {
+        "approach_refs": [
+          "approach_e93e0d98-1e40-4eb8-8180-374ffcf9cedc"
+        ],
+        "id": "finding_b1c2d6c8-6dec-4477-8b9b-25f2d33d3e1f",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Benchmark Design"
+            },
+            "paper_ref": "paper_04ebb6b3-c160-4e38-adae-ac28e5bfeb7d",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Experiments \\& Analysis"
+            },
+            "paper_ref": "paper_c6e14a84-d38d-41c2-8ac3-2a7f6969a3b3",
+            "relation": "CHALLENGES"
+          }
+        ],
+        "statement": "The literature disagrees on whether reasoning-tuned models are intrinsically more robust: KVFundaBench reports stronger averaged robustness for one distilled reasoning model, while long-generation evaluation finds most eviction methods still substantially trail full cache; the difference follows task mix, output horizon, budget, and eviction policy rather than a universal model property."
+      },
+      "finding_b96a21d5-724d-4d2c-97c3-f5913ce3a4e9": {
+        "approach_refs": [
+          "approach_e93e0d98-1e40-4eb8-8180-374ffcf9cedc"
+        ],
+        "id": "finding_b96a21d5-724d-4d2c-97c3-f5913ce3a4e9",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Heavy-Hitter Oracle"
+            },
+            "paper_ref": "paper_1b9422ce-9d25-4067-b427-900af360a482",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "StreamingLLM"
+            },
+            "paper_ref": "paper_a7559efd-8df9-46e8-9b90-3554e02405df",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "SnapKV"
+            },
+            "paper_ref": "paper_e18584f4-3b7d-4375-b4b6-3f6bf5a24296",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Token reduction is not one mechanism: H2O updates importance during decode from accumulated attention, SnapKV chooses prompt positions once after prefill using an observation window, and StreamingLLM keeps sinks plus recent tokens for bounded streaming; their guarantees and failure modes are therefore not interchangeable."
+      },
+      "finding_c0997616-7ed2-4469-ab34-d21b53a62424": {
+        "approach_refs": [
+          "approach_1aa1ad25-f3d9-4369-ae7f-7eaad31a3509"
+        ],
+        "id": "finding_c0997616-7ed2-4469-ab34-d21b53a62424",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "8. Discussion"
+            },
+            "paper_ref": "paper_364b2f1f-88b3-4f48-9a5f-cc93f911ef71",
+            "relation": "QUALIFIES"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Evaluation"
+            },
+            "paper_ref": "paper_ecaebb02-f0c6-4b86-bcb5-3a2e9bbd38f2",
+            "relation": "QUALIFIES"
+          }
+        ],
+        "statement": "Exact reuse/offload gains are conditional: paged allocation helps most when serving is memory-bound, while lower-tier loading helps only with sufficient reuse and when transfer beats recomputation; LMCache's reported crossover moves with bandwidth and context length."
+      },
+      "finding_d1d3680d-cb20-45d8-96af-120905bc2e29": {
+        "approach_refs": [
+          "approach_95517d76-bb4d-44d5-8d01-190178c69e1c"
+        ],
+        "id": "finding_d1d3680d-cb20-45d8-96af-120905bc2e29",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Pretraining Experiments"
+            },
+            "paper_ref": "paper_a84b0325-0a16-4191-9486-1994d5ab75d9",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Limitations"
+            },
+            "paper_ref": "paper_bc121393-2a30-4f5f-b1c7-8a4a82ecd524",
+            "relation": "QUALIFIES"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Results"
+            },
+            "paper_ref": "paper_bc121393-2a30-4f5f-b1c7-8a4a82ecd524",
+            "relation": "QUALIFIES"
+          }
+        ],
+        "statement": "Evidence for cross-layer sharing is not uniform: natively pretrained CLA2 improves the tested accuracy-memory Pareto frontier at 1B/3B scale, whereas uptrained 160M/410M MLKV generally underperforms MQA/GQA at equal KV-head count and extreme sharing becomes unusable."
+      },
+      "finding_df730fa1-d5c8-4cd0-9f3f-b8a96e40b90b": {
+        "approach_refs": [
+          "approach_b566f492-f54c-455b-92ba-42f1e902f3ce"
+        ],
+        "id": "finding_df730fa1-d5c8-4cd0-9f3f-b8a96e40b90b",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Method"
+            },
+            "paper_ref": "paper_78cb78ea-e9cf-432a-afa4-75dc56fb890c",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Methodology"
+            },
+            "paper_ref": "paper_8d0f73cb-928c-474e-b88c-373ed39179c8",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "KIVI and KVQuant independently agree that keys and values require different low-bit treatment, but they make different engineering choices: KIVI uses grouped per-channel keys and a full-precision recent residual, whereas KVQuant uses calibrated pre-RoPE keys, sparse outliers, and attention-sink protection."
+      },
+      "finding_f497cf3d-eeeb-4743-9ce5-7bbf873b4992": {
+        "approach_refs": [
+          "approach_1aa1ad25-f3d9-4369-ae7f-7eaad31a3509",
+          "approach_b566f492-f54c-455b-92ba-42f1e902f3ce"
+        ],
+        "id": "finding_f497cf3d-eeeb-4743-9ce5-7bbf873b4992",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "The Hidden Network Bottleneck"
+            },
+            "paper_ref": "paper_25c10025-1f10-42d2-b517-dc754d1bc6f2",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Methodology"
+            },
+            "paper_ref": "paper_8d0f73cb-928c-474e-b88c-373ed39179c8",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "KV cache pressure is multidimensional: sequence length and batch concurrency enlarge resident memory and bandwidth demand, while reuse across machines adds a separate transfer/TTFT bottleneck; reducing one cost does not automatically reduce the others."
+      },
+      "finding_fa536ddc-f100-4852-9647-5842b24bf5d3": {
+        "approach_refs": [
+          "approach_1aa1ad25-f3d9-4369-ae7f-7eaad31a3509",
+          "approach_b566f492-f54c-455b-92ba-42f1e902f3ce",
+          "approach_e93e0d98-1e40-4eb8-8180-374ffcf9cedc"
+        ],
+        "id": "finding_fa536ddc-f100-4852-9647-5842b24bf5d3",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Empirical Evaluation"
+            },
+            "paper_ref": "paper_1b9422ce-9d25-4067-b427-900af360a482",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Evaluation"
+            },
+            "paper_ref": "paper_25c10025-1f10-42d2-b517-dc754d1bc6f2",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Results"
+            },
+            "paper_ref": "paper_78cb78ea-e9cf-432a-afa4-75dc56fb890c",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Several routes are composable because they reduce different dimensions: H2O reports compatibility with quantization, KVQuant combines with weight quantization, and CacheGen further encodes token-pruned caches for transfer; composition still needs joint quality and end-to-end system evaluation."
+      }
+    },
+    "open_problems": {
+      "problem_5e452a59-92ab-40b4-a3ee-aa20e646d924": {
+        "approach_refs": [
+          "approach_e93e0d98-1e40-4eb8-8180-374ffcf9cedc"
+        ],
+        "id": "problem_5e452a59-92ab-40b4-a3ee-aa20e646d924",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "ShotKV"
+            },
+            "paper_ref": "paper_04ebb6b3-c160-4e38-adae-ac28e5bfeb7d",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Appendix D Long-Range Benchmark Evaluation"
+            },
+            "paper_ref": "paper_a7559efd-8df9-46e8-9b90-3554e02405df",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Experiments \\& Analysis"
+            },
+            "paper_ref": "paper_c6e14a84-d38d-41c2-8ac3-2a7f6969a3b3",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "SnapKV"
+            },
+            "paper_ref": "paper_e18584f4-3b7d-4375-b4b6-3f6bf5a24296",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "How can a bounded cache adapt to saliency shifts across prefill and long generation, preserve semantic chunks and distant evidence, and avoid the longer or nonterminating reasoning traces observed under aggressive eviction?"
+      },
+      "problem_825e2348-0d0e-4d50-bab3-5a01be79527c": {
+        "approach_refs": [
+          "approach_95517d76-bb4d-44d5-8d01-190178c69e1c",
+          "approach_b566f492-f54c-455b-92ba-42f1e902f3ce",
+          "approach_e93e0d98-1e40-4eb8-8180-374ffcf9cedc"
+        ],
+        "id": "problem_825e2348-0d0e-4d50-bab3-5a01be79527c",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Limitations"
+            },
+            "paper_ref": "paper_044ada55-7479-4b4b-a0fe-d790b292cecf",
+            "relation": "QUALIFIES"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Discussion \\& Future Work"
+            },
+            "paper_ref": "paper_a84b0325-0a16-4191-9486-1994d5ab75d9",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Limitations"
+            },
+            "paper_ref": "paper_bc121393-2a30-4f5f-b1c7-8a4a82ecd524",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Can architectural KV sharing be validated on modern large long-context models with end-to-end kernels and serving workloads, and then combined with inference-time quantization or selection without compounding quality loss?"
+      },
+      "problem_99d2a011-e3da-4d8f-81cc-919e2d05464b": {
+        "approach_refs": [
+          "approach_b566f492-f54c-455b-92ba-42f1e902f3ce"
+        ],
+        "id": "problem_99d2a011-e3da-4d8f-81cc-919e2d05464b",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Limitations"
+            },
+            "paper_ref": "paper_78cb78ea-e9cf-432a-afa4-75dc56fb890c",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Experiments"
+            },
+            "paper_ref": "paper_8d0f73cb-928c-474e-b88c-373ed39179c8",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Can extreme low-bit KV formats deliver portable end-to-end gains across attention architectures, prompt processing, reasoning tasks, and hardware without calibration mismatch or bespoke kernel/allocation overhead?"
+      },
+      "problem_ae7f9575-3621-4b8d-985a-c5fbbbd60e4f": {
+        "approach_refs": [
+          "approach_1aa1ad25-f3d9-4369-ae7f-7eaad31a3509"
+        ],
+        "id": "problem_ae7f9575-3621-4b8d-985a-c5fbbbd60e4f",
+        "sources": [
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Evaluation"
+            },
+            "paper_ref": "paper_25c10025-1f10-42d2-b517-dc754d1bc6f2",
+            "relation": "QUALIFIES"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "CacheGen Design"
+            },
+            "paper_ref": "paper_25c10025-1f10-42d2-b517-dc754d1bc6f2",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "4. Method"
+            },
+            "paper_ref": "paper_364b2f1f-88b3-4f48-9a5f-cc93f911ef71",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": {
+              "kind": "section",
+              "value": "Evaluation"
+            },
+            "paper_ref": "paper_ecaebb02-f0c6-4b86-bcb5-3a2e9bbd38f2",
+            "relation": "QUALIFIES"
+          }
+        ],
+        "statement": "How should a serving controller jointly choose paging, cache encoding, storage tier, prefetch, eviction, and recomputation under changing bandwidth, cache-hit rates, concurrent load, and TTFT/ITL SLOs?"
+      }
+    }
+  },
+  "outcome": "COMPLETE",
+  "papers": {
+    "paper_044ada55-7479-4b4b-a0fe-d790b292cecf": {
+      "analysis": {
+        "contributions": [
+          "Enables sub-channel key quantization after eviction by selecting a persistent heavy-hitter set at the end of prefill.",
+          "Combines medium-rate token eviction with 2-bit KV quantization and optional pyramid layer allocation.",
+          "Adds a two-pass selective FlashAttention-style prefill kernel and fused decode dequantization to keep auxiliary memory linear."
+        ],
+        "key_locators": [
+          {
+            "kind": "section",
+            "value": "Method"
+          },
+          {
+            "kind": "section",
+            "value": "Experiments"
+          },
+          {
+            "kind": "section",
+            "value": "Limitations"
+          }
+        ],
+        "key_results": [
+          "On LongBench with Llama-2 and Mistral models, MiniKV-Pyramid reaches 98.5% of full-model average for Llama-2-7B at a 0.33 GB cache in the stated 4096-prompt/512-generation comparison.",
+          "Long-context experiments show high eviction rates can fail; GSM8K requires roughly a 90% adaptive token budget to match full-cache reasoning accuracy.",
+          "System tests on one A100 show lower peak memory and higher throughput, but the selective prefill kernel is slower than FlashAttention in the reported microbenchmark while enabling attention-score collection without quadratic materialization."
+        ],
+        "limitations": [
+          "Persistent heavy hitters are observed mainly at medium budgets; the assumption weakens at tiny budgets and long-context quality drops under aggressive eviction.",
+          "LongBench generations are capped below 512 tokens, limiting evidence about long self-generated reasoning.",
+          "Composition is not plug-and-play: replacing H2O selection with SnapKV before KIVI drops the reported LongBench score from about 35 to 32."
+        ],
+        "relevance_to_run": "It directly tests composition between token eviction and numerical compression and shows that successful composition depends on selected-token distributions, cache budget, task, and kernel support.",
+        "summary": "MiniKV is an inference-only co-design that combines persistent prefill heavy-hitter selection, a recent window, layer-wise budget allocation, asymmetric INT2 KV quantization, and fused selective-attention/dequantization kernels."
+      },
+      "id": "paper_044ada55-7479-4b4b-a0fe-d790b292cecf",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2411.18077",
+        "authors": [
+          "Akshat Sharma",
+          "Hangliang Ding",
+          "Jianping Li",
+          "Neel Dani",
+          "Minjia Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2411.18077",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2024,
+        "title": "MiniKV: Pushing the Limits of LLM Inference via 2-Bit Layer-Discriminative KV Cache"
+      }
+    },
+    "paper_04ebb6b3-c160-4e38-adae-ac28e5bfeb7d": {
+      "analysis": {
+        "contributions": [
+          "Builds a multi-capability benchmark over four model variants and six eviction methods rather than only long-prompt retrieval.",
+          "Analyzes sink-removed attention distributions to explain why arithmetic reasoning depends on a broader set of non-sink tokens.",
+          "Introduces separate prefill/decode compression that preserves whole high-scoring shots as semantic chunks."
+        ],
+        "key_locators": [
+          {
+            "kind": "section",
+            "value": "Benchmark Design"
+          },
+          {
+            "kind": "section",
+            "value": "ShotKV"
+          },
+          {
+            "kind": "section",
+            "value": "Conclusion"
+          }
+        ],
+        "key_results": [
+          "Tasks are mostly stable above a 40% retained ratio, but arithmetic, code, and safety drop sharply under more aggressive compression; sensitivity also varies by model type and prompt shot count.",
+          "On LG-GSM8K with about 4K generated tokens, StreamingLLM, H2O, and PyramidInfer lose more than 20 percentage points below a 30% retained ratio.",
+          "ShotKV retains 47.33% accuracy at 40% versus 46.00% full cache on LG-GSM8K and substantially exceeds the tested unified eviction baselines at 25%-30%, under the paper's setup."
+        ],
+        "limitations": [
+          "The benchmark studies eviction methods, not numerical quantization, exact offload, or architecture-changing cache reduction.",
+          "Experiments use selected 7B-8B models and one A40 environment, so exact thresholds are not universal.",
+          "Its conclusion that a reasoning-tuned model is more robust in averaged tasks differs from studies of self-generated reasoning traces, underscoring benchmark dependence."
+        ],
+        "relevance_to_run": "It independently demonstrates task-, prompt-, and model-dependent failure thresholds and provides direct long-generation evidence that popular unified eviction policies degrade sharply under aggressive compression.",
+        "summary": "KVFundaBench evaluates six fundamental capability categories under token-level KV eviction, including knowledge, arithmetic, commonsense, code, safety, and roughly 4K-token long generation; it also proposes ShotKV to preserve coherent in-context examples."
+      },
+      "id": "paper_04ebb6b3-c160-4e38-adae-ac28e5bfeb7d",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2502.01941",
+        "authors": [
+          "Xiang Liu",
+          "Zhenheng Tang",
+          "Hong Chen",
+          "Peijie Dong",
+          "Zeyu Li",
+          "Xiuze Zhou",
+          "Bo Li",
+          "Xuming Hu",
+          "Xiaowen Chu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2502.01941",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2025,
+        "title": "Can LLMs Maintain Fundamental Abilities under KV Cache Compression?"
+      }
+    },
+    "paper_1b9422ce-9d25-4067-b427-900af360a482": {
+      "analysis": {
+        "contributions": [
+          "Empirically identifies greater than 95% attention sparsity in most OPT layers and a power-law heavy-hitter distribution.",
+          "Defines an online greedy heavy-hitter-plus-recency eviction policy under a fixed cache budget.",
+          "Provides a system implementation that avoids memory movement when replacing evicted entries."
+        ],
+        "key_locators": [
+          {
+            "kind": "section",
+            "value": "Observations"
+          },
+          {
+            "kind": "section",
+            "value": "Heavy-Hitter Oracle"
+          },
+          {
+            "kind": "section",
+            "value": "Empirical Evaluation"
+          }
+        ],
+        "key_results": [
+          "At a 20% cache budget, H2O often matches full-cache quality across OPT, LLaMA, and GPT-NeoX tasks; local-only and fixed sparse baselines can collapse.",
+          "On T4 and A100 experiments, reported gains include up to 5x memory reduction without measured accuracy loss, up to 3x throughput over FlexGen, and 1.1-1.9x latency reduction at matched batch size; comparisons use specific model, sequence, offloading, and hardware settings.",
+          "The paper reports compatibility with KV quantization and shows that neither heavy hitters nor recent tokens alone match the combined policy on all tested tasks."
+        ],
+        "limitations": [
+          "Eviction is irreversible and local accumulated attention is only a proxy for future importance.",
+          "The theoretical guarantee assumes a submodular attention objective; empirical speedups depend on batch size, offloading regime, hardware, and baseline.",
+          "The four-million-token demonstration emphasizes perplexity and limited samples rather than general long-range retrieval."
+        ],
+        "relevance_to_run": "It establishes the decode-time token-importance route and shows how memory reduction can translate into larger batches, less offloading, and higher throughput, while exposing irreversible-eviction risk.",
+        "summary": "H2O is an inference-only, fixed-budget KV eviction policy. It uses online accumulated attention scores to retain heavy-hitter tokens and combines them with recent tokens, avoiding a future-aware offline policy."
+      },
+      "id": "paper_1b9422ce-9d25-4067-b427-900af360a482",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2306.14048",
+        "authors": [
+          "Zhenyu Zhang",
+          "Ying Sheng",
+          "Tianyi Zhou",
+          "Tianlong Chen",
+          "Lianmin Zheng",
+          "Ruisi Cai",
+          "Zhao Song",
+          "Yuandong Tian",
+          "Christopher R\u00e9",
+          "Clark Barrett",
+          "Zhangyang Wang",
+          "Beidi Chen"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2306.14048",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2023,
+        "title": "H$_2$O: Heavy-Hitter Oracle for Efficient Generative Inference of Large Language Models"
+      }
+    },
+    "paper_25c10025-1f10-42d2-b517-dc754d1bc6f2": {
+      "analysis": {
+        "contributions": [
+          "Identifies low-bandwidth cross-machine KV fetching as a bottleneck distinct from local GPU capacity.",
+          "Exploits token locality and heterogeneous layer sensitivity to encode independently decodable cache chunks.",
+          "Selects encoding level or text recomputation online as bandwidth changes while keeping multiple representations offline."
+        ],
+        "key_locators": [
+          {
+            "kind": "section",
+            "value": "The Hidden Network Bottleneck"
+          },
+          {
+            "kind": "section",
+            "value": "CacheGen Design"
+          },
+          {
+            "kind": "section",
+            "value": "Evaluation"
+          }
+        ],
+        "key_results": [
+          "Across Mistral-7B, Llama-34B/70B and four datasets on A40 servers at 3 Gbps, CacheGen reports 3.1-4.7x lower TTFT than fetching text and 3.2-3.7x lower TTFT than default quantization.",
+          "Encoded transfer size falls 3.5-4.3x relative to the quantization baseline with reported degradation no more than 2% accuracy, 0.1% F1, or 0.1 perplexity in the tested settings.",
+          "Encoding H2O/LLMLingua-compressed caches yields a further 3.3-4.2x transfer reduction, but the H2O offline experiment is explicitly idealized."
+        ],
+        "limitations": [
+          "Benefits shrink above roughly 20 Gbps and depend on reuse across machines; this is not a generic decode-memory result.",
+          "Multiple encoded versions add offline complexity, and the default 1.5K chunk size is empirically chosen.",
+          "If bandwidth forces low-quality encodings for most chunks, output quality still degrades; adaptation reacts one chunk late."
+        ],
+        "relevance_to_run": "It separates transmission footprint and transfer delay from resident GPU cache memory, and directly demonstrates composition with token pruning.",
+        "summary": "CacheGen targets KV reuse across machines: it converts cache tensors into compact bitstreams using token-delta encoding, layer-sensitive quantization, and channel/layer arithmetic coding, then adapts chunk encoding or text recomputation to observed network bandwidth and a TTFT SLO."
+      },
+      "id": "paper_25c10025-1f10-42d2-b517-dc754d1bc6f2",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2310.07240",
+        "authors": [
+          "Yuhan Liu",
+          "Hanchen Li",
+          "Yihua Cheng",
+          "Siddhant Ray",
+          "Yuyang Huang",
+          "Qizheng Zhang",
+          "Kuntai Du",
+          "Jiayi Yao",
+          "Shan Lu",
+          "Ganesh Ananthanarayanan",
+          "Michael Maire",
+          "Henry Hoffmann",
+          "Ari Holtzman",
+          "Junchen Jiang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2310.07240",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2023,
+        "title": "CacheGen: KV Cache Compression and Streaming for Fast Large Language Model Serving"
+      }
+    },
+    "paper_32d63710-6b3b-4dcd-af13-16eb8470de87": {
+      "analysis": {
+        "contributions": [
+          "Formalizes Dynamic Differences of Importance Distribution across layers and links a retained-information proxy to final accuracy.",
+          "Uses a lightweight no-cache mini-prefill plus greedy optimization to assign layer-specific capacities under an accuracy constraint.",
+          "Amortizes allocation by sampling application tasks in advance rather than recalibrating every request."
+        ],
+        "key_locators": [
+          {
+            "kind": "section",
+            "value": "Introduction"
+          },
+          {
+            "kind": "section",
+            "value": "Experiments"
+          }
+        ],
+        "key_results": [
+          "Across 14 LongBench datasets on Llama-3.1-8B-Instruct and one RTX A6000, XKV reports 61.6% average KV memory reduction, at least 12.8 percentage points more than the best tested competitor under its accuracy bounds.",
+          "On NarrativeQA, cache memory falls from 4.00 GB to 1.54 GB, per-task time from 7.18 s to 3.40 s, and maximum batch size rises from 8 to 20; reported throughput improves up to 5.2x.",
+          "At extremely low 1.2%-1.6% retained ratios, all methods lose accuracy, while XKV is best on most of the reported datasets rather than lossless."
+        ],
+        "limitations": [
+          "Allocation depends on application-specific samples and statistics collected with a lightweight proxy model, so distribution shift can invalidate the budget.",
+          "Evaluation is limited to one model family, one GPU type, and selected LongBench tasks.",
+          "The method changes allocation across layers but still inherits irreversible token-eviction failure modes."
+        ],
+        "relevance_to_run": "It shows that layer-adaptive budget allocation is a policy within token-selective retention, not a separate representation mechanism; it also exposes application sampling and proxy-model overhead.",
+        "summary": "XKV is an inference-only token-eviction method that measures application-specific, layer-varying importance distributions, then uses a lightweight mini-prefill and greedy optimization to allocate different cache budgets across layers."
+      },
+      "id": "paper_32d63710-6b3b-4dcd-af13-16eb8470de87",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2412.05896",
+        "authors": [
+          "Weizhuo Li",
+          "Zhigang Wang",
+          "Yu Gu",
+          "Ge Yu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2412.05896",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2024,
+        "title": "XKV: Personalized KV Cache Memory Reduction for Long-Context LLM Inference"
+      }
+    },
+    "paper_364b2f1f-88b3-4f48-9a5f-cc93f911ef71": {
+      "analysis": {
+        "contributions": [
+          "Introduces an attention kernel that follows block tables over non-contiguous KV storage.",
+          "Applies virtual-memory ideas to dynamic block allocation, prompt/beam copy-on-write sharing, swapping, and recomputation.",
+          "Integrates paged cache management with continuous batching and distributed tensor-parallel execution."
+        ],
+        "key_locators": [
+          {
+            "kind": "section",
+            "value": "3. Memory Challenges in LLM Serving"
+          },
+          {
+            "kind": "section",
+            "value": "4. Method"
+          },
+          {
+            "kind": "section",
+            "value": "6. Evaluation"
+          },
+          {
+            "kind": "section",
+            "value": "8. Discussion"
+          }
+        ],
+        "key_results": [
+          "The paper reports effective memory utilization as low as 20.4% for contiguous preallocation baselines, while PagedAttention limits per-request waste to the final block.",
+          "On A100 OPT/LLaMA serving traces, vLLM sustains 1.7-2.7x higher request rates than the infeasible Orca oracle and 2.7-8x over maximum reservation at comparable latency.",
+          "Copy-on-write sharing saves 37.6-55.2% cache memory for beam search on the reported Alpaca setting and raises shared-prefix throughput up to 3.58x."
+        ],
+        "limitations": [
+          "Indirection and non-contiguous access require a custom fused attention kernel and introduce overhead.",
+          "Benefits shrink when workloads are compute-bound, such as short sequences with abundant memory.",
+          "Preemption uses coarse sequence-level eviction and must choose between CPU swapping and recomputation based on platform bandwidth and compute."
+        ],
+        "relevance_to_run": "It establishes serving-time memory management as a route separate from lossy tensor compression: it improves usable capacity, batching, and sharing without changing model quality.",
+        "summary": "PagedAttention/vLLM separates logical KV blocks from non-contiguous physical GPU blocks, allocating them on demand and using copy-on-write sharing for prompts and beam branches. It preserves exact KV values while reducing reservation and fragmentation waste."
+      },
+      "id": "paper_364b2f1f-88b3-4f48-9a5f-cc93f911ef71",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2309.06180",
+        "authors": [
+          "Woosuk Kwon",
+          "Zhuohan Li",
+          "Siyuan Zhuang",
+          "Ying Sheng",
+          "Lianmin Zheng",
+          "Cody Hao Yu",
+          "Joseph E. Gonzalez",
+          "Hao Zhang",
+          "Ion Stoica"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2309.06180",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2023,
+        "title": "Efficient Memory Management for Large Language Model Serving with PagedAttention"
+      }
+    },
+    "paper_78cb78ea-e9cf-432a-afa4-75dc56fb890c": {
+      "analysis": {
+        "contributions": [
+          "Separates pre-RoPE key and per-token value quantization to preserve channel structure.",
+          "Uses offline sensitivity-weighted calibration and per-vector dense-and-sparse outlier handling.",
+          "Protects the first attention-sink token and supplies fused GPU kernels for compressed matvec operations."
+        ],
+        "key_locators": [
+          {
+            "kind": "section",
+            "value": "Method"
+          },
+          {
+            "kind": "section",
+            "value": "Results"
+          },
+          {
+            "kind": "section",
+            "value": "Limitations"
+          }
+        ],
+        "key_results": [
+          "On calibrated LLaMA-family Wikitext-2 tests, 4/3/2-bit configurations with 1% sparse outliers report 3.7/4.8/6.9x memory savings with under 0.02/0.1/0.5 perplexity degradation.",
+          "For LLaMA-2-7B-32K, 3-bit KVQuant is materially stronger than similar-bit KIVI on RULER, while 2-bit performance still drops on harder multi-key tasks.",
+          "A6000 batch-1 kernels report roughly 1.2-1.7x key/value matvec latency savings; the 1M/10M-context claims are enabled capacity configurations, not universal task-quality demonstrations."
+        ],
+        "limitations": [
+          "Non-uniform formats and key scaling rely on calibration data; value statistics still require online work.",
+          "Latency evaluation focuses on memory-bandwidth-bound decode rather than prompt processing.",
+          "The end-to-end sparse-cache update path still copies old data during concatenation and requires allocation optimization."
+        ],
+        "relevance_to_run": "It extends the quantization route beyond uniform low-bit storage and exposes calibration, outlier, positional-encoding, kernel, and prefill trade-offs.",
+        "summary": "KVQuant combines pre-RoPE per-channel key quantization, per-token value quantization, calibration-derived non-uniform datatypes, per-vector sparse outlier retention, and attention-sink protection. It uses custom kernels to dequantize and apply RoPE during attention."
+      },
+      "id": "paper_78cb78ea-e9cf-432a-afa4-75dc56fb890c",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2401.18079",
+        "authors": [
+          "Coleman Hooper",
+          "Sehoon Kim",
+          "Hiva Mohammadzadeh",
+          "Michael W. Mahoney",
+          "Yakun Sophia Shao",
+          "Kurt Keutzer",
+          "Amir Gholami"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2401.18079",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2024,
+        "title": "KVQuant: Towards 10 Million Context Length LLM Inference with KV Cache Quantization"
+      }
+    },
+    "paper_8d0f73cb-928c-474e-b88c-373ed39179c8": {
+      "analysis": {
+        "contributions": [
+          "Measures fixed key-channel outliers and shows per-channel key quantization yields much lower attention-score error.",
+          "Shows sparse attention makes per-token value quantization substantially safer than per-channel value quantization.",
+          "Adds a streaming residual-buffer design and hardware-aware mixed-precision kernels without finetuning."
+        ],
+        "key_locators": [
+          {
+            "kind": "section",
+            "value": "Methodology"
+          },
+          {
+            "kind": "section",
+            "value": "Experiments"
+          }
+        ],
+        "key_results": [
+          "KIVI-2 stays within roughly 2% accuracy of fp16 on tested Llama/Mistral generation tasks and remains close on selected LongBench tasks; Falcon's already compressed MQA cache often needs 4-bit precision.",
+          "On a single A100-80GB with Llama-2-7B ShareGPT-like workloads, the smaller cache permits up to 4x larger batches and reports 2.35-3.47x throughput.",
+          "GSM8K ablations show aggressive quantization without a suitable full-precision residual window can sharply degrade reasoning quality."
+        ],
+        "limitations": [
+          "Quality depends on model attention architecture, group size, task, and the full-precision residual window.",
+          "Benefits require specialized Triton/CUDA kernels; low bits alone do not guarantee end-to-end speedup.",
+          "Reported throughput uses a specific A100 workload and is partly enabled by increasing batch size rather than lowering every request's latency."
+        ],
+        "relevance_to_run": "It grounds low-bit numerical compression, the different error geometry of keys and values, and the quality role of a full-precision recency window.",
+        "summary": "KIVI is a tuning-free asymmetric KV quantizer: keys use group-wise per-channel 2-bit quantization, values use per-token quantization, and a small recent residual cache stays in full precision. Custom GPU kernels fuse dequantization with attention operations."
+      },
+      "id": "paper_8d0f73cb-928c-474e-b88c-373ed39179c8",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2402.02750",
+        "authors": [
+          "Zirui Liu",
+          "Jiayi Yuan",
+          "Hongye Jin",
+          "Shaochen (Henry) Zhong",
+          "Zhaozhuo Xu",
+          "Vladimir Braverman",
+          "Beidi Chen",
+          "Xia Hu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2402.02750",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2024,
+        "title": "KIVI: A Tuning-Free Asymmetric 2bit Quantization for KV Cache"
+      }
+    },
+    "paper_a7559efd-8df9-46e8-9b90-3554e02405df": {
+      "analysis": {
+        "contributions": [
+          "Identifies attention sinks as a softmax-induced dependence on initial tokens rather than their semantics.",
+          "Combines four initial sink tokens with a rolling recent-token cache and cache-relative positional handling.",
+          "Demonstrates both a tuning-free deployment path and a trained learnable-sink alternative."
+        ],
+        "key_locators": [
+          {
+            "kind": "section",
+            "value": "StreamingLLM"
+          },
+          {
+            "kind": "section",
+            "value": "Experiments"
+          },
+          {
+            "kind": "section",
+            "value": "Appendix D Long-Range Benchmark Evaluation"
+          }
+        ],
+        "key_results": [
+          "Across Llama-2, MPT, Pythia, and Falcon, PG19 perplexity remains stable over streams up to four million tokens with fixed cache sizes.",
+          "On A6000 tests against sliding-window recomputation, per-token decoding speedup reaches up to 22.2x while using a comparable cache footprint.",
+          "LongBench shows a 4+3496 sink/recent cache underperforms a 1750+1750 truncation baseline; performance recovers when task-relevant initial content is retained."
+        ],
+        "limitations": [
+          "It only uses information currently in the sink-plus-recent cache and does not turn a short-context model into a full long-range retrieval model.",
+          "Stable perplexity on a stream is not equivalent to remembering distant facts; StreamEval deliberately asks about recent information.",
+          "Cache-size increases do not monotonically improve perplexity, suggesting models may underuse available context."
+        ],
+        "relevance_to_run": "It separates bounded-cache streaming stability from general long-context retrieval and shows why naive sliding-window eviction can fail catastrophically.",
+        "summary": "StreamingLLM keeps a few initial attention-sink tokens plus a rolling window of recent tokens and reindexes positions inside the cache. Existing RoPE/ALiBi models need no finetuning; a separately trained sink-token model is an architectural variant."
+      },
+      "id": "paper_a7559efd-8df9-46e8-9b90-3554e02405df",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2309.17453",
+        "authors": [
+          "Guangxuan Xiao",
+          "Yuandong Tian",
+          "Beidi Chen",
+          "Song Han",
+          "Mike Lewis"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2309.17453",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2023,
+        "title": "Efficient Streaming Language Models with Attention Sinks"
+      }
+    },
+    "paper_a84b0325-0a16-4191-9486-1994d5ab75d9": {
+      "analysis": {
+        "contributions": [
+          "Defines configurable KV sharing across consecutive transformer layers and explains its composition with MHA, GQA, and MQA.",
+          "Maps sharing factor to cache reduction while identifying pipeline-parallel communication constraints and unchanged core-attention bandwidth.",
+          "Trains 1B- and 3B-parameter models from scratch to compare accuracy-memory Pareto frontiers."
+        ],
+        "key_locators": [
+          {
+            "kind": "section",
+            "value": "Cross-Layer Attention"
+          },
+          {
+            "kind": "section",
+            "value": "Pretraining Experiments"
+          },
+          {
+            "kind": "section",
+            "value": "Discussion \\& Future Work"
+          }
+        ],
+        "key_results": [
+          "CLA reduces KV cache memory approximately by its sharing factor; MQA-CLA2 halves cache bytes per token relative to the matched-head MQA model.",
+          "At 1B and 3B scales, MQA-CLA2 is within less than 1% perplexity change of matched-head MQA in the tested regimes and improves the Pareto frontier relative to shrinking head dimension alone.",
+          "Sharing factors above two and non-uniform dense-front/back patterns produce worse accuracy-memory trade-offs than uniform CLA2 in the reported ablations."
+        ],
+        "limitations": [
+          "The evidence is from models trained from scratch at 1B and 3B parameters with 2K training sequences, not retrofits to production long-context models.",
+          "End-to-end long-context serving latency and throughput are explicitly left for future work.",
+          "Shared KV must still be reread at every consuming layer, so cache capacity falls without a direct reduction in core attention bandwidth or latency."
+        ],
+        "relevance_to_run": "It establishes cross-layer sharing as a mechanism distinct from inference-only eviction or quantization: it reduces the number of layer-specific KV tensors, but does not directly reduce the attention kernel's per-layer reads.",
+        "summary": "Cross-Layer Attention (CLA) is a model-architecture intervention that computes KV projections in only a subset of layers and reuses those activations in adjacent layers. Its sharing factor is orthogonal to MHA, GQA, and MQA and requires native model training."
+      },
+      "id": "paper_a84b0325-0a16-4191-9486-1994d5ab75d9",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2405.12981",
+        "authors": [
+          "William Brandon",
+          "Mayank Mishra",
+          "Aniruddha Nrusimha",
+          "Rameswar Panda",
+          "Jonathan Ragan-Kelley"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2405.12981",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2024,
+        "title": "Reducing Transformer Key-Value Cache Size with Cross-Layer Attention"
+      }
+    },
+    "paper_bc121393-2a30-4f5f-b1c7-8a4a82ecd524": {
+      "analysis": {
+        "contributions": [
+          "Generalizes MQA/GQA sharing from heads within a layer to KV heads shared among groups of layers.",
+          "Derives cache size as proportional to the number of KV-producing layer groups and KV head groups.",
+          "Measures accuracy, memory scaling, maximum batch size, and throughput after model uptraining."
+        ],
+        "key_locators": [
+          {
+            "kind": "section",
+            "value": "Multi-Layer Key-Value (MLKV)"
+          },
+          {
+            "kind": "section",
+            "value": "Results"
+          },
+          {
+            "kind": "section",
+            "value": "Limitations"
+          }
+        ],
+        "key_results": [
+          "Memory scales linearly with the chosen total KV head count; in the small-model setup, the baseline reaches batch 48 while extreme MLKV variants reach batches around 940-1100.",
+          "MLKV generally underperforms GQA or MQA at the same KV-head count, and MLKV-1 degrades severely; moderate MLKV-6/12 settings offer the better measured trade-offs.",
+          "The generalized implementation shows no significant throughput speedup because shared cache contents are still fetched at every layer."
+        ],
+        "limitations": [
+          "Experiments cover only decoder-only 160M and 410M models, with limited downstream task diversity.",
+          "Models are uptrained rather than pretrained natively with MLKV, leaving training-procedure effects unresolved.",
+          "No optimized kernel demonstrates that the large capacity gains translate to per-token latency or throughput gains."
+        ],
+        "relevance_to_run": "It independently supports the architectural cross-layer-sharing route while supplying a cautionary counterpoint: theoretical cache savings do not automatically improve throughput or preserve quality.",
+        "summary": "MLKV shares KV heads both within and across layers, reducing the layer dimension from all layers to a smaller number of KV-producing layer groups. The paper applies the design by uptraining small Pythia models rather than using an inference-only transformation."
+      },
+      "id": "paper_bc121393-2a30-4f5f-b1c7-8a4a82ecd524",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2406.09297",
+        "authors": [
+          "Zayd Muhammad Kawakibi Zuhri",
+          "Muhammad Farid Adilazuarda",
+          "Ayu Purwarianti",
+          "Alham Fikri Aji"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2406.09297",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2024,
+        "title": "MLKV: Multi-Layer Key-Value Heads for Memory Efficient Transformer Decoding"
+      }
+    },
+    "paper_c6e14a84-d38d-41c2-8ac3-2a7f6969a3b3": {
+      "analysis": {
+        "contributions": [
+          "Benchmarks H2O, StreamingLLM, KNorm, R-KV, a decoding-updated SnapKV variant, and ShadowKV over 128-512 token budgets.",
+          "Separates non-reasoning and reasoning models across reading, logic, commonsense, and math tasks with up to 2048 generated tokens.",
+          "Relates accuracy to attention loss and measures the hidden effect of compression on generation length and throughput."
+        ],
+        "key_locators": [
+          {
+            "kind": "section",
+            "value": "Preliminaries"
+          },
+          {
+            "kind": "section",
+            "value": "Experiments \\& Analysis"
+          },
+          {
+            "kind": "section",
+            "value": "Conclusion"
+          }
+        ],
+        "key_results": [
+          "Very small budgets cause large and method-dependent accuracy collapses; on DeepSeek-R1-Distill-Qwen-7B GSM8K, H2O rises from 0.21 at budget 128 to 0.52 at 512, while full cache is 0.70.",
+          "Attention-based H2O and the decoding SnapKV variant dominate other eviction heuristics on reasoning models, but usually still trail full cache; no one method dominates the non-reasoning model.",
+          "Aggressive eviction can produce longer or circular reasoning traces, so nominal memory savings can increase total inference compute and fail to terminate."
+        ],
+        "limitations": [
+          "The study covers token eviction rather than low-bit quantization or architecture changes.",
+          "Its SnapKV-D variant periodically updates during decode and is not the original fixed-prefill SnapKV algorithm.",
+          "Most dataset results use 100 examples per seed and a 2048-output cap on a specific A6000/kvpress implementation."
+        ],
+        "relevance_to_run": "It supplies missing evidence that quality under compression cannot be inferred from prompt-only long-context tests: micro-budgets can collapse reasoning, lengthen output, and even induce nontermination.",
+        "summary": "Hold Onto That Thought independently evaluates token-eviction strategies on long generated reasoning traces across conventional and reasoning-tuned 7B-14B models, multiple reasoning categories, and fixed cache budgets."
+      },
+      "id": "paper_c6e14a84-d38d-41c2-8ac3-2a7f6969a3b3",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2512.12008",
+        "authors": [
+          "Minghui Liu",
+          "Aadi Palnitkar",
+          "Tahseen Rabbani",
+          "Kyle Rui Sang",
+          "Hyunwoo Jae",
+          "Dixi Yao",
+          "Shayan Shabihi",
+          "Fuheng Zhao",
+          "Kunpeng Zhang",
+          "Tian Li",
+          "Ce Zhang",
+          "Furong Huang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2512.12008",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2025,
+        "title": "Hold Onto That Thought: Assessing KV Cache Compression On Reasoning"
+      }
+    },
+    "paper_e18584f4-3b7d-4375-b4b6-3f6bf5a24296": {
+      "analysis": {
+        "contributions": [
+          "Shows that prompt attention patterns visible near the end of prefill are often stable during the measured generation interval.",
+          "Introduces per-head top-k voting plus pooling to preserve contextual clusters rather than isolated high-score tokens.",
+          "Maintains constant prompt KV size during decode and requires no model training."
+        ],
+        "key_locators": [
+          {
+            "kind": "section",
+            "value": "Observations"
+          },
+          {
+            "kind": "section",
+            "value": "SnapKV"
+          },
+          {
+            "kind": "section",
+            "value": "Experiments"
+          }
+        ],
+        "key_results": [
+          "On one A100-80GB with LWM-Text-Chat-1M, a 1024-token prompt cache retrieves needles through 140K with little loss and can run inputs up to 380K where the baseline OOMs at 33K.",
+          "At 16K input and batch size 2, reported decode latency falls from over 100 ms/token to below 40 ms/token, about 3.6x, under the paper's implementation and hardware.",
+          "Across four LongBench model families with roughly 13K average input, 1024-token caches give about 92% prompt-cache compression but some summarization and synthetic tasks still degrade."
+        ],
+        "limitations": [
+          "Important positions vary with the instruction, so static importance independent of the current prompt is unreliable.",
+          "The selected prompt cache is not updated during generation; later saliency shifts can invalidate early selection.",
+          "Quality depends on observation-window, pooling, cache-capacity, task, and base-model choices; compression ratios are not universal."
+        ],
+        "relevance_to_run": "It represents prompt-aware, pre-generation token selection and provides a mechanistic contrast with H2O's decode-time updates and StreamingLLM's fixed recency window.",
+        "summary": "SnapKV performs inference-only prompt-cache compression before generation. Queries in the prompt's final observation window vote per attention head for important prefix positions; pooling keeps neighboring token clusters and the observation window is retained in full."
+      },
+      "id": "paper_e18584f4-3b7d-4375-b4b6-3f6bf5a24296",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2404.14469",
+        "authors": [
+          "Yuhong Li",
+          "Yingbing Huang",
+          "Bowen Yang",
+          "Bharat Venkitesh",
+          "Acyr Locatelli",
+          "Hanchen Ye",
+          "Tianle Cai",
+          "Patrick Lewis",
+          "Deming Chen"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2404.14469",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2024,
+        "title": "SnapKV: LLM Knows What You are Looking for Before Generation"
+      }
+    },
+    "paper_ecaebb02-f0c6-4b86-bcb5-3a2e9bbd38f2": {
+      "analysis": {
+        "contributions": [
+          "Defines a standardized connector and token-indexed cache layer across vLLM/SGLang and heterogeneous backends.",
+          "Batches small pages into larger chunks, pipelines layer loads, prefetches queued requests, and supports dynamic offloading with minimal copies.",
+          "Evaluates CPU offload, remote centralized storage, real traces, and prefill/decode disaggregation."
+        ],
+        "key_locators": [
+          {
+            "kind": "section",
+            "value": "Overview of LMCACHE"
+          },
+          {
+            "kind": "section",
+            "value": "Performance Optimizations"
+          },
+          {
+            "kind": "section",
+            "value": "Evaluation"
+          },
+          {
+            "kind": "section",
+            "value": "Real-World Lessons and Experience"
+          }
+        ],
+        "key_results": [
+          "On H100 serving setups, LMCache reports 1.9-8.1x lower TTFT and 2.3-14x higher throughput than its strongest tested baseline in single-node offload workloads, with model- and load-specific conditions.",
+          "Remote centralized storage improves throughput 1.3-3x in the tested 15 Gbps setup, and chunked CPU loading reaches 400 Gbps versus 88 Gbps for native vLLM offload.",
+          "At 32 Gbps on B200, loading beats recomputation only beyond roughly 256K input tokens; at 64/128 Gbps it wins across tested lengths."
+        ],
+        "limitations": [
+          "Benefits require cache reuse and sufficient lower-tier capacity; cold or low-hit workloads do not avoid prefill.",
+          "The load-versus-recompute crossover is bandwidth-, model-, and context-dependent, so static offloading can hurt latency.",
+          "Several baselines and production lessons are version- or deployment-specific, including black-box commercial comparisons and a 500 GB CPU-cache budget."
+        ],
+        "relevance_to_run": "It expands the memory-hierarchy route beyond encoded transfer: the cache values stay exact, while capacity, hit rate, transfer granularity, and compute-I/O overlap determine TTFT and throughput.",
+        "summary": "LMCache is a serving-layer system for exact KV reuse across GPU, CPU, disk, remote, and disaggregated prefill/decode tiers. It groups paged caches into transfer chunks, overlaps layer-wise I/O with compute, prefetches asynchronously, and minimizes duplicate copies."
+      },
+      "id": "paper_ecaebb02-f0c6-4b86-bcb5-3a2e9bbd38f2",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2510.09665",
+        "authors": [
+          "Yihua Cheng",
+          "Yuhan Liu",
+          "Jiayi Yao",
+          "Yuwei An",
+          "Xiaokun Chen",
+          "Shaoting Feng",
+          "Yuyang Huang",
+          "Samuel Shen",
+          "Kuntai Du",
+          "Junchen Jiang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2510.09665",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2025,
+        "title": "LMCache: An Efficient KV Cache Layer for Enterprise-Scale LLM Inference"
+      }
+    },
+    "paper_f4b2e8fb-2153-4553-a2ae-7b3b0a7c501c": {
+      "analysis": {
+        "contributions": [
+          "States a fixed-capacity KV design goal and a dynamic cache update mechanism.",
+          "Reports a 1B-parameter experiment intended to compare memory, speed, and BLEU after the 2048-token capacity is reached."
+        ],
+        "key_locators": [
+          {
+            "kind": "section",
+            "value": "Introduction"
+          },
+          {
+            "kind": "section",
+            "value": "Experimental Results"
+          }
+        ],
+        "key_results": [
+          "The paper claims constant memory and relatively constant inference speed beyond a 2048-token capacity.",
+          "It reports BLEU as comparable to a traditional cache, but the accessible result is incomplete and lacks enough detail for a reliable effect-size comparison."
+        ],
+        "limitations": [
+          "The accessible source does not specify the dynamic-update algorithm at reproducible depth.",
+          "Baseline configuration, task construction, complete numerical results, and quality evaluation are insufficiently reported.",
+          "The evidence should not be used as a representative primary basis for a major route."
+        ],
+        "relevance_to_run": "It is a candidate trained bounded-state route, but the accessible primary source is too underspecified to support route-level generalization or quantitative comparison.",
+        "summary": "This paper proposes a Transformer with a predefined 2048-token KV capacity and a dynamic update mechanism intended to keep memory and inference time constant beyond that length."
+      },
+      "id": "paper_f4b2e8fb-2153-4553-a2ae-7b3b0a7c501c",
+      "research_status": "RETIRED",
+      "source": {
+        "arxiv_id": "2411.15785",
+        "authors": [
+          "Zhonghua Yi",
+          "Ge Niu",
+          "Lei Wang",
+          "Wei Tang",
+          "Liqiu Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2411.15785",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2024,
+        "title": "A Method for Building Large Language Models with Predefined KV Cache Capacity"
+      }
+    }
+  },
+  "resources": {
+    "limits": {},
+    "usage": {
+      "paper_search_attempts": 6,
+      "source_inspect_attempts": 15,
+      "source_read_attempts": 62
+    }
+  },
+  "state_revision": 132
+}

@@ -1,0 +1,8 @@
+{
+  "indices": {
+    "0": "Foundational tuning-free asymmetric 2-bit method that motivates different key/value quantization axes from observed outlier structure.",
+    "1": "Intentional repeat of an already retained arXiv ID to verify deterministic identity dedup across search rounds.",
+    "3": "Independent foundational 3-bit route with dense-and-sparse handling and long-context quality evidence, useful for comparing quantization assumptions.",
+    "6": "Mechanistically targets transfer bandwidth and context-loading delay through cache encoding/streaming rather than only GPU memory footprint."
+  }
+}

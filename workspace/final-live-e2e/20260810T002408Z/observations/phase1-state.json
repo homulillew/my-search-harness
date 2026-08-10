@@ -1,0 +1,36 @@
+{
+  "analysis_revision": 39,
+  "final_phase1_revision": 55,
+  "analyzed_papers": [
+    "h2o",
+    "streaming",
+    "snapkv",
+    "kivi",
+    "kvquant",
+    "cachegen"
+  ],
+  "approach_refs": {
+    "selection": "approach_e93e0d98-1e40-4eb8-8180-374ffcf9cedc",
+    "quantization": "approach_b566f492-f54c-455b-92ba-42f1e902f3ce",
+    "transfer": "approach_1aa1ad25-f3d9-4369-ae7f-7eaad31a3509"
+  },
+  "finding_refs": [
+    "finding_f497cf3d-eeeb-4743-9ce5-7bbf873b4992",
+    "finding_b96a21d5-724d-4d2c-97c3-f5913ce3a4e9",
+    "finding_11d0945f-925e-45a7-af77-b6828fa2824a",
+    "finding_df730fa1-d5c8-4cd0-9f3f-b8a96e40b90b",
+    "finding_55db5f0f-20a3-4cdb-9027-1ce3add4ef24",
+    "finding_fa536ddc-f100-4852-9647-5842b24bf5d3"
+  ],
+  "problem_refs": [
+    "problem_5e452a59-92ab-40b4-a3ee-aa20e646d924",
+    "problem_99d2a011-e3da-4d8f-81cc-919e2d05464b",
+    "problem_ae7f9575-3621-4b8d-985a-c5fbbbd60e4f"
+  ],
+  "gap_refs": {
+    "architecture": "gap_09b27824-b2ab-4b3b-a68f-2497425c6187",
+    "serving": "gap_c572bedb-1c96-4de5-bcc7-b09c86f2578a",
+    "hybrid": "gap_0597a4b8-8903-4422-b74e-d394f727bfd4",
+    "quality": "gap_95549d7e-02c6-48f8-b2ae-aa4f6398da23"
+  }
+}
