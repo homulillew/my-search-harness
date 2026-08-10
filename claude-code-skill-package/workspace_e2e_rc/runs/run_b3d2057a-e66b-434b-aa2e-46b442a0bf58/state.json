@@ -1,0 +1,2069 @@
+{
+  "completion_checks": {
+    "check_9c9b435e-3bc3-4e66-b55a-5a9ebfe7e0dd": {
+      "basis_contract_revision": 1,
+      "basis_revision": 114,
+      "blocking_gap_refs": [],
+      "completed_at": "2026-08-10T05:08:37.262412+00:00",
+      "id": "check_9c9b435e-3bc3-4e66-b55a-5a9ebfe7e0dd",
+      "reasons": [
+        "Coverage: 7 technical routes mapped with discrimination criteria (self-play, credit assignment, process reward models, GRPO variants, deep research systems, self-distillation, tool-use RL), satisfying the route-mapping and discrimination-criteria requirement.",
+        "Mechanism and representative method per route: each approach family has a core_idea describing the mechanism and 3-7 representative papers, satisfying the mechanism-per-route requirement.",
+        "Empirical results and evidence strength: 30 paper analyses include key_results capturing empirical findings; evidence grounded in abstracts and read-source primary content (SearchMaster Method section verified at 16925 chars).",
+        "Evidence conflicts and non-comparability: investigation gaps explicitly note that cross-method comparison is only inferable from per-paper benchmarks, and that credit-assignment sub-routes lack head-to-head comparison, satisfying the evidence-conflicts requirement.",
+        "Frontier work: newest retained paper 2026-08-07; 41/51 papers from 2026; frontier works (SearchMaster, ABSeeker, AREX, Contextual Information Policy Optimization, Search-GRT) covered, satisfying the frontier-work requirement.",
+        "Route trade-offs: findings capture the online-vs-offline trade-off (OffSeeker/LiteResearcher), the PRM-vs-structural-credit trade-off, and the grounded-vs-ungrounded self-play trade-off, satisfying the route-trade-offs requirement.",
+        "Open problems: 5 field-level open problems (verifier reliability, credit without ground truth, long-horizon context, standardized evaluation, reward hacking) satisfying the open-problems requirement.",
+        "Key training and reward designs: credit assignment, process rewards, search-depth/evidence-density rewards, GRPO advantage-collapse mitigations all covered, satisfying the training/reward-design requirement.",
+        "Complete cited survey: 51 retained papers with 30 analyses, 7 approach families, 6 findings, 5 open problems, 3 gaps \u2014 sufficient for a complete cited technical survey."
+      ],
+      "requested_at": "2026-08-10T05:07:36.385637+00:00",
+      "requester_rationale": "Survey covers 7 technical routes (self-play, credit assignment, process reward models, GRPO variants, deep research systems, self-distillation, tool-use RL) with 51 retained papers, 30 substantial analyses, 6 cross-paper findings, 5 open problems, and 3 investigation gaps. Recency self-check passed: newest paper 2026-08-07, 41/51 papers from 2026. Frontier work (SearchMaster, ABSeeker, AREX, Contextual Information Policy Optimization) covered. Evidence boundary maintained: all analyses grounded in abstracts and read-source primary content.",
+      "verdict": "PASS"
+    }
+  },
+  "contract": {
+    "current_revision": 1,
+    "revisions": [
+      {
+        "contract": {
+          "deliverable": {
+            "description": "Chinese technical-route survey report with Primary Paper citations",
+            "required_artifacts": [
+              "REPORT"
+            ]
+          },
+          "mission": "Deep technical survey of reinforcement-learning-based agent training for Agent Search / Deep Research",
+          "requirements": {
+            "requirement_3c19b896-60c7-4330-9ded-c2b3df4a9af6": {
+              "id": "requirement_3c19b896-60c7-4330-9ded-c2b3df4a9af6",
+              "statement": "Cover empirical results and evidence strength"
+            },
+            "requirement_4d3bc7f3-0a89-4235-9472-95062a432a10": {
+              "id": "requirement_4d3bc7f3-0a89-4235-9472-95062a432a10",
+              "statement": "Cover evidence conflicts or non-comparability"
+            },
+            "requirement_5359de1b-4d4a-42b9-a68e-d915b4ae3dc0": {
+              "id": "requirement_5359de1b-4d4a-42b9-a68e-d915b4ae3dc0",
+              "statement": "Produce a complete cited technical survey using real Primary Papers"
+            },
+            "requirement_61a5b282-8618-4c5a-93a3-fae594d9b1b9": {
+              "id": "requirement_61a5b282-8618-4c5a-93a3-fae594d9b1b9",
+              "statement": "Cover mechanism and representative method per route"
+            },
+            "requirement_77165c7d-eaaf-423f-a49b-7ec2f26fa8f4": {
+              "id": "requirement_77165c7d-eaaf-423f-a49b-7ec2f26fa8f4",
+              "statement": "Cover the latest frontier work up to the research cutoff date"
+            },
+            "requirement_85f126cc-83d5-4f41-a570-66453bbe3611": {
+              "id": "requirement_85f126cc-83d5-4f41-a570-66453bbe3611",
+              "statement": "Map major technical routes and discrimination criteria"
+            },
+            "requirement_dab8230d-2c68-4273-bf2f-ca1b8a8579f2": {
+              "id": "requirement_dab8230d-2c68-4273-bf2f-ca1b8a8579f2",
+              "statement": "Cover route trade-offs"
+            },
+            "requirement_de574d01-a41b-4db2-9045-5d3a7af8bc13": {
+              "id": "requirement_de574d01-a41b-4db2-9045-5d3a7af8bc13",
+              "statement": "Cover open problems"
+            },
+            "requirement_ff5749d4-cc97-4a74-9839-b96c47a82e91": {
+              "id": "requirement_ff5749d4-cc97-4a74-9839-b96c47a82e91",
+              "statement": "Cover key training and reward designs"
+            }
+          },
+          "scope": "Peer-reviewed and arXiv primary literature on RL-based training of search/research agents"
+        },
+        "reason": "Initial contract",
+        "recorded_at": "2026-08-10T04:32:19.319340+00:00",
+        "revision": 1
+      }
+    ]
+  },
+  "delivery_basis": {
+    "completion_check_ref": "check_9c9b435e-3bc3-4e66-b55a-5a9ebfe7e0dd",
+    "type": "completion_pass"
+  },
+  "id": "run_b3d2057a-e66b-434b-aa2e-46b442a0bf58",
+  "investigation_gaps": {
+    "gap_44d9298f-9bd3-448d-9749-db5b067edd61": {
+      "approach_refs": [],
+      "description": "The interaction between self-play task generation and credit assignment is under-explored: whether grounded self-play tasks produce better credit signals than externally provided tasks has not been directly studied in the retained papers.",
+      "id": "gap_44d9298f-9bd3-448d-9749-db5b067edd61",
+      "requirement_refs": [],
+      "resolution": null
+    },
+    "gap_44e8df0d-d269-4f67-98ab-204049398afa": {
+      "approach_refs": [],
+      "description": "Frontier 2026 work on evidence-aligned policy optimization (Contextual Information Policy Optimization) and guided retrieval training (Search-GRT) introduces new reward designs whose relationship to the credit-assignment and PRM routes needs explicit synthesis; the current analyses treat them as separate routes without cross-route comparison.",
+      "id": "gap_44e8df0d-d269-4f67-98ab-204049398afa",
+      "requirement_refs": [],
+      "resolution": null
+    },
+    "gap_6d8e7a04-db26-434f-93f5-71c631fc0c12": {
+      "approach_refs": [],
+      "description": "Empirical head-to-head comparison of credit-assignment sub-routes (answer-backtracking vs. graph-distance vs. provenance vs. counterfactual) on a common search-agent benchmark is not available in the retained corpus; cross-method comparison is currently only inferable from per-paper benchmarks.",
+      "id": "gap_6d8e7a04-db26-434f-93f5-71c631fc0c12",
+      "requirement_refs": [],
+      "resolution": null
+    }
+  },
+  "lifecycle": "CLOSED",
+  "literature_landscape": {
+    "approach_families": {
+      "approach_07d0445d-1906-4382-92f2-71484f2d93df": {
+        "core_idea": "Train search agents via self-play where the same or coupled models generate, solve, and verify tasks without external supervision. Task generation is grounded in evidence chains or knowledge graphs, and search-depth or evidence-density rewards regulate browsing efficiency. The route includes self-evolving variants that accumulate reusable skills or co-evolve with a knowledge graph.",
+        "id": "approach_07d0445d-1906-4382-92f2-71484f2d93df",
+        "name": "Self-Play & Self-Evolving Search Agents",
+        "representative_papers": [
+          "paper_129c24cc-e5d0-4cdc-b1fe-602ea9e21f77",
+          "paper_3283950c-da75-4c9a-b2e6-8f1895609134",
+          "paper_36607d0d-4e2f-42da-82ce-d53b3df533bb",
+          "paper_6b367c0e-35cf-4b44-a181-2a2e4515aee2",
+          "paper_95dfdee4-5aca-431f-b124-1c7e41b1039d"
+        ]
+      },
+      "approach_30b28e3a-777f-4aea-9ee3-ae70707e73cd": {
+        "core_idea": "Adapt Group Relative Policy Optimization for multi-turn agentic settings, addressing failure modes such as advantage collapse and zero-advantage lock-in. Variants include reward-swap consistency guarantees (RSPO), information-gain injection (CIGPO), tournament-based relative rewards (Tournament-GRPO), procedural advantage scaling (APPO), and single-rollout asynchronous optimization (SAO). The advantage-collapse diagnosis provides the theoretical basis.",
+        "id": "approach_30b28e3a-777f-4aea-9ee3-ae70707e73cd",
+        "name": "GRPO Variants for Multi-Turn Agents",
+        "representative_papers": [
+          "paper_979e94aa-f011-479c-afe1-a31cdc4a2cb7",
+          "paper_a90ccaa2-e4a8-46a4-975f-039216e34642",
+          "paper_aa51d6a8-5143-4f58-982d-e64b5622e2be",
+          "paper_b138ad48-5a22-42c2-8fdb-9b1cb1162110",
+          "paper_ce721ef0-7ad1-4c9d-a010-53a22b67dc5b"
+        ]
+      },
+      "approach_36752248-88a4-4b5b-8e62-242f4b4cf7ca": {
+        "core_idea": "Provide dense per-step or per-turn supervision via process reward models, converting symbolic/algorithmic oracles (Verifiable Process Rewards), co-trained evaluators (OASES), or LLM judges into turn-level rewards. Sub-routes include query-refinement curricula (SmartSearch), reward-density optimization (InfoFlow), and actor-refiner evidence-density coupling (Search-R2).",
+        "id": "approach_36752248-88a4-4b5b-8e62-242f4b4cf7ca",
+        "name": "Process Reward Models for Search",
+        "representative_papers": [
+          "paper_050d496d-0069-4264-b789-b3885c9b5e83",
+          "paper_4da9e96d-40c7-4a5f-9aab-fbfc53a277b0",
+          "paper_73d34220-600e-4082-9a78-a28ba2f65a2c",
+          "paper_bb6aa07d-052f-4f87-9fb1-6f0001f5051b",
+          "paper_d7c2ead5-0ac6-4f15-9147-fcd0972f1cec"
+        ]
+      },
+      "approach_46751714-7f21-4ddb-b267-3b73a67c63d8": {
+        "core_idea": "Address the sparse outcome-reward problem in long-horizon search by assigning step-level credit to intermediate search actions. Sub-routes differ by the credit signal source: answer-backtracking (ABSeeker), pivot/information-peak identification (PiCA), graph-distance proximity (Beyond Trajectory Rewards), provenance/first-exposure citation (STAMP), role-typed action classification (TRIAGE), and counterfactual sibling rollouts (CRAFT).",
+        "id": "approach_46751714-7f21-4ddb-b267-3b73a67c63d8",
+        "name": "Credit Assignment for Search Trajectories",
+        "representative_papers": [
+          "paper_2ec71c8b-82d5-4bcd-b202-099cd3913b37",
+          "paper_33169668-c48a-4c0f-a2c3-b5216191a1e8",
+          "paper_37c3e2bb-f024-4a0e-b5ed-cae8fb35d65a",
+          "paper_3a4899d1-9ccf-4239-9d10-5123c22cf569",
+          "paper_70ff7f5a-568a-4ad7-b866-4e3b63cbe51a",
+          "paper_72bccb23-1606-4214-b39b-9f083e926b32",
+          "paper_cefb88c9-c3f5-4c64-96a6-3744215b8562"
+        ]
+      },
+      "approach_4cde35a9-3c9b-4df0-8510-25cdca4b277b": {
+        "core_idea": "Build end-to-end deep-research agents that iteratively gather evidence and synthesize answers over long horizons. Architectures range from recursive self-improvement with constraint auditing (AREX), evidence-graph-based Searcher-Navigator cooperation (Argus), domain-specific scientific reasoning (SciResearcher), to cost-reducing virtual worlds (LiteResearcher) and offline training (OffSeeker).",
+        "id": "approach_4cde35a9-3c9b-4df0-8510-25cdca4b277b",
+        "name": "Deep Research Agent Systems",
+        "representative_papers": [
+          "paper_7d4da387-333b-49bf-bd2f-4faf5789e1d2",
+          "paper_a0c8668c-b9c9-46b1-b8f7-22ae7dfe6458",
+          "paper_c8256b4e-04b8-4166-86df-10a9d6aa448b",
+          "paper_d7295ad7-eba9-4585-b06e-0565fb7bd4df",
+          "paper_d7f29aa3-caf9-4204-9b6f-2c8ceca3120e"
+        ]
+      },
+      "approach_b349a1f3-6695-4e8d-887e-16bb227b38e0": {
+        "core_idea": "Apply reinforcement learning to optimize tool-use policies in LLM agents, deciding when and how to invoke tools within reasoning. Foundational works establish RL viability (ReTool) and sample efficiency (Tool-R1), with frontier work on evidence-aligned policy optimization (Contextual Information Policy Optimization) and guided retrieval training (Search-GRT).",
+        "id": "approach_b349a1f3-6695-4e8d-887e-16bb227b38e0",
+        "name": "RL for Tool Use in Agents",
+        "representative_papers": [
+          "paper_05b61cd4-2de6-4cfb-bb6b-c1885a187de7",
+          "paper_7589c8f9-cba7-4962-b206-51fa360adf48",
+          "paper_e128cbae-36f5-42b9-af32-a8795bb817f1",
+          "paper_e8e0b76f-ad3e-4e57-8172-dee7da680339"
+        ]
+      },
+      "approach_c7e4125b-d5ac-422b-abcf-a3318929b3fa": {
+        "core_idea": "Convert sparse outcome rewards into dense supervision via self-distillation and hindsight techniques without external critics. Sub-routes include recursive Bayesian belief updates (AgentOPSD), trajectory-relative hindsight allocation (TRIAL), and hindsight critique of failed trajectories (HindSearch).",
+        "id": "approach_c7e4125b-d5ac-422b-abcf-a3318929b3fa",
+        "name": "Self-Distillation & Hindsight for Agentic RL",
+        "representative_papers": [
+          "paper_57e11b54-d6a8-46e4-9e64-eeec6bbb655a",
+          "paper_855832de-c9be-46b0-8fcb-ad08a3947d9c",
+          "paper_e1cd98a1-20f2-47bf-96cd-8d7711b7d655"
+        ]
+      }
+    },
+    "findings": {
+      "finding_03682b12-5480-422c-b8a1-0fc784aaa642": {
+        "approach_refs": [],
+        "id": "finding_03682b12-5480-422c-b8a1-0fc784aaa642",
+        "sources": [
+          {
+            "locator": null,
+            "paper_ref": "paper_c8256b4e-04b8-4166-86df-10a9d6aa448b",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_d7f29aa3-caf9-4204-9b6f-2c8ceca3120e",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Online RL is not strictly necessary for deep-research agents: OffSeeker demonstrates that fully offline training with curated trajectories can rival costly online RL loops, and LiteResearcher's virtual world reduces external API costs. This challenges the prevailing assumption that online interaction is required, opening a cost-quality trade-off axis between online, offline, and virtual-world training."
+      },
+      "finding_073ce08e-01b5-4367-8bfc-93b34c7db993": {
+        "approach_refs": [],
+        "id": "finding_073ce08e-01b5-4367-8bfc-93b34c7db993",
+        "sources": [
+          {
+            "locator": null,
+            "paper_ref": "paper_36607d0d-4e2f-42da-82ce-d53b3df533bb",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_bb6aa07d-052f-4f87-9fb1-6f0001f5051b",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Search-depth and evidence-density rewards are emerging as efficiency regulators: SearchMaster's search-depth reward and Search-R2's evidence-density reward both penalize inefficient browsing, indicating a shared recognition that answer correctness alone is insufficient\u2014search efficiency must be explicitly rewarded to prevent over-search behavior in trained agents."
+      },
+      "finding_0c0d6a8f-baf5-49cb-89ff-98633ea09b36": {
+        "approach_refs": [],
+        "id": "finding_0c0d6a8f-baf5-49cb-89ff-98633ea09b36",
+        "sources": [
+          {
+            "locator": null,
+            "paper_ref": "paper_129c24cc-e5d0-4cdc-b1fe-602ea9e21f77",
+            "relation": "QUALIFIES"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_36607d0d-4e2f-42da-82ce-d53b3df533bb",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_95dfdee4-5aca-431f-b124-1c7e41b1039d",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Self-play with evidence grounding enables supervision-free search-agent training, but grounding quality determines task quality: SearchMaster's evidence-chain grounding and CoEvoKG's knowledge-graph grounding both show that the grounding substrate (evidence chains vs. KGs) directly affects whether generated tasks are solvable and verifiable. Ungrounded self-play (Search Self-play) risks trivial or unsolvable tasks, while grounded variants trade off coverage against verifiability."
+      },
+      "finding_513ba2da-1919-4544-b241-46cccdce8d0d": {
+        "approach_refs": [],
+        "id": "finding_513ba2da-1919-4544-b241-46cccdce8d0d",
+        "sources": [
+          {
+            "locator": null,
+            "paper_ref": "paper_979e94aa-f011-479c-afe1-a31cdc4a2cb7",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_a90ccaa2-e4a8-46a4-975f-039216e34642",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_aa51d6a8-5143-4f58-982d-e64b5622e2be",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Outcome-only GRPO suffers from advantage collapse on long-horizon search tasks: as trajectories lengthen, group-relative advantages collapse toward zero, eliminating the learning signal. This is a shared failure mode diagnosed independently by the advantage-collapse analysis and addressed by CIGPO (information-gain injection), RSPO (reward-swap), and the credit-assignment family, indicating that naive outcome-only GRPO is insufficient for multi-turn search agents."
+      },
+      "finding_8907463c-4738-4fb8-8d21-6853ffbb98fc": {
+        "approach_refs": [],
+        "id": "finding_8907463c-4738-4fb8-8d21-6853ffbb98fc",
+        "sources": [
+          {
+            "locator": null,
+            "paper_ref": "paper_050d496d-0069-4264-b789-b3885c9b5e83",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_33169668-c48a-4c0f-a2c3-b5216191a1e8",
+            "relation": "QUALIFIES"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_3a4899d1-9ccf-4239-9d10-5123c22cf569",
+            "relation": "QUALIFIES"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_d7c2ead5-0ac6-4f15-9147-fcd0972f1cec",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Process reward models and credit assignment are converging toward the same goal via different means: PRM-based routes (Verifiable Process Rewards, OASES) train explicit reward models, while credit-assignment routes (ABSeeker, CRAFT) derive credit structurally from trajectories or siblings. Both aim to densify the supervision signal, but PRM routes add a model that can drift, while structural routes are model-free but depend on trajectory structure assumptions."
+      },
+      "finding_b4e236a9-25dd-4bc0-8490-5a0a4b6d342d": {
+        "approach_refs": [],
+        "id": "finding_b4e236a9-25dd-4bc0-8490-5a0a4b6d342d",
+        "sources": [
+          {
+            "locator": null,
+            "paper_ref": "paper_2ec71c8b-82d5-4bcd-b202-099cd3913b37",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_33169668-c48a-4c0f-a2c3-b5216191a1e8",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_3a4899d1-9ccf-4239-9d10-5123c22cf569",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_70ff7f5a-568a-4ad7-b866-4e3b63cbe51a",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_72bccb23-1606-4214-b39b-9f083e926b32",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_cefb88c9-c3f5-4c64-96a6-3744215b8562",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Credit assignment is the central bottleneck for search-agent RL: across all analyzed routes, the core challenge is converting a sparse terminal outcome (answer correctness) into dense per-step or per-turn supervision. The diversity of solutions\u2014answer-backtracking, pivot identification, graph distance, provenance tracing, role classification, and counterfactual siblings\u2014indicates no single credit-assignment method dominates; the choice depends on whether ground-truth answers, graphs, or sibling rollouts are available."
+      }
+    },
+    "open_problems": {
+      "problem_38063c0d-ef61-45f7-b8d2-ca43030f1ba4": {
+        "approach_refs": [],
+        "id": "problem_38063c0d-ef61-45f7-b8d2-ca43030f1ba4",
+        "sources": [
+          {
+            "locator": null,
+            "paper_ref": "paper_36607d0d-4e2f-42da-82ce-d53b3df533bb",
+            "relation": "QUALIFIES"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_66320223-b2b2-44bd-ba9b-898944c453ca",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Standardized evaluation of search-agent RL: the field lacks a unified benchmark that evaluates both answer quality and search efficiency (query count, token cost, evidence precision) under controlled conditions, making cross-method comparison unreliable."
+      },
+      "problem_4911a61c-47f0-4a60-841d-5228e7604b45": {
+        "approach_refs": [],
+        "id": "problem_4911a61c-47f0-4a60-841d-5228e7604b45",
+        "sources": [
+          {
+            "locator": null,
+            "paper_ref": "paper_7d4da387-333b-49bf-bd2f-4faf5789e1d2",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_95dfdee4-5aca-431f-b124-1c7e41b1039d",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Long-horizon context management under RL: as research horizons grow, context windows fill and must be compressed (AREX) or managed via memory (CoEvoKG, skill evolution). How to train RL policies that jointly optimize answer quality and context/memory management without reward interference is unresolved."
+      },
+      "problem_791552a4-91d8-464e-9fb7-3e5b14a5c67c": {
+        "approach_refs": [],
+        "id": "problem_791552a4-91d8-464e-9fb7-3e5b14a5c67c",
+        "sources": [
+          {
+            "locator": null,
+            "paper_ref": "paper_050d496d-0069-4264-b789-b3885c9b5e83",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_3a4899d1-9ccf-4239-9d10-5123c22cf569",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Credit assignment without ground-truth answers: most credit-assignment methods (ABSeeker, Verifiable Process Rewards) require ground-truth answers or symbolic oracles, limiting applicability to verifiable domains. Extending credit assignment to open-ended, non-verifiable research tasks where no ground truth exists remains an open problem."
+      },
+      "problem_8a07fbae-1ff0-4c94-bd3c-a8b43dd02ae2": {
+        "approach_refs": [],
+        "id": "problem_8a07fbae-1ff0-4c94-bd3c-a8b43dd02ae2",
+        "sources": [
+          {
+            "locator": null,
+            "paper_ref": "paper_36607d0d-4e2f-42da-82ce-d53b3df533bb",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_4da9e96d-40c7-4a5f-9aab-fbfc53a277b0",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Reward hacking and over-search in RL-trained search agents: as agents learn to maximize correctness rewards, they may develop over-search behaviors (excessive querying) or exploit reward shortcuts. Search-depth rewards partially address this, but a general defense against reward hacking in multi-turn search RL is missing."
+      },
+      "problem_eb184363-cfc1-4041-a279-0b6aeee31d8b": {
+        "approach_refs": [],
+        "id": "problem_eb184363-cfc1-4041-a279-0b6aeee31d8b",
+        "sources": [
+          {
+            "locator": null,
+            "paper_ref": "paper_36607d0d-4e2f-42da-82ce-d53b3df533bb",
+            "relation": "SUPPORTS"
+          },
+          {
+            "locator": null,
+            "paper_ref": "paper_95dfdee4-5aca-431f-b124-1c7e41b1039d",
+            "relation": "SUPPORTS"
+          }
+        ],
+        "statement": "Verifier reliability in self-play: all self-play routes depend on a Verifier (frozen or co-evolving) to judge task correctness. A weak or drifting Verifier propagates incorrect supervision, but the field lacks a principled method for detecting Verifier failure during training and recovering from it without external ground truth."
+      }
+    }
+  },
+  "outcome": "COMPLETE",
+  "papers": {
+    "paper_050d496d-0069-4264-b789-b3885c9b5e83": {
+      "analysis": {
+        "contributions": [
+          "Conversion of symbolic/algorithmic oracles into dense turn-level rewards",
+          "Verifiable process rewards avoiding heuristic label noise"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Oracle-derived rewards are verifiable and dense, addressing long-horizon sparsity"
+        ],
+        "limitations": [
+          "Requires a symbolic or algorithmic oracle, limiting applicability to domains with verifiable correctness"
+        ],
+        "relevance_to_run": "Defines the verifiable-process-reward route; the oracle-to-reward conversion is a key reward-design mechanism.",
+        "summary": "Verifiable Process Rewards for Agentic Reasoning converts symbolic or algorithmic oracles into dense turn-level supervision, solving long-horizon credit assignment challenges by providing verifiable per-step rewards rather than heuristic process labels."
+      },
+      "id": "paper_050d496d-0069-4264-b789-b3885c9b5e83",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2605.10325",
+        "authors": [
+          "Huining Yuan",
+          "Zelai Xu",
+          "Huaijie Wang",
+          "Xiangmin Yi",
+          "Jiaxuan Gao",
+          "Xiao-Ping Zhang",
+          "Yu Wang",
+          "Chao Yu",
+          "Yi Wu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.10325",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-05-11",
+        "publication_year": 2026,
+        "title": "Verifiable Process Rewards for Agentic Reasoning"
+      }
+    },
+    "paper_05b61cd4-2de6-4cfb-bb6b-c1885a187de7": {
+      "analysis": {
+        "contributions": [
+          "RL framework for strategic tool-use decisions in LLMs",
+          "Integration of tool use into the RL reward and policy optimization loop"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Demonstrates RL can optimize tool-use policies in LLMs"
+        ],
+        "limitations": [
+          "Tool-use reward design is task-specific"
+        ],
+        "relevance_to_run": "Foundational work on RL for tool use; relevant to the tool-use-RL technical route and the key training/reward design requirement.",
+        "summary": "ReTool applies reinforcement learning for strategic tool use in LLMs, training the model to decide when and how to use tools within a reasoning trajectory, establishing RL as a viable approach for tool-use policy optimization."
+      },
+      "id": "paper_05b61cd4-2de6-4cfb-bb6b-c1885a187de7",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2504.11536",
+        "authors": [
+          "Jiazhan Feng",
+          "Shijue Huang",
+          "Xingwei Qu",
+          "Ge Zhang",
+          "Yujia Qin",
+          "Baoquan Zhong",
+          "Chengquan Jiang",
+          "Jinxin Chi",
+          "Wanjun Zhong"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2504.11536",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2025-04-15",
+        "publication_year": 2025,
+        "title": "ReTool: Reinforcement Learning for Strategic Tool Use in LLMs"
+      }
+    },
+    "paper_129c24cc-e5d0-4cdc-b1fe-602ea9e21f77": {
+      "analysis": {
+        "contributions": [
+          "Self-play training paradigm for search agents requiring no external supervision or labeled data",
+          "Task generation from unlabeled documents enabling scalable training data"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Shows self-play can push agent capability frontier without human annotations"
+        ],
+        "limitations": [
+          "Self-play without grounding risks generating trivially solvable or unsolvable tasks"
+        ],
+        "relevance_to_run": "Foundational work on the self-play route for search agents; establishes that self-play can drive frontier capability without labels, a key motivation for the self-play technical route.",
+        "summary": "Search Self-play proposes a self-play framework that pushes the frontier of agent capability without external supervision. It generates search tasks from unlabeled data and uses the agent's own search behavior to define training signals, enabling capability improvement without human annotations."
+      },
+      "id": "paper_129c24cc-e5d0-4cdc-b1fe-602ea9e21f77",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2510.18821",
+        "authors": [
+          "Hongliang Lu",
+          "Yuhang Wen",
+          "Pengyu Cheng",
+          "Ruijin Ding",
+          "Jiaqi Guo",
+          "Haotian Xu",
+          "Chutian Wang",
+          "Haonan Chen",
+          "Xiaoxi Jiang",
+          "Guanjun Jiang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2510.18821",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2025-10-21",
+        "publication_year": 2025,
+        "title": "Search Self-play: Pushing the Frontier of Agent Capability without Supervision"
+      }
+    },
+    "paper_1d4a7739-1cd9-4639-9049-32139d66e2b2": {
+      "analysis": null,
+      "id": "paper_1d4a7739-1cd9-4639-9049-32139d66e2b2",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2604.11037",
+        "authors": [
+          "Tao Wang",
+          "Suhang Zheng",
+          "Xiaoxiao Xu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.11037",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-04-13",
+        "publication_year": 2026,
+        "title": "RTMC: Step-Level Credit Assignment via Rollout Trees"
+      }
+    },
+    "paper_2107bbbb-8fc5-43e7-b4e3-01f7e17b3c5e": {
+      "analysis": null,
+      "id": "paper_2107bbbb-8fc5-43e7-b4e3-01f7e17b3c5e",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2509.01055",
+        "authors": [
+          "Dongfu Jiang",
+          "Yi Lu",
+          "Zhuofeng Li",
+          "Zhiheng Lyu",
+          "Ping Nie",
+          "Haozhe Wang",
+          "Alex Su",
+          "Hui Chen",
+          "Kai Zou",
+          "Chao Du",
+          "Tianyu Pang",
+          "Wenhu Chen"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2509.01055",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2025-09-01",
+        "publication_year": 2025,
+        "title": "VerlTool: Towards Holistic Agentic Reinforcement Learning with Tool Use"
+      }
+    },
+    "paper_23e4b13d-4e2b-4e72-962e-459f97743eaf": {
+      "analysis": null,
+      "id": "paper_23e4b13d-4e2b-4e72-962e-459f97743eaf",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2509.06980",
+        "authors": [
+          "Jiajun Chai",
+          "Guojun Yin",
+          "Zekun Xu",
+          "Chuhuai Yue",
+          "Yi Jia",
+          "Siyu Xia",
+          "Xiaohan Wang",
+          "Jiwen Jiang",
+          "Xiaoguang Li",
+          "Chengqi Dong",
+          "Hang He",
+          "Wei Lin"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2509.06980",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2025-08-31",
+        "publication_year": 2025,
+        "title": "RLFactory: A Plug-and-Play Reinforcement Learning Post-Training Framework for LLM Multi-Turn Tool-Use"
+      }
+    },
+    "paper_2ec71c8b-82d5-4bcd-b202-099cd3913b37": {
+      "analysis": {
+        "contributions": [
+          "First-exposure citation tracing for provenance-based credit",
+          "Sign-preserving advantage modulation that avoids reward sign flipping"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Provenance tracing credits the specific actions that introduced useful evidence"
+        ],
+        "limitations": [
+          "Citation tracing requires reliable evidence-to-action mapping"
+        ],
+        "relevance_to_run": "Provenance-based credit-assignment route; the first-exposure-citation concept is a discrimination criterion for credit assignment.",
+        "summary": "STAMP traces first-exposure citations to credit supporting actions via sign-preserving advantage modulation. It identifies which search actions first introduced evidence later used in the answer, and modulates advantages while preserving their sign."
+      },
+      "id": "paper_2ec71c8b-82d5-4bcd-b202-099cd3913b37",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2607.11172",
+        "authors": [
+          "Ke Xu",
+          "Han Xu",
+          "Xinran Chen",
+          "Yuqian Wang",
+          "Zhixuan Li",
+          "Xiaojian Liu",
+          "Changwo Wu",
+          "Jianqiang Xia",
+          "Yuchen Li"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2607.11172",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-07-13",
+        "publication_year": 2026,
+        "title": "STAMP: Provenance-Guided Credit Assignment for Deep Search Agents"
+      }
+    },
+    "paper_3283950c-da75-4c9a-b2e6-8f1895609134": {
+      "analysis": {
+        "contributions": [
+          "Bidirectional learning loop coupling task generation with skill evolution",
+          "Procedural-failure-to-skill conversion mechanism for accumulating reusable search strategies"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Skill memory improves search efficiency by reusing successful strategies across episodes"
+        ],
+        "limitations": [
+          "Skill bank quality depends on the diversity of encountered failures"
+        ],
+        "relevance_to_run": "Extends the self-play route with skill memory, representing the self-evolving sub-route. Directly relevant to the self-play and self-evolution technical routes.",
+        "summary": "Self-Play Meets Skill Evolution proposes a self-evolving search agent that converts procedural failures into reusable skills written to a memory bank, creating a bidirectional learning loop between task generation and skill evolution. Skills accumulate across episodes and guide future search behavior."
+      },
+      "id": "paper_3283950c-da75-4c9a-b2e6-8f1895609134",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2607.29468",
+        "authors": [
+          "Zenghuang Fu",
+          "Zhaoyang Li",
+          "Qiuyuan Ai",
+          "Haoyu Wu",
+          "Minghui Wu",
+          "Chenxu Zhao",
+          "Ante Wang",
+          "Guannan He",
+          "Changwei Wang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2607.29468",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-07-31",
+        "publication_year": 2026,
+        "title": "Self-Play Meets Skill Evolution: Self-Evolving Search Agents that Pose, Solve, and Remember"
+      }
+    },
+    "paper_33169668-c48a-4c0f-a2c3-b5216191a1e8": {
+      "analysis": {
+        "contributions": [
+          "Importance-weighted sibling rollouts for counterfactual credit",
+          "Asymmetric KL control providing signed token-level credit"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Sibling-based counterfactual credit is near-zero-cost and signed"
+        ],
+        "limitations": [
+          "Sibling rollout quality depends on policy stochasticity"
+        ],
+        "relevance_to_run": "Counterfactual credit-assignment route using sibling rollouts; relevant to credit-assignment and self-distillation routes.",
+        "summary": "CRAFT uses importance-weighted sibling rollouts and asymmetric KL control to provide signed, counterfactual token-level credit at near-zero extra cost, enabling fine-grained credit assignment from free sibling rollouts."
+      },
+      "id": "paper_33169668-c48a-4c0f-a2c3-b5216191a1e8",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2606.29476",
+        "authors": [
+          "Zibin Meng",
+          "Kani Chen"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2606.29476",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-06-28",
+        "publication_year": 2026,
+        "title": "CRAFT: Counterfactual Credit Assignment from Free Sibling Rollouts for Self-Distilled Agentic Reinforcement Learning"
+      }
+    },
+    "paper_36607d0d-4e2f-42da-82ce-d53b3df533bb": {
+      "analysis": {
+        "contributions": [
+          "Single-policy self-play where the same model serves as both Proposer and Solver, eliminating the need for separate specialized models",
+          "Evidence-Chain-Grounded (ECG) task generation that ties each generated task to a verifiable evidence chain in the document collection",
+          "Search-depth reward component that penalizes inefficient browsing by rewarding correct answers achieved with fewer unique search queries",
+          "Frozen Verifier design that provides stable judgment signals across self-play iterations"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Demonstrates that self-play with evidence-chain grounding produces solvable, verifiable tasks without human-labeled data",
+          "Search-depth reward reduces average query count while maintaining answer accuracy, addressing the over-search problem",
+          "The single-policy design enables parameter sharing between task generation and task solving, improving sample efficiency"
+        ],
+        "limitations": [
+          "Self-play quality depends on the frozen Verifier's reliability; a weak Verifier can propagate incorrect judgment signals",
+          "Evidence chains are constrained to the document collection D, potentially limiting coverage of topics outside D",
+          "The Proposer-Solver role sharing may create a coupling where improvements in one role do not directly transfer to the other"
+        ],
+        "relevance_to_run": "Directly defines the self-play route for search-agent training, which is a core technical route of this survey. Its evidence-chain grounding and search-depth regulation address the key training/reward design requirement and the frontier-work requirement (2026-08).",
+        "summary": "SearchMaster proposes a grounded and regulated self-play framework for training search agents. A single policy pi_theta simultaneously acts as Proposer (generating tasks from seed documents with evidence chains) and Solver (answering tasks via browser tools search/open/find), while a frozen Verifier judges correctness. The framework uses evidence-chain-grounded task generation and a search-depth reward to regulate browsing efficiency, preventing the agent from excessive inefficient querying."
+      },
+      "id": "paper_36607d0d-4e2f-42da-82ce-d53b3df533bb",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2608.01822",
+        "authors": [
+          "Wentao Tan",
+          "Qiong Cao",
+          "Jiaqi Wang",
+          "Nan Duan"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2608.01822",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-08-03",
+        "publication_year": 2026,
+        "title": "SearchMaster: Grounded and Regulated Self-Play for Search Agents"
+      }
+    },
+    "paper_37c3e2bb-f024-4a0e-b5ed-cae8fb35d65a": {
+      "analysis": {
+        "contributions": [
+          "LLM-judge-based contribution scoring for retrieval and reasoning",
+          "Contribution-weighted advantage rescaling within GRPO"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Combining process and outcome signals improves search-agent performance over outcome-only GRPO"
+        ],
+        "limitations": [
+          "LLM judge introduces its own biases and computational cost"
+        ],
+        "relevance_to_run": "Integrates process supervision with GRPO for search agents; relevant to both credit-assignment and GRPO-variant routes.",
+        "summary": "Enhancing LLM-based Search Agents via Contribution Weighted GRPO integrates process supervision into GRPO by using an LLM judge to score retrieval utility and reasoning correctness, subsequently rescaling outcome advantages along the trajectory based on per-step contributions."
+      },
+      "id": "paper_37c3e2bb-f024-4a0e-b5ed-cae8fb35d65a",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2604.14267",
+        "authors": [
+          "Junzhe Wang",
+          "Zhiheng Xi",
+          "Yajie Yang",
+          "Hao Luo",
+          "Shihan Dou",
+          "Tao Gui",
+          "Qi Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.14267",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-04-15",
+        "publication_year": 2026,
+        "title": "Enhancing LLM-based Search Agents via Contribution Weighted Group Relative Policy Optimization"
+      }
+    },
+    "paper_391c1118-f0c0-4a4c-bbbe-86eabb3f4246": {
+      "analysis": null,
+      "id": "paper_391c1118-f0c0-4a4c-bbbe-86eabb3f4246",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2605.16302",
+        "authors": [
+          "Fei Ding",
+          "Yongkang Zhang",
+          "Yeling Peng",
+          "Youwei Wang",
+          "Guoxiong Zhou",
+          "Zijian Zeng"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.16302",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-04-20",
+        "publication_year": 2026,
+        "title": "Reducing Credit Assignment Variance via Counterfactual Reasoning Paths"
+      }
+    },
+    "paper_3a4899d1-9ccf-4239-9d10-5123c22cf569": {
+      "analysis": {
+        "contributions": [
+          "Answer-backtracking mechanism that propagates credit from ground-truth answers to intermediate steps",
+          "Step-level scoring for long-horizon search trajectories overcoming outcome-reward sparsity"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Backtracked credit enables training on long-horizon tasks where outcome-only RL fails"
+        ],
+        "limitations": [
+          "Requires ground-truth answers for backtracking, limiting applicability to verifiable tasks"
+        ],
+        "relevance_to_run": "Defines the answer-backtracking credit-assignment route, a major technical route for search-agent training. Directly addresses the key training/reward design requirement.",
+        "summary": "ABSeeker trains long-horizon search agents via answer-backtracked credit assignment. It traces back from ground-truth answers to score intermediate search steps, enabling efficient credit assignment over long trajectories where outcome-only rewards are too sparse."
+      },
+      "id": "paper_3a4899d1-9ccf-4239-9d10-5123c22cf569",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2608.05102",
+        "authors": [
+          "Yijun Lu",
+          "Rui Ye",
+          "Jiajun Wang",
+          "Yuwen Du",
+          "Tian Jin",
+          "Songhua Liu",
+          "Siheng Chen"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2608.05102",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-08-05",
+        "publication_year": 2026,
+        "title": "ABSeeker: Training Long-Horizon Search Agents via Answer-Backtracked Credit Assignment"
+      }
+    },
+    "paper_471b2644-45a3-4616-a012-65df950d6060": {
+      "analysis": null,
+      "id": "paper_471b2644-45a3-4616-a012-65df950d6060",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2606.29713",
+        "authors": [
+          "Aojie Yuan",
+          "Yi Nian",
+          "Haiyue Zhang",
+          "Zijian Su",
+          "Yue Zhao"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2606.29713",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-06-29",
+        "publication_year": 2026,
+        "title": "SEVA: Self-Evolving Verification Agent with Process Reward for Fact Attribution"
+      }
+    },
+    "paper_4c6a18eb-9749-4981-bf9b-776414a9eba5": {
+      "analysis": null,
+      "id": "paper_4c6a18eb-9749-4981-bf9b-776414a9eba5",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2512.02038",
+        "authors": [
+          "Zhengliang Shi",
+          "Yiqun Chen",
+          "Haitao Li",
+          "Weiwei Sun",
+          "Shiyu Ni",
+          "Yougang Lyu",
+          "Run-Ze Fan",
+          "Bowen Jin",
+          "Yixuan Weng",
+          "Minjun Zhu",
+          "Qiujie Xie",
+          "Xinyu Guo",
+          "Qu Yang",
+          "Jiayi Wu",
+          "Jujia Zhao",
+          "Xiaqiang Tang",
+          "Xinbei Ma",
+          "Cunxiang Wang",
+          "Jiaxin Mao",
+          "Qingyao Ai",
+          "Jen-Tse Huang",
+          "Wenxuan Wang",
+          "Yue Zhang",
+          "Yiming Yang",
+          "Zhaopeng Tu",
+          "Zhaochun Ren"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2512.02038",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2025-11-24",
+        "publication_year": 2025,
+        "title": "Deep Research: A Systematic Survey"
+      }
+    },
+    "paper_4da9e96d-40c7-4a5f-9aab-fbfc53a277b0": {
+      "analysis": {
+        "contributions": [
+          "Task decomposition and failure-guided hint injection for reward density",
+          "Dual-agent architecture for trajectory compression and refinement"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Reward density optimization mitigates sparse-signal problems in deep search"
+        ],
+        "limitations": [
+          "Hint injection may bias exploration toward known failure modes"
+        ],
+        "relevance_to_run": "Reward-density-optimization route; directly addresses the sparse-reward problem in deep search.",
+        "summary": "InfoFlow addresses low reward density in deep search by decomposing tasks, injecting failure-guided hints, and using a dual-agent architecture to compress and refine exploration trajectories, increasing the density of useful training signal."
+      },
+      "id": "paper_4da9e96d-40c7-4a5f-9aab-fbfc53a277b0",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2510.26575",
+        "authors": [
+          "Kun Luo",
+          "Hongjin Qian",
+          "Zheng Liu",
+          "Ziyi Xia",
+          "Shitao Xiao",
+          "Siqi Bao",
+          "Jun Zhao",
+          "Kang Liu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2510.26575",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2025-10-30",
+        "publication_year": 2025,
+        "title": "InfoFlow: Reinforcing Search Agent Via Reward Density Optimization"
+      }
+    },
+    "paper_57e11b54-d6a8-46e4-9e64-eeec6bbb655a": {
+      "analysis": {
+        "contributions": [
+          "Recursive Bayesian belief updates for turn-level credit",
+          "Critic-free self-distillation for agentic RL"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Critic-free design reduces model requirements while providing dense credit"
+        ],
+        "limitations": [
+          "Bayesian belief update accuracy depends on reward distribution assumptions"
+        ],
+        "relevance_to_run": "Critic-free self-distillation route; relevant to credit assignment and self-distillation technical routes.",
+        "summary": "AgentOPSD employs recursive Bayesian belief updates to convert sparse outcome rewards into dense turn-level credit without a critic, providing a critic-free self-distillation method for agentic RL."
+      },
+      "id": "paper_57e11b54-d6a8-46e4-9e64-eeec6bbb655a",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2608.05987",
+        "authors": [
+          "Zi-Han Wang",
+          "Zhengxi Lu",
+          "Zhiyuan Yao",
+          "Jinyang Wu",
+          "Jie Wu",
+          "Zhengzhou Cai",
+          "Yueqing Sun",
+          "Ziang Ye",
+          "Linji Hao",
+          "Qi Gu",
+          "Xunliang Cai",
+          "Yongliang Shen",
+          "Yujiu Yang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2608.05987",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-08-06",
+        "publication_year": 2026,
+        "title": "AgentOPSD: Recursive Self-Distillation for Agentic Reinforcement Learning"
+      }
+    },
+    "paper_66320223-b2b2-44bd-ba9b-898944c453ca": {
+      "analysis": null,
+      "id": "paper_66320223-b2b2-44bd-ba9b-898944c453ca",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2603.01152",
+        "authors": [
+          "Tongzhou Wu",
+          "Yuhao Wang",
+          "Xinyu Ma",
+          "Xiuqiang He",
+          "Shuaiqiang Wang",
+          "Dawei Yin",
+          "Xiangyu Zhao"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.01152",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-03-01",
+        "publication_year": 2026,
+        "title": "DeepResearch-9K: A Challenging Benchmark Dataset of Deep-Research Agent"
+      }
+    },
+    "paper_66a12012-6a64-4a5d-9657-d9a46ec9c271": {
+      "analysis": null,
+      "id": "paper_66a12012-6a64-4a5d-9657-d9a46ec9c271",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2509.24107",
+        "authors": [
+          "Shreyas Singh",
+          "Kunal Singh",
+          "Pradeep Moturi"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2509.24107",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2025-09-28",
+        "publication_year": 2025,
+        "title": "Fathom-DeepResearch: Unlocking Long Horizon Information Retrieval and Synthesis for SLMs"
+      }
+    },
+    "paper_67c7db77-bc3d-42ef-92d0-9e2c91a8f488": {
+      "analysis": null,
+      "id": "paper_67c7db77-bc3d-42ef-92d0-9e2c91a8f488",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2604.19859",
+        "authors": [
+          "Venus Team",
+          "Sunhao Dai",
+          "Yong Deng",
+          "Jinzhen Lin",
+          "Yusheng Song",
+          "Guoqing Wang",
+          "Xiaofeng Wu",
+          "Yuqi Zhou",
+          "Shuo Yang",
+          "Zhenzhe Ying",
+          "Zhanwei Zhang",
+          "Changhua Meng",
+          "Weiqiang Wang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.19859",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-04-21",
+        "publication_year": 2026,
+        "title": "DR-Venus: Towards Frontier Edge-Scale Deep Research Agents with Only 10K Open Data"
+      }
+    },
+    "paper_6b367c0e-35cf-4b44-a181-2a2e4515aee2": {
+      "analysis": null,
+      "id": "paper_6b367c0e-35cf-4b44-a181-2a2e4515aee2",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2605.05702",
+        "authors": [
+          "Huyu Wu",
+          "Jun Liu",
+          "Xiaochi Wei",
+          "Yan Gao",
+          "Yi Wu",
+          "Yao Hu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.05702",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-05-07",
+        "publication_year": 2026,
+        "title": "Knowledge-Graph Paths as Intermediate Supervision for Self-Evolving Search Agents"
+      }
+    },
+    "paper_70ff7f5a-568a-4ad7-b866-4e3b63cbe51a": {
+      "analysis": {
+        "contributions": [
+          "Action-role classification (progress/exploration/regression) for credit assignment",
+          "Correction of GRPO's uniform outcome credit via role-specific signals"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Role-typed credit reduces redundant actions by distinguishing productive from regressive steps"
+        ],
+        "limitations": [
+          "Role classification requires a reliable classifier"
+        ],
+        "relevance_to_run": "Role-typed credit-assignment route; the action-role taxonomy is a discrimination criterion for credit assignment.",
+        "summary": "TRIAGE proposes role-typed credit assignment that corrects standard GRPO's outcome-only signals by classifying agent actions into progress, exploration, or regression categories, applying role-specific credit rather than uniform outcome credit."
+      },
+      "id": "paper_70ff7f5a-568a-4ad7-b866-4e3b63cbe51a",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2606.32017",
+        "authors": [
+          "Yuanda Xu",
+          "Zhengze Zhou",
+          "Hejian Sang",
+          "Xiaomin Li",
+          "Jiaxin Zhang",
+          "Xinchen Du",
+          "Sen Na",
+          "Zhipeng Wang",
+          "Alborz Geramifard"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2606.32017",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-06-30",
+        "publication_year": 2026,
+        "title": "TRIAGE: Role-Typed Credit Assignment for Agentic Reinforcement Learning"
+      }
+    },
+    "paper_72bccb23-1606-4214-b39b-9f083e926b32": {
+      "analysis": {
+        "contributions": [
+          "Pivot-step identification as information peaks in search trajectories",
+          "Context-dependent process reward formulation"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Pivot-based rewards focus credit on the most informative steps"
+        ],
+        "limitations": [
+          "Pivot identification may be noisy without accurate information-peak detection"
+        ],
+        "relevance_to_run": "Defines the pivot-based credit-assignment route; the information-peak concept is a discrimination criterion for the credit-assignment technical route.",
+        "summary": "PiCA defines process rewards as success probabilities dependent on historical context, identifying pivot steps as information peaks that guide search agents toward correct answers. Pivot steps are the turns where the most critical information is acquired."
+      },
+      "id": "paper_72bccb23-1606-4214-b39b-9f083e926b32",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2605.09287",
+        "authors": [
+          "Dongyi Liu",
+          "Yifan Niu",
+          "Qinwen Wang",
+          "Han Xiao",
+          "Jia Li"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.09287",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-05-10",
+        "publication_year": 2026,
+        "title": "PiCA: Pivot-Based Credit Assignment for Search Agentic Reinforcement Learning"
+      }
+    },
+    "paper_73d34220-600e-4082-9a78-a28ba2f65a2c": {
+      "analysis": {
+        "contributions": [
+          "Dual-level credit assessment for query quality",
+          "Curriculum-based selective refinement of low-quality queries"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Selective refinement improves intermediate query quality"
+        ],
+        "limitations": [
+          "Curriculum design requires careful difficulty scheduling"
+        ],
+        "relevance_to_run": "Process-reward-guided query refinement route; relevant to credit assignment and curriculum design.",
+        "summary": "SmartSearch employs dual-level credit assessment via process rewards to selectively refine low-quality intermediate search queries through a structured curriculum learning framework, improving query quality over training."
+      },
+      "id": "paper_73d34220-600e-4082-9a78-a28ba2f65a2c",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2601.04888",
+        "authors": [
+          "Tongyu Wen",
+          "Guanting Dong",
+          "Zhicheng Dou"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.04888",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-01-08",
+        "publication_year": 2026,
+        "title": "SmartSearch: Process Reward-Guided Query Refinement for Search Agents"
+      }
+    },
+    "paper_7589c8f9-cba7-4962-b206-51fa360adf48": {
+      "analysis": {
+        "contributions": [
+          "Evidence-oriented policy optimization reducing confirmation bias",
+          "Alignment of RL optimization with external evidence signals"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Evidence alignment reduces confirmation bias in search agent behavior"
+        ],
+        "limitations": [
+          "Evidence-alignment mechanism design is non-trivial"
+        ],
+        "relevance_to_run": "Frontier 2026 work on evidence-aligned policy optimization; relevant to reward design and the frontier-work requirement.",
+        "summary": "Contextual Information Policy Optimization proposes an evidence-oriented RL framework that aligns policy optimization with external evidence to reduce confirmation bias in search agents, ensuring that search behavior is driven by evidence rather than prior beliefs."
+      },
+      "id": "paper_7589c8f9-cba7-4962-b206-51fa360adf48",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2608.06128",
+        "authors": [
+          "Xingyu Guo",
+          "Wei Chen",
+          "Linlin Yang",
+          "Baochang Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2608.06128",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-08-06",
+        "publication_year": 2026,
+        "title": "Contextual Information Policy Optimization for Search Agents"
+      }
+    },
+    "paper_7c09a0bd-e60c-4b81-87c6-d0a34a489a7c": {
+      "analysis": null,
+      "id": "paper_7c09a0bd-e60c-4b81-87c6-d0a34a489a7c",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2510.24126",
+        "authors": [
+          "Vivek Kalyan",
+          "Martin Andrews"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2510.24126",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2025-10-28",
+        "publication_year": 2025,
+        "title": "Reinforcement Learning for Long-Horizon Multi-Turn Search Agents"
+      }
+    },
+    "paper_7d4da387-333b-49bf-bd2f-4faf5789e1d2": {
+      "analysis": {
+        "contributions": [
+          "Recursive evidence-gathering and constraint-auditing alternation",
+          "Compressed context updates for long-horizon coherence",
+          "Long-horizon RL training for research agents"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Recursive refinement improves answer quality over long research horizons"
+        ],
+        "limitations": [
+          "Constraint auditing adds computational overhead per iteration"
+        ],
+        "relevance_to_run": "Defines the recursive-self-improvement route for deep-research agents; directly relevant to the deep-research technical route.",
+        "summary": "AREX presents a recursively self-improving research agent that alternates between evidence gathering and constraint-wise auditing to refine answers over long horizons, using compressed context updates and long-horizon RL to maintain coherence."
+      },
+      "id": "paper_7d4da387-333b-49bf-bd2f-4faf5789e1d2",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2607.21461",
+        "authors": [
+          "Shuqi Lu",
+          "Chaofan Li",
+          "Kun Luo",
+          "Zhang Zhang",
+          "Hui Wang",
+          "Hongwang Xiao",
+          "Lei Xiong",
+          "Jiahao Wang",
+          "Sen Wang",
+          "Xiyan Jiang",
+          "Wanli Li",
+          "Yuyang Hu",
+          "Hongjin Qian",
+          "Bingyu Yan",
+          "Jianlyu Chen",
+          "Ziyi Xia",
+          "Yingxia Shao",
+          "Kang Liu",
+          "Zhicheng Dou",
+          "Di He",
+          "Chaozhuo Li",
+          "Qiwei Ye",
+          "Zhongyuan Wang",
+          "Zheng Liu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2607.21461",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-07-23",
+        "publication_year": 2026,
+        "title": "AREX: Towards a Recursively Self-Improving Agent for Deep Research"
+      }
+    },
+    "paper_855832de-c9be-46b0-8fcb-ad08a3947d9c": {
+      "analysis": null,
+      "id": "paper_855832de-c9be-46b0-8fcb-ad08a3947d9c",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2608.01597",
+        "authors": [
+          "Haowei Liu",
+          "Jiamian Wang",
+          "Hsin-Tai Wu",
+          "Zhiqiang Tao",
+          "Yi Fang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2608.01597",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-08-03",
+        "publication_year": 2026,
+        "title": "HindSearch: Trajectory-Level Hindsight Critique for Search-Augmented Reinforcement Learning"
+      }
+    },
+    "paper_95dfdee4-5aca-431f-b124-1c7e41b1039d": {
+      "analysis": {
+        "contributions": [
+          "Knowledge graph as persistent memory substrate for search agents",
+          "KG-driven task generation and reward computation for closed-loop evolution"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "KG-grounded rewards provide structured, verifiable training signal"
+        ],
+        "limitations": [
+          "KG construction and maintenance overhead"
+        ],
+        "relevance_to_run": "Represents the knowledge-graph-grounded self-evolution route; the KG-as-memory and KG-as-reward-design addresses the reward design and self-evolution requirements.",
+        "summary": "CoEvoKG introduces a framework using knowledge graphs as persistent memory for both task generation and reward computation, enabling closed-loop agent evolution. The knowledge graph stores evidence and generates training tasks, creating a co-evolutionary dynamic between the agent and the KG."
+      },
+      "id": "paper_95dfdee4-5aca-431f-b124-1c7e41b1039d",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2608.01904",
+        "authors": [
+          "Zhaoyang Li",
+          "Zenghuang Fu",
+          "Qiuyuan Ai",
+          "Ping Jiang",
+          "Haoyu Wu",
+          "Minghui Wu",
+          "Chenxu Zhao",
+          "Jie Song",
+          "Guannan He"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2608.01904",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-08-03",
+        "publication_year": 2026,
+        "title": "CoEvoKG: Co-Evolving Knowledge Graphs with Self-Evolving Search Agents"
+      }
+    },
+    "paper_979e94aa-f011-479c-afe1-a31cdc4a2cb7": {
+      "analysis": {
+        "contributions": [
+          "Formal diagnosis of advantage collapse in group-relative policy optimization",
+          "Analysis of causes and implications for multi-turn agent training"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Identifies advantage collapse as a key failure mode in GRPO for long-horizon tasks"
+        ],
+        "limitations": [
+          "Diagnostic focus; proposed mitigations may require further empirical validation"
+        ],
+        "relevance_to_run": "Diagnostic work on GRPO failure modes; provides the theoretical basis for understanding why naive GRPO fails on long-horizon agents, relevant to route trade-offs.",
+        "summary": "Advantage Collapse in GRPO diagnoses a failure mode where group-relative advantages collapse to zero as training progresses, reducing effective learning signal. It analyzes the causes and implications for multi-turn agent training."
+      },
+      "id": "paper_979e94aa-f011-479c-afe1-a31cdc4a2cb7",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2605.21125",
+        "authors": [
+          "Xixiang He",
+          "Qiyao Sun",
+          "Ao Cheng",
+          "Xingming Li",
+          "Xuanyu Ji",
+          "Hailun Lu",
+          "Runke Huang",
+          "Qingyong Hu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.21125",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-05-20",
+        "publication_year": 2026,
+        "title": "Advantage Collapse in Group Relative Policy Optimization: Diagnosis and Mitigation"
+      }
+    },
+    "paper_9aba3403-56bb-4feb-90b5-5f5343ca46e8": {
+      "analysis": null,
+      "id": "paper_9aba3403-56bb-4feb-90b5-5f5343ca46e8",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2604.09482",
+        "authors": [
+          "Jiwoong Sohn",
+          "Tomasz Sternal",
+          "Kenneth Styppa",
+          "Torsten Hoefler",
+          "Michael Moor"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.09482",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-04-10",
+        "publication_year": 2026,
+        "title": "Process Reward Agents for Steering Knowledge-Intensive Reasoning"
+      }
+    },
+    "paper_a0c8668c-b9c9-46b1-b8f7-22ae7dfe6458": {
+      "analysis": {
+        "contributions": [
+          "Searcher-Navigator cooperation via shared evidence graph",
+          "RL-optimized dispatch and synthesis with parallel rollout support"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Shared evidence graph enables parallel rollouts without retraining"
+        ],
+        "limitations": [
+          "Evidence-graph synchronization across parallel rollouts adds complexity"
+        ],
+        "relevance_to_run": "Evidence-graph-based deep-research route; the Searcher-Navigator cooperation is a distinct architecture within deep-research agents.",
+        "summary": "Argus deploys a Searcher and Navigator that cooperate via a shared evidence graph, using RL to optimize dispatch and synthesis while supporting parallel rollouts without retraining, enabling scalable deep research."
+      },
+      "id": "paper_a0c8668c-b9c9-46b1-b8f7-22ae7dfe6458",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2605.16217",
+        "authors": [
+          "Zhen Zhang",
+          "Liangcai Su",
+          "Zhuo Chen",
+          "Xiang Lin",
+          "Haotian Xu",
+          "Simon Shaolei Du",
+          "Kaiyu Yang",
+          "Bo An",
+          "Lidong Bing",
+          "Xinyu Wang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.16217",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-05-15",
+        "publication_year": 2026,
+        "title": "Argus: Evidence Assembly for Scalable Deep Research Agents"
+      }
+    },
+    "paper_a90ccaa2-e4a8-46a4-975f-039216e34642": {
+      "analysis": {
+        "contributions": [
+          "Reward-swap mechanism guaranteeing process-outcome reward consistency",
+          "Dense process reward guidance within multi-turn agent training"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Swapping guarantee prevents process rewards from diverging from outcomes"
+        ],
+        "limitations": [
+          "Swapping mechanism adds implementation complexity"
+        ],
+        "relevance_to_run": "GRPO-variant route with reward-swapping consistency guarantee; relevant to reward design and policy optimization.",
+        "summary": "RSPO leverages dense process rewards to guide training while guaranteeing consistency with true outcome rewards via a swapping mechanism, ensuring that process-reward optimization does not diverge from outcome objectives."
+      },
+      "id": "paper_a90ccaa2-e4a8-46a4-975f-039216e34642",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2607.04713",
+        "authors": [
+          "Qiang Liu",
+          "Taian Guo",
+          "Ruizhi Qiao",
+          "Xing Sun"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2607.04713",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-07-06",
+        "publication_year": 2026,
+        "title": "RSPO: Reward-Swap Policy Optimization for Multi-Turn LLM Agents"
+      }
+    },
+    "paper_aa51d6a8-5143-4f58-982d-e64b5622e2be": {
+      "analysis": {
+        "contributions": [
+          "Per-turn information-gain reward injection",
+          "Prevention of reward-variance collapse and zero-advantage lock-in"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Information-gain rewards restore advantage variance in long multi-turn trajectories"
+        ],
+        "limitations": [
+          "Information-gain estimation may be noisy"
+        ],
+        "relevance_to_run": "GRPO-variant route addressing advantage collapse; relevant to reward design and the diagnosis of GRPO failure modes.",
+        "summary": "CIGPO injects per-turn information-gain rewards to prevent reward-variance collapse and zero-advantage lock-in in outcome-only GRPO, providing a dense signal for multi-turn evidence-reading agents."
+      },
+      "id": "paper_aa51d6a8-5143-4f58-982d-e64b5622e2be",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2607.16244",
+        "authors": [
+          "Hao Dou"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2607.16244",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-06-26",
+        "publication_year": 2026,
+        "title": "CIGPO: Contextual Information-Gain Policy Optimization for Multi-Turn Evidence-Reading LLM Agents"
+      }
+    },
+    "paper_b138ad48-5a22-42c2-8fdb-9b1cb1162110": {
+      "analysis": null,
+      "id": "paper_b138ad48-5a22-42c2-8fdb-9b1cb1162110",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2606.12384",
+        "authors": [
+          "Xucong Wang",
+          "Ziyu Ma",
+          "Yong Wang",
+          "Yuxiang Ji",
+          "Shidong Yang",
+          "Guanhua Chen",
+          "Pengkun Wang",
+          "Xiangxiang Chu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2606.12384",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-06-10",
+        "publication_year": 2026,
+        "title": "APPO: Agentic Procedural Policy Optimization"
+      }
+    },
+    "paper_b22442b5-00da-42c4-8434-350b6a9437cf": {
+      "analysis": null,
+      "id": "paper_b22442b5-00da-42c4-8434-350b6a9437cf",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2606.19893",
+        "authors": [
+          "Wei Yu",
+          "Suxing Liu",
+          "Minjie Yu",
+          "Jiahao Wang",
+          "Zhijian Zheng",
+          "Haocheng Deng",
+          "Bing Li"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2606.19893",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-06-18",
+        "publication_year": 2026,
+        "title": "MetaResearcher: Scaling Deep Research via Self-Reflective Reinforcement Learning in Adversarial Virtual Environments"
+      }
+    },
+    "paper_b2a2333d-29b3-44e2-bb09-7dc285569a20": {
+      "analysis": null,
+      "id": "paper_b2a2333d-29b3-44e2-bb09-7dc285569a20",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2607.07508",
+        "authors": [
+          "Zhenyu Hou",
+          "Yujiang Li",
+          "Jie Tang",
+          "Yuxiao Dong"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2607.07508",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-07-08",
+        "publication_year": 2026,
+        "title": "Single-Rollout Asynchronous Optimization for Agentic Reinforcement Learning"
+      }
+    },
+    "paper_bb6aa07d-052f-4f87-9fb1-6f0001f5051b": {
+      "analysis": {
+        "contributions": [
+          "Actor-Refiner collaboration for search-integrated reasoning",
+          "Hybrid reward coupling outcome correctness with evidence density"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Evidence-density reward improves the informativeness of retrieved content"
+        ],
+        "limitations": [
+          "Evidence-density metric design affects reward quality"
+        ],
+        "relevance_to_run": "Actor-Refiner route with hybrid reward; relevant to reward design and search-integrated reasoning.",
+        "summary": "Search-R2 uses an Actor-Refiner framework with a hybrid reward coupling outcome correctness and dense process rewards to quantify and improve the density of retrieved evidence during search-integrated reasoning."
+      },
+      "id": "paper_bb6aa07d-052f-4f87-9fb1-6f0001f5051b",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2602.03647",
+        "authors": [
+          "Bowei He",
+          "Minda Hu",
+          "Zenan Xu",
+          "Hongru Wang",
+          "Licheng Zong",
+          "Yankai Chen",
+          "Chen Ma",
+          "Xue Liu",
+          "Pluto Zhou",
+          "Irwin King"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.03647",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-02-03",
+        "publication_year": 2026,
+        "title": "Search-R2: Enhancing Search-Integrated Reasoning via Actor-Refiner Collaboration"
+      }
+    },
+    "paper_c256d502-6ed2-44fd-a7a9-401ac2dfdf38": {
+      "analysis": null,
+      "id": "paper_c256d502-6ed2-44fd-a7a9-401ac2dfdf38",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2505.07903",
+        "authors": [
+          "Zeyang Sha",
+          "Shiwen Cui",
+          "Weiqiang Wang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2505.07903",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2025-05-12",
+        "publication_year": 2025,
+        "title": "SEM: Reinforcement Learning for Search-Efficient Large Language Models"
+      }
+    },
+    "paper_c8256b4e-04b8-4166-86df-10a9d6aa448b": {
+      "analysis": {
+        "contributions": [
+          "Lightweight virtual world mirroring real-world search dynamics",
+          "Scalable RL training without external API costs"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Virtual world reduces training cost while preserving search dynamics"
+        ],
+        "limitations": [
+          "Virtual world fidelity to real search environments may be imperfect"
+        ],
+        "relevance_to_run": "Virtual-world training route for deep-research agents; addresses the cost/scalability trade-off in deep-research RL.",
+        "summary": "LiteResearcher enables scalable RL training by constructing a lightweight virtual world that mirrors real-world search dynamics without relying on expensive external API calls, reducing training cost."
+      },
+      "id": "paper_c8256b4e-04b8-4166-86df-10a9d6aa448b",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2604.17931",
+        "authors": [
+          "Bince Qu",
+          "Wanli Li",
+          "Bo Pan",
+          "Jianyu Zhang",
+          "Zheng Liu",
+          "Pan Zhang",
+          "Wei Chen",
+          "Bo Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.17931",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-04-20",
+        "publication_year": 2026,
+        "title": "LiteResearcher: A Scalable Agentic RL Training Framework for Deep Research Agent"
+      }
+    },
+    "paper_ce721ef0-7ad1-4c9d-a010-53a22b67dc5b": {
+      "analysis": null,
+      "id": "paper_ce721ef0-7ad1-4c9d-a010-53a22b67dc5b",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2605.26958",
+        "authors": [
+          "Zixuan Yang",
+          "Yiqun Chen",
+          "Wei Yang",
+          "Erhan Zhang",
+          "Zihan Shen",
+          "Xiaochi Wei",
+          "Yan Gao",
+          "Yi Wu",
+          "Yao Hu",
+          "Jiaxin Mao"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.26958",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-05-26",
+        "publication_year": 2026,
+        "title": "Tournament-GRPO: Group-Wise Tournament Rewards for Reinforcement Learning in Open-Ended Long-Form Generation"
+      }
+    },
+    "paper_cefb88c9-c3f5-4c64-96a6-3744215b8562": {
+      "analysis": {
+        "contributions": [
+          "Graph-distance contribution reward using latent entity-relation graphs",
+          "Step-level credit without external process labels"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Graph proximity provides a geometric credit signal correlated with answer progress"
+        ],
+        "limitations": [
+          "Graph construction quality affects credit accuracy"
+        ],
+        "relevance_to_run": "Graph-based credit-assignment route; the graph-distance formulation is a distinct discrimination criterion within credit assignment.",
+        "summary": "Beyond Trajectory Rewards introduces a graph-distance contribution reward that scores search steps based on proximity to the answer node within a latent entity-relation graph, providing step-level credit without external process supervision."
+      },
+      "id": "paper_cefb88c9-c3f5-4c64-96a6-3744215b8562",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2605.29697",
+        "authors": [
+          "Yuchen Liu",
+          "Yingjie Feng",
+          "Lixiong Qin",
+          "Jiasi Chen",
+          "Jianing Yu",
+          "Sheng Gao",
+          "Sheng Yang",
+          "Weiran Xu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.29697",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-05-28",
+        "publication_year": 2026,
+        "title": "Beyond Trajectory Rewards: Step-level Credit Assignment for Agentic Search via Graph Modeling"
+      }
+    },
+    "paper_d7295ad7-eba9-4585-b06e-0565fb7bd4df": {
+      "analysis": {
+        "contributions": [
+          "Automated scientific task synthesis framework",
+          "8B agent trained via agentic RL for frontier scientific reasoning"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Achieves SOTA frontier scientific reasoning with an 8B model"
+        ],
+        "limitations": [
+          "Task synthesis tailored to scientific domain may not transfer to general research"
+        ],
+        "relevance_to_run": "Scientific-domain deep-research route; demonstrates domain-specific task synthesis and agentic RL for frontier reasoning.",
+        "summary": "SciResearcher introduces an automated framework for synthesizing scientific tasks and trains an 8B agent using agentic RL to achieve state-of-the-art frontier scientific reasoning performance."
+      },
+      "id": "paper_d7295ad7-eba9-4585-b06e-0565fb7bd4df",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2605.01489",
+        "authors": [
+          "Tianshi Zheng",
+          "Rui Wang",
+          "Xiyun Li",
+          "Kelvin Kiu Wai Tam",
+          "Newt Nguyen Kim Hue Nam",
+          "Wei Fan",
+          "Yangqiu Song",
+          "Tianqing Fang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.01489",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-05-02",
+        "publication_year": 2026,
+        "title": "SciResearcher: Scaling Deep Research Agents for Frontier Scientific Reasoning"
+      }
+    },
+    "paper_d7c2ead5-0ac6-4f15-9147-fcd0972f1cec": {
+      "analysis": {
+        "contributions": [
+          "Joint co-training of search policy and state evaluator",
+          "Outcome-aligned process rewards that adapt to policy evolution"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Co-trained evaluators stay aligned with outcomes as the policy improves"
+        ],
+        "limitations": [
+          "Co-training stability and evaluator-policy coupling risks"
+        ],
+        "relevance_to_run": "Co-training route for search-evaluation; the outcome-alignment mechanism is a reward-design contribution.",
+        "summary": "OASES co-trains search policies and state evaluators to derive outcome-aligned process rewards that adapt to evolving agent behavior, providing reliable supervision as the policy improves."
+      },
+      "id": "paper_d7c2ead5-0ac6-4f15-9147-fcd0972f1cec",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2604.03675",
+        "authors": [
+          "Erhan Zhang",
+          "Yiqun Chen",
+          "Zechun Niu",
+          "Wei Yang",
+          "Xiaochi Wei",
+          "Yan Gao",
+          "Yi Wu",
+          "Yao Hu",
+          "Jiaxin Mao"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.03675",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-04-04",
+        "publication_year": 2026,
+        "title": "OASES: Outcome-Aligned Search-Evaluation Co-Training for Agentic Search"
+      }
+    },
+    "paper_d7f29aa3-caf9-4204-9b6f-2c8ceca3120e": {
+      "analysis": {
+        "contributions": [
+          "Offline training framework with curated trajectories for deep research",
+          "Task synthesis enabling offline-only training"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Offline training rivals online RL at lower cost"
+        ],
+        "limitations": [
+          "Offline trajectory quality and diversity are critical"
+        ],
+        "relevance_to_run": "Offline-RL route for deep-research agents; provides a key trade-off between online and offline training, relevant to route trade-offs.",
+        "summary": "OffSeeker demonstrates that fully offline training with curated trajectories and a task synthesis framework can rival models trained with costly online RL loops, challenging the assumption that online RL is necessary for deep-research agents."
+      },
+      "id": "paper_d7f29aa3-caf9-4204-9b6f-2c8ceca3120e",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2601.18467",
+        "authors": [
+          "Yuhang Zhou",
+          "Kai Zheng",
+          "Qiguang Chen",
+          "Mengkang Hu",
+          "Qingfeng Sun",
+          "Can Xu",
+          "Jingjing Chen"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.18467",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-01-26",
+        "publication_year": 2026,
+        "title": "OffSeeker: Online Reinforcement Learning Is Not All You Need for Deep Research Agents"
+      }
+    },
+    "paper_dde33616-a7e9-4dd8-9c4e-424d31da28a8": {
+      "analysis": null,
+      "id": "paper_dde33616-a7e9-4dd8-9c4e-424d31da28a8",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2608.00969",
+        "authors": [
+          "Sudipta Paul",
+          "Vijay Srinivasan",
+          "Vivek Kulkarni",
+          "Aounon Kumar",
+          "Yashas Malur Saidutta",
+          "Wenbo Li",
+          "Srinivas Chappidi"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2608.00969",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-08-02",
+        "publication_year": 2026,
+        "title": "PROGRESS: Coverage-guided RL to Train Search-augmented LLM Agent"
+      }
+    },
+    "paper_e128cbae-36f5-42b9-af32-a8795bb817f1": {
+      "analysis": {
+        "contributions": [
+          "Sample-efficient RL for agentic tool use",
+          "Reward shaping and trajectory utilization for efficiency"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Reduces rollout count needed for effective tool-use policies"
+        ],
+        "limitations": [
+          "Sample efficiency gains may vary across tool complexity"
+        ],
+        "relevance_to_run": "Sample-efficient tool-use-RL route; addresses the efficiency trade-off in tool-use training.",
+        "summary": "Tool-R1 proposes sample-efficient reinforcement learning for agentic tool use, reducing the number of rollouts needed to learn effective tool-use policies through improved reward shaping and trajectory utilization."
+      },
+      "id": "paper_e128cbae-36f5-42b9-af32-a8795bb817f1",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2509.12867",
+        "authors": [
+          "Yabo Zhang",
+          "Yihan Zeng",
+          "Qingyun Li",
+          "Zhen Hu",
+          "Kavin Han",
+          "Wangmeng Zuo"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2509.12867",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2025-09-16",
+        "publication_year": 2025,
+        "title": "Tool-R1: Sample-Efficient Reinforcement Learning for Agentic Tool Use"
+      }
+    },
+    "paper_e1cd98a1-20f2-47bf-96cd-8d7711b7d655": {
+      "analysis": {
+        "contributions": [
+          "Trajectory-relative hindsight signal allocation across turns",
+          "Unified scoring protocol outperforming GRPO"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Hindsight distillation outperforms standard GRPO on agentic tasks"
+        ],
+        "limitations": [
+          "Hindsight signals require successful trajectories to distill from"
+        ],
+        "relevance_to_run": "Hindsight-distillation route; relevant to credit assignment and self-distillation.",
+        "summary": "TRIAL allocates hindsight signals across decision turns via a unified scoring protocol, consistently outperforming GRPO benchmarks by leveraging trajectory-relative hindsight distillation."
+      },
+      "id": "paper_e1cd98a1-20f2-47bf-96cd-8d7711b7d655",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2608.07371",
+        "authors": [
+          "Haoyu Zheng",
+          "Yun Zhu",
+          "Qing Wang",
+          "Wenqiao Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2608.07371",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-08-07",
+        "publication_year": 2026,
+        "title": "Trajectory-Relative Hindsight Distillation for Agentic Reinforcement Learning"
+      }
+    },
+    "paper_e6e33079-27e2-412a-8cf5-b52026a2ac99": {
+      "analysis": null,
+      "id": "paper_e6e33079-27e2-412a-8cf5-b52026a2ac99",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2607.23955",
+        "authors": [
+          "Xiao Ma",
+          "Zhiquan Hu",
+          "Yi Wei",
+          "Chenchen Zhao",
+          "Yijun Chen",
+          "Jicheng Zhao",
+          "Yuming Li",
+          "Chuang Dai"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2607.23955",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-07-27",
+        "publication_year": 2026,
+        "title": "EviBack: Search-Agent Reinforcement Learning via Evidence-Constrained Teacher Backoff"
+      }
+    },
+    "paper_e8e0b76f-ad3e-4e57-8172-dee7da680339": {
+      "analysis": {
+        "contributions": [
+          "Guided Retrieval Training restricting RL to ground-truth documents",
+          "Sparse-reward mitigation via retrieval guidance"
+        ],
+        "key_locators": [],
+        "key_results": [
+          "Guided retrieval improves multi-hop QA by reducing reward sparsity"
+        ],
+        "limitations": [
+          "Requires ground-truth document labels, limiting scalability"
+        ],
+        "relevance_to_run": "Frontier 2026 work on guided-retrieval training; relevant to reward design and curriculum learning for search agents.",
+        "summary": "Search-GRT introduces Guided Retrieval Training, which restricts RL retrieval to ground-truth documents to mitigate sparse rewards and improve multi-hop QA performance, providing a curriculum-like guided training signal."
+      },
+      "id": "paper_e8e0b76f-ad3e-4e57-8172-dee7da680339",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2608.00974",
+        "authors": [
+          "Aounon Kumar",
+          "Sudipta Paul",
+          "Vivek Kulkarni",
+          "Vijay Srinivasan",
+          "Srinivas Chappidi"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2608.00974",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-08-02",
+        "publication_year": 2026,
+        "title": "Search-GRT: Guided Retrieval Training of Search Agents to Optimize for Complex Question Answering"
+      }
+    },
+    "paper_fc5097fc-c9ad-41fa-89be-517853cd1003": {
+      "analysis": null,
+      "id": "paper_fc5097fc-c9ad-41fa-89be-517853cd1003",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2605.30824",
+        "authors": [
+          "Mustafa Anis Hussain",
+          "Xinle Wu",
+          "Yao Lu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.30824",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_date": "2026-05-29",
+        "publication_year": 2026,
+        "title": "Planner-Centric Reinforcement Learning for Deep Research with Structure-Aware Reward"
+      }
+    }
+  },
+  "resources": {
+    "limits": {},
+    "usage": {
+      "paper_search_attempts": 56,
+      "source_inspect_attempts": 2,
+      "source_read_attempts": 2
+    }
+  },
+  "state_revision": 116
+}
