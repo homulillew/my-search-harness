@@ -23,6 +23,39 @@ def _skill_dir() -> Path:
     return Path(__file__).resolve().parents[1]
 
 
+def _reexec_skill_venv() -> None:
+    # If a Skill-local .venv exists and we are not already running under it,
+    # re-exec this script under the venv interpreter so the bundled runtime
+    # and its dependencies (e.g. deepxiv-sdk) are available without the caller
+    # having to know the venv path. Cross-platform: Windows uses
+    # Scripts\python.exe, POSIX uses bin/python. Mirrors doctor.py's logic.
+    skill = _skill_dir()
+    candidates = (
+        skill / ".venv" / "Scripts" / "python.exe",
+        skill / ".venv" / "bin" / "python",
+    )
+    venv_python = next((path for path in candidates if path.is_file()), None)
+    if venv_python is None:
+        return
+    if Path(sys.executable).resolve() == venv_python.resolve():
+        return
+    # os.execv replaces the process cleanly on POSIX. On Windows execv does not
+    # fully replace the running image, so spawn the venv Python as a child and
+    # forward its exit code, preserving all original argv.
+    if os.name == "posix":
+        os.execv(
+            str(venv_python),
+            [str(venv_python), str(Path(__file__).resolve()), *sys.argv[1:]],
+        )
+    else:
+        import subprocess
+
+        result = subprocess.run(
+            [str(venv_python), str(Path(__file__).resolve()), *sys.argv[1:]]
+        )
+        raise SystemExit(result.returncode)
+
+
 def _bootstrap_runtime() -> None:
     skill = _skill_dir()
     bundled = skill / "runtime" / "src"
@@ -993,4 +1026,5 @@ def main(
 
 
 if __name__ == "__main__":
+    _reexec_skill_venv()
     raise SystemExit(main())

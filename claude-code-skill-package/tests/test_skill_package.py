@@ -35,6 +35,12 @@ def load_module(name: str, path: Path) -> ModuleType:
     return module
 
 
+def venv_python_path(skill: Path) -> Path:
+    """The expected venv interpreter path for the current platform."""
+    venv_subpath = Path("Scripts") / "python.exe" if os.name == "nt" else Path("bin") / "python"
+    return skill / ".venv" / venv_subpath
+
+
 class SkillLayoutTests(TestCase):
     def test_skill_has_valid_minimal_frontmatter_and_bounded_length(self) -> None:
         content = (SKILL / "SKILL.md").read_text(encoding="utf-8")
@@ -56,18 +62,27 @@ class SkillLayoutTests(TestCase):
             "references/COMPLETION_GUIDE.md",
             "references/REPORT_WRITING_GUIDE.md",
             "references/RESEARCH_INTEGRITY_GUIDE.md",
-            "scripts/harness",
-            "scripts/harness.ps1",
             "scripts/harness.py",
             "scripts/doctor.py",
-            "scripts/setup.sh",
-            "scripts/setup.ps1",
+            "scripts/setup.py",
         )
         for relative in expected:
             with self.subTest(relative=relative):
                 path = SKILL / relative
                 self.assertTrue(path.is_file())
-        for relative in ("scripts/harness", "scripts/doctor.py", "scripts/setup.sh"):
+        # Shell-specific launchers must not exist: Python is the only entrypoint.
+        for relative in (
+            "scripts/harness",
+            "scripts/harness.ps1",
+            "scripts/setup.sh",
+            "scripts/setup.ps1",
+        ):
+            with self.subTest(relative=relative):
+                self.assertFalse(
+                    (SKILL / relative).exists(),
+                    f"shell launcher should be removed: {relative}",
+                )
+        for relative in ("scripts/doctor.py", "scripts/setup.py"):
             self.assertTrue(os.access(SKILL / relative, os.X_OK))
 
     def test_skill_links_all_progressive_disclosure_references(self) -> None:
@@ -514,7 +529,7 @@ class StandalonePackageTests(TestCase):
             self.assertTrue(str(destination) in imported.stdout)
 
             for path in destination.rglob("*"):
-                if path.is_file() and path.suffix in {".md", ".py", ".sh", ""}:
+                if path.is_file() and path.suffix in {".md", ".py"}:
                     retired_workspace = "." + "vibe"
                     self.assertNotIn(
                         retired_workspace, path.read_text(encoding="utf-8")
@@ -863,17 +878,21 @@ class WikiCliBridgeTests(TestCase):
         self.assertTrue(service.is_current())
 
 
-class CrossPlatformLauncherTests(TestCase):
-    """Windows / PowerShell standalone launcher compatibility.
+class PythonEntrypointTests(TestCase):
+    """Python-only Skill entrypoints: setup.py, doctor.py, harness.py.
 
-    The Runtime is already cross-platform; these tests cover the thin launchers
-    (harness.ps1, setup.ps1) and the doctor venv-detection fix so a Windows
-    PowerShell user can setup, doctor, and invoke the Skill without Bash/WSL.
+    Python is the cross-platform abstraction. The Skill ships exactly three
+    Python entrypoints under ``scripts/`` and no shell-specific launchers
+    (no ``.sh``, no ``.ps1``, no extensionless ``harness``). These tests pin
+    that contract and the cross-platform venv re-exec logic that lets a
+    Windows PowerShell, Linux, or macOS user setup, doctor, and invoke the
+    Skill through one Python entry point with no Bash/WSL.
     """
 
-    def test_packaged_dist_contains_all_launchers(self) -> None:
+    def test_packaged_dist_contains_only_python_entrypoints(self) -> None:
+        """dist ships scripts/{setup.py, doctor.py, harness.py} and no shell glue."""
         packager = load_module(
-            "literature_skill_packager_launcher_test",
+            "literature_skill_packager_entrypoint_test",
             ROOT / "scripts" / "package_skill.py",
         )
         with TemporaryDirectory() as temporary:
@@ -887,62 +906,144 @@ class CrossPlatformLauncherTests(TestCase):
             )
             destination = packager.package_skill(fixture_root)
             for relative in (
-                "scripts/harness",
-                "scripts/harness.ps1",
-                "scripts/harness.py",
-                "scripts/setup.sh",
-                "scripts/setup.ps1",
+                "scripts/setup.py",
                 "scripts/doctor.py",
+                "scripts/harness.py",
             ):
                 with self.subTest(relative=relative):
                     self.assertTrue(
                         (destination / relative).is_file(),
                         f"dist missing {relative}",
                     )
+            # Shell-specific launchers must not be packaged.
+            for relative in (
+                "scripts/harness",
+                "scripts/harness.ps1",
+                "scripts/setup.sh",
+                "scripts/setup.ps1",
+            ):
+                with self.subTest(relative=relative):
+                    self.assertFalse(
+                        (destination / relative).exists(),
+                        f"dist must not contain shell launcher {relative}",
+                    )
 
-    def test_powershell_launchers_are_identical_source_and_dist(self) -> None:
-        packager = load_module(
-            "literature_skill_packager_consistency_test",
-            ROOT / "scripts" / "package_skill.py",
+    def test_setup_py_creates_venv_and_installs_requirements(self) -> None:
+        """setup.py builds .venv with the current interpreter and installs requirements.
+
+        Mocks subprocess.run so the test never actually creates a venv or
+        touches the network; it asserts the exact argv sequences setup.py
+        issues. Uses a Skill path containing a space to prove no cwd/quote bug.
+        """
+        setup = load_module(
+            "literature_research_setup_py_test",
+            SKILL / "scripts" / "setup.py",
         )
         with TemporaryDirectory() as temporary:
-            fixture_root = Path(temporary) / "source"
-            shutil.copytree(
-                SKILL, fixture_root / ".claude" / "skills" / "literature-research"
+            spaced_skill = Path(temporary) / "spaced skill"
+            shutil.copytree(SKILL, spaced_skill)
+            # runtime/requirements.txt is required for setup.py to proceed.
+            (spaced_skill / "runtime").mkdir(parents=True, exist_ok=True)
+            (spaced_skill / "runtime" / "requirements.txt").write_text(
+                "deepxiv-sdk==0.3.1\n", encoding="utf-8"
             )
-            shutil.copytree(
-                ROOT / "src" / "my_search_harness",
-                fixture_root / "src" / "my_search_harness",
+            calls: list[list[str]] = []
+
+            class _Ok:
+                returncode = 0
+
+            def fake_run(argv, **kwargs):
+                # Reject shell=True — setup.py must pass explicit argv lists.
+                self.assertFalse(
+                    kwargs.get("shell", False),
+                    f"setup.py must not use shell=True: {argv!r}",
+                )
+                calls.append(list(argv))
+                return _Ok()
+
+            original_run = subprocess.run
+            original_executable = sys.executable
+            original_skill_dir = os.environ.get("CLAUDE_SKILL_DIR")
+            try:
+                os.environ["CLAUDE_SKILL_DIR"] = str(spaced_skill)
+                subprocess.run = fake_run  # type: ignore[assignment]
+                # Pretend the venv interpreter already exists so _venv_python
+                # resolves it without us creating a real venv.
+                venv_python = venv_python_path(spaced_skill)
+                venv_python.parent.mkdir(parents=True, exist_ok=True)
+                venv_python.write_text("# stub\n", encoding="utf-8")
+                # sys.executable is read at call time; patch it to a stable value.
+                sys.executable = str(Path(temporary) / "host_python")
+                exit_code = setup.main()
+            finally:
+                subprocess.run = original_run  # type: ignore[assignment]
+                sys.executable = original_executable
+                if original_skill_dir is None:
+                    os.environ.pop("CLAUDE_SKILL_DIR", None)
+                else:
+                    os.environ["CLAUDE_SKILL_DIR"] = original_skill_dir
+
+            self.assertEqual(exit_code, 0)
+            # Three subprocess calls: venv creation, pip upgrade, pip install -r.
+            # setup._skill_dir() resolves the Skill root, so emitted paths are
+            # resolved (on Windows this may use 8.3 short names) — resolve the
+            # expected paths to match.
+            self.assertEqual(len(calls), 3)
+            self.assertEqual(
+                calls[0][1:], ["-m", "venv", str((spaced_skill / ".venv").resolve())]
             )
-            destination = packager.package_skill(fixture_root)
-            for relative in ("scripts/harness.ps1", "scripts/setup.ps1"):
-                with self.subTest(relative=relative):
-                    source_text = (SKILL / relative).read_text(encoding="utf-8")
-                    dist_text = (destination / relative).read_text(encoding="utf-8")
-                    self.assertEqual(source_text, dist_text)
+            self.assertIn("-m", calls[1])
+            self.assertIn("pip", calls[1])
+            self.assertIn("--upgrade", calls[1])
+            self.assertIn("pip", calls[1])
+            self.assertIn("-m", calls[2])
+            self.assertIn("pip", calls[2])
+            self.assertIn("-r", calls[2])
+            # The requirements path must be the Skill-local one (spaces handled).
+            self.assertIn(
+                str((spaced_skill / "runtime" / "requirements.txt").resolve()),
+                calls[2],
+            )
 
-    def test_harness_ps1_static_behavior(self) -> None:
-        """harness.ps1 resolves the Skill venv, delegates to harness.py, passes args."""
-        script = (SKILL / "scripts" / "harness.ps1").read_text(encoding="utf-8")
-        self.assertIn(".venv\\Scripts\\python.exe", script)
-        self.assertIn("harness.py", script)
-        self.assertIn("@args", script)
-        self.assertIn("$LASTEXITCODE", script)
-        # Must not hardcode a drive letter or depend on cwd.
-        self.assertNotIn("C:\\", script)
-        self.assertNotIn("Set-Location", script)
-        self.assertNotIn("cd ", script)
+    def test_setup_py_resolves_venv_python_cross_platform(self) -> None:
+        """_venv_python recognizes both Windows and POSIX venv layouts."""
+        setup = load_module(
+            "literature_research_setup_venv_test",
+            SKILL / "scripts" / "setup.py",
+        )
+        with TemporaryDirectory() as temporary:
+            skill = Path(temporary) / "skill"
+            skill.mkdir()
+            # Windows layout.
+            win_python = skill / ".venv" / "Scripts" / "python.exe"
+            win_python.parent.mkdir(parents=True, exist_ok=True)
+            win_python.write_text("", encoding="utf-8")
+            self.assertEqual(
+                setup._venv_python(skill),
+                win_python,
+            )
+            # POSIX layout wins when the Windows file is absent.
+            win_python.unlink()
+            posix_python = skill / ".venv" / "bin" / "python"
+            posix_python.parent.mkdir(parents=True, exist_ok=True)
+            posix_python.write_text("", encoding="utf-8")
+            self.assertEqual(setup._venv_python(skill), posix_python)
 
-    def test_setup_ps1_static_behavior(self) -> None:
-        r"""setup.ps1 creates .venv, uses Scripts\python.exe, installs requirements."""
-        script = (SKILL / "scripts" / "setup.ps1").read_text(encoding="utf-8")
-        self.assertIn("-m venv", script)
-        self.assertIn(".venv\\Scripts\\python.exe", script)
-        self.assertIn("runtime\\requirements.txt", script)
-        self.assertIn("--upgrade pip", script)
-        # Must not activate the environment or hardcode a drive.
-        self.assertNotIn("Activate.ps1", script)
-        self.assertNotIn("C:\\", script)
+    def test_setup_py_fails_without_requirements(self) -> None:
+        """setup.py exits nonzero with a clear message when there is no runtime to install."""
+        setup = load_module(
+            "literature_research_setup_noreq_test",
+            SKILL / "scripts" / "setup.py",
+        )
+        with TemporaryDirectory() as temporary:
+            skill = Path(temporary) / "skill"
+            skill.mkdir()
+            os.environ["CLAUDE_SKILL_DIR"] = str(skill)
+            try:
+                exit_code = setup.main()
+            finally:
+                os.environ.pop("CLAUDE_SKILL_DIR", None)
+            self.assertEqual(exit_code, 1)
 
     def test_doctor_detects_windows_venv_layout(self) -> None:
         r"""doctor._reexec_skill_venv must look for Scripts\python.exe, not only bin/python."""
@@ -953,12 +1054,131 @@ class CrossPlatformLauncherTests(TestCase):
         # Must not assume POSIX execv works on Windows.
         self.assertIn("os.name", source)
 
-    def test_harness_py_isolation_in_path_with_spaces(self) -> None:
-        """bundled runtime loads from a Skill path containing spaces, no PYTHONPATH."""
+    def test_harness_py_detects_windows_venv_layout(self) -> None:
+        r"""harness._reexec_skill_venv mirrors doctor: Scripts\python.exe + bin/python + os.name."""
+        source = (SKILL / "scripts" / "harness.py").read_text(encoding="utf-8")
+        self.assertIn("Scripts", source)
+        self.assertIn("python.exe", source)
+        self.assertIn("bin", source)
+        self.assertIn("os.name", source)
+        # Must re-exec under the venv interpreter, not silently fall back.
+        self.assertIn("venv_python", source)
+        self.assertIn("sys.executable", source)
+
+    def test_harness_py_reexec_skips_when_no_venv(self) -> None:
+        """Without a Skill-local .venv, _reexec_skill_venv returns without recursing."""
         harness = load_module(
-            "literature_research_harness_isolation_test",
+            "literature_research_harness_reexec_no_venv_test",
             SKILL / "scripts" / "harness.py",
         )
+        with TemporaryDirectory() as temporary:
+            skill = Path(temporary) / "skill"
+            skill.mkdir()
+            os.environ["CLAUDE_SKILL_DIR"] = str(skill)
+            try:
+                # No .venv created -> must return None (no recursion, no exec).
+                self.assertIsNone(harness._reexec_skill_venv())
+            finally:
+                os.environ.pop("CLAUDE_SKILL_DIR", None)
+
+    def test_harness_py_reexec_skips_when_already_in_venv(self) -> None:
+        """When already running under the venv interpreter, _reexec_skill_venv returns."""
+        harness = load_module(
+            "literature_research_harness_reexec_same_venv_test",
+            SKILL / "scripts" / "harness.py",
+        )
+        with TemporaryDirectory() as temporary:
+            skill = Path(temporary) / "skill"
+            skill.mkdir()
+            venv_python = venv_python_path(skill)
+            venv_python.parent.mkdir(parents=True, exist_ok=True)
+            venv_python.write_text("", encoding="utf-8")
+            os.environ["CLAUDE_SKILL_DIR"] = str(skill)
+            original_executable = sys.executable
+            try:
+                # Pretend we are already the venv interpreter.
+                sys.executable = str(venv_python)
+                self.assertIsNone(harness._reexec_skill_venv())
+            finally:
+                sys.executable = original_executable
+                os.environ.pop("CLAUDE_SKILL_DIR", None)
+
+    def test_harness_py_reexec_preserves_argv(self) -> None:
+        """When a different venv exists, re-exec forwards the original argv verbatim.
+
+        On POSIX this is os.execv; on Windows a child subprocess.run. The test
+        patches the platform-specific primitive and asserts the forwarded argv
+        contains the script path plus every original argument, untouched.
+        """
+        harness = load_module(
+            "literature_research_harness_reexec_argv_test",
+            SKILL / "scripts" / "harness.py",
+        )
+        with TemporaryDirectory() as temporary:
+            skill = Path(temporary) / "skill"
+            skill.mkdir()
+            venv_python = venv_python_path(skill)
+            venv_python.parent.mkdir(parents=True, exist_ok=True)
+            venv_python.write_text("", encoding="utf-8")
+            os.environ["CLAUDE_SKILL_DIR"] = str(skill)
+            original_argv = sys.argv
+            original_executable = sys.executable
+            captured: dict[str, object] = {}
+
+            if os.name == "posix":
+                def fake_execv(path, argv):
+                    captured["path"] = path
+                    captured["argv"] = list(argv)
+                    raise SystemExit(0)  # stop the re-exec
+
+                original_execv = os.execv
+                try:
+                    os.execv = fake_execv  # type: ignore[assignment]
+                    sys.argv = [str(harness.__file__), "--workspace", "w", "doctor"]
+                    sys.executable = str(Path(temporary) / "host_python")
+                    with self.assertRaises(SystemExit):
+                        harness._reexec_skill_venv()
+                finally:
+                    os.execv = original_execv  # type: ignore[assignment]
+                    sys.argv = original_argv
+                    sys.executable = original_executable
+                    os.environ.pop("CLAUDE_SKILL_DIR", None)
+                forwarded = captured["argv"]
+                self.assertEqual(forwarded[0], str(venv_python.resolve()))
+                self.assertEqual(forwarded[1], str(Path(harness.__file__).resolve()))
+                self.assertEqual(forwarded[2:], ["--workspace", "w", "doctor"])
+            else:
+                class _Ok:
+                    returncode = 7
+
+                def fake_run(argv, **kwargs):
+                    self.assertFalse(
+                        kwargs.get("shell", False),
+                        "Windows re-exec must not use shell=True",
+                    )
+                    captured["argv"] = list(argv)
+                    return _Ok()
+
+                original_run = subprocess.run
+                try:
+                    subprocess.run = fake_run  # type: ignore[assignment]
+                    sys.argv = [str(harness.__file__), "--workspace", "w", "doctor"]
+                    sys.executable = str(Path(temporary) / "host_python")
+                    with self.assertRaises(SystemExit) as ctx:
+                        harness._reexec_skill_venv()
+                    self.assertEqual(ctx.exception.code, 7)
+                finally:
+                    subprocess.run = original_run  # type: ignore[assignment]
+                    sys.argv = original_argv
+                    sys.executable = original_executable
+                    os.environ.pop("CLAUDE_SKILL_DIR", None)
+                forwarded = captured["argv"]
+                self.assertEqual(forwarded[0], str(venv_python.resolve()))
+                self.assertEqual(forwarded[1], str(Path(harness.__file__).resolve()))
+                self.assertEqual(forwarded[2:], ["--workspace", "w", "doctor"])
+
+    def test_harness_py_isolation_in_path_with_spaces(self) -> None:
+        """bundled runtime loads from a Skill path containing spaces, no PYTHONPATH."""
         with TemporaryDirectory() as temporary:
             # A Skill path with a space mirrors "C:\Users\Test User\My Project\...".
             spaced_root = Path(temporary) / "spaced project"

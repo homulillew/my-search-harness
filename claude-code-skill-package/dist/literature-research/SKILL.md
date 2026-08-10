@@ -12,31 +12,27 @@ runtime for authority, persistence, stable references, provenance, accounting, a
 validation.
 
 Never edit `state.json`, event logs, report artifacts, or repository files directly.
-All authoritative mutations must go through the platform launcher; host Web
+All authoritative mutations must go through the Python harness entrypoint; host Web
 observations remain ephemeral until promoted with `retain-papers`.
 
-## Platform launcher
+## Harness entrypoint
 
-Invoke the harness through the thin launcher for the current shell. Both
-launchers resolve the Skill root themselves, prefer the Skill-local `.venv`,
-fall back to a system Python, and delegate to the same `harness.py`.
+Invoke the harness through its single Python entrypoint. Resolve the installed
+Skill directory, then run `scripts/harness.py` with the available Python
+interpreter:
 
-POSIX:
-
-```bash
-${CLAUDE_SKILL_DIR}/scripts/harness --workspace PATH COMMAND [OPTIONS]
+```text
+python "<SKILL_DIR>/scripts/harness.py" --workspace PATH COMMAND [OPTIONS]
 ```
 
-PowerShell:
-
-```powershell
-& "$env:CLAUDE_SKILL_DIR\scripts\harness.ps1" --workspace PATH COMMAND [OPTIONS]
-```
-
-`CLAUDE_SKILL_DIR` is an optional override; each launcher resolves the Skill
-root from its own location otherwise. Command examples below use the POSIX form;
-in PowerShell, substitute the `.ps1` launcher. See `RUNTIME_API.md` for the
-universal `python harness.py` fallback.
+`harness.py` resolves the bundled Runtime itself and, if a Skill-local `.venv`
+exists (created by `python scripts/setup.py`), switches to that interpreter
+automatically before executing the command. The caller never needs to know the
+venv interpreter path. `CLAUDE_SKILL_DIR` is an optional override of the Skill
+root; otherwise `harness.py` resolves it from its own location. On Windows
+PowerShell, Linux, and macOS the same command works; if the host exposes Python
+as `py` rather than `python`, use that interpreter. See `RUNTIME_API.md` for the
+command schemas.
 
 ## Read the protocol before acting
 
@@ -74,14 +70,14 @@ and requirement satisfaction determine completion.
 
 Run the environment check first:
 
-```bash
-${CLAUDE_SKILL_DIR}/scripts/harness --workspace workspace doctor
+```text
+python "<SKILL_DIR>/scripts/harness.py" --workspace workspace doctor
 ```
 
 Create a run using a JSON file, not shell-escaped inline JSON:
 
-```bash
-${CLAUDE_SKILL_DIR}/scripts/harness --workspace workspace create-run \
+```text
+python "<SKILL_DIR>/scripts/harness.py" --workspace workspace create-run \
   --input /tmp/research-contract.json
 ```
 
@@ -146,8 +142,8 @@ benchmarks, mechanisms, authors, and emerging terms; use `site:arxiv.org` or
 `site:openreview.net` when useful. Prefer native `WebSearch` and `WebFetch`; never call
 search engines through Bash or custom APIs.
 
-```bash
-${CLAUDE_SKILL_DIR}/scripts/harness --workspace workspace search-papers \
+```text
+python "<SKILL_DIR>/scripts/harness.py" --workspace workspace search-papers \
   --run-id RUN --expected-revision REV --query "QUERY" \
   --limit 20 --offset 0 --date-from YYYY-MM-DD --date-to YYYY-MM-DD
 ```

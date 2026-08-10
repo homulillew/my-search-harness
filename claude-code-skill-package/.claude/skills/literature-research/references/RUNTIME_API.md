@@ -1,26 +1,18 @@
 # Runtime Adapter API
 
-Invoke commands through the platform launcher for the current shell:
+Invoke commands through the single Python entrypoint:
 
-POSIX:
-
-```bash
-${CLAUDE_SKILL_DIR}/scripts/harness --workspace PATH COMMAND [OPTIONS]
+```text
+python "<SKILL_DIR>/scripts/harness.py" --workspace PATH COMMAND [OPTIONS]
 ```
 
-PowerShell:
-
-```powershell
-& "$env:CLAUDE_SKILL_DIR\scripts\harness.ps1" --workspace PATH COMMAND [OPTIONS]
-```
-
-When invoked from the installed Skill path, `harness` / `harness.ps1` resolve the
-Skill root themselves from their own location; `CLAUDE_SKILL_DIR` is an optional
-override. Both launchers prefer the Skill-local `.venv`, fall back to a system
-Python, and delegate to the same `scripts/harness.py`, so all research logic runs
-through one Python entry point. As a universal fallback when no launcher is
-available, run `python "$CLAUDE_SKILL_DIR/scripts/harness.py"` (POSIX) or
-`python "$env:CLAUDE_SKILL_DIR\scripts\harness.py"` (PowerShell) directly.
+`harness.py` resolves the bundled Runtime itself; if a Skill-local `.venv`
+exists (created by `python scripts/setup.py`), it switches to that interpreter
+automatically before executing the command, so all research logic runs through
+one Python entry point with the bundled dependencies available. Commands are
+otherwise platform-neutral — the same invocation works on Windows PowerShell,
+Linux, and macOS. `CLAUDE_SKILL_DIR` is an optional override of the Skill root;
+otherwise `harness.py` resolves it from its own location.
 
 The adapter writes exactly one JSON object. Success goes to stdout with `"ok": true`.
 Errors go to stderr with `"ok": false`, an error type, and a safe message; exit status is
