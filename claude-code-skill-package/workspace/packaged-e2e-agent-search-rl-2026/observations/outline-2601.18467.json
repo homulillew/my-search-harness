@@ -1,0 +1,62 @@
+{
+  "command": "inspect-source",
+  "ok": true,
+  "result": {
+    "outline": {
+      "paper_ref": "paper_a6b72bbb-2917-4e5f-8b12-63c4993623cc",
+      "sections": [
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Introduction"
+          },
+          "title": "Introduction"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Methodology"
+          },
+          "title": "Methodology"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Preliminary: Online RL Cost Analysis"
+          },
+          "title": "Preliminary: Online RL Cost Analysis"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Experiments"
+          },
+          "title": "Experiments"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Empirical Study"
+          },
+          "title": "Empirical Study"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Related Work"
+          },
+          "title": "Related Work"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Conclusion"
+          },
+          "title": "Conclusion"
+        }
+      ],
+      "total_tokens": 19131
+    },
+    "state_revision": 18
+  }
+}

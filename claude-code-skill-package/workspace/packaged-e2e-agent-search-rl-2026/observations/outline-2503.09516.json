@@ -1,0 +1,125 @@
+{
+  "command": "inspect-source",
+  "ok": true,
+  "result": {
+    "outline": {
+      "paper_ref": "paper_4c4e4285-e327-4508-bb5d-d48d912da113",
+      "sections": [
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Introduction"
+          },
+          "title": "Introduction"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Related Works"
+          },
+          "title": "Related Works"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Search-R1"
+          },
+          "title": "Search-R1"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Main Results"
+          },
+          "title": "Main Results"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Analysis"
+          },
+          "title": "Analysis"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Conclusions"
+          },
+          "title": "Conclusions"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix A Formulation of Reinforcement Learning with a Search Engine"
+          },
+          "title": "Appendix A Formulation of Reinforcement Learning with a Search Engine"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix B Experimental Setups"
+          },
+          "title": "Appendix B Experimental Setups"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix C Main Results on 14B LLM"
+          },
+          "title": "Appendix C Main Results on 14B LLM"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix D Retrieved Token Loss Masking Study"
+          },
+          "title": "Appendix D Retrieved Token Loss Masking Study"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix E Base vs. Instruct LLMs"
+          },
+          "title": "Appendix E Base vs. Instruct LLMs"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix F Comparison of PPO and GRPO in Search-R1"
+          },
+          "title": "Appendix F Comparison of PPO and GRPO in Search-R1"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix G Number of Retrieved Passages Study in Search-R1 Training"
+          },
+          "title": "Appendix G Number of Retrieved Passages Study in Search-R1 Training"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix H Group Size Study in Search-R1 (GRPO) Training"
+          },
+          "title": "Appendix H Group Size Study in Search-R1 (GRPO) Training"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix I Comparison between R1 and Search-R1: A Case Study"
+          },
+          "title": "Appendix I Comparison between R1 and Search-R1: A Case Study"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix J More Case Studies of Search-R1"
+          },
+          "title": "Appendix J More Case Studies of Search-R1"
+        }
+      ],
+      "total_tokens": 28580
+    },
+    "state_revision": 16
+  }
+}

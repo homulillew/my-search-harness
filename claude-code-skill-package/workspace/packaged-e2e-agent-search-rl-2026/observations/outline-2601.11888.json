@@ -1,0 +1,90 @@
+{
+  "command": "inspect-source",
+  "ok": true,
+  "result": {
+    "outline": {
+      "paper_ref": "paper_b143f98a-c3e7-4bb8-b2b8-09102d8a3b05",
+      "sections": [
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Introduction"
+          },
+          "title": "Introduction"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Related Work"
+          },
+          "title": "Related Work"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Preliminary: Agentic Search"
+          },
+          "title": "Preliminary: Agentic Search"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Methodology"
+          },
+          "title": "Methodology"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Experiment"
+          },
+          "title": "Experiment"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Conclusion"
+          },
+          "title": "Conclusion"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Limitations"
+          },
+          "title": "Limitations"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix A Baselines"
+          },
+          "title": "Appendix A Baselines"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix B Implementation Details"
+          },
+          "title": "Appendix B Implementation Details"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix C Additional Experiments"
+          },
+          "title": "Appendix C Additional Experiments"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix E Use of AI Assistants"
+          },
+          "title": "Appendix E Use of AI Assistants"
+        }
+      ],
+      "total_tokens": 19802
+    },
+    "state_revision": 17
+  }
+}

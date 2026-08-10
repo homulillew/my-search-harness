@@ -1,0 +1,104 @@
+{
+  "command": "inspect-source",
+  "ok": true,
+  "result": {
+    "outline": {
+      "paper_ref": "paper_7d6d41ac-f34a-4018-842c-a9be0ebc2de8",
+      "sections": [
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Introduction"
+          },
+          "title": "Introduction"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Related Work"
+          },
+          "title": "Related Work"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Methodology"
+          },
+          "title": "Methodology"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Experiments"
+          },
+          "title": "Experiments"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Conclusion"
+          },
+          "title": "Conclusion"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix A Agent Prompts"
+          },
+          "title": "Appendix A Agent Prompts"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix B Two-Stage Retrieval System"
+          },
+          "title": "Appendix B Two-Stage Retrieval System"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix C Semantic Grouping Algorithm"
+          },
+          "title": "Appendix C Semantic Grouping Algorithm"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix D Additional Implementation Details"
+          },
+          "title": "Appendix D Additional Implementation Details"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix E Semantic Grouping Examples"
+          },
+          "title": "Appendix E Semantic Grouping Examples"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix F Oracle Retrieval Construction"
+          },
+          "title": "Appendix F Oracle Retrieval Construction"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix G Search Turn Distribution"
+          },
+          "title": "Appendix G Search Turn Distribution"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Instructions for reporting errors"
+          },
+          "title": "Instructions for reporting errors"
+        }
+      ],
+      "total_tokens": 37630
+    },
+    "state_revision": 28
+  }
+}

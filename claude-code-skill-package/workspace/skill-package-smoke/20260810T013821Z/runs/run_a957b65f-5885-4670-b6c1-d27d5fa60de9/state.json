@@ -1,0 +1,87 @@
+{
+  "completion_checks": {},
+  "contract": {
+    "current_revision": 1,
+    "revisions": [
+      {
+        "contract": {
+          "deliverable": {
+            "description": "Packaging acceptance observation",
+            "required_artifacts": []
+          },
+          "mission": "Packaging smoke for recent speculative decoding literature",
+          "requirements": {
+            "requirement_511692f0-d177-4880-b452-aedb9544890c": {
+              "id": "requirement_511692f0-d177-4880-b452-aedb9544890c",
+              "statement": "Verify one recent primary paper can traverse the Skill adapter"
+            }
+          },
+          "scope": "One small real provider interaction; not a substantive survey"
+        },
+        "reason": "Initial contract",
+        "recorded_at": "2026-08-10T01:38:23.594634+00:00",
+        "revision": 1
+      }
+    ]
+  },
+  "delivery_basis": null,
+  "id": "run_a957b65f-5885-4670-b6c1-d27d5fa60de9",
+  "investigation_gaps": {},
+  "lifecycle": "RESEARCH",
+  "literature_landscape": {
+    "approach_families": {},
+    "findings": {},
+    "open_problems": {}
+  },
+  "outcome": null,
+  "papers": {
+    "paper_c871b6ed-34c5-4469-9379-622a0821827e": {
+      "analysis": {
+        "contributions": [
+          "Exercises search, retain, inspect, read, and typed mutation."
+        ],
+        "key_locators": [
+          {
+            "kind": "section",
+            "value": "Introduction"
+          }
+        ],
+        "key_results": [
+          "Retrieved non-empty primary-source content (8067 characters)."
+        ],
+        "limitations": [
+          "This is packaging verification, not a substantive literature conclusion."
+        ],
+        "relevance_to_run": "Confirms the project Skill adapter reaches real DeepXiv source access.",
+        "summary": "Primary source access succeeded for the bounded packaging smoke."
+      },
+      "id": "paper_c871b6ed-34c5-4469-9379-622a0821827e",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2502.01662",
+        "authors": [
+          "Jiale Fu",
+          "Yuchu Jiang",
+          "Junkai Chen",
+          "Jiaming Fan",
+          "Xin Geng",
+          "Xu Yang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2502.01662",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2025,
+        "title": "Fast Large Language Model Collaborative Decoding via Speculation"
+      }
+    }
+  },
+  "resources": {
+    "limits": {},
+    "usage": {
+      "paper_search_attempts": 1,
+      "source_inspect_attempts": 1,
+      "source_read_attempts": 1
+    }
+  },
+  "state_revision": 6
+}

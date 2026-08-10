@@ -1,0 +1,76 @@
+{
+  "command": "inspect-source",
+  "ok": true,
+  "result": {
+    "outline": {
+      "paper_ref": "paper_6b245b25-fe22-4f9d-babf-a08926e26eb1",
+      "sections": [
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Introduction"
+          },
+          "title": "Introduction"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Related Works"
+          },
+          "title": "Related Works"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Method"
+          },
+          "title": "Method"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Experiments"
+          },
+          "title": "Experiments"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix 0.C Implementation Details"
+          },
+          "title": "Appendix 0.C Implementation Details"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix 0.D Training Hyperparameters"
+          },
+          "title": "Appendix 0.D Training Hyperparameters"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix 0.E Multimodal Search Tools"
+          },
+          "title": "Appendix 0.E Multimodal Search Tools"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix 0.F Case Study"
+          },
+          "title": "Appendix 0.F Case Study"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Instructions for reporting errors"
+          },
+          "title": "Instructions for reporting errors"
+        }
+      ],
+      "total_tokens": 12875
+    },
+    "state_revision": 30
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "command": "inspect-source",
+  "ok": true,
+  "result": {
+    "outline": {
+      "paper_ref": "paper_aa69e04a-ca25-4104-a599-9119f33847cf",
+      "sections": [
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Introduction"
+          },
+          "title": "Introduction"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Related Work"
+          },
+          "title": "Related Work"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "How Search Depth Affect Performance?"
+          },
+          "title": "How Search Depth Affect Performance?"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Autosearch"
+          },
+          "title": "Autosearch"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Experiment"
+          },
+          "title": "Experiment"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix A Expanded Related Work"
+          },
+          "title": "Appendix A Expanded Related Work"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix B Detailed Illustration of Our Method"
+          },
+          "title": "Appendix B Detailed Illustration of Our Method"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix C Experiment Setups"
+          },
+          "title": "Appendix C Experiment Setups"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix D Ablation Study on Search Rewards"
+          },
+          "title": "Appendix D Ablation Study on Search Rewards"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix E Comparison of PPO and GRPO in AutoSearch"
+          },
+          "title": "Appendix E Comparison of PPO and GRPO in AutoSearch"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix F Prompts"
+          },
+          "title": "Appendix F Prompts"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix G Case Study"
+          },
+          "title": "Appendix G Case Study"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Instructions for reporting errors"
+          },
+          "title": "Instructions for reporting errors"
+        }
+      ],
+      "total_tokens": 25984
+    },
+    "state_revision": 27
+  }
+}

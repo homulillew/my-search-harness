@@ -1,0 +1,266 @@
+[
+  {
+    "arxiv_id": "2503.09516",
+    "title": "Search-R1: Training LLMs to Reason and Leverage Search Engines with Reinforcement Learning",
+    "sections": [
+      "Introduction",
+      "Related Works",
+      "Search-R1",
+      "Main Results",
+      "Analysis",
+      "Conclusions",
+      "Appendix A Formulation of Reinforcement Learning with a Search Engine",
+      "Appendix B Experimental Setups",
+      "Appendix C Main Results on 14B LLM",
+      "Appendix D Retrieved Token Loss Masking Study",
+      "Appendix E Base vs. Instruct LLMs",
+      "Appendix F Comparison of PPO and GRPO in Search-R1",
+      "Appendix G Number of Retrieved Passages Study in Search-R1 Training",
+      "Appendix H Group Size Study in Search-R1 (GRPO) Training",
+      "Appendix I Comparison between R1 and Search-R1: A Case Study",
+      "Appendix J More Case Studies of Search-R1"
+    ],
+    "total_tokens": 28580
+  },
+  {
+    "arxiv_id": "2601.11888",
+    "title": "Agentic-R: Learning to Retrieve for Agentic Search",
+    "sections": [
+      "Introduction",
+      "Related Work",
+      "Preliminary: Agentic Search",
+      "Methodology",
+      "Experiment",
+      "Conclusion",
+      "Limitations",
+      "Appendix A Baselines",
+      "Appendix B Implementation Details",
+      "Appendix C Additional Experiments",
+      "Appendix E Use of AI Assistants"
+    ],
+    "total_tokens": 19802
+  },
+  {
+    "arxiv_id": "2601.18467",
+    "title": "OffSeeker: Online Reinforcement Learning Is Not All You Need for Deep Research Agents",
+    "sections": [
+      "Introduction",
+      "Methodology",
+      "Preliminary: Online RL Cost Analysis",
+      "Experiments",
+      "Empirical Study",
+      "Related Work",
+      "Conclusion"
+    ],
+    "total_tokens": 19131
+  },
+  {
+    "arxiv_id": "2601.22149",
+    "title": "DynaWeb: Model-Based Reinforcement Learning of Web Agents",
+    "sections": [
+      "Introduction",
+      "Related work",
+      "Method",
+      "Experiments",
+      "Analysis",
+      "Conclusion",
+      "Appendix A More Details About DynaWeb"
+    ],
+    "total_tokens": 16677
+  },
+  {
+    "arxiv_id": "2602.11551",
+    "title": "SIGHT: Reinforcement Learning with Self-Evidence and Information-Gain Diverse Branching for Search Agent",
+    "sections": [
+      "1. Introduction",
+      "2. Related Work",
+      "3. Preliminaries",
+      "4. Methodology",
+      "5. Experiments",
+      "6. Conclusion",
+      "Appendix A Experimental details"
+    ],
+    "total_tokens": 20406
+  },
+  {
+    "arxiv_id": "2602.19526",
+    "title": "How to Train Your Deep Research Agent? Prompt, Reward, and Policy Optimization in Search-R1",
+    "sections": [
+      "Introduction",
+      "Deep Research",
+      "Prompt Template",
+      "Reward Function",
+      "Policy Optimization",
+      "A strong baseline: Search-R1++",
+      "Appendix A Appendix"
+    ],
+    "total_tokens": 15051
+  },
+  {
+    "arxiv_id": "2602.22576",
+    "title": "Search-P1: Path-Centric Reward Shaping for Stable and Efficient Agentic RAG Training",
+    "sections": [
+      "Introduction",
+      "Related Work",
+      "Methodology",
+      "Experiments",
+      "Analysis",
+      "Appendix B Implementation Details",
+      "Appendix C Algorithms",
+      "Appendix D Prompt Templates",
+      "Appendix E Case Study",
+      "Appendix F Additional Results"
+    ],
+    "total_tokens": 24380
+  },
+  {
+    "arxiv_id": "2603.03293",
+    "title": "SE-Search: Self-Evolving Search Agent via Memory and Dense Reward",
+    "sections": [
+      "Introduction",
+      "Problem Formulation",
+      "Approach",
+      "Experiments",
+      "Related Works",
+      "Appendix A Appendix"
+    ],
+    "total_tokens": 17371
+  },
+  {
+    "arxiv_id": "2603.11327",
+    "title": "Meta-Reinforcement Learning with Self-Reflection for Agentic Search",
+    "sections": [
+      "Introduction",
+      "Related Work",
+      "MetaSearch: Meta-Reinforcement Learning for Agentic Search",
+      "Experiments",
+      "Conclusions",
+      "Limitations",
+      "Appendix A Appendix",
+      "Instructions for reporting errors"
+    ],
+    "total_tokens": 31733
+  },
+  {
+    "arxiv_id": "2604.03675",
+    "title": "PRAISE: Prefix-Based Rollout Reuse in Agentic Search Training",
+    "sections": [
+      "Introduction",
+      "Related Work",
+      "Prefix-Based Rollout Reuse with Intermediate Step Rewards",
+      "Experiments",
+      "Appendix A Appendix",
+      "Instructions for reporting errors"
+    ],
+    "total_tokens": 14608
+  },
+  {
+    "arxiv_id": "2604.08124",
+    "title": "Beyond Stochastic Exploration: What Makes Training Data Valuable for Agentic Search",
+    "sections": [
+      "Introduction",
+      "Related Work",
+      "Methodology",
+      "Experiments",
+      "Conclusions",
+      "Appendix A Implementation Details",
+      "Appendix B Prompt Examples",
+      "Appendix C Quantitative Analysis",
+      "Instructions for reporting errors"
+    ],
+    "total_tokens": 23633
+  },
+  {
+    "arxiv_id": "2604.17337",
+    "title": "AutoSearch: Adaptive Search Depth for Efficient Agentic RAG via Reinforcement Learning",
+    "sections": [
+      "Introduction",
+      "Related Work",
+      "How Search Depth Affect Performance?",
+      "Autosearch",
+      "Experiment",
+      "Appendix A Expanded Related Work",
+      "Appendix B Detailed Illustration of Our Method",
+      "Appendix C Experiment Setups",
+      "Appendix D Ablation Study on Search Rewards",
+      "Appendix E Comparison of PPO and GRPO in AutoSearch",
+      "Appendix F Prompts",
+      "Appendix G Case Study",
+      "Instructions for reporting errors"
+    ],
+    "total_tokens": 25984
+  },
+  {
+    "arxiv_id": "2604.17555",
+    "title": "COSEARCH: Joint Training of Reasoning and Document Ranking via Reinforcement Learning for Agentic Search",
+    "sections": [
+      "Introduction",
+      "Related Work",
+      "Methodology",
+      "Experiments",
+      "Conclusion",
+      "Appendix A Agent Prompts",
+      "Appendix B Two-Stage Retrieval System",
+      "Appendix C Semantic Grouping Algorithm",
+      "Appendix D Additional Implementation Details",
+      "Appendix E Semantic Grouping Examples",
+      "Appendix F Oracle Retrieval Construction",
+      "Appendix G Search Turn Distribution",
+      "Instructions for reporting errors"
+    ],
+    "total_tokens": 37630
+  },
+  {
+    "arxiv_id": "2604.17931",
+    "title": "LiteResearcher: A Scalable Agentic RL Training Framework for Deep Research Agent",
+    "sections": [
+      "Introduction",
+      "Related Work",
+      "Preliminaries: Agentic Framework",
+      "Methods: Towards Scalable Training",
+      "Experiments",
+      "Conclusions",
+      "Appendix A Synthetic Data",
+      "Appendix B SFT Details",
+      "Appendix C RL Details",
+      "Appendix D Infrastructure Details"
+    ],
+    "total_tokens": 22756
+  },
+  {
+    "arxiv_id": "2604.20486",
+    "title": "ProMMSearchAgent: A Generalizable Multimodal Search Agent Trained with Process-Oriented Rewards",
+    "sections": [
+      "Introduction",
+      "Related Works",
+      "Method",
+      "Experiments",
+      "Appendix 0.C Implementation Details",
+      "Appendix 0.D Training Hyperparameters",
+      "Appendix 0.E Multimodal Search Tools",
+      "Appendix 0.F Case Study",
+      "Instructions for reporting errors"
+    ],
+    "total_tokens": 12875
+  },
+  {
+    "arxiv_id": "2605.09287",
+    "title": "PiCA: Pivot-Based Credit Assignment for Search Agentic Reinforcement Learning",
+    "sections": [
+      "Introduction",
+      "Related Work",
+      "Preliminary",
+      "Methodology",
+      "Experiments",
+      "Conclusion",
+      "Appendix A Data Generation",
+      "Appendix C Details of Benchmarks and Metrics",
+      "Appendix D Limitation and Future Direction",
+      "Appendix E Broader Impacts",
+      "Appendix G Implementation Details",
+      "Appendix H Case Study",
+      "Instructions for reporting errors"
+    ],
+    "total_tokens": 21996
+  }
+]

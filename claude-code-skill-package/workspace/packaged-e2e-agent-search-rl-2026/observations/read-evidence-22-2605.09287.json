@@ -1,0 +1,15 @@
+{
+  "command": "read-source",
+  "ok": true,
+  "result": {
+    "source_content": {
+      "content": "While our method demonstrates significant improvements across various QA tasks, its evaluation has been primarily constrained by available computational resources, focusing on models within a specific parameter range (e.g., 14B and 32B series). Although the observed trends are consistent, future work could extend this validation to ultra-large-scale models or a broader diversity of architectures to ensure the approach’s generalizability across varying model capacities.\n\nMoreover, our current framework predominantly relies on process reward models that necessitate external supervision or high-quality teacher signals. In follow-up studies, we plan to investigate more autonomous reward mechanisms, such as intrinsic motivation, self-reflective feedback, or information-gain-based rewards. Such explorations would reduce the dependency on labor-intensive annotations and pave the way for a more self-evolving and robust agent.",
+      "locator": {
+        "kind": "section",
+        "value": "Appendix D Limitation and Future Direction"
+      },
+      "paper_ref": "paper_5634d840-5e23-4bc4-9664-b9fabeeb455e"
+    },
+    "state_revision": 71
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "command": "inspect-source",
+  "ok": true,
+  "result": {
+    "outline": {
+      "paper_ref": "paper_30913b73-8150-432f-80ae-6ff7f1834f41",
+      "sections": [
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Introduction"
+          },
+          "title": "Introduction"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Related Work"
+          },
+          "title": "Related Work"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Prefix-Based Rollout Reuse with Intermediate Step Rewards"
+          },
+          "title": "Prefix-Based Rollout Reuse with Intermediate Step Rewards"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Experiments"
+          },
+          "title": "Experiments"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix A Appendix"
+          },
+          "title": "Appendix A Appendix"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Instructions for reporting errors"
+          },
+          "title": "Instructions for reporting errors"
+        }
+      ],
+      "total_tokens": 14608
+    },
+    "state_revision": 25
+  }
+}

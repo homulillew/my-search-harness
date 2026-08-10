@@ -1,0 +1,487 @@
+{
+  "command": "search-papers",
+  "ok": true,
+  "result": {
+    "hits": [
+      {
+        "abstract": "Sparse rewards are a major bottleneck in multi-agent reinforcement learning (MARL), where simultaneous learning induces non-stationarity and makes reward design especially delicate. Reward shaping can accelerate learning, but in the multi-agent setting it must preserve the strategic structure of the problem rather than merely improve short-term optimization. We propose Automatic Reward-shaping in Multi-agent Systems (ARMS), a self-supervised reward shaping framework for MARL that learns dense shaping signals from sparse environmental rewards through trajectory ranking. Since single-agent trajectory-ranking guarantees do not directly transfer to MARL, we reformulate policy invariance through conditional best-response reasoning, and show that if certain conditions hold, then using shaping rewards preserves each agent's best-response set under fixed opponent policies, and consequently preserve the set of Nash equilibria. Guided by this perspective, ARMS alternates between policy learning and reward learning while sharing shaping parameters across agents for efficiency. Experiments in a partially observable multi-agent pathfinding domain show that ARMS improves sampling efficiency under increasing reward sparsity and agent count, generalizes to unseen environments, and reveals a MARL-specific failure mode in which limited exploration and coupled policy--reward dynamics induce oscillatory behavior. Increasing exploration mitigates this effect and stabilizes learning. To the best of our knowledge, ARMS is the first automatic reward shaping framework for MARL whose design is motivated by a game-theoretic equilibrium-preservation result.",
+        "arxiv_id": "2605.23562",
+        "authors": [
+          "Elie Abboud",
+          "Oren Gal"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.23562",
+        "categories": [
+          "cs.MA",
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.8333334,
+        "provider_summary": "[Research Paper] This paper introduces ARMS, a self-supervised automatic reward shaping framework for multi-agent reinforcement learning that learns dense shaping signals from sparse environmental rewards via trajectory ranking. The method is theoretically grounded in game-theoretic equilibrium preservation, ensuring that the shaped rewards do not alter the set of Nash equilibria, and demonstrates improved sampling efficiency in sparse-reward domains.",
+        "publication_year": 2026,
+        "title": "ARMS: Automatic Reward Shaping for Sparse-Reward Multi-Agent Reinforcement Learning"
+      },
+      {
+        "abstract": "Agentic retrieval-augmented generation (RAG) systems enable large language models (LLMs) to solve complex tasks through multi-step interaction with external retrieval tools. However, such multi-step interaction often involves redundant search steps, incurring substantial computational cost and latency. Prior work limits search depth (i.e., the number of search steps) to reduce cost, but this often leads to underexploration of complex questions. To address this, we first investigate how search depth affects accuracy and find a minimal sufficient search depth that defines an accuracy-efficiency trade-off, jointly determined by question complexity and the agent's capability. Furthermore, we propose AutoSearch, a reinforcement learning (RL) framework that evaluates each search step via self-generated intermediate answers. By a self-answering mechanism, AutoSearch identifies the minimal sufficient search depth and promotes efficient search by rewarding its attainment while penalizing over-searching. In addition, reward mechanisms are introduced to stabilize search behavior and improve answer quality on complex questions. Extensive experiments on multiple benchmarks show that AutoSearch achieves a superior accuracy-efficiency trade-off, alleviating over-searching while preserving search quality.",
+        "arxiv_id": "2604.17337",
+        "authors": [
+          "Jingbo Sun",
+          "Wenyue Chong",
+          "Songjun Tu",
+          "Qichao Zhang",
+          "Yaocheng Zhang",
+          "Jiajun Chai",
+          "Xiaohan Wang",
+          "Wei Lin",
+          "Guojun Yin",
+          "Dongbin Zhao"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.17337",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.5833334,
+        "provider_summary": "[research paper] AutoSearch introduces a self-answer-driven reinforcement learning framework that dynamically determines the minimal sufficient search depth in agentic RAG systems by generating intermediate answers at each retrieval step. It establishes an accuracy-efficiency trade-off by rewarding attainment of the minimal depth and penalizing over-searching, with a base reward stabilizing behavior and a quality-based reward improving performance on complex queries. Experiments show superior efficiency without sacrificing accuracy across single-hop and multi-hop QA tasks.",
+        "publication_year": 2026,
+        "title": "AutoSearch: Adaptive Search Depth for Efficient Agentic RAG via Reinforcement Learning"
+      },
+      {
+        "abstract": "Retrieval-Augmented Generation (RAG) enhances large language models (LLMs) by incorporating external knowledge, yet traditional single-round retrieval struggles with complex multi-step reasoning. Agentic RAG addresses this by enabling LLMs to dynamically decide when and what to retrieve, but current RL-based training methods suffer from sparse outcome rewards that discard intermediate signals and low sample efficiency where failed samples contribute nothing. We propose Search-P1, a framework that introduces path-centric reward shaping for agentic RAG training, comprising two key components: (1) Path-Centric Reward, which evaluates the structural quality of reasoning trajectories through order-agnostic step coverage and soft scoring that extracts learning signals even from failed samples, and (2) Dual-Track Path Scoring with offline-generated reference planners that assesses paths from both self-consistency and reference-alignment perspectives. Experiments on multiple QA benchmarks demonstrate that Search-P1 achieves significant improvements over Search-R1 and other strong baselines, with an average accuracy gain of 7.7 points.",
+        "arxiv_id": "2602.22576",
+        "authors": [
+          "Tianle Xia",
+          "Ming Xu",
+          "Lingxiang Hu",
+          "Yiding Sun",
+          "Wenwei Li",
+          "Linfang Shang",
+          "Liqun Liu",
+          "Peng Shu",
+          "Huan Yu",
+          "Jie Jiang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.22576",
+        "categories": [
+          "cs.CL",
+          "cs.IR",
+          "cs.LG"
+        ],
+        "citation_count": 3,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.5,
+        "provider_summary": "[research paper] Search-P1 introduces path-centric reward shaping to overcome sparse rewards and low sample efficiency in agentic RAG training by evaluating reasoning trajectories at the path level. It employs dual-track path scoring—self-consistency and reference-alignment—with order-agnostic step coverage to provide dense, intermediate feedback, and soft outcome scoring to assign partial credit to failed trajectories, enabling learning from all samples. This results in faster convergence and a 7.7-point average accuracy gain across QA benchmarks.",
+        "publication_year": 2026,
+        "title": "Search-P1: Path-Centric Reward Shaping for Stable and Efficient Agentic RAG Training"
+      },
+      {
+        "abstract": "Retrieval augmented generation (RAG) reduces hallucinations and factual errors in large language models (LLMs) by conditioning generation on retrieved external knowledge. Recent search agents further cast RAG as an autonomous, multi-turn information-seeking process. However, existing methods often accumulate irrelevant or noisy documents and rely on sparse reinforcement learning signals. We propose \\textbf{S}elf-\\textbf{E}volving \\textbf{Search}, a Self-Evolving Search agent that improves online search behavior through three components, memory purification, atomic query training, and dense rewards. SE-Search follows a \\textit{Think-Search-Memorize} strategy that retains salient evidence while filtering irrelevant content. Atomic query training promotes shorter and more diverse queries, improving evidence acquisition. Dense rewards provide fine-grained feedback that speeds training. Experiments on single-hop and multi-hop question answering benchmarks show that \\texttt{SE-Search-3B} outperforms strong baselines, yielding a $10.8$ point absolute improvement and a $33.8\\%$ relative gain over Search-R1.\\footnote{We will make the code and model weights publicly available upon acceptance.}",
+        "arxiv_id": "2603.03293",
+        "authors": [
+          "Jian Li",
+          "Yizhang Jin",
+          "Dongqi Liu",
+          "Hang Ding",
+          "Jiafu Wu",
+          "Dongsheng Chen",
+          "Yunhang Shen",
+          "Yulei Qin",
+          "Ying Tai",
+          "Chengjie Wang",
+          "Xiaotong Yuan",
+          "Yabiao Wang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.03293",
+        "categories": [
+          "cs.CL"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.33333334,
+        "provider_summary": "[research paper] SE-Search introduces a self-evolving search agent that enhances LLM-based information retrieval through memory purification, atomic query generation, and dense reward signals. It employs a Think-Search-Memorize loop to filter noisy results, promote diverse and adaptive queries, and provide fine-grained reinforcement learning feedback on query formulation, memory retention, formatting, and outcome quality, outperforming baselines by 10.8 absolute points and 33.8% relative gain on multi-hop QA benchmarks.",
+        "publication_year": 2026,
+        "title": "SE-Search: Self-Evolving Search Agent via Memory and Dense Reward"
+      },
+      {
+        "abstract": "Large Language Model (LLM)-based search agents trained with reinforcement learning (RL) have significantly improved the performance of knowledge-intensive tasks. However, existing methods encounter critical challenges in long-horizon credit assignment: (i) Reward Sparsity, where models receive only outcome feedback without step-level guidance to differentiate action quality; (ii) Isolated Credit, where credit is assigned to steps independently, failing to capture sequential dependencies; and (iii) Distributional Shift, where rewards are estimated on templates that deviate from the model's natural generative distribution. To address these issues, we propose Pivot-Based Credit Assignment (PiCA), a novel step reward mechanism that reformulates the search trajectory as a sequential process of cumulative search progress. Unlike prior isolated step rewards, PiCA defines process rewards as success probabilities dependent on the historical context based on Potential-Based Reward Shaping (PBRS). This approach identifies pivot steps, which comprise target golden sub-queries and sub-answers derived from historical trajectories, as information peaks that significantly boost the likelihood of a correct final answer. By anchoring these step rewards to the final task objective, PiCA provides dense, pivot-aware and trajectory-dependent guidance while maintaining distributional consistency. Extensive experiments show that PiCA outperforms existing strong baselines across seven knowledge-intensive QA benchmarks, achieving 15.2% and 2.2% improvements for 3B and 7B models. The consistent performance gains across various models show PiCA's robust generalization. The code is available at https://github.com/novdream/PiCA.",
+        "arxiv_id": "2605.09287",
+        "authors": [
+          "Dongyi Liu",
+          "Yifan Niu",
+          "Qinwen Wang",
+          "Han Xiao",
+          "Jia Li"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.09287",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.26785713,
+        "provider_summary": "[research paper] PiCA introduces a pivot-based credit assignment mechanism that redefines step rewards in search agentic reinforcement learning by modeling them as conditional success probabilities derived from historical trajectories via potential-based reward shaping. It identifies 'pivot steps'—golden sub-queries and sub-answers that act as information peaks—linking each step’s reward to the final goal’s success probability, thereby addressing reward sparsity, isolated credit, and distributional shift by preserving trajectory-dependent, distributionally consistent guidance. Experiments across seven QA benchmarks show 15.2% and 2.2% performance gains for 3B and 7B models, respectively, demonstrating robust generalization and improved information retrieval and synthesis in long-horizon knowledge-intensive tasks.",
+        "publication_year": 2026,
+        "title": "PiCA: Pivot-Based Credit Assignment for Search Agentic Reinforcement Learning"
+      },
+      {
+        "abstract": "We design a deep reinforcement learning algorithm to explore a high-dimensional integer lattice with sparse rewards, training a feedforward neural network as a dynamic search heuristic to steer exploration toward reward dense regions. We apply this to the discovery of Fano 4-fold hypersurfaces with terminal singularities, objects of central importance in algebraic geometry. Fano varieties with terminal singularities are fundamental building blocks of algebraic varieties, and explicit examples serve as a vital testing ground for the development and generalisation of theory. Despite decades of effort, the combinatorial intractability of the underlying search space has left this classification severely incomplete. Our reinforcement learning approach yields thousands of previously unknown examples, hundreds of which we show are inaccessible to known search methods.",
+        "arxiv_id": "2603.15437",
+        "authors": [
+          "Marc Truter"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.15437",
+        "categories": [
+          "math.AG",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.25,
+        "provider_summary": "[research paper] A deep reinforcement learning (DRL) agent is trained as a dynamic heuristic to navigate a 6-dimensional integer lattice search space for Fano 4-fold hypersurfaces with terminal singularities, exploiting spatial clustering of sparse reward points. The DRL model uses temporal difference learning to adaptively refine its search policy, enabling discovery of hundreds of previously inaccessible nonquasismooth examples—many beyond reach of fixed heuristic or exhaustive methods—by smoothing reward variance and promoting exploration into high-complexity, underexplored regions of the lattice.",
+        "publication_year": 2026,
+        "title": "Deep Reinforcement Learning for Fano Hypersurfaces"
+      },
+      {
+        "abstract": "Large language model alignment via reinforcement learning depends critically on reward function quality. However, static, domain-specific reward models are often costly to train and exhibit poor generalization in out-of-distribution scenarios encountered during RL iterations. We present RLAR (Reinforcement Learning from Agent Rewards), an agent-driven framework that dynamically assigns tailored reward functions to individual queries. Specifically, RLAR transforms reward acquisition into a dynamic tool synthesis and invocation task. It leverages LLM agents to autonomously retrieve optimal reward models from the Internet and synthesize programmatic verifiers through code generation. This allows the reward system to self-evolve with the shifting data distributions during training. Experimental results demonstrate that RLAR yields consistent performance gains ranging from 10 to 60 across mathematics, coding, translation, and dialogue tasks. On RewardBench-V2, RLAR significantly outperforms static baselines and approaches the performance upper bound, demonstrating superior generalization through dynamic reward orchestration. The data and code are available on this link: https://github.com/ZhuoerFeng/RLAR.",
+        "arxiv_id": "2603.00724",
+        "authors": [
+          "Andrew Zhuoer Feng",
+          "Cunxiang Wang",
+          "Bosi Wen",
+          "Yidong Wang",
+          "Yu Luo",
+          "Hongning Wang",
+          "Minlie Huang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.00724",
+        "categories": [
+          "cs.CL"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.2,
+        "provider_summary": "[research paper] RLAR introduces an agentic reward system that dynamically selects and synthesizes domain-specific reward models via LLM agents, enabling self-evolving, high-fidelity reward orchestration across math, coding, translation, and dialogue tasks. By leveraging tool-calling and code generation to retrieve and verify specialized reward functions from the web, RLAR achieves 10–60% performance gains over static baselines, outperforms GPT-5-as-a-judge in robustness, and reduces API and GPU costs by 80% and 75% respectively, with its reward tool selector achieving 90.44% accuracy in query routing.",
+        "publication_year": 2026,
+        "title": "RLAR: An Agentic Reward System for Multi-task Reinforcement Learning on Large Language Models"
+      },
+      {
+        "abstract": "A prerequisite for coding agents to perform tasks on large repositories is code localization - the identification of relevant files, classes, and functions to work on. While repository-level code localization has been performed using embedding-based retrieval approaches such as vector search, recent work has focused on developing agents to localize relevant code either as a standalone precursor to or interleaved with performing actual work. Most prior methods on agentic code search equip the agent with complex, specialized tools, such as repository graphs derived from static analysis. In this paper, we demonstrate that, with an effective reinforcement learning recipe, a coding agent equipped with nothing more than a standard Unix terminal can be trained to achieve strong results. Our experiments on three benchmarks (SWE-Bench Verified, Pro, and Lite) reveal that our models consistently achieve superior or competitive performance over 2-18x larger base and post-trained LLMs and sometimes approach performance provided by closed models like Claude Sonnet, even when using specialized scaffolds. Our work particularly focuses on techniques for re-purposing existing coding agent environments for code search, reward design, and RL optimization. We release the resulting model family, CodeScout, along with all our code and data for the community to build upon.",
+        "arxiv_id": "2603.17829",
+        "authors": [
+          "Lintang Sutawika",
+          "Aditya Bharat Soni",
+          "Bharath Sriraam R R",
+          "Apurva Gandhi",
+          "Taha Yassine",
+          "Sanidhya Vijayvargiya",
+          "Yuchen Li",
+          "Xuhui Zhou",
+          "Yilin Zhang",
+          "Leander Melroy Maben",
+          "Graham Neubig"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.17829",
+        "categories": [
+          "cs.SE",
+          "cs.AI",
+          "cs.CL"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.2,
+        "provider_summary": "[research paper] CodeScout introduces a reinforcement learning recipe that trains a code localization agent using only a standard Unix terminal (no specialized tools), achieving performance comparable to or exceeding large open-source LLMs and approaching closed-source models like Claude Sonnet. The method relies on scalable data/environment curation, a language-agnostic agent scaffold (OpenHands-Bash), carefully designed reward signals, and an optimized RL training pipeline, demonstrating that minimal tooling can suffice for effective code search in large repositories.",
+        "publication_year": 2026,
+        "title": "CodeScout: An Effective Recipe for Reinforcement Learning of Code Search Agents"
+      },
+      {
+        "abstract": "Reinforcement learning (RL) paradigms have demonstrated strong performance on reasoning-intensive tasks such as code generation. However, limited trajectory diversity often leads to diminishing returns, which constrains the achievable performance ceiling. Search-enhanced RL alleviates this issue by introducing structured exploration, which remains constrained by the single-agent policy priors. Meanwhile, leveraging multiple interacting policies can acquire more diverse exploratory signals, but existing approaches are typically decoupled from structured search. We propose \\textbf{MARS$^2$} (Multi-Agent Reinforced Tree-Search Scaling), a unified RL framework in which multiple independently-optimized agents collaborate within a shared tree-structured search environment. MARS$^2$ models the search tree as a learnable multi-agent interaction environment, enabling heterogeneous agents to collaboratively generate and refine candidate solutions within a shared search topology. To support effective learning, we introduce a path-level group advantage formulation based on tree-consistent reward shaping, which facilitates effective credit assignment across complex search trajectories. Experiments on code generation benchmarks show that MARS$^2$ consistently improves performance across diverse model combinations and training settings, demonstrating the effectiveness of coupling multi-agent collaboration with tree search for enhancing reinforcement learning. Our code is publicly available at https://github.com/TsinghuaC3I/MARTI.",
+        "arxiv_id": "2604.14564",
+        "authors": [
+          "Pengfei Li",
+          "Shijie Wang",
+          "Fangyuan Li",
+          "Yikun Fu",
+          "Kaifeng Liu",
+          "Kaiyan Zhang",
+          "Dazhi Zhang",
+          "Yuqiang Li",
+          "Biqing Qi",
+          "Bowen Zhou"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.14564",
+        "categories": [
+          "cs.AI",
+          "cs.CL"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.16111112,
+        "provider_summary": "[research paper] MARS2 introduces a unified reinforcement learning framework that integrates multi-agent collaboration with tree-structured search to overcome exploration bottlenecks in code generation. It models the search tree as a shared, learnable environment where multiple independently optimized agents jointly expand and refine candidate solutions via Thompson-sampling-based node selection, enabling heterogeneous exploration. A path-level group advantage function with tree-consistent reward shaping enables effective credit assignment across complex trajectories, significantly improving trajectory diversity and performance beyond single-agent or decoupled multi-agent methods.",
+        "publication_year": 2026,
+        "title": "MARS$^2$: Scaling Multi-Agent Tree Search via Reinforcement Learning for Code Generation"
+      },
+      {
+        "abstract": "Search-augmented large language models (LLMs) trained with reinforcement learning (RL) have achieved strong results on open-domain question answering (QA), but training still remains a significant challenge. The optimization is often unstable due to sparse rewards and difficult credit assignments across reasoning and tool calls. To address this, we introduce Turn-Level Information Potential Reward Shaping (TIPS), a simple framework that assigns dense, turn-level rewards to each reasoning + tool-call segment based on the increased likelihood of the correct answer under a teacher model. By leveraging the potential-based reward shaping, TIPS offers fine-grained and policy-invariant guidance that overcomes the limitations of outcome-only optimization. Evaluated on seven QA benchmarks, TIPS consistently outperforms GRPO/PPO baselines and substantially improves training stability. For instance, with a Qwen-2.5 7B Instruct model, TIPS improves the average Exact Match score by 11.8% and F1 by 13.6% relative to PPO. Our results demonstrate that turn-level information-potential reward shaping provides an effective and general solution to sparse-reward credit assignment for multi-turn LLM reasoning.",
+        "arxiv_id": "2603.22293",
+        "authors": [
+          "Yutao Xie",
+          "Nathaniel Thomas",
+          "Nicklas Hansen",
+          "Yang Fu",
+          "Li Erran Li",
+          "Xiaolong Wang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.22293",
+        "categories": [
+          "cs.CL",
+          "cs.AI",
+          "cs.LG"
+        ],
+        "citation_count": 6,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.1573499,
+        "provider_summary": "[research paper] TIPS introduces a turn-level information-potential reward shaping method for search-augmented LLMs, where each reasoning-tool-call segment is rewarded based on its incremental increase in the teacher model’s log-likelihood of the correct answer. By modeling interactions as segment-level MDPs and using potential-based reward shaping, TIPS provides dense, policy-invariant feedback that resolves credit assignment issues in long-horizon tool-use tasks without requiring additional reward models or labels. Empirical results on seven QA benchmarks show consistent improvements over PPO/GRPO baselines—up to +11.8% Exact Match and +13.6% F1 on Qwen-2.5-7B Instruct—demonstrating enhanced training stability and performance in open-domain reasoning with tools.",
+        "publication_year": 2026,
+        "title": "TIPS: Turn-Level Information-Potential Reward Shaping for Search-Augmented LLMs"
+      },
+      {
+        "abstract": "Designing effective auxiliary rewards for cooperative multi-agent systems remains a precarious task; misaligned incentives risk inducing suboptimal coordination, especially where sparse task feedback fails to provide sufficient grounding. This study introduces an automated reward design framework that leverages large language models to synthesize executable reward programs from environment instrumentation. The procedure constrains candidate programs within a formal validity envelope and evaluates their efficacy by training policies from scratch under a fixed computational budget; selection depends exclusively on the sparse task return. The framework is evaluated across four distinct Overcooked-AI layouts characterized by varied corridor congestion, handoff dependencies, and structural asymmetries. Iterative search generations consistently yield superior task returns and delivery counts, with the most pronounced gains occurring in environments dominated by interaction bottlenecks. Diagnostic analysis of the synthesized shaping components indicates increased interdependence in action selection and improved signal alignment in coordination-intensive tasks. These results demonstrate that the search for objectivegrounded reward programs can mitigate the burden of manual engineering while producing shaping signals compatible with cooperative learning under finite budgets.",
+        "arxiv_id": "2603.24324",
+        "authors": [
+          "Dogan Urgun",
+          "Gokhan Gungor"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.24324",
+        "categories": [
+          "cs.LG",
+          "cs.AI",
+          "cs.SY",
+          "eess.SY"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.14166667,
+        "provider_summary": "[Research Paper] This paper introduces an automated reward design framework that uses large language models to synthesize executable reward programs for cooperative multi-agent reinforcement learning, validated through end-to-end MAPPO training under a fixed computational budget. The approach mitigates manual engineering while producing shaping signals compatible with cooperative learning, showing consistent improvements in task returns and delivery counts across Overcooked-AI environments.",
+        "publication_year": 2026,
+        "title": "Large Language Model Guided Incentive Aware Reward Design for Cooperative Multi-Agent Reinforcement Learning"
+      },
+      {
+        "abstract": "This paper introduces MR-Search, an in-context meta reinforcement learning (RL) formulation for agentic search with self-reflection. Instead of optimizing a policy within a single independent episode with sparse rewards, MR-Search trains a policy that conditions on past episodes and adapts its search strategy across episodes. MR-Search learns to learn a search strategy with self-reflection, allowing search agents to improve in-context exploration at test-time. Specifically, MR-Search performs cross-episode exploration by generating explicit self-reflections after each episode and leveraging them as additional context to guide subsequent attempts, thereby promoting more effective exploration during test-time. We further introduce a multi-turn RL algorithm that estimates a dense relative advantage at the turn level, enabling fine-grained credit assignment on each episode. Empirical results across various benchmarks demonstrate the advantages of MR-Search over baselines based RL, showing strong generalization and relative improvements of 9.2% to 19.3% across eight benchmarks. Our code and data are available at https://github.com/tengxiao1/MR-Search.",
+        "arxiv_id": "2603.11327",
+        "authors": [
+          "Teng Xiao",
+          "Yige Yuan",
+          "Hamish Ivison",
+          "Huaisheng Zhu",
+          "Faeze Brahman",
+          "Nathan Lambert",
+          "Pradeep Dasigi",
+          "Noah A. Smith",
+          "Hannaneh Hajishirzi"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.11327",
+        "categories": [
+          "cs.LG",
+          "cs.CL"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.125,
+        "provider_summary": "[research paper] MR-Search introduces a meta-reinforcement learning framework for agentic search that enables cross-episode exploration via explicit self-reflection, where each episode ends with a reflective step used as contextual guidance for future episodes. By leveraging multi-turn RL with turn-level relative advantage estimation, it achieves fine-grained credit assignment without requiring value models or external rewards, leading to 9.2%–19.3% relative gains across eight benchmarks through improved in-context exploration and strategy adaptation.",
+        "publication_year": 2026,
+        "title": "Meta-Reinforcement Learning with Self-Reflection for Agentic Search"
+      },
+      {
+        "abstract": "Agentic search -- the task of training agents that iteratively reason, issue queries, and synthesize retrieved information to answer complex questions -- has achieved remarkable progress through reinforcement learning (RL). However, existing approaches such as Search-R1, treat the retrieval system as a fixed tool, optimizing only the reasoning agent while the retrieval component remains unchanged. A preliminary experiment reveals that the gap between an oracle and a fixed retrieval system reaches up to +26.8% relative F1 improvement across seven QA benchmarks, suggesting that the retrieval system is a key bottleneck in scaling agentic search performance. Motivated by this finding, we propose CoSearch, a framework that jointly trains a multi-step reasoning agent and a generative document ranking model via Group Relative Policy Optimization (GRPO). To enable effective GRPO training for the ranker -- whose inputs vary across reasoning trajectories -- we introduce a semantic grouping strategy that clusters sub-queries by token-level similarity, forming valid optimization groups without additional rollouts. We further design a composite reward combining ranking quality signals with trajectory-level outcome feedback, providing the ranker with both immediate and long-term learning signals. Experiments on seven single-hop and multi-hop QA benchmarks demonstrate consistent improvements over strong baselines, with ablation studies validating each design choice. Our results show that joint training of the reasoning agent and retrieval system is both feasible and strongly performant, pointing to a key ingredient for future search agents.",
+        "arxiv_id": "2604.17555",
+        "authors": [
+          "Hansi Zeng",
+          "Liam Collins",
+          "Bhuvesh Kumar",
+          "Neil Shah",
+          "Hamed Zamani"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.17555",
+        "categories": [
+          "cs.AI",
+          "cs.CL",
+          "cs.IR"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.11513158,
+        "provider_summary": "[research paper] CoSearch introduces a joint reinforcement learning framework that co-trains a multi-step reasoning agent and a generative document ranker to overcome retrieval bottlenecks in agentic search. It addresses two key challenges: (1) semantic grouping of sub-queries by token-level F1 similarity to enable Group Relative Policy Optimization (GRPO) without additional rollouts, and (2) a composite reward combining immediate ranking quality (Hit@$k$) with trajectory-level answer correctness to align retrieval with downstream performance. Experiments on seven QA benchmarks show consistent F1 gains—up to +26.8% over fixed retrieval baselines—demonstrating that joint optimization of reasoning and retrieval significantly improves search effectiveness.",
+        "publication_year": 2026,
+        "title": "COSEARCH: Joint Training of Reasoning and Document Ranking via Reinforcement Learning for Agentic Search"
+      },
+      {
+        "abstract": "Search agents powered by large language models can autonomously decompose queries, retrieve information, and synthesize answers through multi-step reasoning. However, the rapid growth of training methods has outpaced controlled comparison: existing works differ in retrieval corpora, reward designs, and training protocols, making it unclear what actually drives improvements. We present a controlled empirical study that isolates three under-explored dimensions of search agent training. First, we identify a critical data-coverage issue in the widely used Wikipedia 2018 corpus and show that correcting it alone yields larger gains than the differences between training algorithms. Second, we systematically compare outcome-based and process-based reward methods across three base models, finding that the simplest outcome-based approach achieves competitive or superior performance in most settings, and that process-level credit assignment can over-correct agent behavior. Third, we analyze training data diversity, off-policy data utilization, and search budget scaling, distilling practical guidelines for training effective search agents. Our code is available at https://github.com/YiboZhao624/SearchAgentReview.",
+        "arxiv_id": "2605.27881",
+        "authors": [
+          "Yibo Zhao",
+          "Zichen Ding",
+          "Jiayi Wu",
+          "Zun Wang",
+          "Xiang Li"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.27881",
+        "categories": [
+          "cs.CL"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.114164904,
+        "provider_summary": "[Research Paper] This study presents a controlled empirical analysis of training search agents, isolating the impact of retrieval corpora, reward designs, and training protocols. The authors find that correcting data coverage issues in the Wikipedia 2018 corpus yields greater gains than algorithmic differences, and that simple outcome-based rewards often outperform complex process-based methods.",
+        "publication_year": 2026,
+        "title": "Retrieval, Reward, and Training Protocols: What Matters in Training Search Agents?"
+      },
+      {
+        "abstract": "Multi-agent systems often operate in dynamic and uncertain environments, where agents must not only pursue individual goals but also safeguard collective functionality. This challenge is especially acute in mixed-motive multi-agent systems. This work focuses on cooperative resilience, the ability of agents to anticipate, resist, recover, and transform in the face of disruptions, a critical yet underexplored property in Multi-Agent Reinforcement Learning. We study how reward function design influences resilience in mixed-motive settings and introduce a novel framework that learns reward functions from ranked trajectories, guided by a cooperative resilience metric. Agents are trained in a suite of social dilemma environments using three reward strategies: i) traditional individual reward; ii) resilience-inferred reward; and iii) hybrid that balance both. We explore three reward parameterizations-linear models, hand-crafted features, and neural networks, and employ two preference-based learning algorithms to infer rewards from behavioral rankings. Our results demonstrate that hybrid strategy significantly improve robustness under disruptions without degrading task performance and reduce catastrophic outcomes like resource overuse. These findings underscore the importance of reward design in fostering resilient cooperation, and represent a step toward developing robust multi-agent systems capable of sustaining cooperation in uncertain environments.",
+        "arxiv_id": "2601.22292",
+        "authors": [
+          "Manuela Chacon-Chamorro",
+          "Luis Felipe Giraldo",
+          "Nicanor Quijano"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.22292",
+        "categories": [
+          "cs.MA",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.11111111,
+        "provider_summary": "[research paper] This work introduces a preference-based inverse reinforcement learning framework that infers cooperative resilience-aligned reward functions from ranked agent trajectories in mixed-motive social dilemmas. By using a quantitative cooperative resilience metric to score disruptions and generate behavioral preferences, the method learns reward functions that promote adaptive cooperation, sustained collective well-being, and robust recovery under disruptions—outperforming baseline MARL methods without sacrificing individual task performance. The approach enables a data-driven, system-level design of incentives that support resilience in dynamic, uncertain multi-agent environments.",
+        "publication_year": 2026,
+        "title": "Learning Reward Functions for Cooperative Resilience in Multi-Agent Systems"
+      },
+      {
+        "abstract": "RL agents are typically trained under a single, fixed reward function, which makes them brittle to reward misspecification and limits their ability to adapt to changing task preferences. We introduce Reward-Conditioned Reinforcement Learning (RCRL), a framework that trains a single agent to optimize a family of reward specifications while collecting experience under only one nominal objective. RCRL conditions the agent on reward parameterizations and learns multiple reward objectives from a shared replay data entirely off-policy, enabling a single policy to represent reward-specific behaviors. Across single-task, multi-task, and vision-based benchmarks, we show that RCRL not only improves performance under the nominal reward parameterization, but also enables efficient adaptation to new parameterizations. Our results demonstrate that RCRL provides a scalable mechanism for learning robust, steerable policies without sacrificing the simplicity of single-task training.",
+        "arxiv_id": "2603.05066",
+        "authors": [
+          "Michal Nauman",
+          "Marek Cygan",
+          "Pieter Abbeel"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.05066",
+        "categories": [
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.10633484,
+        "provider_summary": "[research paper] Reward-Conditioned Reinforcement Learning (RCRL) introduces a framework where a single RL agent learns to optimize a family of reward functions by conditioning both its policy and critic on reward parameterizations during training, using only data collected under a fixed nominal reward. The agent stores transitions with associated reward components sampled from a distribution over parameterizations, enabling off-policy learning of multiple reward-specific behaviors from shared experience. This leads to improved sample efficiency, robust zero-shot transfer to new rewards, and efficient fine-tuning—without requiring retraining—demonstrating strong performance across single-task, multi-task, and vision-based benchmarks.",
+        "publication_year": 2026,
+        "title": "Reward-Conditioned Reinforcement Learning"
+      },
+      {
+        "abstract": "This paper implements deep reinforcement learning (DRL) with a safety filter for spacecraft reorientation control with a single pointing keep-out zone. A new state space representation is designed which includes a compact representation of the attitude constraint zone. A reward function is formulated to achieve the control objective while enforcing the attitude constraint. The soft actor-critic (SAC) algorithm is adopted to handle continuous state and action space. A curriculum learning approach is implemented for agent training. To guarantee the compliance of the attitude constraint, a control barrier function (CBF)-based safety filter is implemented for agent deployment. Simulation results demonstrate the effectiveness of the proposed state space presentation and the designed reward function. Monte Carlo simulations underscore that reward shaping alone cannot guarantee the safety during reorientation maneuver. In contrast, with the CBF-based safety filter, the constraint can be guaranteed during maneuvers.",
+        "arxiv_id": "2605.19967",
+        "authors": [
+          "Juntang Yang",
+          "Mohamed Khalil Ben-Larbi"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.19967",
+        "categories": [
+          "eess.SY",
+          "cs.SY"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.1,
+        "provider_summary": "[Research Paper] This paper presents a safe deep reinforcement learning framework for spacecraft reorientation that integrates a control barrier function (CBF) safety filter to enforce pointing keep-out constraints. The approach combines soft actor-critic with curriculum learning and a novel state representation to ensure constraint compliance during maneuvers. Results demonstrate that the CBF-based filter effectively guarantees safety, whereas reward shaping alone is insufficient.",
+        "publication_year": 2026,
+        "title": "Safe Deep Reinforcement Learning for Spacecraft Reorientation with Pointing Keep-Out Constraint"
+      },
+      {
+        "abstract": "Reinforcement learning with verifiable rewards has emerged as a powerful paradigm for training intelligent agents. However, existing methods typically employ binary rewards that fail to capture quality differences among trajectories achieving identical outcomes, thereby overlooking potential diversity within the solution space. Inspired by the ``sweet spot'' concept in tennis-the racket's core region that produces optimal hitting effects, we introduce \\textbf{S}weet \\textbf{S}pot \\textbf{L}earning (\\textbf{SSL}), a novel framework that provides differentiated guidance for agent optimization. SSL follows a simple yet effective principle: progressively amplified, tiered rewards guide policies toward the sweet-spot region of the solution space. This principle naturally adapts across diverse tasks: visual perception tasks leverage distance-tiered modeling to reward proximity, while complex reasoning tasks reward incremental progress toward promising solutions. We theoretically demonstrate that SSL preserves optimal solution ordering and enhances the gradient signal-to-noise ratio, thereby fostering more directed optimization. Extensive experiments across GUI perception, short/long-term planning, and complex reasoning tasks show consistent improvements over strong baselines on 12 benchmarks, achieving up to 2.5X sample efficiency gains and effective cross-task transferability. Our work establishes SSL as a general principle for training capable and robust agents.",
+        "arxiv_id": "2601.22491",
+        "authors": [
+          "Jinyang Wu",
+          "Changpeng Yang",
+          "Yuhao Shen",
+          "Fangzhi Xu",
+          "Bolin Ni",
+          "Chonghua Liao",
+          "Yuchen Liu",
+          "Hongzhen Wang",
+          "Shuai Nie",
+          "Shuai Zhang",
+          "Haoran Luo",
+          "Jiaming Xu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.22491",
+        "categories": [
+          "cs.CL"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.09848485,
+        "provider_summary": "[research paper] Sweet Spot Learning (SSL) introduces a unified, tiered reward framework that partitions the solution space into quality-ordered zones based on proximity to optimal outcomes, providing differentiated guidance during agent optimization. Unlike binary rewards, SSL assigns progressively amplified rewards according to trajectory quality—distance-tiered for visual perception and progress-tiered for reasoning—preserving optimal solution ordering and improving gradient signal-to-noise ratio. Theoretical analysis confirms stability in solution ranking, while experiments across 12 benchmarks show up to 2.5× sample efficiency gains and strong cross-task transferability in GUI navigation, planning, and complex reasoning.",
+        "publication_year": 2026,
+        "title": "SSL: Sweet Spot Learning for Differentiated Guidance in Agentic Optimization"
+      },
+      {
+        "abstract": "Reinforcement learning has recently gained traction as a means to improve combinatorial optimization methods, yet its effectiveness within local search metaheuristics specifically remains comparatively underexamined. In this study, we evaluate a range of reinforcement learning-based neighborhood selection strategies -- multi-armed bandits (upper confidence bound, $\\epsilon$-greedy) and deep reinforcement learning methods (proximal policy optimization, double deep $Q$-network) -- and compare them against multiple baselines across three different problems: the traveling salesman problem, the pickup and delivery problem with time windows, and the car sequencing problem. We show how search-specific characteristics, particularly large variations in cost due to constraint violation penalties, necessitate carefully designed reward functions to provide stable and informative learning signals. Our extensive experiments reveal that algorithm performance varies substantially across problems, although that $\\epsilon$-greedy consistently ranks among the best performers. In contrast, the computational overhead of deep reinforcement learning approaches only makes them competitive with a substantially longer runtime. These findings highlight both the promise and the practical limitations of deep reinforcement learning in local search.",
+        "arxiv_id": "2601.07948",
+        "authors": [
+          "Yannick Molinghen",
+          "Augustin Delecluse",
+          "Renaud De Landtsheer",
+          "Stefano Michelini"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.07948",
+        "categories": [
+          "cs.LG",
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.09819967,
+        "provider_summary": "[research paper] The paper evaluates reinforcement learning (RL)-based neighborhood selection strategies in local search metaheuristics across three combinatorial optimization problems—TSP, pickup and delivery with time windows, and car sequencing—finding that simple \\(\\epsilon\\)-greedy strategies outperform complex deep RL methods despite their higher computational cost. The study identifies that large cost variations due to constraint violations necessitate carefully designed reward functions to stabilize learning, and shows that deep RL approaches (PPO, DQN) only become competitive with significantly longer runtimes, highlighting practical limitations in real-world deployment.",
+        "publication_year": 2026,
+        "title": "Reinforcement Learning Methods for Neighborhood Selection in Local Search"
+      },
+      {
+        "abstract": "Reinforcement learning and classical planning are typically seen as two distinct problems, with differing formulations necessitating different solutions. Yet, when humans are given a task, regardless of the way it is specified, they can often derive the additional information needed to solve the problem efficiently. The key to this ability is introspection: by reasoning about their internal models of the problem, humans directly synthesize additional task-relevant information. In this paper, we propose that this introspection can be thought of as program analysis. We discuss examples of how this approach can be applied to various kinds of models used in reinforcement learning. We then describe an algorithm that enables efficient goal-oriented planning over the class of models used in relational reinforcement learning, demonstrating a novel link between reinforcement learning and classical planning.",
+        "arxiv_id": "2602.07719",
+        "authors": [
+          "Gabriel Stella"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.07719",
+        "categories": [
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.09090909,
+        "provider_summary": "[research paper] The paper introduces *model introspection* as a mechanism for efficient planning in reinforcement learning, framing human-like reasoning over internal models as *program analysis*. It proposes a novel algorithm—*introspector*—that generates *milestones* (hypothetical future states with high reward potential) by analyzing the learned reward model, then uses these as goals for classical planning algorithms. This enables sub-exponential runtime improvements over traditional model-based planning, particularly in relational MDPs, by transforming reward-based objectives into structured, goal-directed search problems without requiring explicit domain knowledge.",
+        "publication_year": 2026,
+        "title": "Efficient Planning in Reinforcement Learning via Model Introspection"
+      }
+    ],
+    "state_revision": 8
+  }
+}

@@ -1,0 +1,98 @@
+[
+  {
+    "paper_ref": "paper_4c4e4285-e327-4508-bb5d-d48d912da113",
+    "arxiv_id": "2503.09516",
+    "title": "Search-R1: Training LLMs to Reason and Leverage Search Engines with Reinforcement Learning",
+    "canonical_url": "https://arxiv.org/abs/2503.09516"
+  },
+  {
+    "paper_ref": "paper_b143f98a-c3e7-4bb8-b2b8-09102d8a3b05",
+    "arxiv_id": "2601.11888",
+    "title": "Agentic-R: Learning to Retrieve for Agentic Search",
+    "canonical_url": "https://arxiv.org/abs/2601.11888"
+  },
+  {
+    "paper_ref": "paper_a6b72bbb-2917-4e5f-8b12-63c4993623cc",
+    "arxiv_id": "2601.18467",
+    "title": "OffSeeker: Online Reinforcement Learning Is Not All You Need for Deep Research Agents",
+    "canonical_url": "https://arxiv.org/abs/2601.18467"
+  },
+  {
+    "paper_ref": "paper_34cb7e7f-31dd-48ed-88f4-e0fa89cc0442",
+    "arxiv_id": "2601.22149",
+    "title": "DynaWeb: Model-Based Reinforcement Learning of Web Agents",
+    "canonical_url": "https://arxiv.org/abs/2601.22149"
+  },
+  {
+    "paper_ref": "paper_77775767-3efe-4c34-9485-134277b9caa2",
+    "arxiv_id": "2602.11551",
+    "title": "SIGHT: Reinforcement Learning with Self-Evidence and Information-Gain Diverse Branching for Search Agent",
+    "canonical_url": "https://arxiv.org/abs/2602.11551"
+  },
+  {
+    "paper_ref": "paper_7ca461c6-d607-4bbf-9def-6680c2060090",
+    "arxiv_id": "2602.19526",
+    "title": "How to Train Your Deep Research Agent? Prompt, Reward, and Policy Optimization in Search-R1",
+    "canonical_url": "https://arxiv.org/abs/2602.19526"
+  },
+  {
+    "paper_ref": "paper_7a682e65-fe98-44c9-9c49-25d76d4d2d2b",
+    "arxiv_id": "2602.22576",
+    "title": "Search-P1: Path-Centric Reward Shaping for Stable and Efficient Agentic RAG Training",
+    "canonical_url": "https://arxiv.org/abs/2602.22576"
+  },
+  {
+    "paper_ref": "paper_655734be-0b40-4303-a28b-164ec79f933f",
+    "arxiv_id": "2603.03293",
+    "title": "SE-Search: Self-Evolving Search Agent via Memory and Dense Reward",
+    "canonical_url": "https://arxiv.org/abs/2603.03293"
+  },
+  {
+    "paper_ref": "paper_1e4c0c55-5e53-4dce-bca3-65d7b4cd36f4",
+    "arxiv_id": "2603.11327",
+    "title": "Meta-Reinforcement Learning with Self-Reflection for Agentic Search",
+    "canonical_url": "https://arxiv.org/abs/2603.11327"
+  },
+  {
+    "paper_ref": "paper_30913b73-8150-432f-80ae-6ff7f1834f41",
+    "arxiv_id": "2604.03675",
+    "title": "PRAISE: Prefix-Based Rollout Reuse in Agentic Search Training",
+    "canonical_url": "https://arxiv.org/abs/2604.03675"
+  },
+  {
+    "paper_ref": "paper_775b65df-f025-42c8-b7b8-47fae99c0374",
+    "arxiv_id": "2604.08124",
+    "title": "Beyond Stochastic Exploration: What Makes Training Data Valuable for Agentic Search",
+    "canonical_url": "https://arxiv.org/abs/2604.08124"
+  },
+  {
+    "paper_ref": "paper_aa69e04a-ca25-4104-a599-9119f33847cf",
+    "arxiv_id": "2604.17337",
+    "title": "AutoSearch: Adaptive Search Depth for Efficient Agentic RAG via Reinforcement Learning",
+    "canonical_url": "https://arxiv.org/abs/2604.17337"
+  },
+  {
+    "paper_ref": "paper_7d6d41ac-f34a-4018-842c-a9be0ebc2de8",
+    "arxiv_id": "2604.17555",
+    "title": "COSEARCH: Joint Training of Reasoning and Document Ranking via Reinforcement Learning for Agentic Search",
+    "canonical_url": "https://arxiv.org/abs/2604.17555"
+  },
+  {
+    "paper_ref": "paper_39a2b625-241d-4d2b-97d8-06175e1cdd37",
+    "arxiv_id": "2604.17931",
+    "title": "LiteResearcher: A Scalable Agentic RL Training Framework for Deep Research Agent",
+    "canonical_url": "https://arxiv.org/abs/2604.17931"
+  },
+  {
+    "paper_ref": "paper_6b245b25-fe22-4f9d-babf-a08926e26eb1",
+    "arxiv_id": "2604.20486",
+    "title": "ProMMSearchAgent: A Generalizable Multimodal Search Agent Trained with Process-Oriented Rewards",
+    "canonical_url": "https://arxiv.org/abs/2604.20486"
+  },
+  {
+    "paper_ref": "paper_5634d840-5e23-4bc4-9664-b9fabeeb455e",
+    "arxiv_id": "2605.09287",
+    "title": "PiCA: Pivot-Based Credit Assignment for Search Agentic Reinforcement Learning",
+    "canonical_url": "https://arxiv.org/abs/2605.09287"
+  }
+]

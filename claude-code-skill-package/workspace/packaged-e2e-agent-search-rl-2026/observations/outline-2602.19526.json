@@ -1,0 +1,62 @@
+{
+  "command": "inspect-source",
+  "ok": true,
+  "result": {
+    "outline": {
+      "paper_ref": "paper_7ca461c6-d607-4bbf-9def-6680c2060090",
+      "sections": [
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Introduction"
+          },
+          "title": "Introduction"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Deep Research"
+          },
+          "title": "Deep Research"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Prompt Template"
+          },
+          "title": "Prompt Template"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Reward Function"
+          },
+          "title": "Reward Function"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Policy Optimization"
+          },
+          "title": "Policy Optimization"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "A strong baseline: Search-R1++"
+          },
+          "title": "A strong baseline: Search-R1++"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix A Appendix"
+          },
+          "title": "Appendix A Appendix"
+        }
+      ],
+      "total_tokens": 15051
+    },
+    "state_revision": 21
+  }
+}

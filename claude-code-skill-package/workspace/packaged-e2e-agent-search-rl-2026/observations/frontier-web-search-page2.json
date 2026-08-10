@@ -1,0 +1,520 @@
+{
+  "command": "search-papers",
+  "ok": true,
+  "result": {
+    "hits": [
+      {
+        "abstract": "Retrieval-augmented generation (RAG), based on large language models (LLMs), serves as a vital approach to retrieving and leveraging external knowledge in various domain applications. When confronted with complex multi-hop questions, single-round retrieval is often insufficient for accurate reasoning and problem solving. To enhance search capabilities for complex tasks, most existing works integrate multi-round iterative retrieval with reasoning processes via end-to-end training. While these approaches significantly improve problem-solving performance, they are still faced with challenges in task reasoning and model training, especially ambiguous retrieval execution paths and sparse rewards in end-to-end reinforcement learning (RL) process, leading to inaccurate retrieval results and performance degradation. To address these issues, in this paper, we proposes APEX-Searcher, a novel Agentic Planning and Execution framework to augment LLM search capabilities. Specifically, we introduce a two-stage agentic framework that decouples the retrieval process into planning and execution: It first employs RL with decomposition-specific rewards to optimize strategic planning; Built on the sub-task decomposition, it then applies supervised fine-tuning on high-quality multi-hop trajectories to equip the model with robust iterative sub-task execution capabilities. Extensive experiments demonstrate that our proposed framework achieves significant improvements in both multi-hop RAG and task planning performances across multiple benchmarks.",
+        "arxiv_id": "2603.13853",
+        "authors": [
+          "Kun Chen",
+          "Qingchao Kong",
+          "Zhao Feifei",
+          "Wenji Mao"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.13853",
+        "categories": [
+          "cs.CL",
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.083333336,
+        "provider_summary": "[research paper] APEX-Searcher introduces a two-stage agentic framework that decouples retrieval into planning and execution: first using reinforcement learning with decomposition-specific rewards to optimize strategic sub-task planning, then applying supervised fine-tuning on high-quality multi-hop trajectories to enable robust iterative execution. This approach directly addresses ambiguous retrieval paths and sparse rewards in end-to-end RL by introducing structured decomposition and high-fidelity trajectory supervision, resulting in superior performance on multi-hop reasoning and task planning benchmarks compared to existing iterative and agentic RAG methods.",
+        "publication_year": 2026,
+        "title": "APEX-Searcher: Augmenting LLMs' Search Capabilities through Agentic Planning and Execution"
+      },
+      {
+        "abstract": "Lead optimization in drug discovery requires improving therapeutic properties while ensuring that proposed molecular modifications correspond to feasible synthetic routes. Existing approaches either prioritize property scores without enforcing synthesizability, or rely on expensive enumeration over large reaction networks, while direct application of Large Language Models (LLMs) frequently produces chemically invalid structures. We introduce MolReAct, a framework that formulates lead optimization as a Markov Decision Process over a synthesis-constrained action space defined by validated reaction templates. A tool-augmented LLM agent serves as a dynamic reaction environment that invokes specialized chemical analysis tools to identify reactive sites and propose chemically grounded transformations from matched templates. A policy model trained via Group Relative Policy Optimization (GRPO) selects among these constrained actions to maximize long-term oracle reward across multi-step reaction trajectories. A SMILES-based caching mechanism further reduces end-to-end optimization time by approximately 43%. Across 13 property optimization tasks from the Therapeutic Data Commons and one structure-based docking task, MolReAct achieves an average Top-10 score of 0.563, outperforming the strongest synthesizable baseline by 10.4% in relative improvement, and attains the best sample efficiency on 10 of 14 tasks. Ablations confirm that both tool-augmented reaction proposals and trajectory-level policy optimization contribute complementary gains. By grounding every step in validated reaction templates, MolReAct produces molecules that are property-improved and each accompanied by an explicit synthetic pathway.",
+        "arxiv_id": "2604.07669",
+        "authors": [
+          "Tao Li",
+          "Kaiyuan Hou",
+          "Tuan Vinh",
+          "Monika Raj",
+          "Zhichun Guo",
+          "Carl Yang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.07669",
+        "categories": [
+          "cs.LG",
+          "cs.AI",
+          "cs.CE"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.071428575,
+        "provider_summary": "[research paper] MolReAct introduces a reinforcement learning framework that treats lead optimization as a Markov Decision Process over a synthesis-constrained action space defined by validated reaction templates. A tool-augmented LLM agent dynamically identifies reactive sites and proposes chemically grounded transformations via template matching, while a GRPO-trained policy selects actions to maximize long-term property rewards across multi-step trajectories. The framework achieves superior performance (10.4% relative improvement over baselines) and sample efficiency on 10/14 tasks, with a 43% reduction in inference cost via SMILES-based caching, and produces molecules with explicit, template-grounded synthetic pathways.",
+        "publication_year": 2026,
+        "title": "Reinforcement Learning with LLM-Guided Action Spaces for Synthesizable Lead Optimization"
+      },
+      {
+        "abstract": "A prerequisite for coding agents to perform tasks on large repositories is code localization - the identification of relevant files, classes, and functions to work on. While repository-level code localization has been performed using embedding-based retrieval approaches such as vector search, recent work has focused on developing agents to localize relevant code either as a standalone precursor to or interleaved with performing actual work. Most prior methods on agentic code search equip the agent with complex, specialized tools, such as repository graphs derived from static analysis. In this paper, we demonstrate that, with an effective reinforcement learning recipe, a coding agent equipped with nothing more than a standard Unix terminal can be trained to achieve strong results. Our experiments on three benchmarks (SWE-Bench Verified, Pro, and Lite) reveal that our models consistently achieve superior or competitive performance over 2-18x larger base and post-trained LLMs and sometimes approach performance provided by closed models like Claude Sonnet, even when using specialized scaffolds. Our work particularly focuses on techniques for re-purposing existing coding agent environments for code search, reward design, and RL optimization. We release the resulting model family, CodeScout, along with all our code and data for the community to build upon.",
+        "arxiv_id": "2603.17829",
+        "authors": [
+          "Lintang Sutawika",
+          "Aditya Bharat Soni",
+          "Bharath Sriraam R R",
+          "Apurva Gandhi",
+          "Taha Yassine",
+          "Sanidhya Vijayvargiya",
+          "Yuchen Li",
+          "Xuhui Zhou",
+          "Yilin Zhang",
+          "Leander Melroy Maben",
+          "Graham Neubig"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.17829",
+        "categories": [
+          "cs.SE",
+          "cs.AI",
+          "cs.CL"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.06935818,
+        "provider_summary": "[research paper] CodeScout introduces a reinforcement learning recipe that trains a code localization agent using only a standard Unix terminal (no specialized tools), achieving performance comparable to or exceeding large open-source LLMs and approaching closed-source models like Claude Sonnet. The method relies on scalable data/environment curation, a language-agnostic agent scaffold (OpenHands-Bash), carefully designed reward signals, and an optimized RL training pipeline, demonstrating that minimal tooling can suffice for effective code search in large repositories.",
+        "publication_year": 2026,
+        "title": "CodeScout: An Effective Recipe for Reinforcement Learning of Code Search Agents"
+      },
+      {
+        "abstract": "Reinforcement learning (RL) paradigms have demonstrated strong performance on reasoning-intensive tasks such as code generation. However, limited trajectory diversity often leads to diminishing returns, which constrains the achievable performance ceiling. Search-enhanced RL alleviates this issue by introducing structured exploration, which remains constrained by the single-agent policy priors. Meanwhile, leveraging multiple interacting policies can acquire more diverse exploratory signals, but existing approaches are typically decoupled from structured search. We propose \\textbf{MARS$^2$} (Multi-Agent Reinforced Tree-Search Scaling), a unified RL framework in which multiple independently-optimized agents collaborate within a shared tree-structured search environment. MARS$^2$ models the search tree as a learnable multi-agent interaction environment, enabling heterogeneous agents to collaboratively generate and refine candidate solutions within a shared search topology. To support effective learning, we introduce a path-level group advantage formulation based on tree-consistent reward shaping, which facilitates effective credit assignment across complex search trajectories. Experiments on code generation benchmarks show that MARS$^2$ consistently improves performance across diverse model combinations and training settings, demonstrating the effectiveness of coupling multi-agent collaboration with tree search for enhancing reinforcement learning. Our code is publicly available at https://github.com/TsinghuaC3I/MARTI.",
+        "arxiv_id": "2604.14564",
+        "authors": [
+          "Pengfei Li",
+          "Shijie Wang",
+          "Fangyuan Li",
+          "Yikun Fu",
+          "Kaifeng Liu",
+          "Kaiyan Zhang",
+          "Dazhi Zhang",
+          "Yuqiang Li",
+          "Biqing Qi",
+          "Bowen Zhou"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.14564",
+        "categories": [
+          "cs.AI",
+          "cs.CL"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.06704981,
+        "provider_summary": "[research paper] MARS2 introduces a unified reinforcement learning framework that integrates multi-agent collaboration with tree-structured search to overcome exploration bottlenecks in code generation. It models the search tree as a shared, learnable environment where multiple independently optimized agents jointly expand and refine candidate solutions via Thompson-sampling-based node selection, enabling heterogeneous exploration. A path-level group advantage function with tree-consistent reward shaping enables effective credit assignment across complex trajectories, significantly improving trajectory diversity and performance beyond single-agent or decoupled multi-agent methods.",
+        "publication_year": 2026,
+        "title": "MARS$^2$: Scaling Multi-Agent Tree Search via Reinforcement Learning for Code Generation"
+      },
+      {
+        "abstract": "We aim to develop a multimodal research agent capable of explicit reasoning and planning, multi-tool invocation, and cross-modal information synthesis, enabling it to conduct deep research tasks. However, we observe three main challenges in developing such agents: (1) scarcity of search-intensive multimodal QA data, (2) lack of effective search trajectories, and (3) prohibitive cost of training with online search APIs. To tackle them, we first propose Hyper-Search, a hypergraph-based QA generation method that models and connects visual and textual nodes within and across modalities, enabling to generate search-intensive multimodal QA pairs that require invoking various search tools to solve. Second, we introduce DR-TTS, which first decomposes search-involved tasks into several categories according to search tool types, and respectively optimize specialized search tool experts for each tool. It then recomposes tool experts to jointly explore search trajectories via tree search, producing trajectories that successfully solve complex tasks using various search tools. Third, we build an offline search engine supporting multiple search tools, enabling agentic reinforcement learning without using costly online search APIs. With the three designs, we develop MM-DeepResearch, a powerful multimodal deep research agent, and extensive results shows its superiority across benchmarks. Code is available at https://github.com/HJYao00/MM-DeepResearch",
+        "arxiv_id": "2603.01050",
+        "authors": [
+          "Huanjin Yao",
+          "Qixiang Yin",
+          "Min Yang",
+          "Ziwang Zhao",
+          "Yibo Wang",
+          "Haotian Luo",
+          "Jingyi Zhang",
+          "Jiaxing Huang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.01050",
+        "categories": [
+          "cs.CV",
+          "cs.AI"
+        ],
+        "citation_count": 6,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.06696428,
+        "provider_summary": "[research paper] The paper proposes MM-DeepResearch, a multimodal agentic research agent that overcomes three key challenges in agentic search: (1) data scarcity, (2) ineffective search trajectory synthesis, and (3) high training costs from online APIs. It introduces Hyper-Search—a hypergraph-based method to generate search-intensive multimodal QA pairs by modeling visual and textual nodes with multi-hop dependencies; DR-TTS, which decomposes tasks into tool-specific experts and recomposes them via tree search to produce diverse, high-success-rate trajectories; and an offline multimodal search engine that enables cost-efficient, tool-agnostic agentic reinforcement learning without relying on expensive online APIs. The agent achieves state-of-the-art performance on multimodal deep research benchmarks through structured, trajectory-aware training.",
+        "publication_year": 2026,
+        "title": "MM-DeepResearch: A Simple and Effective Multimodal Agentic Search Baseline"
+      },
+      {
+        "abstract": "Variational Quantum Algorithms (VQAs) potentially offer a pathway to practical quantum advantage, but their optimization is heavily hindered by barren plateaus and numerous local minima. While classically simulable Clifford circuits can warm-start VQAs to accelerate convergence, existing heuristic-based initialization methods struggle to scale within vast combinatorial search spaces. To overcome this bottleneck, we propose CRiSP (a Clifford Reinforcement Learning agent for State Preparation), a framework that formulates discrete prefix selection as a sequential decision-making problem. CRiSP utilizes Neural-Guided Monte Carlo Tree Search, driven by a Transformer-based policy trained via self-play, to insert learned Clifford gates before fixed parameterized rotations. This enables the construction of high-quality initial states entirely through polynomial-time classical stabilizer simulation without altering the underlying circuit architecture. By integrating a curriculum learning strategy that progressively expands the search horizon, the agent efficiently scales to deep circuits. Evaluated on QAOA benchmarks of up to $22$ qubits and $1{,}370$ parameters, CRiSP outperforms state-of-the-art Clifford initialization methods by a mean of $3.17\\times$ (max $45.02\\times$) in average energy accuracy and $2.44\\times$ (max $16.01\\times$) in best-achieved energy accuracy. Assessments on VQE tasks further demonstrate the framework's robustness and generalizability.",
+        "arxiv_id": "2605.23138",
+        "authors": [
+          "Gino Kwun",
+          "Dhanvi Bharadwaj",
+          "Gokul Subramanian Ravi"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.23138",
+        "categories": [
+          "quant-ph",
+          "cs.AI",
+          "cs.ET",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.06666667,
+        "provider_summary": "[Research Paper] This paper introduces CRiSP, a reinforcement learning framework that uses Neural-Guided Monte Carlo Tree Search to prepare high-quality initial states for Variational Quantum Algorithms via classical Clifford simulation. By formulating state preparation as a sequential decision-making problem, CRiSP significantly accelerates VQA convergence and outperforms existing heuristic initialization methods on QAOA and VQE benchmarks.",
+        "publication_year": 2026,
+        "title": "Classical State Preparation for Variational Quantum Algorithms via Reinforcement Learning"
+      },
+      {
+        "abstract": "Large Language Model(LLM)-based agents have shown strong capabilities in web information seeking, with reinforcement learning (RL) becoming a key optimization paradigm. However, planning remains a bottleneck, as existing methods struggle with long-horizon strategies. Our analysis reveals a critical phenomenon, plan anchor, where the first reasoning step disproportionately impacts downstream behavior in long-horizon web reasoning tasks. Current RL algorithms, fail to account for this by uniformly distributing rewards across the trajectory. To address this, we propose Anchor-GRPO, a two-stage RL framework that decouples planning and execution. In Stage 1, the agent optimizes its first-step planning using fine-grained rubrics derived from self-play experiences and human calibration. In Stage 2, execution is aligned with the initial plan through sparse rewards, ensuring stable and efficient tool usage. We evaluate Anchor-GRPO on four benchmarks: BrowseComp, BrowseComp-Zh, GAIA, and XBench-DeepSearch. Across models from 3B to 30B, Anchor-GRPO outperforms baseline GRPO and First-step GRPO, improving task success and tool efficiency. Notably, WebAnchor-30B achieves 46.0% pass@1 on BrowseComp and 76.4% on GAIA. Anchor-GRPO also demonstrates strong scalability, getting higher accuracy as model size and context length increase.",
+        "arxiv_id": "2601.03164",
+        "authors": [
+          "Xinmiao Yu",
+          "Liwen Zhang",
+          "Xiaocheng Feng",
+          "Yong Jiang",
+          "Bing Qin",
+          "Pengjun Xie",
+          "Jingren Zhou"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.03164",
+        "categories": [
+          "cs.CL"
+        ],
+        "citation_count": 3,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.06395892,
+        "provider_summary": "[research paper] The paper identifies a critical phenomenon—plan anchor—where the first-step planning decision in long-horizon web reasoning disproportionately influences downstream task success, leading to cascading failures. To address this, it proposes Anchor-GRPO, a two-stage reinforcement learning framework: (1) a Plan Rubrics Learner extracts and refines fine-grained planning criteria (e.g., task decomposition, goal alignment, tool selection) from self-play and human-calibrated experiences to guide dense reward optimization of the initial plan; (2) execution is stabilized via sparse rewards aligned with the initial plan, solving long-horizon credit assignment and ensuring trajectory coherence. Evaluated on BrowseComp, BrowseComp-Zh, GAIA, and XBench-DeepSearch, Anchor-GRPO outperforms baseline RL methods, achieving 46.0% pass@1 on BrowseComp and 76.4% on GAIA with 30B models, and demonstrates strong scalability across model size and context length.",
+        "publication_year": 2026,
+        "title": "WebAnchor: Anchoring Agent Planning to Stabilize Long-Horizon Web Reasoning"
+      },
+      {
+        "abstract": "While Large Language Models (LLMs) excel at function-level code generation, project-level tasks such as generating functional and visually aesthetic multi-page websites remain highly challenging. Existing works are often limited to single-page static websites, while agentic frameworks typically rely on multi-turn execution with proprietary models, leading to substantial token costs, high latency, and brittle integration. Training a small LLM end-to-end with reinforcement learning (RL) is a promising alternative, yet it faces a critical bottleneck in designing reliable and computationally feasible rewards for website generation. Unlike single-file coding tasks that can be verified by unit tests, website generation requires evaluating inherently subjective aesthetics, cross-page interactions, and functional correctness. To this end, we propose WebGen-R1, an end-to-end RL framework tailored for project-level website generation. We first introduce a scaffold-driven structured generation paradigm that constrains the large open-ended action space and preserves architectural integrity. We then design a novel cascaded multimodal reward that seamlessly couples structural guarantees with execution-grounded functional feedback and vision-based aesthetic supervision. Extensive experiments demonstrate that our WebGen-R1 substantially transforms a 7B base model from generating nearly nonfunctional websites into producing deployable, aesthetically aligned multi-page websites. Remarkably, our WebGen-R1 not only consistently outperforms heavily scaled open-source models (up to 72B), but also rivals the state-of-the-art DeepSeek-R1 (671B) in functional success, while substantially exceeding it in valid rendering and aesthetic alignment. These results position WebGen-R1 as a viable path for scaling small open models from function-level code generation to project-level web application generation.",
+        "arxiv_id": "2604.20398",
+        "authors": [
+          "Juyong Jiang",
+          "Chenglin Cai",
+          "Chansung Park",
+          "Jiasi Shen",
+          "Sunghun Kim",
+          "Jianguo Li",
+          "Yue Wang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.20398",
+        "categories": [
+          "cs.CL",
+          "cs.LG",
+          "cs.SE"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.0625,
+        "provider_summary": "[Research Paper] WebGen-R1 is a reinforcement learning framework that enables small open-source LLMs to generate functional and aesthetic multi-page websites end-to-end. It introduces a scaffold-driven structured generation paradigm and a cascaded multimodal reward combining structural verification, execution-grounded feedback, and vision-based aesthetic supervision. The method transforms a 7B model from producing nearly nonfunctional sites to deployable, aesthetically aligned websites, rivaling much larger models like DeepSeek-R1 (671B).",
+        "publication_year": 2026,
+        "title": "WebGen-R1: Incentivizing Large Language Models to Generate Functional and Aesthetic Websites with Reinforcement Learning"
+      },
+      {
+        "abstract": "Retrieval-augmented agents are increasingly the interface to large organizational knowledge bases, yet most still treat retrieval as a black box: they issue exploratory queries, inspect returned snippets, and iteratively reformulate until useful evidence emerges. This approach resembles how a newcomer searches an unfamiliar database rather than how an expert navigates it with strong priors about terminology and likely evidence, and results in unnecessary retrieval rounds, increased latency, and poor recall.\n  We introduce \\textit{SuperIntelligent Retrieval Agent} (SIRA), which defines \\emph{superintelligence} in retrieval as the ability to compress multi-round exploratory search into a single corpus-discriminative retrieval action. SIRA does not merely ask what terms are relevant to the query; it asks which terms are likely to separate the desired evidence from corpus-level confusers. On the corpus side, an LLM enriches each document offline with missing search vocabulary; on the query side, it predicts evidence vocabulary omitted by the query; and document-frequency statistics as a tool call to filter proposed terms that are absent, overly common, or unlikely to create retrieval margin. The final retrieval step is a single weighted BM25 call combining the original query with the validated expansion.\n  Across ten BEIR benchmarks and downstream question-answering tasks, SIRA achieves the significantly superior performance outperforming dense retrievers and state-of-the-art multi-round agentic baselines, demonstrating that one well-formed lexical query, guided by LLM cognition and lightweight corpus statistics, can exceed substantially more expensive multi-round search while remaining interpretable, training-free, and efficient.",
+        "arxiv_id": "2605.06647",
+        "authors": [
+          "Zeyu Yang",
+          "Qi Ma",
+          "Jason Chen",
+          "Anshumali Shrivastava"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.06647",
+        "categories": [
+          "cs.IR",
+          "cs.AI",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.05882353,
+        "provider_summary": "[research paper] SIRA introduces a single-query, controllable BM25 retrieval framework that leverages LLM reasoning to generate discriminative, corpus-aware keyword expansions—predicting missing evidence terms and filtering out common or confusing ones using document frequency statistics—thereby compressing multi-round exploratory search into one efficient, interpretable retrieval step. It outperforms dense retrievers and multi-round agentic baselines on ten BEIR benchmarks and downstream QA tasks by exploiting LLMs' ability to reason about retrieval structure while maintaining transparency, training-free operation, and low latency.",
+        "publication_year": 2026,
+        "title": "Superintelligent Retrieval Agent: The Next Frontier of Information Retrieval"
+      },
+      {
+        "abstract": "Tools like Tamarin and ProVerif have achieved notable success in analyzing and verifying complex real-world protocols such as EMV, 5G, and WPA2, even detecting zero-day exploits. Despite these successes, verifying such protocols remains a time-consuming, challenging task, often requiring significant human effort and expertise. In this paper, we present a reinforcement learning (RL) framework inspired by AlphaZero and AlphaProof that implements a new style of proof search for Tamarin. We have developed a stateless API for Tamarin that acts as a classical RL environment. We guide a Monte Carlo Tree Search (MCTS) by a neural heuristic that learns from completed subproofs. We evaluate our framework on 16 case studies, ranging from classical protocol models to challenging state-of-the-art protocol models from recent publications. Our method finds more proofs automatically than Tamarin's standard search and produces shorter proofs than both the standard and human-engineered heuristics. Our pipeline is applicable out of the box to assist Tamarin users in active research, reducing the human effort required. Moreover, our standardized interface provides a programmatic way for users to interact with Tamarin. Finally, our work demonstrates the promising potential of adapting RL-based methods to the Tamarin domain.",
+        "arxiv_id": "2605.23643",
+        "authors": [
+          "Matthias Cosler",
+          "Cas Cremers",
+          "Bernd Finkbeiner",
+          "Mohamed Ghanem",
+          "Niklas Medinger"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.23643",
+        "categories": [
+          "cs.CR",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.05621118,
+        "provider_summary": "[Research Paper] This paper introduces a reinforcement learning framework for Tamarin that uses Monte Carlo Tree Search guided by a neural heuristic to automate security protocol verification. The method significantly reduces human effort and produces shorter proofs compared to standard Tamarin search and human-engineered heuristics.",
+        "publication_year": 2026,
+        "title": "Less Effort, Shorter Proofs: Reinforcement Learning for Security Protocol Analysis in Tamarin"
+      },
+      {
+        "abstract": "Large language model (LLM)-based search agents have proven promising for addressing knowledge-intensive problems by incorporating information retrieval capabilities. Existing works largely focus on optimizing the reasoning paradigms of search agents, yet the quality of intermediate search queries during reasoning remains overlooked. As a result, the generated queries often remain inaccurate, leading to unexpected retrieval results and ultimately limiting search agents' overall effectiveness. To mitigate this issue, we introduce SmartSearch, a framework built upon two key mechanisms: (1) Process rewards, which provide fine-grained supervision for the quality of each intermediate search query through Dual-Level Credit Assessment. (2) Query refinement, which promotes the optimization of query generation by selectively refining low-quality search queries and regenerating subsequent search rounds based on these refinements. To enable the search agent to progressively internalize the ability to improve query quality under the guidance of process rewards, we design a three-stage curriculum learning framework. This framework guides the agent through a progression from imitation, to alignment, and ultimately to generalization. Experimental results show that SmartSearch consistently surpasses existing baselines, and additional quantitative analyses further confirm its significant gains in both search efficiency and query quality. The code is available at https://github.com/MYVAE/SmartSearch.",
+        "arxiv_id": "2601.04888",
+        "authors": [
+          "Tongyu Wen",
+          "Guanting Dong",
+          "Zhicheng Dou"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.04888",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 4,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.055163287,
+        "provider_summary": "[research paper] SmartSearch introduces a process reward-guided framework that directly optimizes intermediate search query quality through Dual-Level Credit Assessment—combining rule-based novelty detection and model-based usefulness evaluation—to enable fine-grained supervision. It employs query refinement to regenerate low-quality search rounds using textual feedback, and integrates a three-stage curriculum (imitation → alignment → generalization) to progressively train agents to internalize query quality improvement, resulting in superior search efficiency, accuracy, and robustness across knowledge-intensive and open-web tasks.",
+        "publication_year": 2026,
+        "title": "SmartSearch: Process Reward-Guided Query Refinement for Search Agents"
+      },
+      {
+        "abstract": "Search agents have emerged as a pivotal paradigm for solving open-ended, knowledge-intensive reasoning tasks. However, training these agents via Reinforcement Learning (RL) faces a critical dilemma: interacting with live commercial Web APIs is prohibitively expensive, while relying on static data snapshots often introduces noise due to data misalignment. This misalignment generates corrupted reward signals that destabilize training by penalizing correct reasoning or rewarding hallucination. To address this, we propose SearchGym, a simulation environment designed to bootstrap robust search agents. SearchGym employs a rigorous generative pipeline to construct a verifiable knowledge graph and an aligned document corpus, ensuring that every reasoning task is factually grounded and strictly solvable. Building on this controllable environment, we introduce SearchGym-RL, a curriculum learning methodology that progressively optimizes agent policies through purified feedback, evolving from basic interactions to complex, long-horizon planning. Extensive experiments across the Llama and Qwen families demonstrate strong Sim-to-Real generalization. Notably, our Qwen2.5-7B-Base model trained within SearchGym surpasses the web-enhanced ASearcher baseline across nine diverse benchmarks by an average relative margin of 10.6%. Our results validate that high-fidelity simulation serves as a scalable and highly cost-effective methodology for developing capable search agents.",
+        "arxiv_id": "2601.14615",
+        "authors": [
+          "Xichen Zhang",
+          "Ziyi He",
+          "Yinghao Zhu",
+          "Sitong Wu",
+          "Shaozuo Yu",
+          "Meng Chu",
+          "Wenhu Zhang",
+          "Haoru Tan",
+          "Jiaya Jia"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.14615",
+        "categories": [
+          "cs.CL",
+          "cs.AI"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.05488722,
+        "provider_summary": "[research paper] SearchGym introduces a high-fidelity, closed-loop simulation environment that generates factually grounded, solvable search tasks via a rigorous generative pipeline—building a verifiable knowledge graph and aligned document corpus to eliminate data misalignment. SearchGym-RL, a curriculum-based RL method, trains agents on purified, noise-free feedback, enabling stable policy learning from basic interactions to complex long-horizon reasoning. Experiments show superior Sim-to-Real generalization, with a Qwen2.5-7B agent outperforming web-enhanced baselines by 10.6% average relative margin across nine benchmarks, demonstrating that synthetic environments can effectively bootstrap robust, real-world capable search agents without live API costs.",
+        "publication_year": 2026,
+        "title": "SearchGym: Bootstrapping Real-World Search Agents via Cost-Effective and High-Fidelity Environment Simulation"
+      },
+      {
+        "abstract": "Reinforcement Learning (RL) offers a powerful paradigm for autonomous robots to master generalist manipulation skills through trial-and-error. However, its real-world application is stifled by severe sample inefficiency. Recent Human-in-the-Loop (HIL) methods accelerate training by using human corrections, yet this approach faces a scalability barrier. Reliance on human supervisors imposes a 1:1 supervision ratio that limits fleet expansion, suffers from operator fatigue over extended sessions, and introduces high variance due to inconsistent human proficiency. We present Agent-guided Policy Search (AGPS), a framework that automates the training pipeline by replacing human supervisors with a multimodal agent. Our key insight is that the agent can be viewed as a semantic world model, injecting intrinsic value priors to structure physical exploration. By using executable tools, the agent provides precise guidance via corrective waypoints and spatial constraints for exploration pruning. We validate our approach on two tasks, ranging from precision insertion to deformable object manipulation. Results demonstrate that AGPS outperforms HIL methods in sample efficiency. This automates the supervision pipeline, unlocking the path to labor-free and scalable robot learning. Project website: https://agps-rl.github.io/agps.",
+        "arxiv_id": "2602.11978",
+        "authors": [
+          "Haojun Chen",
+          "Zili Zou",
+          "Chengdong Ma",
+          "Yaoxiang Pu",
+          "Haotong Zhang",
+          "Yuanpei Chen",
+          "Yaodong Yang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.11978",
+        "categories": [
+          "cs.RO",
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.05465368,
+        "provider_summary": "[research paper] AGPS introduces a framework that replaces human supervisors in robotic reinforcement learning with a multimodal agent acting as a semantic world model, using intrinsic value priors to guide exploration. By integrating FLOAT—a failure detector based on optimal transport—to trigger agent intervention only when policy deviations exceed a threshold, AGPS enables asynchronous, scalable supervision. The agent provides two forms of guidance: action correction via waypoints and exploration pruning through 3D spatial constraints derived from tool-based reasoning, significantly improving sample efficiency in precision (USB insertion) and deformable object (Chinese knot) manipulation tasks without human intervention.",
+        "publication_year": 2026,
+        "title": "Accelerating Robotic Reinforcement Learning with Agent Guidance"
+      },
+      {
+        "abstract": "Large language models (LLMs) exhibit enhanced capabilities in language understanding and generation. By utilizing their embedded knowledge, LLMs are increasingly used as conversational recommender systems (CRS), achieving improved performance across diverse scenarios. However, existing LLM-based methods rely on pretrained knowledge without external retrieval mechanisms for novel items. Additionally, the lack of a unified corpus poses challenges for integrating retrieval augmentation into CRS. Motivated by these challenges, we present RAR, a novel two-stage retrieval augmented conversational recommendation framework that aligns retrieval and generation to enhance both performance and factuality. To support this framework and provide a unified corpus, we construct a large-scale movie corpus, comprising over 300k movies with rich metadata, such as titles, casts and plot summaries. Leveraging this data, our primary contribution is RAR, the first framework to departs from standard two-stage CRS by dynamically bridging retrieval and generation. First, a retriever model generates candidate items based on user history; in the subsequent stage, an LLM refines the recommendations by incorporating conversational context with retrieved results. In addition, we introduce a novel reinforcement learning (RL) method that leverages LLM feedback to iteratively update the retriever. By creating a collaborative feedback loop that reinforces sampled candidate sets with higher ranking metrics, RAR effectively mitigates the misalignment between the retrieval and generation stages. Furthermore, grounding the LLM in factual metadata allows our RL-driven approach to capture subtle user intentions and generate context-aware recommendations with reduced hallucinations. We validate our approach through extensive experiments on multiple benchmarks, where RAR consistently outperforms state-of-the-art baseline methods.",
+        "arxiv_id": "2604.04457",
+        "authors": [
+          "Zhenrui Yue",
+          "Honglei Zhuang",
+          "Zhen Qin",
+          "Zhankui He",
+          "Huimin Zeng",
+          "Julian McAuley",
+          "Dong Wang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.04457",
+        "categories": [
+          "cs.IR"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.05263158,
+        "provider_summary": "[research paper] RAR introduces a two-stage retrieval-augmented conversational recommendation framework that dynamically bridges retrieval and generation using a large-scale movie corpus with rich metadata (300k+ films, titles, casts, plots). It employs a retriever to generate candidate items from user history, followed by an LLM that refines recommendations with conversational context, while introducing an online reinforcement learning loop where LLM-generated feedback iteratively optimizes the retriever via on-policy preference optimization—addressing retrieval-generation misalignment and hallucination in cold-start scenarios. Experiments on multiple benchmarks show consistent performance gains over state-of-the-art baselines through improved factual grounding and alignment.",
+        "publication_year": 2026,
+        "title": "Retrieval Augmented Conversational Recommendation with Reinforcement Learning"
+      },
+      {
+        "abstract": "We present a system for training enterprise search agents via reinforcement learning that achieves state-of-the-art performance across a diverse suite of hard-to-verify agentic search tasks. Our work makes four core contributions. First, we introduce KARLBench, a multi-capability evaluation suite spanning six distinct search regimes, including constraint-driven entity search, cross-document report synthesis, tabular numerical reasoning, exhaustive entity retrieval, procedural reasoning over technical documentation, and fact aggregation over internal enterprise notes. Second, we show that models trained across heterogeneous search behaviors generalize substantially better than those optimized for any single benchmark. Third, we develop an agentic synthesis pipeline that employs long-horizon reasoning and tool use to generate diverse, grounded, and high-quality training data, with iterative bootstrapping from increasingly capable models. Fourth, we propose a new post-training paradigm based on iterative large-batch off-policy RL that is sample efficient, robust to train-inference engine discrepancies, and naturally extends to multi-task training with out-of-distribution generalization. Compared to Claude 4.6 and GPT 5.2, KARL is Pareto-optimal on KARLBench across cost-quality and latency-quality trade-offs, including tasks that were out-of-distribution during training. With sufficient test-time compute, it surpasses the strongest closed models. These results show that tailored synthetic data in combination with multi-task reinforcement learning enables cost-efficient and high-performing knowledge agents for grounded reasoning.",
+        "arxiv_id": "2603.05218",
+        "authors": [
+          "Jonathan D. Chang",
+          "Andrew Drozdov",
+          "Shubham Toshniwal",
+          "Owen Oertell",
+          "Alexander Trott",
+          "Jacob Portes",
+          "Abhay Gupta",
+          "Pallavi Koppol",
+          "Ashutosh Baheti",
+          "Sean Kulinski",
+          "Ivan Zhou",
+          "Irene Dea",
+          "Krista Opsahl-Ong",
+          "Simon Favreau-Lessard",
+          "Sean Owen",
+          "Jose Javier Gonzalez Ortiz",
+          "Arnav Singhvi",
+          "Xabi Andrade",
+          "Cindy Wang",
+          "Kartik Sreenivasan",
+          "Sam Havens",
+          "Jialu Liu",
+          "Peyton DeNiro",
+          "Wen Sun",
+          "Michael Bendersky",
+          "Jonathan Frankle"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.05218",
+        "categories": [
+          "cs.AI",
+          "cs.LG"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.05263158,
+        "provider_summary": "[research paper] KARL introduces KARLBench, a multi-capability benchmark covering six grounded reasoning tasks including constraint-driven entity search, cross-document synthesis, tabular reasoning, and procedural technical reasoning. It employs an agentic data synthesis pipeline that iteratively bootstraps high-quality, grounded training data via long-horizon reasoning and vector search. A novel iterative large-batch off-policy reinforcement learning (OAPL) paradigm enables robust, multi-task training with out-of-distribution generalization, achieving Pareto-optimal performance across cost, latency, and quality trade-offs compared to Claude 4.6 and GPT 5.2, even surpassing closed models with sufficient test-time compute.",
+        "publication_year": 2026,
+        "title": "KARL: Knowledge Agents via Reinforcement Learning"
+      },
+      {
+        "abstract": "Advances in large language models (LLMs) are driving a shift toward using reinforcement learning (RL) to train agents from iterative, multi-turn interactions across tasks. However, multi-turn RL remains challenging as rewards are often sparse or delayed, and environments can be stochastic. In this regime, naive trajectory sampling can hinder exploitation and induce mode collapse. We propose TSR (Trajectory-Search Rollouts), a training-time approach that repurposes test-time scaling ideas for improved per-turn rollout generation. TSR performs lightweight tree-style search to construct high-quality trajectories by selecting high-scoring actions at each turn using task-specific feedback. This improves rollout quality and stabilizes learning while leaving the underlying optimization objective unchanged, making TSR optimizer-agnostic. We instantiate TSR with best-of-N, beam, and shallow lookahead search, and pair it with PPO and GRPO, achieving up to 15% performance gains and more stable learning on Sokoban, FrozenLake, and WebShop tasks at a one-time increase in training compute. By moving search from inference time to the rollout stage of training, TSR provides a simple and general mechanism for stronger multi-turn agent learning, complementary to existing frameworks and rejection-sampling-style selection methods.",
+        "arxiv_id": "2602.11767",
+        "authors": [
+          "Aladin Djuhera",
+          "Swanand Ravindra Kadhe",
+          "Farhan Ahmed",
+          "Holger Boche"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.11767",
+        "categories": [
+          "cs.AI",
+          "cs.CL",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.05190476,
+        "provider_summary": "[research paper] TSR introduces a training-time trajectory search framework that enhances multi-turn reinforcement learning by replacing naive rollout sampling with lightweight tree-style search (e.g., best-of-N, beam, lookahead) to select high-scoring action sequences per turn using task feedback. This per-turn optimization improves rollout quality, reduces variance, and stabilizes training—achieving up to 15% performance gains on Sokoban, FrozenLake, and WebShop without altering the policy gradient objective or requiring new algorithms, while being fully compatible with existing RL frameworks and compute budgets.",
+        "publication_year": 2026,
+        "title": "TSR: Trajectory-Search Rollouts for Multi-Turn RL of LLM Agents"
+      },
+      {
+        "abstract": "Reinforcement learning and classical planning are typically seen as two distinct problems, with differing formulations necessitating different solutions. Yet, when humans are given a task, regardless of the way it is specified, they can often derive the additional information needed to solve the problem efficiently. The key to this ability is introspection: by reasoning about their internal models of the problem, humans directly synthesize additional task-relevant information. In this paper, we propose that this introspection can be thought of as program analysis. We discuss examples of how this approach can be applied to various kinds of models used in reinforcement learning. We then describe an algorithm that enables efficient goal-oriented planning over the class of models used in relational reinforcement learning, demonstrating a novel link between reinforcement learning and classical planning.",
+        "arxiv_id": "2602.07719",
+        "authors": [
+          "Gabriel Stella"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.07719",
+        "categories": [
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.05111185,
+        "provider_summary": "[research paper] The paper introduces *model introspection* as a mechanism for efficient planning in reinforcement learning, framing human-like reasoning over internal models as *program analysis*. It proposes a novel algorithm—*introspector*—that generates *milestones* (hypothetical future states with high reward potential) by analyzing the learned reward model, then uses these as goals for classical planning algorithms. This enables sub-exponential runtime improvements over traditional model-based planning, particularly in relational MDPs, by transforming reward-based objectives into structured, goal-directed search problems without requiring explicit domain knowledge.",
+        "publication_year": 2026,
+        "title": "Efficient Planning in Reinforcement Learning via Model Introspection"
+      },
+      {
+        "abstract": "This paper introduces MR-Search, an in-context meta reinforcement learning (RL) formulation for agentic search with self-reflection. Instead of optimizing a policy within a single independent episode with sparse rewards, MR-Search trains a policy that conditions on past episodes and adapts its search strategy across episodes. MR-Search learns to learn a search strategy with self-reflection, allowing search agents to improve in-context exploration at test-time. Specifically, MR-Search performs cross-episode exploration by generating explicit self-reflections after each episode and leveraging them as additional context to guide subsequent attempts, thereby promoting more effective exploration during test-time. We further introduce a multi-turn RL algorithm that estimates a dense relative advantage at the turn level, enabling fine-grained credit assignment on each episode. Empirical results across various benchmarks demonstrate the advantages of MR-Search over baselines based RL, showing strong generalization and relative improvements of 9.2% to 19.3% across eight benchmarks. Our code and data are available at https://github.com/tengxiao1/MR-Search.",
+        "arxiv_id": "2603.11327",
+        "authors": [
+          "Teng Xiao",
+          "Yige Yuan",
+          "Hamish Ivison",
+          "Huaisheng Zhu",
+          "Faeze Brahman",
+          "Nathan Lambert",
+          "Pradeep Dasigi",
+          "Noah A. Smith",
+          "Hannaneh Hajishirzi"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.11327",
+        "categories": [
+          "cs.LG",
+          "cs.CL"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.05,
+        "provider_summary": "[research paper] MR-Search introduces a meta-reinforcement learning framework for agentic search that enables cross-episode exploration via explicit self-reflection, where each episode ends with a reflective step used as contextual guidance for future episodes. By leveraging multi-turn RL with turn-level relative advantage estimation, it achieves fine-grained credit assignment without requiring value models or external rewards, leading to 9.2%–19.3% relative gains across eight benchmarks through improved in-context exploration and strategy adaptation.",
+        "publication_year": 2026,
+        "title": "Meta-Reinforcement Learning with Self-Reflection for Agentic Search"
+      },
+      {
+        "abstract": "Research Agents enable models to gather information from the web using tools to answer user queries, requiring them to dynamically interleave internal reasoning with tool use. While such capabilities can in principle be learned via reinforcement learning with verifiable rewards (RLVR), we observe that agents often exhibit poor exploration behaviors, including premature termination and biased tool usage. As a result, RLVR alone yields limited improvements. We propose SynPlanResearch-R1, a framework that synthesizes tool-use trajectories that encourage deeper exploration to shape exploration during cold-start supervised fine-tuning, providing a strong initialization for subsequent RL. Across seven multi-hop and open-web benchmarks, \\framework improves performance by up to 6.0% on Qwen3-8B and 5.8% on Qwen3-4B backbones respectively compared to SOTA baselines. Further analyses of tool-use patterns and training dynamics compared to baselines shed light on the factors underlying these gains. Our code is publicly available at https://github.com/HansiZeng/syn-plan-research.",
+        "arxiv_id": "2603.07853",
+        "authors": [
+          "Hansi Zeng",
+          "Zoey Li",
+          "Yifan Gao",
+          "Chenwei Zhang",
+          "Xiaoman Pan",
+          "Tao Yang",
+          "Fengran Mo",
+          "Jiacheng Lin",
+          "Xian Li",
+          "Jingbo Shang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.07853",
+        "categories": [
+          "cs.AI",
+          "cs.CL",
+          "cs.IR"
+        ],
+        "citation_count": 3,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.049242426,
+        "provider_summary": "[research paper] SynPlanResearch-R1 introduces a plan-guided data synthesis framework to enhance cold-start supervised fine-tuning (SFT) for research agents by generating synthetic tool-use trajectories that encourage deeper, more diverse exploration. These trajectories are designed to adhere to tool plans while maintaining correctness and format fidelity, resulting in a stronger initial policy that enables more effective reinforcement learning with verifiable rewards. Across seven multi-hop and open-web benchmarks, the method achieves up to 6.0% performance gains on Qwen3-8B and 5.8% on Qwen3-4B, with improvements attributed to prolonged reasoning chains, reduced premature termination, and higher policy entropy during early training.",
+        "publication_year": 2026,
+        "title": "SynPlanResearch-R1: Encouraging Tool Exploration for Deep Research with Synthetic Plans"
+      },
+      {
+        "abstract": "Large language model alignment via reinforcement learning depends critically on reward function quality. However, static, domain-specific reward models are often costly to train and exhibit poor generalization in out-of-distribution scenarios encountered during RL iterations. We present RLAR (Reinforcement Learning from Agent Rewards), an agent-driven framework that dynamically assigns tailored reward functions to individual queries. Specifically, RLAR transforms reward acquisition into a dynamic tool synthesis and invocation task. It leverages LLM agents to autonomously retrieve optimal reward models from the Internet and synthesize programmatic verifiers through code generation. This allows the reward system to self-evolve with the shifting data distributions during training. Experimental results demonstrate that RLAR yields consistent performance gains ranging from 10 to 60 across mathematics, coding, translation, and dialogue tasks. On RewardBench-V2, RLAR significantly outperforms static baselines and approaches the performance upper bound, demonstrating superior generalization through dynamic reward orchestration. The data and code are available on this link: https://github.com/ZhuoerFeng/RLAR.",
+        "arxiv_id": "2603.00724",
+        "authors": [
+          "Andrew Zhuoer Feng",
+          "Cunxiang Wang",
+          "Bosi Wen",
+          "Yidong Wang",
+          "Yu Luo",
+          "Hongning Wang",
+          "Minlie Huang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.00724",
+        "categories": [
+          "cs.CL"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.04761905,
+        "provider_summary": "[research paper] RLAR introduces an agentic reward system that dynamically selects and synthesizes domain-specific reward models via LLM agents, enabling self-evolving, high-fidelity reward orchestration across math, coding, translation, and dialogue tasks. By leveraging tool-calling and code generation to retrieve and verify specialized reward functions from the web, RLAR achieves 10–60% performance gains over static baselines, outperforms GPT-5-as-a-judge in robustness, and reduces API and GPU costs by 80% and 75% respectively, with its reward tool selector achieving 90.44% accuracy in query routing.",
+        "publication_year": 2026,
+        "title": "RLAR: An Agentic Reward System for Multi-task Reinforcement Learning on Large Language Models"
+      }
+    ],
+    "state_revision": 6
+  }
+}

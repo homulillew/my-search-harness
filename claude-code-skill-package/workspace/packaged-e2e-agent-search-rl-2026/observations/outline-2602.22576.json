@@ -1,0 +1,83 @@
+{
+  "command": "inspect-source",
+  "ok": true,
+  "result": {
+    "outline": {
+      "paper_ref": "paper_7a682e65-fe98-44c9-9c49-25d76d4d2d2b",
+      "sections": [
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Introduction"
+          },
+          "title": "Introduction"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Related Work"
+          },
+          "title": "Related Work"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Methodology"
+          },
+          "title": "Methodology"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Experiments"
+          },
+          "title": "Experiments"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Analysis"
+          },
+          "title": "Analysis"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix B Implementation Details"
+          },
+          "title": "Appendix B Implementation Details"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix C Algorithms"
+          },
+          "title": "Appendix C Algorithms"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix D Prompt Templates"
+          },
+          "title": "Appendix D Prompt Templates"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix E Case Study"
+          },
+          "title": "Appendix E Case Study"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix F Additional Results"
+          },
+          "title": "Appendix F Additional Results"
+        }
+      ],
+      "total_tokens": 24380
+    },
+    "state_revision": 22
+  }
+}

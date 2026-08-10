@@ -1,0 +1,62 @@
+{
+  "command": "inspect-source",
+  "ok": true,
+  "result": {
+    "outline": {
+      "paper_ref": "paper_77775767-3efe-4c34-9485-134277b9caa2",
+      "sections": [
+        {
+          "locator": {
+            "kind": "section",
+            "value": "1. Introduction"
+          },
+          "title": "1. Introduction"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "2. Related Work"
+          },
+          "title": "2. Related Work"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "3. Preliminaries"
+          },
+          "title": "3. Preliminaries"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "4. Methodology"
+          },
+          "title": "4. Methodology"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "5. Experiments"
+          },
+          "title": "5. Experiments"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "6. Conclusion"
+          },
+          "title": "6. Conclusion"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix A Experimental details"
+          },
+          "title": "Appendix A Experimental details"
+        }
+      ],
+      "total_tokens": 20406
+    },
+    "state_revision": 20
+  }
+}

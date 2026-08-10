@@ -1,0 +1,506 @@
+{
+  "command": "search-papers",
+  "ok": true,
+  "result": {
+    "hits": [
+      {
+        "abstract": "Reinforcement Learning (RL) has emerged as a powerful training paradigm for LLM-based agents. However, scaling agentic RL for deep research remains constrained by two coupled challenges: hand-crafted synthetic data fails to elicit genuine real-world search capabilities, and real-world search dependency during RL training introduces instability and prohibitive cost, which limits the scalability of Agentic RL. LiteResearcher is a training framework that makes Agentic RL scalable: by constructing a lite virtual world that mirrors real-world search dynamics, we enable a continuously improving training recipe that empowers a tiny search agent to outperform large-scale open-source and commercial models (e.g., Tongyi DeepResearch and Claude-4.5 Sonnet). Specifically, on common benchmarks such as GAIA and Xbench, our LiteResearcher-4B achieves open-source state-of-the-art results of 71.3% and 78.0% respectively, demonstrating that scalable RL training is a key enabler for Deep Research Agents.",
+        "arxiv_id": "2604.17931",
+        "authors": [
+          "Wanli Li",
+          "Bince Qu",
+          "Bo Pan",
+          "Jianyu Zhang",
+          "Zheng Liu",
+          "Pan Zhang",
+          "Wei Chen",
+          "Bo Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.17931",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.75,
+        "provider_summary": "[Research Paper] LiteResearcher introduces a scalable agentic RL framework that constructs a virtual web environment to train deep research agents, enabling a 4B model to outperform larger open-source and commercial systems on GAIA and Xbench benchmarks. The framework synthesizes realistic search tasks, simulates a realistic search environment, and applies a difficulty‑aware curriculum RL to achieve sustained improvements.",
+        "publication_year": 2026,
+        "title": "LiteResearcher: A Scalable Agentic RL Training Framework for Deep Research Agent"
+      },
+      {
+        "abstract": "Multi-agent LLM systems enable advanced reasoning and tool use via role specialization, yet reliable reinforcement learning (RL) post-training for such systems remains difficult. In this work, we theoretically pinpoint a key reason for training instability when extending group-based RL to multi-agent LLM systems. We show that under GRPO-style optimization, a global normalization baseline may deviate from diverse agents' reward distributions, which ultimately leads to gradient-norm instability. Based on this finding, we propose Dr. MAS, a simple and stable RL training recipe for multi-agent LLM systems. Dr. MAS uses an agent-wise remedy: normalizing advantages per agent using each agent's own reward statistics, which calibrates gradient scales and dramatically stabilizes training, both theoretically and empirically. Beyond the algorithm, Dr. MAS provides an end-to-end RL training framework for multi-agent LLM systems, supporting scalable orchestration, flexible per-agent LLM serving and optimization configs, and shared resource scheduling of LLM actor backends. We evaluate Dr. MAS on multi-agent math reasoning and multi-turn search benchmarks using Qwen2.5 and Qwen3 series models. Dr. MAS achieves clear gains over vanilla GRPO (e.g., +5.6\\% avg@16 and +4.6\\% pass@16 on math, and +15.2\\% avg@16 and +13.1\\% pass@16 on search) while largely eliminating gradient spikes. Moreover, it remains highly effective under heterogeneous agent-model assignments while improving efficiency.",
+        "arxiv_id": "2602.08847",
+        "authors": [
+          "Lang Feng",
+          "Longtao Zheng",
+          "Shuo He",
+          "Fuxiang Zhang",
+          "Bo An"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.08847",
+        "categories": [
+          "cs.LG",
+          "cs.AI"
+        ],
+        "citation_count": 3,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.5,
+        "provider_summary": "[research paper] Dr. MAS identifies that global reward normalization in GRPO-style RL causes gradient-norm instability in multi-agent LLM systems due to heterogeneous agent reward distributions. It introduces agent-wise advantage normalization—each agent uses its own reward statistics to stabilize gradients—achieving significant performance gains (+5.6% to +15.2% on math and search benchmarks) and eliminating gradient spikes, while enabling stable co-training across heterogeneous agent models with flexible, scalable orchestration and shared LLM resource scheduling.",
+        "publication_year": 2026,
+        "title": "Dr. MAS: Stable Reinforcement Learning for Multi-Agent LLM Systems"
+      },
+      {
+        "abstract": "Does reinforcement learning genuinely expand what LLM agents can do, or merely make them more reliable? For static reasoning, recent work answers the second: base and RL pass@k curves converge at large k. We ask whether this holds for agentic tool use, where T rounds of interaction enable compositional strategies that re-sampling cannot recover. We introduce PASS@(k,T), a two-dimensional metric that jointly varies sampling budget k and interaction depth T, separating capability expansion from efficiency improvement. Our main finding is that, contrary to the static-reasoning result, tool-use RL genuinely enlarges the capability boundary: the RL agent's pass-curve pulls above the base model's and the gap widens at large k rather than converging. The expansion is specific to compositional, sequential information gathering; on simpler tasks RL behaves as prior work predicts. Under matched training data, supervised fine-tuning regresses the boundary on the same compositional tasks, isolating self-directed exploration as the causal factor. Mechanism analysis shows RL reweights the base strategy distribution toward the subset whose downstream reasoning more often yields a correct answer, with the improvement concentrated on how the agent integrates retrieved information. These results reconcile optimistic and pessimistic readings of RL for LLMs: both are correct, on different task types.",
+        "arxiv_id": "2604.14877",
+        "authors": [
+          "Zhiyuan Zhai",
+          "Wenjing Yan",
+          "Xiaodan Shao",
+          "Xin Wang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.14877",
+        "categories": [
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.5,
+        "provider_summary": "[research paper] The paper introduces Pass@$(k,T)$, a two-dimensional evaluation metric that disentangles capability expansion from efficiency in agentic LLM agents by jointly varying sampling budget $k$ and interaction depth $T$. Empirical results show that reinforcement learning (RL) in tool-use settings genuinely expands the agent’s capability boundary on compositional tasks—contrary to static reasoning results—where RL agents outperform base models with widening gaps as $k$ increases, indicating new strategies enabled by deeper environment interaction. Supervised fine-tuning (SFT) regresses performance, isolating self-directed exploration as the causal factor, while mechanism analysis reveals RL reweights strategy distributions toward effective information integration, not just search diversity.",
+        "publication_year": 2026,
+        "title": "Does RL Expand the Capability Boundary of LLM Agents? A PASS@(k,T) Analysis"
+      },
+      {
+        "abstract": "We introduce Agent^2 RL-Bench, a benchmark for evaluating agentic RL post-training -- whether LLM agents can autonomously design, implement, and run complete RL pipelines that improve foundation models. This capability is important because RL post-training increasingly drives model alignment and specialization, yet existing benchmarks remain largely static: supervised fine-tuning alone yields strong results, leaving interactive RL engineering untested. Agent^2 RL-Bench addresses this with six tasks across three levels -- from static rule-based training to closed-loop online RL with trajectory collection -- each adding a structural requirement that prior levels do not impose. The benchmark provides isolated workspaces with a grading API, runtime instrumentation that records every submission and code revision, and automated post-hoc analysis that generates structured run reports, enabling the first automated diagnostic of agent-driven post-training behavior. Across multiple agent stacks spanning five agent systems and six driver LLMs, we find that agents achieve striking interactive gains -- on ALFWorld, an RL-only agent improves from 5.97 to 93.28 via SFT warm-up and GRPO with online rollouts -- yet make only marginal progress on others (DeepSearchQA: +2.75 within evaluation noise), and that driver choice has a large effect on interactive tasks -- within the same scaffold, switching drivers changes interactive improvement from near-zero to +78pp. More broadly, the benchmark reveals that supervised pipelines dominate agent-driven post-training under fixed budgets, with online RL succeeding as the final best route only on ALFWorld. Code is available at https://github.com/microsoft/RD-Agent/tree/main/rdagent/scenarios/rl/autorl_bench.",
+        "arxiv_id": "2604.10547",
+        "authors": [
+          "Wanyi Chen",
+          "Xiao Yang",
+          "Xu Yang",
+          "Tianming Sha",
+          "Qizheng Li",
+          "Zhuo Wang",
+          "Bowen Xian",
+          "Fang Kong",
+          "Weiqing Liu",
+          "Jiang Bian"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.10547",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.41025642,
+        "provider_summary": "[research paper] Agent2 RL-Bench introduces a structured benchmark for agentic RL post-training, evaluating whether LLM agents can autonomously design, implement, and run end-to-end reinforcement learning pipelines—including online data collection and trajectory-based rewards—across three progressive levels of complexity. The benchmark reveals that while agents achieve dramatic performance gains (e.g., +87pp on ALFWorld via GRPO with online rollouts), they fail to reliably engineer stable online RL on other tasks (e.g., +2.75 on DeepSearchQA), and that driver LLM choice has a large impact on interactive success, with performance shifts of up to +78pp across the same scaffold. The work introduces runtime instrumentation and automated post-hoc analysis for behavioral diagnosis, exposing a critical gap between code generation and actual RL system execution.",
+        "publication_year": 2026,
+        "title": "Agent^2 RL-Bench: Can LLM Agents Engineer Agentic RL Post-Training?"
+      },
+      {
+        "abstract": "Designing efficient reward functions for low-level control tasks is a challenging problem. Recent research aims to reduce reliance on expert experience by using Large Language Models (LLMs) with task information to generate dense reward functions. These methods typically rely on training results as feedback, iteratively generating new reward functions with greedy or evolutionary algorithms. However, they suffer from poor utilization of historical feedback and inefficient search, resulting in limited improvements in complex control tasks. To address this challenge, we propose RF-Agent, a framework that treats LLMs as language agents and frames reward function design as a sequential decision-making process, enhancing optimization through better contextual reasoning. RF-Agent integrates Monte Carlo Tree Search (MCTS) to manage the reward design and optimization process, leveraging the multi-stage contextual reasoning ability of LLMs. This approach better utilizes historical information and improves search efficiency to identify promising reward functions. Outstanding experimental results in 17 diverse low-level control tasks demonstrate the effectiveness of our method. The source code is available at https://github.com/deng-ai-lab/RF-Agent.",
+        "arxiv_id": "2602.23876",
+        "authors": [
+          "Ning Gao",
+          "Xiuhui Zhang",
+          "Xingyu Jiang",
+          "Mukang You",
+          "Mohan Zhang",
+          "Yue Deng"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.23876",
+        "categories": [
+          "cs.AI",
+          "cs.LG"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.25,
+        "provider_summary": "[research paper] RF-Agent introduces a language agent-based framework that treats reward function design as a sequential decision-making process, using Monte Carlo Tree Search (MCTS) to guide LLM-driven reward generation. Unlike greedy or evolutionary methods, RF-Agent leverages multi-stage contextual reasoning to maintain historical feedback and dynamically balance exploration-exploitation, enabling more efficient search in complex control tasks. Experimental results across 17 low-level control tasks show superior performance in reward quality and training efficiency compared to existing LLM-based approaches.",
+        "publication_year": 2026,
+        "title": "RF-Agent: Automated Reward Function Design via Language Agent Tree Search"
+      },
+      {
+        "abstract": "This paper introduces MR-Search, an in-context meta reinforcement learning (RL) formulation for agentic search with self-reflection. Instead of optimizing a policy within a single independent episode with sparse rewards, MR-Search trains a policy that conditions on past episodes and adapts its search strategy across episodes. MR-Search learns to learn a search strategy with self-reflection, allowing search agents to improve in-context exploration at test-time. Specifically, MR-Search performs cross-episode exploration by generating explicit self-reflections after each episode and leveraging them as additional context to guide subsequent attempts, thereby promoting more effective exploration during test-time. We further introduce a multi-turn RL algorithm that estimates a dense relative advantage at the turn level, enabling fine-grained credit assignment on each episode. Empirical results across various benchmarks demonstrate the advantages of MR-Search over baselines based RL, showing strong generalization and relative improvements of 9.2% to 19.3% across eight benchmarks. Our code and data are available at https://github.com/tengxiao1/MR-Search.",
+        "arxiv_id": "2603.11327",
+        "authors": [
+          "Teng Xiao",
+          "Yige Yuan",
+          "Hamish Ivison",
+          "Huaisheng Zhu",
+          "Faeze Brahman",
+          "Nathan Lambert",
+          "Pradeep Dasigi",
+          "Noah A. Smith",
+          "Hannaneh Hajishirzi"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.11327",
+        "categories": [
+          "cs.LG",
+          "cs.CL"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.2,
+        "provider_summary": "[research paper] MR-Search introduces a meta-reinforcement learning framework for agentic search that enables cross-episode exploration via explicit self-reflection, where each episode ends with a reflective step used as contextual guidance for future episodes. By leveraging multi-turn RL with turn-level relative advantage estimation, it achieves fine-grained credit assignment without requiring value models or external rewards, leading to 9.2%–19.3% relative gains across eight benchmarks through improved in-context exploration and strategy adaptation.",
+        "publication_year": 2026,
+        "title": "Meta-Reinforcement Learning with Self-Reflection for Agentic Search"
+      },
+      {
+        "abstract": "The growing integration of distributed photovoltaics (PVs) into active distribution networks (ADNs) has exacerbated operational challenges, making it imperative to coordinate diverse equipment to mitigate voltage violations and enhance power quality. Although existing data-driven approaches have demonstrated effectiveness in the voltage control problem, they often require extensive trial-and-error exploration and struggle to incorporate heterogeneous information, such as day-ahead forecasts and semantic-based grid codes. Considering the operational scenarios and requirements in real-world ADNs, in this paper, we propose a hybrid knowledge-data-driven approach that leverages dynamic collaboration between a large language model (LLM) agent and a reinforcement learning (RL) agent to achieve two-stage voltage control. In the day-ahead stage, the LLM agent receives coarse region-level forecasts and generates scheduling strategies for on-load tap changer (OLTC) and shunt capacitors (SCs) to regulate the overall voltage profile. Then in the intra-day stage, based on accurate node-level measurements, the RL agent refines terminal voltages by deriving reactive power generation strategies for PV inverters. On top of the LLM-RL collaboration framework, we further propose a self-evolution mechanism for the LLM agent and a pretrain-finetune pipeline for the RL agent, effectively enhancing and coordinating the policies for both agents. The proposed approach not only aligns more closely with practical operational characteristics but also effectively utilizes the inherent knowledge and reasoning capabilities of the LLM agent, significantly improving training efficiency and voltage control performance. Comprehensive comparisons and ablation studies demonstrate the effectiveness of the proposed method.",
+        "arxiv_id": "2602.21715",
+        "authors": [
+          "Xu Yang",
+          "Chenhui Lin",
+          "Xiang Ma",
+          "Dong Liu",
+          "Ran Zheng",
+          "Haotian Liu",
+          "Wenchuan Wu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.21715",
+        "categories": [
+          "eess.SY",
+          "cs.AI",
+          "cs.SY"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.2,
+        "provider_summary": "[research paper] A two-stage voltage control framework for active distribution networks (ADNs) integrates a large language model (LLM) agent for day-ahead scheduling of OLTC and shunt capacitors using coarse region-level forecasts and semantic grid constraints, while a reinforcement learning (RL) agent performs intra-day reactive power optimization via real-time node-level measurements. The LLM agent leverages its natural language understanding and reasoning to process heterogeneous, incomplete data and operational rules, reducing RL action space and improving policy efficiency; the RL agent benefits from structured, preprocessed inputs and is coordinated via a pretrain-finetune pipeline. A Reflexion-based self-evolution mechanism enables the LLM to iteratively refine its policies through environmental feedback, enhancing adaptability to dynamic and long-tail operational instructions. The approach achieves superior training efficiency and control performance by synergizing LLM's semantic reasoning with RL's precise, real-time optimization.",
+        "publication_year": 2026,
+        "title": "Two-Stage Active Distribution Network Voltage Control via LLM-RL Collaboration: A Hybrid Knowledge-Data-Driven Approach"
+      },
+      {
+        "abstract": "Protein analysis tasks arising in healthcare settings often require accurate reasoning under protein sequence constraints, involving tasks such as functional interpretation of disease-related variants, protein-level analysis for clinical research, and similar scenarios. To address such tasks, search agents are introduced to search protein-related information, providing support for disease-related variant analysis and protein function reasoning in protein-centric inference. However, such search agents are mostly limited to single-round, text-only modality search, which prevents the protein sequence modality from being incorporated as a multimodal input into the search decision-making process. Meanwhile, their reliance on reinforcement learning (RL) supervision that focuses solely on the final answer results in a lack of search process constraints, making deviations in keyword selection and reasoning directions difficult to identify and correct in a timely manner. To address these limitations, we propose ProtRLSearch, a multi-round protein search agent trained with multi-dimensional reward based RL, which jointly leverages protein sequence and text as multimodal inputs during real-time search to produce high quality reports. To evaluate the ability of models to integrate protein sequence information and text-based multimodal inputs in realistic protein query settings, we construct ProtMCQs, a benchmark of 3,000 multiple choice questions (MCQs) organized into three difficulty levels. The benchmark evaluates protein query tasks that range from sequence constrained reasoning about protein function and phenotype changes to comprehensive protein reasoning that integrates multi-dimensional sequence features with signal pathways and regulatory networks.",
+        "arxiv_id": "2603.01464",
+        "authors": [
+          "Congying Liu",
+          "Taihao Li",
+          "Ming Huang",
+          "Peipei Liu",
+          "Xingyuan Wei",
+          "Yiqing Shen",
+          "Yanxu Mao",
+          "Tiehan Cui"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.01464",
+        "categories": [
+          "cs.AI",
+          "cs.CL"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.17901236,
+        "provider_summary": "[research paper] ProtRLSearch introduces a multi-round, multimodal protein search agent that jointly processes protein sequences and text during real-time search, using reinforcement learning with multi-dimensional rewards (keywords, search tools, answer quality, format) to guide search planning and reasoning. Unlike prior text-only or single-round agents, it incorporates sequence-aware constraints in search decisions, enabling more accurate sequence-constrained functional and phenotypic reasoning. Evaluated on ProtMCQs (3,000 multimodal MCQs across three difficulty levels), the agent improves accuracy from 35.7% to 86.9% (level 1) and 26.1% to 72.5% (level 3), demonstrating superior integration of sequence and retrieval information in protein-centric tasks.",
+        "publication_year": 2026,
+        "title": "ProtRLSearch: A Multi-Round Multimodal Protein Search Agent with Large Language Models Trained via Reinforcement Learning"
+      },
+      {
+        "abstract": "Reinforcement learning for language agents increasingly depends on custom harnesses that manage long-running context, multi-turn tool use and multi-agent orchestration. However, porting these harnesses into RL environment interfaces remains difficult and often loses important training signals. We bridge this gap with polar, a rollout framework for scalable asynchronous RL over arbitrary agent harnesses. Polar treats the agent harness as a black box: it proxies LLM API calls, records token-level model interactions, and reconstructs token-faithful trajectories for training. Each rollout node efficiently manages runtime prewarming, agent execution, trajectory reconstruction, and evaluation in parallel, exposing asynchronous service endpoints that can be consumed by independent trainers at scale. This decoupled design makes Polar agnostic to agent harnesses, training infrastructure, and RL algorithms while improving compute utilization for long-running agent workloads. We validate polar by training agents on software-engineering tasks with popular coding harnesses. Using simple GRPO, polar improves Qwen3.5-4B by 22.6, 4.8, 0.6 and 6.2 points on SWE-Bench Verified with the Codex, Claude Code, Qwen Code and Pi harnesses, respectively. We further demonstrate Polar for offline data generation over custom harnesses and ablate trajectory reconstruction strategies. Polar rewrites its preceding work, Prorl Agent, and has been registered as one of NeMo Gym environments.",
+        "arxiv_id": "2605.24220",
+        "authors": [
+          "Binfeng Xu",
+          "Hao Zhang",
+          "Shaokun Zhang",
+          "Songyang Han",
+          "Mingjie Liu",
+          "Jian Hu",
+          "Shizhe Diao",
+          "Zhenghui Jin",
+          "Yunheng Zou",
+          "Michael Demoret",
+          "Jan Kautz",
+          "Yi Dong"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.24220",
+        "categories": [
+          "cs.DC"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.14285715,
+        "provider_summary": "[Research Paper] Polar is a scalable asynchronous RL framework that treats existing agent harnesses as black boxes by proxying LLM API calls to reconstruct token-faithful trajectories for training. This decoupled design allows seamless integration with arbitrary coding harnesses without modifying their internal code, significantly improving compute utilization and training performance on software engineering tasks.",
+        "publication_year": 2026,
+        "title": "Polar: Agentic RL on Any Harness at Scale"
+      },
+      {
+        "abstract": "We present AutoResearch-RL, a framework in which a reinforcement learning agent conducts open-ended neural architecture and hyperparameter research without human supervision, running perpetually until a termination oracle signals convergence or resource exhaustion. At each step the agent proposes a code modification to a target training script, executes it under a fixed wall clock time budget, observes a scalar reward derived from validation bits-per-byte (val-bpb), and updates its policy via Proximal Policy Optimisation (PPO).\n  The key design insight is the separation of three concerns: (i) a frozen environment (data pipeline, evaluation protocol, and constants) that guarantees fair cross-experiment comparison; (ii) a mutable target file (train.py) that represents the agent's editable state; and (iii) a meta-learner (the RL agent itself) that accumulates a growing trajectory of experiment outcomes and uses them to inform subsequent proposals.\n  We formalise this as a Markov Decision Process, derive convergence guarantees under mild assumptions, and demonstrate empirically on a single GPU nanochat pretraining benchmark that AutoResearch-RL discovers configurations that match or exceed hand-tuned baselines after approximately 300 overnight iterations, with no human in the loop.",
+        "arxiv_id": "2603.07300",
+        "authors": [
+          "Nilesh Jain",
+          "Rohit Yadav",
+          "Sagar Kotian",
+          "Claude AI"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.07300",
+        "categories": [
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.14285715,
+        "provider_summary": "[research paper] AutoResearch-RL introduces a reinforcement learning framework where an agent autonomously discovers neural architecture and hyperparameter configurations by continuously modifying and evaluating training scripts in a perpetual loop. It formalizes the process as a Markov Decision Process with a frozen environment, mutable code target, and a meta-learner that learns research strategies via PPO, conditioned on full experiment history. The agent achieves convergence to or beyond hand-tuned baselines in ~300 overnight iterations on nanochat pretraining, with self-evaluation enabling up to 2.4× higher throughput by aborting unpromising runs early, and provides theoretical convergence guarantees under mild assumptions.",
+        "publication_year": 2026,
+        "title": "AutoResearch-RL: Perpetual Self-Evaluating Reinforcement Learning Agents for Autonomous Neural Architecture Discovery"
+      },
+      {
+        "abstract": "The rapid advancement of large language models (LLMs) has enabled powerful authorship inference capabilities, raising growing concerns about unintended deanonymization risks in textual data such as news articles. In this work, we introduce an LLM agent designed to evaluate and mitigate such risks through a structured, interpretable pipeline. Central to our framework is the proposed $\\textit{SALA}$ (Stylometry-Assisted LLM Analysis) method, which integrates quantitative stylometric features with LLM reasoning for robust and transparent authorship attribution. Experiments on large-scale news datasets demonstrate that $\\textit{SALA}$, particularly when augmented with a database module, achieves high inference accuracy in various scenarios. Finally, we propose a guided recomposition strategy that leverages the agent's reasoning trace to generate rewriting prompts, effectively reducing authorship identifiability while preserving textual meaning. Our findings highlight both the deanonymization potential of LLM agents and the importance of interpretable, proactive defenses for safeguarding author privacy.",
+        "arxiv_id": "2602.23079",
+        "authors": [
+          "Boyang Zhang",
+          "Yang Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.23079",
+        "categories": [
+          "cs.CL",
+          "cs.CR",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.125,
+        "provider_summary": "[research paper] The paper introduces SALA (Stylometry-Assisted LLM Analysis), a novel authorship attribution method that combines quantitative stylometric features with LLM reasoning to detect deanonymization risks in news articles. The framework operates in four stages—information extraction, candidate search, stylometric matching via SALA, and result reflection—using a database module to improve scalability and accuracy. A guided recomposition strategy leverages the agent’s reasoning trace to generate targeted rewriting prompts that reduce author identifiability while preserving content meaning, offering both adversarial assessment and privacy-preserving intervention.",
+        "publication_year": 2026,
+        "title": "Assessing Deanonymization Risks with Stylometry-Assisted LLM Agent"
+      },
+      {
+        "abstract": "Agentic Reinforcement Learning (Agentic RL) has shown remarkable potential in large language model-based (LLM) agents. These works can empower LLM agents to tackle complex tasks via multi-step, tool-integrated reasoning. However, an inherent limitation of existing Agentic RL methods is their reliance on a pure on-policy paradigm for exploration, restricting exploration to the agent's self-generated outputs and preventing the discovery of new reasoning perspectives for further improvement. While recent efforts incorporate auxiliary off-policy signals to enhance exploration, they typically utilize full off-policy trajectories for trajectory-level policy estimation, overlooking the necessity for the fine-grained, step-level exploratory dynamics within agentic rollout. In this paper, we revisit exploration in Agentic RL and propose Retrieval-Augmented Policy Optimization (RAPO), a novel RL framework that introduces retrieval to explicitly expand exploration during training. To achieve this, we decompose the Agentic RL training process into two phases: (i) Hybrid-policy Agentic Rollout, and (ii) Retrieval-aware Policy Optimization. Specifically, we propose a Hybrid-policy Agentic Rollout strategy, which allows the agents to continuously reason over the retrieved off-policy step-level traces. It dynamically extends the reasoning receptive field of agents, enabling broader exploration conditioned on external behaviors. Subsequently, we introduce the Retrieval-aware Policy Optimization mechanism, which calibrates the policy gradient estimation with retrieval reward and importance shaping, stabilizing training and prioritizing retrieval-illuminating exploration. Extensive experiments show that RAPO achieves an +5.0% average gain on fourteen datasets across three agentic reasoning tasks, while delivering 1.2x faster training efficiency.",
+        "arxiv_id": "2603.03078",
+        "authors": [
+          "Siwei Zhang",
+          "Yun Xiong",
+          "Xi Chen",
+          "Zi'an Jia",
+          "Renhong Huang",
+          "Jiarong Xu",
+          "Jiawei Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.03078",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.125,
+        "provider_summary": "[research paper] RAPO introduces retrieval-augmented exploration in Agentic RL by decomposing training into hybrid-policy rollout and retrieval-aware optimization. It enables step-level access to off-policy reasoning traces via dynamic retrieval, expanding the agent’s reasoning receptive field without full off-policy trajectory integration. The framework uses retrieval reward and importance shaping to stabilize policy updates, while token masking reduces gradient noise, achieving +5.0% average performance gain and 1.2x faster training across 14 datasets in three agentic tasks.",
+        "publication_year": 2026,
+        "title": "RAPO: Expanding Exploration for LLM Agents via Retrieval-Augmented Policy Optimization"
+      },
+      {
+        "abstract": "Multi-turn LLM agents are increasingly important for solving complex, interactive tasks, and reinforcement learning (RL) is a key ingredient for improving their long-horizon behavior. However, RL training requires generating large numbers of sandboxed rollout trajectories, and existing infrastructures often couple rollout orchestration with the training loop, making systems hard to migrate and maintain. Under the rollout-as-a-service philosophy, we present ProRL Agent , a scalable infrastructure that serves the full agentic rollout lifecycle through an API service. ProRL Agent also provides standardized and extensible sandbox environments that support diverse agentic tasks in rootless HPC settings. We validate ProRL Agent through RL training on software engineering, math, STEM, and coding tasks. ProRL Agent is open-sourced and integrated as part of NVIDIA NeMo Gym.",
+        "arxiv_id": "2603.18815",
+        "authors": [
+          "Hao Zhang",
+          "Mingjie Liu",
+          "Shaokun Zhang",
+          "Songyang Han",
+          "Jian Hu",
+          "Zhenghui Jin",
+          "Yuchi Zhang",
+          "Shizhe Diao",
+          "Ximing Lu",
+          "Binfeng Xu",
+          "Zhiding Yu",
+          "Jan Kautz",
+          "Yi Dong"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.18815",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.12083334,
+        "provider_summary": "[research paper] ProRL Agent introduces a rollout-as-a-service infrastructure that decouples agentic rollout from RL training by exposing the full rollout lifecycle via a standardized HTTP API, enabling independent scaling of I/O-intensive execution (e.g., tool interactions, environment simulations) from GPU-intensive policy optimization. The system supports token-in/token-out trajectory transmission to prevent re-tokenization drift, offers extensible sandbox environments for diverse tools and tasks, and enables rootless deployment in HPC clusters, improving resource isolation, maintainability, and portability across training backends. Validated on software engineering, math, STEM, and coding tasks, it achieves strong performance gains on SWE-Bench Verified across 4B–14B LLM scales.",
+        "publication_year": 2026,
+        "title": "ProRL Agent: Rollout-as-a-Service for RL Training of Multi-Turn LLM Agents"
+      },
+      {
+        "abstract": "Agentic large language models are increasingly used to solve real-world tasks by reasoning over goals, invoking tools, and interacting with external environments. Reinforcement learning provides a natural framework for improving these behaviors, and recent agent RL methods have achieved strong results across domains. However, the training dynamics of agent RL remain poorly understood, limiting our ability to diagnose instabilities and design more effective training algorithms. In this work, we identify a previously underexplored phenomenon in agent RL, which we term cyclical entropy eruption. Unlike single-turn reasoning RL, where entropy typically collapses and stays low, agent RL training exhibits unique recurring cycles of sharp entropy eruption and gradual subsidence. We decompose this dynamic into three phases and provide theoretical and empirical analyses of each, explaining the mechanisms underlying its cyclical oscillation. We further show that degenerate patterns such as sentence duplication and hallucination, once acquired during eruption, can persist and accumulate across cycles. Motivated by these findings, we propose SEAL (Separation-Enhanced Agent Learning), a lightweight auxiliary loss that separates correct and incorrect trajectories in representation space, directly targeting the root cause of entropy eruption. Experiments across multiple benchmarks, models, and RL algorithms demonstrate that SEAL stabilizes training and yields stronger downstream agent performance.",
+        "arxiv_id": "2605.27954",
+        "authors": [
+          "Wendi Li",
+          "Shawn Im",
+          "Sharon Li"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.27954",
+        "categories": [
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.11111111,
+        "provider_summary": "[Research Paper] This work identifies cyclical entropy eruption, a recurring instability in agent reinforcement learning where policy entropy repeatedly surges and subsides due to gradient interference from similar trajectories. To address this, the authors propose SEAL, a lightweight auxiliary loss that separates correct and incorrect trajectories in representation space, thereby stabilizing training and improving downstream agent performance.",
+        "publication_year": 2026,
+        "title": "Cyclical Entropy Eruption: Entropy Dynamics in Agent Reinforcement Learning"
+      },
+      {
+        "abstract": "While large language models (LLMs) augmented with agentic search capabilities show promise for legal reasoning, they overlook a fundamental constraint that applicable law must match the temporal context of each case, as retroactive application of statutes violates core legal principles and leads to erroneous conclusions. Our observations reveal that current legal LLMs suffer from temporal bias anchored to their training cutoff, while search agents rarely incorporate temporal constraints into queries, and that web search alone cannot provide the precise statute and precedent citations that legal reasoning demands. To address these challenges, we propose LegalSearch-R1, an end-to-end reinforcement learning framework that pairs local statute RAG for precise article matching with online web search for broader legal knowledge, trained on temporally-indexed data spanning multiple amendment periods to enforce temporal consistency. Extensive experiments on our benchmark covering 13 legal tasks demonstrate that our 7B-parameter agent outperforms state-of-the-art deep research frameworks and specialized legal LLMs by 12.9% to 29.8%, surpasses baselines by 57.7% to 80.3% on temporal consistency, and exhibits robust out-of-domain generalization. The code and data are available at https://github.com/AlexFanw/LegalSearch-R1.",
+        "arxiv_id": "2605.25920",
+        "authors": [
+          "Wei Fan",
+          "Yining Zhou",
+          "Mufan Zhang",
+          "Yanbing Weng",
+          "Yiran Hu",
+          "Tianshi Zheng",
+          "Baixuan Xu",
+          "Chunyang Li",
+          "Jianhui Yang",
+          "Haoran Li",
+          "Yangqiu Song"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.25920",
+        "categories": [
+          "cs.CL",
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.11111111,
+        "provider_summary": "[Research Paper] This paper introduces LegalSearch-R1, an end-to-end reinforcement learning framework designed to enhance temporal consistency in legal agentic search by combining local statute RAG with online web search. The approach addresses the critical issue of retroactive law application by training agents on temporally-indexed data to ensure applicable statutes match the specific temporal context of legal cases.",
+        "publication_year": 2026,
+        "title": "Can LLMs Time Travel? Enhancing Temporal Consistency in Legal Agentic Search through Reinforcement Learning"
+      },
+      {
+        "abstract": "Enhancing future wireless networks presents a significant challenge for networking systems due to diverse user demands and the emergence of 6G technology. While reinforcement learning (RL) is a powerful framework, it often encounters difficulties with high-dimensional state spaces and complex environments, leading to substantial computational demands, distributed intelligence, and potentially inconsistent outcomes. Large language models (LLMs), with their extensive pretrained knowledge and advanced reasoning capabilities, offer promising tools to enhance RL in optimizing 6G wireless networks. We explore RL models augmented by LLMs, emphasizing their roles and the potential benefits of their synergy in wireless network optimization. We then examine LLM-enabled RL across various protocol layers: physical, data link, network, transport, and application layers. Additionally, we propose an LLM-assisted state representation and semantic extraction to enhance the multi-agent reinforcement learning (MARL) framework. This approach is applied to service migration and request routing, as well as topology graph generation in unmanned aerial vehicle (UAV)-satellite networks. Through case studies, we demonstrate that our framework effectively performs optimization of wireless network. Finally, we outline prospective research directions for LLM-enabled RL in wireless network optimization.",
+        "arxiv_id": "2602.13210",
+        "authors": [
+          "Jie Zheng",
+          "Ruichen Zhang",
+          "Dusit Niyato",
+          "Haijun Zhang",
+          "Jiacheng Wang",
+          "Hongyang Du",
+          "Jiawen Kang",
+          "Zehui Xiong"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.13210",
+        "categories": [
+          "cs.NI",
+          "cs.AI",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.1,
+        "provider_summary": "[research paper] This paper proposes a framework for integrating Large Language Models (LLMs) into reinforcement learning (RL) to optimize 6G wireless networks, addressing key challenges in high-dimensional state spaces and complex dynamic environments. LLMs are embedded in four roles—feature extractor, reward designer, policy interpreter, and decision-maker—to enhance state representation, objective formulation, simulation fidelity, and resource allocation in multi-layer network optimization, with experimental validation in UAV-satellite networks for service migration and routing. The synergy enables more interpretable, efficient, and scalable decision-making under multimodal and real-world constraints.",
+        "publication_year": 2026,
+        "title": "Large Language Model (LLM)-enabled Reinforcement Learning for Wireless Network Optimization"
+      },
+      {
+        "abstract": "Retrieval-augmented agents are increasingly the interface to large organizational knowledge bases, yet most still treat retrieval as a black box: they issue exploratory queries, inspect returned snippets, and iteratively reformulate until useful evidence emerges. This approach resembles how a newcomer searches an unfamiliar database rather than how an expert navigates it with strong priors about terminology and likely evidence, and results in unnecessary retrieval rounds, increased latency, and poor recall.\n  We introduce \\textit{SuperIntelligent Retrieval Agent} (SIRA), which defines \\emph{superintelligence} in retrieval as the ability to compress multi-round exploratory search into a single corpus-discriminative retrieval action. SIRA does not merely ask what terms are relevant to the query; it asks which terms are likely to separate the desired evidence from corpus-level confusers. On the corpus side, an LLM enriches each document offline with missing search vocabulary; on the query side, it predicts evidence vocabulary omitted by the query; and document-frequency statistics as a tool call to filter proposed terms that are absent, overly common, or unlikely to create retrieval margin. The final retrieval step is a single weighted BM25 call combining the original query with the validated expansion.\n  Across ten BEIR benchmarks and downstream question-answering tasks, SIRA achieves the significantly superior performance outperforming dense retrievers and state-of-the-art multi-round agentic baselines, demonstrating that one well-formed lexical query, guided by LLM cognition and lightweight corpus statistics, can exceed substantially more expensive multi-round search while remaining interpretable, training-free, and efficient.",
+        "arxiv_id": "2605.06647",
+        "authors": [
+          "Zeyu Yang",
+          "Qi Ma",
+          "Jason Chen",
+          "Anshumali Shrivastava"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.06647",
+        "categories": [
+          "cs.IR",
+          "cs.AI",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.09090909,
+        "provider_summary": "[research paper] SIRA introduces a single-query, controllable BM25 retrieval framework that leverages LLM reasoning to generate discriminative, corpus-aware keyword expansions—predicting missing evidence terms and filtering out common or confusing ones using document frequency statistics—thereby compressing multi-round exploratory search into one efficient, interpretable retrieval step. It outperforms dense retrievers and multi-round agentic baselines on ten BEIR benchmarks and downstream QA tasks by exploiting LLMs' ability to reason about retrieval structure while maintaining transparency, training-free operation, and low latency.",
+        "publication_year": 2026,
+        "title": "Superintelligent Retrieval Agent: The Next Frontier of Information Retrieval"
+      },
+      {
+        "abstract": "Large Language Model (LLM) agents are deployed in complex environments -- such as massive codebases, enterprise databases, and conversational histories -- where the relevant state far exceeds their context windows. To navigate these spaces, an agent must iteratively explore the environment to find relevant information. However, without explicit infrastructure, an agent's working memory can degrade into lossy representations of the search state, resulting in redundant work (e.g. repetitive looping) and premature stopping. In this work, we formalize this challenge as the Context Gathering Decision Process (CGDP), a specialized Partially Observable Markov Decision Process, where an agent's objective is to adaptively refine its belief state to isolate the necessary information for a task. We model an LLM's behavior as approximate Thompson Sampling within this CGDP, and introduce a predicate-based method that decomposes an LLM's implicit search into explicit and modular operations. We then derive two plug-and-play interventions for iterative LLM agents: a persistent, predicate-based belief state that bounds context while preserving multi-hop reasoning, and a programmatic exhaustion gate that halts unproductive search without premature stopping. Across four methods and three question-answering domains, we empirically validate that replacing an LLM's implicit state with our CGDP-motivated belief state improves multi-hop reasoning by up to $11.4\\%$; while the modular programmatic exhaustion detection saves up to $39\\%$ of tokens without any degradation in agent performance. Ultimately, we argue that framing the LLM agent loop as a CGDP can guide the design of modular, non-interfering improvements to agentic search harnesses.",
+        "arxiv_id": "2605.07042",
+        "authors": [
+          "Chinmaya Kausik",
+          "Adith Swaminathan",
+          "Nathan Kallus"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.07042",
+        "categories": [
+          "cs.AI",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.09090909,
+        "provider_summary": "[research paper] The paper formalizes LLM agentic search as a Context Gathering Decision Process (CGDP), a POMDP that models the agent's iterative information gathering as a belief refinement process. It introduces Predicate-Based Adaptive Identification (PBAI) to decompose search into modular steps and proposes two plug-and-play interventions: a predicate-based belief state that maintains bounded, persistent context without degrading multi-hop reasoning (up to +11.4% performance), and a programmatic exhaustion gate that halts redundant loops using action similarity and observation novelty (up to 39% token savings), both validated across diverse agentic domains.",
+        "publication_year": 2026,
+        "title": "The Context Gathering Decision Process: A POMDP Framework for Agentic Search"
+      },
+      {
+        "abstract": "Reinforcement Learning (RL) has traditionally focused on training specialized agents to optimize predefined reward functions within narrowly defined environments. However, the advent of powerful Large Language Models (LLMs) and increasingly complex, open-ended tasks has catalyzed a paradigm shift towards agentic paradigms within RL. This emerging framework extends beyond traditional RL by emphasizing the development of autonomous agents capable of goal-setting, long-term planning, dynamic strategy adaptation, and interactive reasoning in uncertain, real-world environments. Unlike conventional approaches that rely heavily on static objectives and episodic interactions, LLM-based Agentic RL incorporates cognitive-like capabilities such as meta-reasoning, self-reflection, and multi-step decision-making directly into the learning loop. In this paper, we provide a deep insight for looking the conceptual foundations, methodological innovations, and effective designs underlying this trend. Furthermore, we identify critical challenges and outline promising future directions for building LLM-based Agentic RL.",
+        "arxiv_id": "2604.27859",
+        "authors": [
+          "Fangming Cui",
+          "Ruixiao Zhu",
+          "Cheng Fang",
+          "Sunan Li",
+          "Jiahong Li"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.27859",
+        "categories": [
+          "cs.AI",
+          "cs.ET"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.083333336,
+        "provider_summary": "[survey paper] This survey synthesizes the conceptual and methodological foundations of Agentic Reinforcement Learning (RL) in Large Language Models (LLMs), emphasizing cognitive capabilities like long-horizon planning, dynamic tool use, and persistent memory. It introduces a unified framework where LLMs operate as policies in Partially Observable Markov Decision Processes, enabling trajectory-based reward optimization over multi-step interactions. The paper identifies key application domains—software engineering, scientific discovery, web navigation, mathematical reasoning, financial analysis, and embodied AI—where agentic agents demonstrate autonomous decision-making, meta-reasoning, and real-world task execution, while highlighting persistent challenges in memory coherence, reward design, and safety.",
+        "publication_year": 2026,
+        "title": "Rethinking Agentic Reinforcement Learning In Large Language Models"
+      },
+      {
+        "abstract": "A prerequisite for coding agents to perform tasks on large repositories is code localization - the identification of relevant files, classes, and functions to work on. While repository-level code localization has been performed using embedding-based retrieval approaches such as vector search, recent work has focused on developing agents to localize relevant code either as a standalone precursor to or interleaved with performing actual work. Most prior methods on agentic code search equip the agent with complex, specialized tools, such as repository graphs derived from static analysis. In this paper, we demonstrate that, with an effective reinforcement learning recipe, a coding agent equipped with nothing more than a standard Unix terminal can be trained to achieve strong results. Our experiments on three benchmarks (SWE-Bench Verified, Pro, and Lite) reveal that our models consistently achieve superior or competitive performance over 2-18x larger base and post-trained LLMs and sometimes approach performance provided by closed models like Claude Sonnet, even when using specialized scaffolds. Our work particularly focuses on techniques for re-purposing existing coding agent environments for code search, reward design, and RL optimization. We release the resulting model family, CodeScout, along with all our code and data for the community to build upon.",
+        "arxiv_id": "2603.17829",
+        "authors": [
+          "Lintang Sutawika",
+          "Aditya Bharat Soni",
+          "Bharath Sriraam R R",
+          "Apurva Gandhi",
+          "Taha Yassine",
+          "Sanidhya Vijayvargiya",
+          "Yuchen Li",
+          "Xuhui Zhou",
+          "Yilin Zhang",
+          "Leander Melroy Maben",
+          "Graham Neubig"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.17829",
+        "categories": [
+          "cs.SE",
+          "cs.AI",
+          "cs.CL"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.083333336,
+        "provider_summary": "[research paper] CodeScout introduces a reinforcement learning recipe that trains a code localization agent using only a standard Unix terminal (no specialized tools), achieving performance comparable to or exceeding large open-source LLMs and approaching closed-source models like Claude Sonnet. The method relies on scalable data/environment curation, a language-agnostic agent scaffold (OpenHands-Bash), carefully designed reward signals, and an optimized RL training pipeline, demonstrating that minimal tooling can suffice for effective code search in large repositories.",
+        "publication_year": 2026,
+        "title": "CodeScout: An Effective Recipe for Reinforcement Learning of Code Search Agents"
+      }
+    ],
+    "state_revision": 5
+  }
+}

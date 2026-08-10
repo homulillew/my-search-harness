@@ -1,0 +1,15 @@
+{
+  "command": "read-source",
+  "ok": true,
+  "result": {
+    "source_content": {
+      "content": "Despite its effectiveness, MR-Search has several limitations. First, we do not evaluate our method on long-form benchmarks, where responses are substantially longer. Verification in such settings is inherently challenging, and how to reliably assess progress and final correctness for long-form generation remains an open research question. Second, our current study focuses on agentic search with a fixed Wikipedia search tool. Extending MR-Search to environments involving multiple heterogeneous tools, such as combined web search and web browsing. We leave the investigation of these directions to future work. It would be\nalso particularly interesting to scale MR-Search to large agentic RL training runs and further study the scaling properties of Meta-RL with frontier base models.",
+      "locator": {
+        "kind": "section",
+        "value": "Limitations"
+      },
+      "paper_ref": "paper_1e4c0c55-5e53-4dce-bca3-65d7b4cd36f4"
+    },
+    "state_revision": 63
+  }
+}

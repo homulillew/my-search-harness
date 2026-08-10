@@ -1,0 +1,501 @@
+{
+  "command": "search-papers",
+  "ok": true,
+  "result": {
+    "hits": [
+      {
+        "abstract": "We present a system for training enterprise search agents via reinforcement learning that achieves state-of-the-art performance across a diverse suite of hard-to-verify agentic search tasks. Our work makes four core contributions. First, we introduce KARLBench, a multi-capability evaluation suite spanning six distinct search regimes, including constraint-driven entity search, cross-document report synthesis, tabular numerical reasoning, exhaustive entity retrieval, procedural reasoning over technical documentation, and fact aggregation over internal enterprise notes. Second, we show that models trained across heterogeneous search behaviors generalize substantially better than those optimized for any single benchmark. Third, we develop an agentic synthesis pipeline that employs long-horizon reasoning and tool use to generate diverse, grounded, and high-quality training data, with iterative bootstrapping from increasingly capable models. Fourth, we propose a new post-training paradigm based on iterative large-batch off-policy RL that is sample efficient, robust to train-inference engine discrepancies, and naturally extends to multi-task training with out-of-distribution generalization. Compared to Claude 4.6 and GPT 5.2, KARL is Pareto-optimal on KARLBench across cost-quality and latency-quality trade-offs, including tasks that were out-of-distribution during training. With sufficient test-time compute, it surpasses the strongest closed models. These results show that tailored synthetic data in combination with multi-task reinforcement learning enables cost-efficient and high-performing knowledge agents for grounded reasoning.",
+        "arxiv_id": "2603.05218",
+        "authors": [
+          "Jonathan D. Chang",
+          "Andrew Drozdov",
+          "Shubham Toshniwal",
+          "Owen Oertell",
+          "Alexander Trott",
+          "Jacob Portes",
+          "Abhay Gupta",
+          "Pallavi Koppol",
+          "Ashutosh Baheti",
+          "Sean Kulinski",
+          "Ivan Zhou",
+          "Irene Dea",
+          "Krista Opsahl-Ong",
+          "Simon Favreau-Lessard",
+          "Sean Owen",
+          "Jose Javier Gonzalez Ortiz",
+          "Arnav Singhvi",
+          "Xabi Andrade",
+          "Cindy Wang",
+          "Kartik Sreenivasan",
+          "Sam Havens",
+          "Jialu Liu",
+          "Peyton DeNiro",
+          "Wen Sun",
+          "Michael Bendersky",
+          "Jonathan Frankle"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.05218",
+        "categories": [
+          "cs.AI",
+          "cs.LG"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.083333336,
+        "provider_summary": "[research paper] KARL introduces KARLBench, a multi-capability benchmark covering six grounded reasoning tasks including constraint-driven entity search, cross-document synthesis, tabular reasoning, and procedural technical reasoning. It employs an agentic data synthesis pipeline that iteratively bootstraps high-quality, grounded training data via long-horizon reasoning and vector search. A novel iterative large-batch off-policy reinforcement learning (OAPL) paradigm enables robust, multi-task training with out-of-distribution generalization, achieving Pareto-optimal performance across cost, latency, and quality trade-offs compared to Claude 4.6 and GPT 5.2, even surpassing closed models with sufficient test-time compute.",
+        "publication_year": 2026,
+        "title": "KARL: Knowledge Agents via Reinforcement Learning"
+      },
+      {
+        "abstract": "Configuring LLM-based agent systems involves choosing workflows, tools, token budgets, and prompts from a large combinatorial design space, and is typically handled today by fixed large templates or hand-tuned heuristics. This leads to brittle behavior and unnecessary compute, since the same cumbersome configuration is often applied to both easy and hard input queries. We formulate agent configuration as a query-wise decision problem and introduce ARC (Agentic Resource & Configuration learner), which learns a light-weight hierarchical policy using reinforcement learning to dynamically tailor these configurations. Across multiple benchmarks spanning reasoning and tool-augmented question answering, the learned policy consistently outperforms strong hand-designed and other baselines, achieving up to 25% higher task accuracy while also reducing token and runtime costs. These results demonstrate that learning per-query agent configurations is a powerful alternative to \"one size fits all\" designs.",
+        "arxiv_id": "2602.11574",
+        "authors": [
+          "Aditya Taparia",
+          "Som Sagar",
+          "Ransalu Senanayake"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.11574",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.07857143,
+        "provider_summary": "[research paper] ARC introduces a hierarchical reinforcement learning framework that learns per-query agent configurations by jointly optimizing workflow selection, tool usage, and prompt composition, without updating the underlying LLM. It uses a two-level policy—high-level for workflow/tool/budget decisions and low-level for prompt construction—trained via masked RL with supervised fine-tuning on elite trajectories, achieving up to 25% higher task accuracy while reducing token and runtime costs across reasoning and tool-augmented benchmarks.",
+        "publication_year": 2026,
+        "title": "Learning to Configure Agentic AI Systems"
+      },
+      {
+        "abstract": "Large language models (LLMs) have demonstrated strong coding capabilities but still struggle to solve competitive programming problems correctly in a single attempt. Execution-based re-ranking offers a promising test-time scaling strategy, yet existing methods are constrained by either difficult test case generation or inefficient random input sampling. To address this limitation, we propose Agentic Verifier, an execution-based agent that actively reasons about program behaviors and searches for highly discriminative test inputs that expose behavioral discrepancies among candidate solutions. Through multi-turn interaction with code execution environments, the verifier iteratively refines the candidate input generator and produces targeted counterexamples rather than blindly sampling inputs. We train the verifier to acquire this discriminative input generation capability via a scalable pipeline combining large-scale data synthesis, rejection fine-tuning, and agentic reinforcement learning. Extensive experiments across five competitive programming benchmarks demonstrate consistent improvements over strong execution-based baselines, achieving up to +10-15% absolute gains in Best@K accuracy. Further analysis reveals clear test-time scaling behavior and highlights the verifier's broader potential beyond reranking.",
+        "arxiv_id": "2602.04254",
+        "authors": [
+          "Zeyao Ma",
+          "Jing Zhang",
+          "Xiaokang Zhang",
+          "Jiaxi Yang",
+          "Zongmeng Zhang",
+          "Jiajun Zhang",
+          "Yuheng Jing",
+          "Lei Zhang",
+          "Hao Zheng",
+          "Wenting Zhao",
+          "Junyang Lin",
+          "Binyuan Hui"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.04254",
+        "categories": [
+          "cs.CL"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.07692308,
+        "provider_summary": "[research paper] Agentic Verifier introduces an execution-based agent that actively searches for discriminative test inputs in competitive programming by engaging in multi-turn reasoning with code execution environments. Unlike random input sampling, it iteratively refines input generation to expose behavioral discrepancies among candidate solutions, using a scalable training pipeline involving large-scale data synthesis, rejection fine-tuning, and agentic reinforcement learning. Experiments across five benchmarks show +10–15% gains in Best@$k$ accuracy with clear test-time scaling, revealing that random inputs are inefficient and that the verifier can uncover false-positive solutions by discovering targeted counterexamples.",
+        "publication_year": 2026,
+        "title": "Scaling Agentic Verifier for Competitive Coding"
+      },
+      {
+        "abstract": "Building agentic systems that can autonomously self-improve from experience is a longstanding goal of AI. Large language models (LLMs) today primarily self-improve via two mechanisms: self-reflection for context updates, and reinforcement learning (RL) for weight updates. In this work, we propose Evolutionary System Prompt Learning (E-SPL), a method for jointly improving model contexts and model weights. In each RL iteration, E-SPL selects multiple system prompts and runs rollouts with each in parallel. It applies RL updates to model weights conditioned on each system prompt, and evolutionary updates to the system prompt population via LLM-driven mutation and crossover. Each system prompt has a TrueSkill rating for evolutionary selection, updated from relative performance within each RL iteration batch. E-SPL encourages a natural division between declarative knowledge encoded in prompts and procedural knowledge encoded in weights, resulting in improved performance across reasoning and agentic tasks. For instance, in an easy-to-hard (AIME $\\rightarrow$ BeyondAIME) generalization setting, E-SPL improves RL success rate from 38.8% $\\rightarrow$ 45.1% while also outperforming reflective prompt evolution (40.0%). Overall, our results show that coupling reinforcement learning with system prompt evolution yields consistent gains in sample efficiency and generalization. Code: https://github.com/LunjunZhang/E-SPL",
+        "arxiv_id": "2602.14697",
+        "authors": [
+          "Lunjun Zhang",
+          "Ryan Chen",
+          "Bradley C. Stadie"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.14697",
+        "categories": [
+          "cs.AI",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.07290804,
+        "provider_summary": "[research paper] E-SPL introduces a joint optimization framework that couples reinforcement learning (RL) for weight updates with evolutionary search over system prompts for declarative knowledge evolution. In each RL iteration, multiple system prompts are evaluated in parallel via rollouts, with RL updating model weights per prompt and evolutionary operators (mutation/crossover) refining the prompt population using TrueSkill-based selection. This dual optimization enables synergistic self-improvement: improved prompts accelerate learning, while refined weights enhance procedural knowledge, leading to significant gains in sample efficiency and generalization—e.g., 38.8% → 45.1% success on AIME→BeyondAIME and 44.2% → 48.6% on agentic search—outperforming isolated prompt evolution or RL alone.",
+        "publication_year": 2026,
+        "title": "Evolutionary System Prompt Learning can Facilitate Reinforcement Learning for LLMs"
+      },
+      {
+        "abstract": "In dynamic flow fields, various animals exhibit remarkable odor search capabilities despite relying on stochastic detections. Interestingly, there exists an optimal time window for integrating these detections that maximizes search efficiency. To understand the underlying mechanism, we investigate the navigation performance of Reinforcement Learning (RL) agents in unsteady flows under varying memory lengths and flow conditions. Without any predefined models, the agents develop a flow-assisted casting strategy and adaptively adjust both the geometry of their search trajectories and the concentration threshold for initiating casting to maximize the success rate. The agent's average speed toward the odor source exhibits a non-monotonic dependence on memory length, which can be explained by the \"sector-search\" model.",
+        "arxiv_id": "2605.18881",
+        "authors": [
+          "Changxu Zhao",
+          "Dongxiao Zhao",
+          "Xin Bian",
+          "Gaojin Li"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.18881",
+        "categories": [
+          "cs.LG",
+          "physics.flu-dyn"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.071428575,
+        "provider_summary": "[Research Paper] This study investigates how Reinforcement Learning agents with finite memory develop flow-assisted casting strategies for olfactory navigation in dynamic, unsteady flow fields. The authors demonstrate that agents adaptively optimize search trajectories and concentration thresholds, revealing a non-monotonic relationship between memory length and search efficiency explained by a sector-search model.",
+        "publication_year": 2026,
+        "title": "Emergence of a Flow-Assisted Casting Strategy for Olfactory Navigation via Memory-Augmented Reinforcement Learning"
+      },
+      {
+        "abstract": "Training large language models (LLMs) as autonomous agents often begins with imitation learning, but it only teaches agents what to do without understanding why: agents never contrast successful actions against suboptimal alternatives and thus lack awareness of action quality. Recent approaches attempt to address this by introducing self-reflection supervision derived from contrasts between expert and alternative actions. However, the training paradigm fundamentally remains imitation learning: the model imitates pre-constructed reflection text rather than learning to reason autonomously. We propose Agentic Critical Training (ACT), a reinforcement learning paradigm that trains agents to identify the better action among alternatives. By rewarding whether the model's judgment is correct, ACT drives the model to autonomously develop reasoning about action quality, producing genuine self-reflection rather than imitating it. Across three challenging agent benchmarks, ACT consistently improves agent performance when combined with different post-training methods. It achieves an average improvement of 5.07 points over imitation learning and 4.62 points over reinforcement learning. Compared to approaches that inject reflection capability through knowledge distillation, ACT also demonstrates clear advantages, yielding an average improvement of 2.42 points. Moreover, ACT enables strong out-of-distribution generalization on agentic benchmarks and improves performance on general reasoning benchmarks without any reasoning-specific training data, highlighting the value of our method. These results suggest that ACT is a promising path toward developing more reflective and capable LLM agents.",
+        "arxiv_id": "2603.08706",
+        "authors": [
+          "Weize Liu",
+          "Minghui Liu",
+          "Sy-Tuyen Ho",
+          "Souradip Chakraborty",
+          "Xiyao Wang",
+          "Furong Huang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.08706",
+        "categories": [
+          "cs.AI",
+          "cs.CL",
+          "cs.LG"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.07118055,
+        "provider_summary": "[research paper] Agentic Critical Training (ACT) introduces a reinforcement learning paradigm that trains LLM agents to autonomously evaluate and select between expert and model-generated actions, moving beyond imitation learning by rewarding correct action judgments without providing reasoning supervision. This forces the model to develop genuine self-reflection through chain-of-thought reasoning, resulting in superior performance across agentic benchmarks (5.07 points over imitation learning, 4.62 over RL), outperforming reflection-injection methods like Early Experience by 2.42 points on average, and enabling strong out-of-distribution generalization and unexpected gains on general reasoning tasks (MATH-500, GPQA-Diamond) without reasoning-specific data.",
+        "publication_year": 2026,
+        "title": "Agentic Critical Training"
+      },
+      {
+        "abstract": "While Large Multimodal Models (LMMs) demonstrate impressive visual perception, they remain epistemically constrained by their static parametric knowledge. To transcend these boundaries, multimodal search models have been adopted to actively interact with the external environment for evidence retrieval. Diverging from prevailing paradigms that merely retrofit general LMMs with search tools as modular extensions, we explore the potential of building a multimodal agentic search model from scratch. Specifically, we make the following contributions: (i) we introduce Agentic Seeding, a dedicated phase designed to weave the foundational precursors necessary for eliciting agentic behaviors; (ii) we uncover a performance bottleneck in long-horizon interactions, where the increasing volume of interaction history overwhelms the model's ability to locate ground-truth evidence. To mitigate this, we propose V-Fold, an adaptive history-aware compression scheme that preserves recent dialogue turns in high fidelity while folding historical context into the visual space via rendering; and (iii) we develop POINTS-Seeker-8B, a state-of-the-art multimodal agentic search model that consistently outperforms existing models across six diverse benchmarks, effectively resolving the challenges of long-horizon, knowledge-intensive visual reasoning.",
+        "arxiv_id": "2604.14029",
+        "authors": [
+          "Yikun Liu",
+          "Yuan Liu",
+          "Le Tian",
+          "Xiao Zhou",
+          "Jiangchao Yao",
+          "Yanfeng Wang",
+          "Weidi Xie"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.14029",
+        "categories": [
+          "cs.CV"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.07090336,
+        "provider_summary": "[research paper] POINTS-Seeker introduces a from-scratch approach to building multimodal agentic search models by integrating agentic behaviors as core cognitive capabilities via Agentic Seeding—a pre-training phase that embeds long-horizon reasoning and ReAct-style trajectories. To address long-horizon interaction bottlenecks caused by context explosion, it proposes V-Fold, an adaptive history-aware compression mechanism that preserves recent dialogue in text while rendering stale history into visual tokens for compact, context-preserving storage. The resulting POINTS-Seeker-8B achieves state-of-the-art performance across six diverse benchmarks, demonstrating superior reasoning fidelity and robustness in knowledge-intensive, multi-hop visual tasks through native agentic behavior and visual memory compression.",
+        "publication_year": 2026,
+        "title": "POINTS-Seeker: Towards Training a Multimodal Agentic Search Model from Scratch"
+      },
+      {
+        "abstract": "Large Language Model (LLM)-based search agents trained with reinforcement learning (RL) have significantly improved the performance of knowledge-intensive tasks. However, existing methods encounter critical challenges in long-horizon credit assignment: (i) Reward Sparsity, where models receive only outcome feedback without step-level guidance to differentiate action quality; (ii) Isolated Credit, where credit is assigned to steps independently, failing to capture sequential dependencies; and (iii) Distributional Shift, where rewards are estimated on templates that deviate from the model's natural generative distribution. To address these issues, we propose Pivot-Based Credit Assignment (PiCA), a novel step reward mechanism that reformulates the search trajectory as a sequential process of cumulative search progress. Unlike prior isolated step rewards, PiCA defines process rewards as success probabilities dependent on the historical context based on Potential-Based Reward Shaping (PBRS). This approach identifies pivot steps, which comprise target golden sub-queries and sub-answers derived from historical trajectories, as information peaks that significantly boost the likelihood of a correct final answer. By anchoring these step rewards to the final task objective, PiCA provides dense, pivot-aware and trajectory-dependent guidance while maintaining distributional consistency. Extensive experiments show that PiCA outperforms existing strong baselines across seven knowledge-intensive QA benchmarks, achieving 15.2% and 2.2% improvements for 3B and 7B models. The consistent performance gains across various models show PiCA's robust generalization. The code is available at https://github.com/novdream/PiCA.",
+        "arxiv_id": "2605.09287",
+        "authors": [
+          "Dongyi Liu",
+          "Yifan Niu",
+          "Qinwen Wang",
+          "Han Xiao",
+          "Jia Li"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.09287",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.06666667,
+        "provider_summary": "[research paper] PiCA introduces a pivot-based credit assignment mechanism that redefines step rewards in search agentic reinforcement learning by modeling them as conditional success probabilities derived from historical trajectories via potential-based reward shaping. It identifies 'pivot steps'—golden sub-queries and sub-answers that act as information peaks—linking each step’s reward to the final goal’s success probability, thereby addressing reward sparsity, isolated credit, and distributional shift by preserving trajectory-dependent, distributionally consistent guidance. Experiments across seven QA benchmarks show 15.2% and 2.2% performance gains for 3B and 7B models, respectively, demonstrating robust generalization and improved information retrieval and synthesis in long-horizon knowledge-intensive tasks.",
+        "publication_year": 2026,
+        "title": "PiCA: Pivot-Based Credit Assignment for Search Agentic Reinforcement Learning"
+      },
+      {
+        "abstract": "Automatic heuristic design (AHD) has emerged as a promising paradigm for solving NP-hard combinatorial optimization problems (COPs). Recent works show that large language models (LLMs), when integrated into well-designed frameworks (i.e., LLM-AHD), can autonomously discover high-performing heuristics. However, existing LLM-AHD frameworks typically treat LLMs as passive generators within fixed workflows, where the model generates heuristics from manually designed, limited context. Such context may fail to capture state-dependent information (e.g., specific failure modes), leading to inefficient trial-and-error exploration. To overcome these limitations, we propose AHD Agent, a novel tool-integrated, multi-turn framework that empowers LLMs to proactively decide whether to generate heuristics or invoke tools to retrieve targeted evidence from the solving environment. To effectively train such a dynamic decision-making agent, we introduce an agentic reinforcement learning (RL) system, which leverages a novel environment synthesis pipeline to optimize a compact model's generalizable AHD capabilities. Experiments across eight diverse domains, including four held-out tasks, demonstrate that our 4B-parameter agent matches or surpasses state-of-the-art baselines using much larger models, while requiring significantly fewer evaluations. Model and inference scaling analysis further reveals that AHD Agent offers an effective trajectory toward truly autonomous heuristic design.",
+        "arxiv_id": "2605.08756",
+        "authors": [
+          "Haoze Lv",
+          "Ning Lu",
+          "Ziang Zhou",
+          "Shengcai Liu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.08756",
+        "categories": [
+          "cs.AI",
+          "cs.NE"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.06516291,
+        "provider_summary": "[research paper] AHD Agent introduces a tool-integrated, multi-turn framework that enables large language models to autonomously decide between generating heuristics or retrieving targeted evidence via tools, replacing fixed workflows with state-dependent decision-making. An agentic reinforcement learning system uses an environment synthesis pipeline to train a 4B-parameter model across eight diverse combinatorial optimization domains, achieving performance parity or superiority over larger baselines with significantly fewer heuristic evaluations by leveraging dynamic, context-aware tool use and feedback loops.",
+        "publication_year": 2026,
+        "title": "AHD Agent: Agentic Reinforcement Learning for Automatic Heuristic Design"
+      },
+      {
+        "abstract": "Agentic reinforcement learning has enabled large language models to perform complex multi-turn planning and tool use. However, learning in long-horizon settings remains challenging due to sparse, trajectory-level outcome rewards. While prior tree-based methods attempt to mitigate this issue, they often suffer from high variance and computational inefficiency. Through empirical analysis of search agents, We identify a common pattern: performance diverges mainly due to decisions near the tail. Motivated by this observation, we propose Branching Relative Policy Optimization (BranPO), a value-free method that provides step-level contrastive supervision without dense rewards. BranPO truncates trajectories near the tail and resamples alternative continuations to construct contrastive suffixes over shared prefixes, reducing credit ambiguity in long-horizon rollouts. To further boost efficiency and stabilize training, we introduce difficulty-aware branch sampling to adapt branching frequency across tasks, and redundant step masking to suppress uninformative actions. Extensive experiments on various question answering benchmarks demonstrate that BranPO consistently outperforms strong baselines, achieving significant accuracy gains on long-horizon tasks without increasing the overall training budget. Our code is available at \\href{https://github.com/YubaoZhao/BranPO}{code}.",
+        "arxiv_id": "2602.03719",
+        "authors": [
+          "Yubao Zhao",
+          "Weiquan Huang",
+          "Sudong Wang",
+          "Ruochen Zhao",
+          "Chen Chen",
+          "Yao Shu",
+          "Chengwei Qin"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.03719",
+        "categories": [
+          "cs.CL"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.0625,
+        "provider_summary": "[research paper] BranPO introduces a value-free, step-level contrastive supervision method for long-horizon agentic search by focusing on tail-stage trajectory divergence, where errors predominantly arise. It truncates trajectories from the end, resamples alternative continuations to form contrastive suffixes over shared prefixes, and decomposes policy updates into trunk and branch-relative advantages to stabilize training. Difficulty-aware branch sampling adapts sampling effort per task, while redundant step masking suppresses uninformative tail actions, enabling efficient, accurate learning without dense rewards or increased training budget.",
+        "publication_year": 2026,
+        "title": "Training Multi-Turn Search Agent via Contrastive Dynamic Branch Sampling"
+      },
+      {
+        "abstract": "Verifiers have been demonstrated to enhance LLM reasoning via test-time scaling (TTS). Yet, they face significant challenges in complex domains. Error propagation from incorrect intermediate reasoning can lead to false positives for seemingly plausible solutions, while lacking external grounding makes verifiers unreliable on computation or knowledge-intensive tasks. To address these challenges, we propose Agentic Verifier, a framework that transforms reward modeling into a multi-turn, tool-augmented deliberative process. We introduce complementary forward and backward agents: one traces solutions from premises to conclusions, while the other re-checks conclusions against their underlying premises. This bidirectional process enables a comprehensive, reliable, and interpretable assessment of solutions. To facilitate practical deployment, we propose AgentV-RL. Through proactive exploration and reinforcement learning, the verifier autonomously interleaves tool-use with internal reasoning. Extensive experiments show that Agentic Verifier yields consistent performance gains under both parallel and sequential TTS. Notably, our 4B variant surpasses state-of-the-art ORMs by 25.2%, positioning it as a promising paradigm for agentic reward modeling.",
+        "arxiv_id": "2604.16004",
+        "authors": [
+          "Jiazheng Zhang",
+          "Ziche Fu",
+          "Zhiheng Xi",
+          "Wenqing Jing",
+          "Mingxu Chai",
+          "Wei He",
+          "Guoqiang Zhang",
+          "Chenghao Fan",
+          "Chenxin An",
+          "Wenxiang Chen",
+          "Zhicheng Liu",
+          "Haojie Pan",
+          "Dingwei Zhu",
+          "Tao Gui",
+          "Qi Zhang",
+          "Xuanjing Huang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.16004",
+        "categories": [
+          "cs.CL",
+          "cs.AI"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.05882353,
+        "provider_summary": "[research paper] Agentic Verifier introduces a bidirectional, multi-agent framework for reward modeling that uses forward and backward agents to validate solutions through tool-augmented, multi-turn reasoning—mitigating error propagation and enabling external grounding. AgentV-RL enables end-to-end training via synthetic trajectory generation and two-stage reinforcement learning, achieving a 25.2% performance boost over state-of-the-art ORMs in complex reasoning tasks, particularly in math-intensive domains where traditional generative reward models fail due to hallucinations and lack of verifiability.",
+        "publication_year": 2026,
+        "title": "AgentV-RL: Scaling Reward Modeling with Agentic Verifier"
+      },
+      {
+        "abstract": "Large Language Models (LLMs) increasingly rely on agentic capabilities-iterative retrieval, tool use, and decision-making-to overcome the limits of static, parametric knowledge. Yet existing agentic frameworks treat external information as unstructured text and fail to leverage the topological dependencies inherent in real-world data. To bridge this gap, we introduce Agentic Graph Learning (AGL), a paradigm that reframes graph learning as an interleaved process of topology-aware navigation and LLM-based inference. Specifically, we propose AgentGL, the first reinforcement learning (RL)-driven framework for AGL. AgentGL equips an LLM agent with graph-native tools for multi-scale exploration, regulates tool usage via search-constrained thinking to balance accuracy and efficiency, and employs a graph-conditioned curriculum RL strategy to stabilize long-horizon policy learning without step-wise supervision. Across diverse Text-Attributed Graph (TAG) benchmarks and multiple LLM backbones, AgentGL substantially outperforms strong GraphLLMs and GraphRAG baselines, achieving absolute improvements of up to 17.5% in node classification and 28.4% in link prediction. These results demonstrate that AGL is a promising frontier for enabling LLMs to autonomously navigate and reason over complex relational environments. The code is publicly available at https://github.com/sunyuanfu/AgentGL.",
+        "arxiv_id": "2604.05846",
+        "authors": [
+          "Yuanfu Sun",
+          "Kang Li",
+          "Dongzhe Fan",
+          "Jiajin Liu",
+          "Qiaoyu Tan"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.05846",
+        "categories": [
+          "cs.CL"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.054112554,
+        "provider_summary": "[research paper] AgentGL introduces the first reinforcement learning-driven framework for Agentic Graph Learning (AGL), reframing graph reasoning as an interleaved process of topology-aware navigation and LLM-based inference. It enables LLM agents to perform multi-scale graph exploration using graph-native tools, employs search-constrained thinking to balance exploration and reasoning depth, and uses a graph-conditioned curriculum RL strategy to stabilize long-horizon policy learning without step-wise supervision, achieving up to 17.5% gains in node classification and 28.4% in link prediction over existing GraphLLM and GraphRAG baselines.",
+        "publication_year": 2026,
+        "title": "AgentGL: Towards Agentic Graph Learning with LLMs via Reinforcement Learning"
+      },
+      {
+        "abstract": "We design a deep reinforcement learning algorithm to explore a high-dimensional integer lattice with sparse rewards, training a feedforward neural network as a dynamic search heuristic to steer exploration toward reward dense regions. We apply this to the discovery of Fano 4-fold hypersurfaces with terminal singularities, objects of central importance in algebraic geometry. Fano varieties with terminal singularities are fundamental building blocks of algebraic varieties, and explicit examples serve as a vital testing ground for the development and generalisation of theory. Despite decades of effort, the combinatorial intractability of the underlying search space has left this classification severely incomplete. Our reinforcement learning approach yields thousands of previously unknown examples, hundreds of which we show are inaccessible to known search methods.",
+        "arxiv_id": "2603.15437",
+        "authors": [
+          "Marc Truter"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.15437",
+        "categories": [
+          "math.AG",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.05263158,
+        "provider_summary": "[research paper] A deep reinforcement learning (DRL) agent is trained as a dynamic heuristic to navigate a 6-dimensional integer lattice search space for Fano 4-fold hypersurfaces with terminal singularities, exploiting spatial clustering of sparse reward points. The DRL model uses temporal difference learning to adaptively refine its search policy, enabling discovery of hundreds of previously inaccessible nonquasismooth examples—many beyond reach of fixed heuristic or exhaustive methods—by smoothing reward variance and promoting exploration into high-complexity, underexplored regions of the lattice.",
+        "publication_year": 2026,
+        "title": "Deep Reinforcement Learning for Fano Hypersurfaces"
+      },
+      {
+        "abstract": "LLM-based multi-agent systems are increasingly deployed on long-horizon tasks, but a single decisive error is often accepted by downstream agents and cascades into trajectory-level failure. Existing work frames this as \\emph{post-hoc failure attribution}, diagnosing the responsible agent and step after the trajectory has ended. However, this paradigm forfeits any opportunity to intervene while trajectory is still unfolding. In this work, we introduce AgentForesight, a framework that reframes this problem as online auditing: at each step of an unfolding trajectory, an auditor observes only the current prefix and must either continue the run or alarm at the earliest decisive error, without access to future steps. To this end, we curate AFTraj-2K, a corpus of agentic trajectories across Coding, Math, and Agentic domains, in which safe trajectories are retained under a strict curation pipeline and unsafe trajectories are annotated at the step of their decisive error via consensus among multiple LLM judges. Built on that, we develop AgentForesight-7B, a compact online auditor trained with a coarse-to-fine reinforcement learning recipe that first equips it with a risk-anticipation prior at the failure boundary on adjacent safe/unsafe prefix pairs, then sharpens this prior into precise step-level localization under a three-axis reward jointly targeting the what, where, and who of an audit verdict. Across AFTraj-2K and an external Who\\&When benchmark, AgentForesight-7B outperforms leading proprietary models, including GPT-4.1 and DeepSeek-V4-Pro, achieving up to +19.9% performance gain and 3$\\times$ lower step localization error, opening the loop from post-hoc failures detection to enabling deployment-time intervention. Project page: https://zbox1005.github.io/agent-foresight/",
+        "arxiv_id": "2605.08715",
+        "authors": [
+          "Boxuan Zhang",
+          "Jianing Zhu",
+          "Zeru Shi",
+          "Dongfang Liu",
+          "Ruixiang Tang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.08715",
+        "categories": [
+          "cs.CL",
+          "cs.AI",
+          "cs.MA"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.05263158,
+        "provider_summary": "[research paper] AgentForesight introduces online auditing for early failure prediction in multi-agent systems, reframing failure detection from post-hoc diagnosis to real-time intervention. It proposes AFTraj-2K, a curated dataset of agentic trajectories with decisive error annotations at the step of failure, and trains AgentForesight-7B via a coarse-to-fine reinforcement learning recipe that first builds a risk-anticipation prior at failure boundaries and then refines step-level localization using a three-axis reward targeting what, where, and who of the audit verdict. The model achieves up to +19.9% higher Exact-F1 and 3× lower step localization error than GPT-4.1 and DeepSeek-V4-Pro on both AFTraj-2K and the Who&When benchmark, enabling early intervention before cascading failures propagate.",
+        "publication_year": 2026,
+        "title": "AgentForesight: Online Auditing for Early Failure Prediction in Multi-Agent Systems"
+      },
+      {
+        "abstract": "Image geo-localization aims to determine where a photograph was taken, a task that often requires more than recognizing visible landmarks. Human experts typically solve it through an iterative workflow: they inspect informative regions, form location hypotheses, seek external evidence, and revise their judgments as new clues appear. Existing methods only partially capture this process: direct prediction methods bypass evidence acquisition altogether, while retrieval-augmented methods introduce external evidence but usually provide limited supervision on the intermediate decisions of where to search, how to query, and how to filter noisy results. We present REVERSE, a framework that reinforces the interplay between evidence search and verification to enable multi-turn agentic reasoning. REVERSE teaches three intermediate decisions: where to look, what to query, and what evidence to trust. To support this, we construct tool-grounded trajectories with annotated region selections, search observations, and geo-informative evidence labels, and introduce process rewards for visual grounding, query utility, and evidence discrimination. An offline search cache makes retrieval observations stable and reusable during reinforcement learning, enabling dense supervision over noisy search results. With a 4B model, REVERSE outperforms strong retrieval-augmented baselines and rivals substantially larger models on Im2GPS3k and YFCC4k. Code is available at https://github.com/yonglleee/REVERSE.",
+        "arxiv_id": "2605.26861",
+        "authors": [
+          "Yong Li",
+          "Furong Jia",
+          "Dacheng Yin",
+          "Kang Rong",
+          "Fengyun Rao",
+          "Jing LYU",
+          "Fan Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.26861",
+        "categories": [
+          "cs.CV"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.050309278,
+        "provider_summary": "[Research Paper] REVERSE is an agentic framework for image geo-localization that reinforces evidence search and verification through multi-turn reasoning. It introduces process rewards for spatial grounding, query utility, and evidence discrimination to supervise intermediate decisions, enabling a 4B model to outperform larger retrieval-augmented baselines.",
+        "publication_year": 2026,
+        "title": "REVERSE: Reinforcing Evidence Verification and Search for Agentic Image geo-localization"
+      },
+      {
+        "abstract": "RL-based agentic search enables LLMs to solve complex questions via dynamic planning and external search. While this approach significantly enhances accuracy with agent policies optimized via large-scale reinforcement learning, we identify a critical gap in reliability: these agents fail to recognize their reasoning boundaries and rarely admit ``I DON'T KNOW'' (IDK) even when evidence is insufficient or reasoning reaches its limit. The lack of reliability often leads to plausible but unreliable answers, introducing significant risks in many real-world scenarios. To this end, we propose Boundary-Aware Policy Optimization (BAPO), a novel RL framework designed to cultivate reliable boundary awareness without compromising accuracy. BAPO introduces two key components: (i) a group-based boundary-aware reward that encourages an IDK response only when the reasoning reaches its limit, and (ii) an adaptive reward modulator that strategically suspends this reward during early exploration, preventing the model from exploiting IDK as a shortcut. Extensive experiments on four benchmarks demonstrate that BAPO substantially enhances the overall reliability of agentic search.",
+        "arxiv_id": "2601.11037",
+        "authors": [
+          "Shiyu Liu",
+          "Yongjing Yin",
+          "Jianhao Yan",
+          "Yunbo Tang",
+          "Qinggang Zhang",
+          "Bei Li",
+          "Xin Chen",
+          "Jingang Wang",
+          "Xunliang Cai",
+          "Jinsong Su"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.11037",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.050117925,
+        "provider_summary": "[research paper] BAPO introduces a group-based boundary-aware reward that incentivizes 'I DON’T KNOW' (IDK) responses only when reasoning reaches a true boundary—ensuring reliability without sacrificing accuracy. An adaptive reward modulator prevents reward hacking by suspending the IDK reward during early exploration, avoiding exploitation as a shortcut. Experiments show BAPO significantly improves reliability across four benchmarks with minimal training data (5,000 samples), outperforming existing agentic search methods in both accuracy and boundary awareness.",
+        "publication_year": 2026,
+        "title": "BAPO: Boundary-Aware Policy Optimization for Reliable Agentic Search"
+      },
+      {
+        "abstract": "Reinforcement learning algorithms are defined by their learning update rules, which are typically hand-designed and fixed. We present an evolutionary framework for discovering reinforcement learning algorithms by searching directly over executable update rules that implement complete training procedures. The approach builds on REvolve, an evolutionary system that uses large language models as generative variation operators, and extends it from reward-function discovery to algorithm discovery. To promote the emergence of nonstandard learning rules, the search excludes canonical mechanisms such as actor--critic structures, temporal-difference losses, and value bootstrapping. Because reinforcement learning algorithms are highly sensitive to internal scalar parameters, we introduce a post-evolution refinement stage in which a large language model proposes feasible hyperparameter ranges for each evolved update rule. Evaluated end-to-end by full training runs on multiple Gymnasium benchmarks, the discovered algorithms achieve competitive performance relative to established baselines, including SAC, PPO, DQN, and A2C.",
+        "arxiv_id": "2603.28416",
+        "authors": [
+          "Alkis Sygkounas",
+          "Amy Loutfi",
+          "Andreas Persson"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.28416",
+        "categories": [
+          "cs.LG",
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.05,
+        "provider_summary": "[research paper] Proposes an evolutionary framework using large language models to discover novel reinforcement learning algorithms by directly searching over executable update rules, excluding canonical mechanisms like actor-critic structures and value bootstrapping. Introduces a post-evolution refinement stage where LLMs suggest feasible hyperparameter ranges for each evolved rule, enabling end-to-end evaluation on Gymnasium benchmarks where discovered algorithms match or exceed performance of SAC, PPO, DQN, and A2C.",
+        "publication_year": 2026,
+        "title": "Evolutionary Discovery of Reinforcement Learning Algorithms via Large Language Models"
+      },
+      {
+        "abstract": "Agentic Retrieval-Augmented Generation (RAG) empowers large language models to autonomously plan and retrieve information for complex problem-solving. However, the development of robust agents is hindered by the scarcity of high-quality training data that reflects the noise and complexity of real-world retrieval environments. Conventional manual annotation is unscalable and often fails to capture the dynamic reasoning strategies required to handle retrieval failures. To bridge this gap, we introduce RAGShaper, a novel data synthesis framework designed to automate the construction of RAG tasks and robust agent trajectories. RAGShaper incorporates an InfoCurator to build dense information trees enriched with adversarial distractors spanning Perception and Cognition levels. Furthermore, we propose a constrained navigation strategy that forces a teacher agent to confront these distractors, thereby eliciting trajectories that explicitly demonstrate error correction and noise rejection. Comprehensive experiments confirm that models trained on our synthesized corpus significantly outperform existing baselines, exhibiting superior robustness in noise-intensive and complex retrieval tasks.",
+        "arxiv_id": "2601.08699",
+        "authors": [
+          "Zhengwei Tao",
+          "Bo Li",
+          "Jialong Wu",
+          "Guochen Yan",
+          "Huanyao Zhang",
+          "Jiahao Xu",
+          "Haitao Mi",
+          "Wentao Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.08699",
+        "categories": [
+          "cs.CL"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.05,
+        "provider_summary": "[research paper] RAGShaper introduces an automated data synthesis framework that builds realistic, noise-rich agentic RAG training data by using an InfoCurator to generate dense information trees with adversarial distractors categorized along Perception and Cognition dimensions. A constrained navigation strategy forces a teacher agent to retrieve these distractors, eliciting explicit error correction and noise rejection behaviors, resulting in agent trajectories that capture robust reasoning under uncertainty and outperform baselines in complex, noisy retrieval scenarios.",
+        "publication_year": 2026,
+        "title": "RAGShaper: Eliciting Sophisticated Agentic RAG Skills via Automated Data Synthesis"
+      },
+      {
+        "abstract": "We introduce OpenTinker, an infrastructure for reinforcement learning (RL) of large language model (LLM) agents built around a separation of concerns across algorithm design, execution, and agent-environment interaction. Rather than relying on monolithic, end-to-end RL pipelines, OpenTinker decomposes agentic learning systems into lightweight, composable components with clearly defined abstraction boundaries. Users specify agents, environments, and interaction protocols, while inference and training are delegated to a managed execution runtime. OpenTinker introduces a centralized scheduler for managing training and inference workloads, including LoRA-based and full-parameter RL, supervised fine-tuning, and inference, over shared resources. We further discuss design principles for extending OpenTinker to multi-agent training. Finally, we present a set of RL use cases that demonstrate the effectiveness of the framework in practical agentic learning scenarios.",
+        "arxiv_id": "2601.07376",
+        "authors": [
+          "Siqi Zhu",
+          "Jiaxuan You"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.07376",
+        "categories": [
+          "cs.AI",
+          "cs.DC"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.047807336,
+        "provider_summary": "[research paper] OpenTinker introduces a modular, service-oriented architecture for agentic reinforcement learning that decouples agent programming from execution by treating environments and interaction protocols as first-class, reusable abstractions. It employs a client-scheduler-server design with a centralized scheduler for resource allocation across RL, supervised fine-tuning, and inference, enabling scalable, composable, and multi-agent training via standardized task execution and parallelized environment processing.",
+        "publication_year": 2026,
+        "title": "OpenTinker: Separating Concerns in Agentic Reinforcement Learning"
+      },
+      {
+        "abstract": "Advances in large language models (LLMs) are driving a shift toward using reinforcement learning (RL) to train agents from iterative, multi-turn interactions across tasks. However, multi-turn RL remains challenging as rewards are often sparse or delayed, and environments can be stochastic. In this regime, naive trajectory sampling can hinder exploitation and induce mode collapse. We propose TSR (Trajectory-Search Rollouts), a training-time approach that repurposes test-time scaling ideas for improved per-turn rollout generation. TSR performs lightweight tree-style search to construct high-quality trajectories by selecting high-scoring actions at each turn using task-specific feedback. This improves rollout quality and stabilizes learning while leaving the underlying optimization objective unchanged, making TSR optimizer-agnostic. We instantiate TSR with best-of-N, beam, and shallow lookahead search, and pair it with PPO and GRPO, achieving up to 15% performance gains and more stable learning on Sokoban, FrozenLake, and WebShop tasks at a one-time increase in training compute. By moving search from inference time to the rollout stage of training, TSR provides a simple and general mechanism for stronger multi-turn agent learning, complementary to existing frameworks and rejection-sampling-style selection methods.",
+        "arxiv_id": "2602.11767",
+        "authors": [
+          "Aladin Djuhera",
+          "Swanand Ravindra Kadhe",
+          "Farhan Ahmed",
+          "Holger Boche"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.11767",
+        "categories": [
+          "cs.AI",
+          "cs.CL",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.04761905,
+        "provider_summary": "[research paper] TSR introduces a training-time trajectory search framework that enhances multi-turn reinforcement learning by replacing naive rollout sampling with lightweight tree-style search (e.g., best-of-N, beam, lookahead) to select high-scoring action sequences per turn using task feedback. This per-turn optimization improves rollout quality, reduces variance, and stabilizes training—achieving up to 15% performance gains on Sokoban, FrozenLake, and WebShop without altering the policy gradient objective or requiring new algorithms, while being fully compatible with existing RL frameworks and compute budgets.",
+        "publication_year": 2026,
+        "title": "TSR: Trajectory-Search Rollouts for Multi-Turn RL of LLM Agents"
+      }
+    ],
+    "state_revision": 7
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "command": "read-source",
+  "ok": true,
+  "result": {
+    "source_content": {
+      "content": "We distill the core insights from our experimental analysis into the following three conclusions:\n\n* •\n\n    Prompt Template: The longer the explicit reasoning length, the worse the accuracy and training stability. So we adopt the Fast Thinking template to ensure robust convergence and higher accuracy.\n\n* •\n\n    Reward Fuction: F1-based training performs worse than EM and exhibits instability caused by the policy degenerating into answer avoidance. To address this, we introduce F1+, which augments F1 with penalties for no search or answers, to stabilize training and outperform the EM-based approach.\n\n* •\n\n    Policy Optimization: GRPO suffers from instability, whereas REINFORCE achieves superior stability and efficiency by avoiding baseline interference.\n\nBased on the above insights, we develop Search-R1++ using the Fast Thinking template and REINFORCE with F1+ rewards. To evaluate its effectiveness, we compare it against the following baselines:\n(1) RL Trained LLM without Retrieval: R1-base is trained via PPO on the same data, performing reasoning without search engine.\n(2) Training Free Deepresearch Agent: ReAct, a training-free agent using the identical inference pipeline as ours for direct inference. (3) Deep Research Agents trained with RL:\nSearch-R1*[Jin et al., [2025]]*. For Search-R1, despite our efforts to reproduce the experiments, we cannot fully match the reported performance. This observation aligns with findings from other independent reproductions*[Sun et al., [2025]]*.\n\nAs reported in Tables[5.2] and[5.2], we achieve 3.9% and 4.2% average relative improvement with Qwen2.5-7B and Qwen2.5-3B respectively, compared to the Search-R1 baseline. While training-free methods degrade significantly on smaller models, our Search-R1++ approach maintains robust performance across scales, demonstrating that a principled RL strategy effectively empowers even compact architectures.",
+      "locator": {
+        "kind": "section",
+        "value": "A strong baseline: Search-R1++"
+      },
+      "paper_ref": "paper_7ca461c6-d607-4bbf-9def-6680c2060090"
+    },
+    "state_revision": 39
+  }
+}

@@ -1,0 +1,457 @@
+{
+  "command": "search-papers",
+  "ok": true,
+  "result": {
+    "hits": [
+      {
+        "abstract": "Deep research agents have shown remarkable potential in handling long-horizon tasks. However, state-of-the-art performance typically relies on online reinforcement learning (RL), which is financially expensive due to extensive API calls. While offline training offers a more efficient alternative, its progress is hindered by the scarcity of high-quality research trajectories. In this paper, we demonstrate that expensive online reinforcement learning is not all you need to build powerful research agents. To bridge this gap, we introduce a fully open-source suite designed for effective offline training. Our core contributions include DeepForge, a ready-to-use task synthesis framework that generates large-scale research queries without heavy preprocessing; and a curated collection of 66k QA pairs, 33k SFT trajectories, and 21k DPO pairs. Leveraging these resources, we train OffSeeker (8B), a model developed entirely offline. Extensive evaluations across six benchmarks show that OffSeeker not only leads among similar-sized agents but also remains competitive with 30B-parameter systems trained via heavy online RL.",
+        "arxiv_id": "2601.18467",
+        "authors": [
+          "Yuhang Zhou",
+          "Kai Zheng",
+          "Qiguang Chen",
+          "Mengkang Hu",
+          "Qingfeng Sun",
+          "Can Xu",
+          "Jingjing Chen"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.18467",
+        "categories": [
+          "cs.AI",
+          "cs.LG"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 1.0,
+        "provider_summary": "[research paper] The paper challenges the necessity of online reinforcement learning (RL) in deep research agent development by introducing OffSeeker, an 8B-parameter agent trained entirely offline using a novel task synthesis framework (DeepForge) and a large-scale, publicly released dataset of 66k QA pairs, 33k SFT trajectories, and 21k DPO pairs. DeepForge enables scalable, real-world web-based task generation without heavy preprocessing, overcoming limitations of static Wikipedia-based data. Evaluations show OffSeeker matches or surpasses performance of 30B-parameter online-RL agents on benchmarks like BrowseComp-zh, achieving 26.6 vs. 25.5, while eliminating API costs and enabling reproducible, accessible research.",
+        "publication_year": 2026,
+        "title": "OffSeeker: Online Reinforcement Learning Is Not All You Need for Deep Research Agents"
+      },
+      {
+        "abstract": "Offline reinforcement learning aims to learn an agent from pre-collected datasets, avoiding unsafe and inefficient real-time interaction. However, inevitable access to out-ofdistribution actions during the learning process introduces approximation errors, causing the error accumulation and considerable overestimation. In this paper, we construct a new pessimistic auxiliary policy for sampling reliable actions. Specifically, we develop a pessimistic auxiliary strategy by maximizing the lower confidence bound of the Q-function. The pessimistic auxiliary strategy exhibits a relatively high value and low uncertainty in the vicinity of the learned policy, avoiding the learned policy sampling high-value actions with potentially high errors during the learning process. Less approximation error introduced by sampled action from pessimistic auxiliary strategy leads to the alleviation of error accumulation. Extensive experiments on offline reinforcement learning benchmarks reveal that utilizing the pessimistic auxiliary strategy can effectively improve the efficacy of other offline RL approaches.",
+        "arxiv_id": "2602.23974",
+        "authors": [
+          "Fan Zhang",
+          "Baoru Huang",
+          "Xin Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.23974",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.3502825,
+        "provider_summary": "[research paper] The paper introduces a pessimistic auxiliary policy that mitigates overestimation in offline reinforcement learning by sampling actions via a lower confidence bound of the Q-function, derived from epistemic uncertainty. This strategy avoids high-uncertainty out-of-distribution actions during TD updates, reducing approximation errors and error accumulation without requiring data sparsity assumptions or policy constraints, and is shown to improve performance in TD3BC and Diffusion-QL on D4RL benchmarks with theoretical convergence guarantees.",
+        "publication_year": 2026,
+        "title": "Pessimistic Auxiliary Policy for Offline Reinforcement Learning"
+      },
+      {
+        "abstract": "Deep Research (DR) agents extend Large Language Models (LLMs) beyond parametric knowledge by autonomously retrieving and synthesizing evidence from large web corpora into long-form reports, enabling a long-horizon agentic paradigm. However, unlike real-time conversational assistants, DR is computationally expensive and time-consuming, creating an autonomy-interaction dilemma: high autonomy on ambiguous user queries often leads to prolonged execution with unsatisfactory outcomes. To address this, we propose IntentRL, a framework that trains proactive agents to clarify latent user intents before starting long-horizon research. To overcome the scarcity of open-ended research data, we introduce a scalable pipeline that expands a few seed samples into high-quality dialogue turns via a shallow-to-deep intent refinement graph. We further adopt a two-stage reinforcement learning (RL) strategy: Stage I applies RL on offline dialogues to efficiently learn general user-interaction behavior, while Stage II uses the trained agent and a user simulator for online rollouts to strengthen adaptation to diverse user feedback. Extensive experiments show that IntentRL significantly improves both intent hit rate and downstream task performance, outperforming the built-in clarify modules of closed-source DR agents and proactive LLM baselines.",
+        "arxiv_id": "2602.03468",
+        "authors": [
+          "Haohao Luo",
+          "Zexi Li",
+          "Yuexiang Xie",
+          "Wenhao Zhang",
+          "Yaliang Li",
+          "Ying Shen"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.03468",
+        "categories": [
+          "cs.AI",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.33333334,
+        "provider_summary": "[research paper] IntentRL introduces a two-stage reinforcement learning framework to train proactive agents that clarify latent user intents before initiating open-ended deep research, addressing the autonomy-interaction dilemma. It constructs a scalable Clarification Directed Acyclic Graph (C-DAG) from few seed samples to generate diverse, high-quality dialogue trajectories, then uses offline RL for general intent modeling and online rollouts with a rule-based/LLM-judge user simulator to refine adaptation. Results show significant improvements in intent alignment and downstream report quality, with a notable scaling effect as the base DR agent becomes more capable, offering a practical path for user-centric interaction in autonomous agents.",
+        "publication_year": 2026,
+        "title": "IntentRL: Training Proactive User-intent Agents for Open-ended Deep Research via Reinforcement Learning"
+      },
+      {
+        "abstract": "Offline reinforcement learning (RL) has received increasing attention for learning policies from previously collected data without interaction with the real environment, which is particularly important in high-stakes applications. While a growing body of work has developed offline RL algorithms, these methods often rely on restrictive assumptions about data coverage and suffer from distribution shift. In this paper, we propose a residuals-based offline RL framework for general state and action spaces. Specifically, we define a residuals-based Bellman optimality operator that explicitly incorporates estimation error in learning transition dynamics into policy optimization by leveraging empirical residuals. We show that this Bellman operator is a contraction mapping and identify conditions under which its fixed point is asymptotically optimal and possesses finite-sample guarantees. We further develop a residuals-based offline deep Q-learning (DQN) algorithm. Using a stochastic CartPole environment, we demonstrate the effectiveness of our residuals-based offline DQN algorithm.",
+        "arxiv_id": "2604.01378",
+        "authors": [
+          "Qing Zhu",
+          "Xian Yu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.01378",
+        "categories": [
+          "cs.LG",
+          "math.OC"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.31666666,
+        "provider_summary": "[research paper] The paper introduces a residuals-based offline reinforcement learning framework that incorporates estimation error from transition dynamics into policy optimization via empirical residuals. By modeling transition dynamics with a learned model and using residuals to generate synthetic trajectories, the method avoids strict data coverage assumptions, enables counterfactual reasoning through real-world dynamics emulation, and mitigates distribution shift via on-policy evaluation. Theoretical guarantees on convergence and finite-sample performance are established, and the approach is validated in a stochastic CartPole environment with a residuals-based deep Q-learning algorithm.",
+        "publication_year": 2026,
+        "title": "Residuals-based Offline Reinforcement Learning"
+      },
+      {
+        "abstract": "Data poisoning attacks (DPAs) are becoming popular as artificial intelligence (AI) algorithms, machine learning (ML) algorithms, and deep learning (DL) algorithms in this artificial intelligence (AI) era. Hackers and penetration testers are excessively injecting malicious contents in the training data (and in testing data too) that leads to false results that are very hard to inspect and predict. We have analyzed several recent technologies used (from deep reinforcement learning to federated learning) for the DPAs and their safety, security, & countermeasures. The problem setup along with the problem estimation is shown in the MuJoCo environment with performance of HalfCheetah before the dataset is poisoned and after the dataset is poisoned. We have analyzed several risks associated with the DPAs and falsification in medical data from popular poisoning data attacks to some popular data defenses. We have proposed robust offline reinforcement learning (Offline RL) for the safety and reliability with weighted hash verification along with density-ratio weighted behavioral cloning (DWBC) algorithm. The four stages of the proposed algorithm (as the Stage 0, the Stage 1, the Stage 2, and the Stage 3) are described with respect to offline RL, safety, and security for DPAs. The conclusion and future scope are provided with the intent to combine DWBC with other data defense strategies to counter and protect future contamination cyberattacks.",
+        "arxiv_id": "2601.01289",
+        "authors": [
+          "\"Shriram KS Pandian",
+          "Naresh Kshetri\""
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.01289",
+        "categories": [
+          "cs.CR"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.30952382,
+        "provider_summary": "[research paper] The paper proposes a robust offline reinforcement learning (Offline RL) framework—comprising weighted hash verification and density-ratio weighted behavioral cloning (DWBC)—to counter data poisoning attacks (DPAs) in machine learning systems. The approach is validated in a MuJoCo environment using the HalfCheetah agent, demonstrating significant degradation in performance after poisoning via the Minari dataset, and showing resilience through staged offline RL mechanisms that enforce data integrity and model safety. The method integrates cryptographic hashing for data authenticity and behavioral cloning to mimic clean model dynamics under poisoned conditions, offering a practical defense against adversarial data injection in autonomous and safety-critical systems.",
+        "publication_year": 2026,
+        "title": "dataRLsec: Safety, Security, and Reliability With Robust Offline Reinforcement Learning for DPAs"
+      },
+      {
+        "abstract": "We aim to develop a multimodal research agent capable of explicit reasoning and planning, multi-tool invocation, and cross-modal information synthesis, enabling it to conduct deep research tasks. However, we observe three main challenges in developing such agents: (1) scarcity of search-intensive multimodal QA data, (2) lack of effective search trajectories, and (3) prohibitive cost of training with online search APIs. To tackle them, we first propose Hyper-Search, a hypergraph-based QA generation method that models and connects visual and textual nodes within and across modalities, enabling to generate search-intensive multimodal QA pairs that require invoking various search tools to solve. Second, we introduce DR-TTS, which first decomposes search-involved tasks into several categories according to search tool types, and respectively optimize specialized search tool experts for each tool. It then recomposes tool experts to jointly explore search trajectories via tree search, producing trajectories that successfully solve complex tasks using various search tools. Third, we build an offline search engine supporting multiple search tools, enabling agentic reinforcement learning without using costly online search APIs. With the three designs, we develop MM-DeepResearch, a powerful multimodal deep research agent, and extensive results shows its superiority across benchmarks. Code is available at https://github.com/HJYao00/MM-DeepResearch",
+        "arxiv_id": "2603.01050",
+        "authors": [
+          "Huanjin Yao",
+          "Qixiang Yin",
+          "Min Yang",
+          "Ziwang Zhao",
+          "Yibo Wang",
+          "Haotian Luo",
+          "Jingyi Zhang",
+          "Jiaxing Huang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.01050",
+        "categories": [
+          "cs.CV",
+          "cs.AI"
+        ],
+        "citation_count": 6,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.25,
+        "provider_summary": "[research paper] The paper proposes MM-DeepResearch, a multimodal agentic research agent that overcomes three key challenges in agentic search: (1) data scarcity, (2) ineffective search trajectory synthesis, and (3) high training costs from online APIs. It introduces Hyper-Search—a hypergraph-based method to generate search-intensive multimodal QA pairs by modeling visual and textual nodes with multi-hop dependencies; DR-TTS, which decomposes tasks into tool-specific experts and recomposes them via tree search to produce diverse, high-success-rate trajectories; and an offline multimodal search engine that enables cost-efficient, tool-agnostic agentic reinforcement learning without relying on expensive online APIs. The agent achieves state-of-the-art performance on multimodal deep research benchmarks through structured, trajectory-aware training.",
+        "publication_year": 2026,
+        "title": "MM-DeepResearch: A Simple and Effective Multimodal Agentic Search Baseline"
+      },
+      {
+        "abstract": "Reinforcement Learning (RL) has emerged as a powerful training paradigm for LLM-based agents. However, scaling agentic RL for deep research remains constrained by two coupled challenges: hand-crafted synthetic data fails to elicit genuine real-world search capabilities, and real-world search dependency during RL training introduces instability and prohibitive cost, which limits the scalability of Agentic RL. LiteResearcher is a training framework that makes Agentic RL scalable: by constructing a lite virtual world that mirrors real-world search dynamics, we enable a continuously improving training recipe that empowers a tiny search agent to outperform large-scale open-source and commercial models (e.g., Tongyi DeepResearch and Claude-4.5 Sonnet). Specifically, on common benchmarks such as GAIA and Xbench, our LiteResearcher-4B achieves open-source state-of-the-art results of 71.3% and 78.0% respectively, demonstrating that scalable RL training is a key enabler for Deep Research Agents.",
+        "arxiv_id": "2604.17931",
+        "authors": [
+          "Wanli Li",
+          "Bince Qu",
+          "Bo Pan",
+          "Jianyu Zhang",
+          "Zheng Liu",
+          "Pan Zhang",
+          "Wei Chen",
+          "Bo Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.17931",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.2125,
+        "provider_summary": "[Research Paper] LiteResearcher introduces a scalable agentic RL framework that constructs a virtual web environment to train deep research agents, enabling a 4B model to outperform larger open-source and commercial systems on GAIA and Xbench benchmarks. The framework synthesizes realistic search tasks, simulates a realistic search environment, and applies a difficulty‑aware curriculum RL to achieve sustained improvements.",
+        "publication_year": 2026,
+        "title": "LiteResearcher: A Scalable Agentic RL Training Framework for Deep Research Agent"
+      },
+      {
+        "abstract": "Post-training using online reinforcement learning (RL) is an important training step for LLMs, including code-generating models. However, online RL for code generation involves LLM inference and verification of the generated output, which can take considerable time and resources. In this paper, we explore the application of offline RL to code-generating models by leveraging existing code datasets. Our experiments demonstrate that offline RL is an effective training strategy for improving LLM performance. We show that offline RL can be especially beneficial for small LLMs and challenging coding problems.",
+        "arxiv_id": "2605.28409",
+        "authors": [
+          "Mingze Wu",
+          "Abhinav Anand",
+          "Shweta Verma",
+          "Mira Mezini"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.28409",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.2,
+        "provider_summary": "[Research Paper] This paper investigates applying offline reinforcement learning to post-train large language models for code generation, leveraging existing datasets to avoid the high costs of online sampling and verification. The authors demonstrate that offline RL effectively improves performance, particularly for small models and challenging coding tasks, while maintaining output diversity.",
+        "publication_year": 2026,
+        "title": "Efficient Post-training of LLMs for Code Generation With Offline Reinforcement Learning"
+      },
+      {
+        "abstract": "Several approaches have been proposed to improve the sample efficiency of online reinforcement learning (RL) by leveraging demonstrations collected offline. The offline data can be used directly as transitions to optimize RL objectives, or offline policy and value functions can first be learned from the data and then used for online finetuning or to provide reference actions. While each of these strategies has shown compelling results, it is unclear which method has the most impact on sample efficiency, whether these approaches can be combined, and if there are cumulative benefits. We classify existing demonstration-augmented RL approaches into three categories and perform an extensive empirical study of their strengths, weaknesses, and combinations to isolate the contribution of each strategy and determine effective hybrid combinations for sample-efficient online RL. Our analysis reveals that directly reusing offline data and initializing with behavior cloning consistently outperform more complex offline RL pretraining methods for improving online sample efficiency.",
+        "arxiv_id": "2603.27400",
+        "authors": [
+          "Dwait Bhatt",
+          "Shih-Chieh Chou",
+          "Nikolay Atanasov"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.27400",
+        "categories": [
+          "cs.RO",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.16666667,
+        "provider_summary": "[research paper] The paper conducts an empirical ablation study of demonstration-augmented reinforcement learning (RL) strategies in robot manipulation, classifying them into three categories: (1) direct reuse of offline data in the replay buffer or via supervised imitation loss, (2) offline RL pretraining of policy/value functions for online finetuning, and (3) reference-based action mixing using a pre-trained policy. Results show that simple strategies—direct replay buffer seeding and behavior cloning initialization—outperform complex offline RL pretraining in terms of sample efficiency, with no significant cumulative benefit from combining them. The study establishes a taxonomy of component contributions, advocating for minimal, effective hybridization in real-world robotic control settings.",
+        "publication_year": 2026,
+        "title": "Rainbow-DemoRL: Combining Improvements in Demonstration-Augmented Reinforcement Learning"
+      },
+      {
+        "abstract": "Markov Decision Processes (MDPs) often exhibit significant redundancy due to symmetries and shared structure across state-goal pairs in real-world Goal-Conditioned Reinforcement Learning (GCRL). While hierarchical policies have been motivated for horizon reduction via temporal abstraction in offline GCRL, we demonstrate that hierarchy also enables absolute abstraction. By introducing relativised options as well as distinct representations for different levels of the hierarchy, we demonstrate how an agent can reuse experience across similar contexts of the state-space. Based on this framework, we introduce two simple algorithms for learning relativised options and abstracting from the absolute frame of reference. Our experiments show that such inductive biases significantly improve performance in offline GCRL.",
+        "arxiv_id": "2605.22711",
+        "authors": [
+          "Clarisse Wibault",
+          "Alexander Goldie",
+          "Antonio Villares",
+          "Maike Osborne",
+          "Jakob Foerster"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.22711",
+        "categories": [
+          "cs.LG",
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.14540817,
+        "provider_summary": "[Research Paper] This paper introduces Abstractive Reinforcement Learning (ARL), a framework for offline goal-conditioned RL that leverages relativised options and distinct hierarchical representations to enable experience reuse across similar state contexts. By learning options via action similarity and enforcing translational invariance, the proposed algorithms significantly improve performance and generalisation in high-dimensional offline tasks compared to flat or absolute hierarchical baselines.",
+        "publication_year": 2026,
+        "title": "Abstraction for Offline Goal-Conditioned Reinforcement Learning"
+      },
+      {
+        "abstract": "Transfer Learning, a technique where a model/agent can use the knowledge/expertise that it gained from one task and exploit that to solve another closely-related task, is often used in tackling problems in deep learning. Through this project, we explore transfer learning in the purview of deep reinforcement learning. Specifically, we want to use transfer learning to achieve the fast lap times in OpenAI's Car racing environment by training the agent on one circuit, and racing it on other customized target environments by zero-shot transfer or by additional fine-tuning. In addition, we compare the performance of model-based and model-free approaches, and observe that model-based approaches dominate in performance and converge faster than model-free approaches in this environment. We observe that transfer learning in most setups not only boosts the performance on the target domain, but also shows high performance ability during learning.",
+        "arxiv_id": "2605.17928",
+        "authors": [
+          "Benedict Florance Arockiaraj",
+          "Richard Chang",
+          "Wesley Yee"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.17928",
+        "categories": [
+          "cs.RO",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.14285715,
+        "provider_summary": "[Research Paper] This study investigates transfer learning in deep reinforcement learning for OpenAI's CarRacing environment, comparing model-based (Dreamer) and model-free (PPO, SAC, DDPG) approaches. The authors demonstrate that model-based methods achieve superior performance, faster convergence, and better sample efficiency when transferring to customized environments with altered dynamics or tracks.",
+        "publication_year": 2026,
+        "title": "Transfer Learning for Customized Car Racing Environments"
+      },
+      {
+        "abstract": "Allowing less capable devices to offload computational tasks to more powerful devices or servers enables the development of new applications that may not run correctly on the device itself. Deciding where and why to run each of those applications is a complex task. Therefore, different approaches have been adopted to make offloading decisions. In this work, we propose a decentralized Deep Reinforcement Learning (DRL) agent to address the selection of computing locations. Unlike most existing work, we analyze it in a real testbed composed of various edge devices running the agent to determine where to execute each task. These devices are connected to a Multi-Access Edge Computing (MEC) server and a Cloud server through 5G communications. We evaluate not only the agent's performance in meeting task requirements but also the implications of running this type of agent locally, assessing the trade-offs of training locally versus remotely in terms of latency and energy consumption.",
+        "arxiv_id": "2601.03976",
+        "authors": [
+          "Gorka Nieto",
+          "Idoia de la Iglesia",
+          "Cristina Perfecto",
+          "Unai Lopez-Novoa"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.03976",
+        "categories": [
+          "cs.ET",
+          "cs.SY",
+          "eess.SY"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.13809524,
+        "provider_summary": "[research paper] This work presents a real-world evaluation of on-device deep reinforcement learning (DRL) agents for decentralized task offloading in an IoT-Edge-Cloud continuum, using a 5G-connected testbed with edge devices (e.g., Jetson Nano, Raspberry Pi). It demonstrates that lightweight on-device DRL training is feasible, with acceptable latency and energy overhead, outperforming remote training in dynamic, resource-constrained environments by enabling real-time adaptation without relying on centralized data aggregation or stable connectivity.",
+        "publication_year": 2026,
+        "title": "On-Device Deep Reinforcement Learning for Decentralized Task Offloading Performance trade-offs in the training process"
+      },
+      {
+        "abstract": "Prior authorization (PA) requires interpretation of complex and fragmented coverage policies, yet existing retrieval-augmented systems rely on static top-$K$ strategies with fixed numbers of retrieved sections. Such fixed retrieval can be inefficient and gather irrelevant or insufficient information. We model policy retrieval for PA as a sequential decision-making problem, formulating adaptive retrieval as a Markov Decision Process (MDP). In our system, an agent iteratively selects policy chunks from a top-$K$ candidate set or chooses to stop and issue a decision. The reward balances decision correctness against retrieval cost, capturing the trade-off between accuracy and efficiency. We train policies using Conservative Q-Learning (CQL), Implicit Q-Learning (IQL), and Direct Preference Optimization (DPO) in an offline RL setting on logged trajectories generated from baseline retrieval strategies over synthetic PA requests derived from publicly available CMS coverage data. On a corpus of 186 policy chunks spanning 10 CMS procedures, CQL achieves 92% decision accuracy (+30 percentage points over the best fixed-$K$ baseline) via exhaustive retrieval, while IQL matches the best baseline accuracy using 44% fewer retrieval steps and achieves the only positive episodic return among all policies. Transition-level DPO matches CQL's 92% accuracy while using 47% fewer retrieval steps (10.6 vs. 20.0), occupying a \"selective-accurate\" region on the Pareto frontier that dominates both CQL and BC. A behavioral cloning baseline matches CQL, confirming that advantage-weighted or preference-based policy extraction is needed to learn selective retrieval. Lambda ablation over step costs $\\lambda \\in \\{0.05, 0.1, 0.2\\}$ reveals a clear accuracy-efficiency inflection: only at $\\lambda = 0.2$ does CQL transition from exhaustive to selective retrieval.",
+        "arxiv_id": "2604.05125",
+        "authors": [
+          "Ruslan Sharifullin",
+          "Maxim Gorshkov",
+          "Hannah Clay"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.05125",
+        "categories": [
+          "cs.IR",
+          "cs.AI",
+          "cs.CL",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.125,
+        "provider_summary": "[research paper] The paper proposes an offline reinforcement learning framework to model adaptive policy retrieval in prior authorization as a sequential decision-making problem via a Markov Decision Process (MDP), where an agent selects policy chunks from a top-K set or stops to issue a decision. Policies are trained using CQL, IQL, and DPO on logged trajectories from synthetic PA requests derived from CMS data, achieving up to 92% decision accuracy with significant reductions in retrieval steps—CQL achieves exhaustive retrieval with +30pp accuracy over fixed-K baselines, IQL matches baseline accuracy with 44% fewer steps and positive episodic return, and transition-level DPO achieves 92% accuracy with 47% fewer steps, occupying a selective-accurate Pareto-optimal region. A lambda ablation shows that only at λ=0.2 does CQL shift from exhaustive to selective retrieval, highlighting a critical cost-accuracy inflection point.",
+        "publication_year": 2026,
+        "title": "Offline RL for Adaptive Policy Retrieval in Prior Authorization"
+      },
+      {
+        "abstract": "One-step offline RL actors are attractive because they avoid backpropagating through long iterative samplers and keep inference cheap, but they still have to improve under a critic without drifting away from actions that the dataset can support. In recent one-step extraction pipelines, a strong iterative teacher provides one target action for each latent draw, and the same student output is asked to do both jobs: move toward higher Q and stay near that paired endpoint. If those two directions disagree, the loss resolves them as a compromise on that same sample, even when a nearby better action remains locally supported by the data. We propose DROL, a latent-conditioned one-step actor trained with top-1 dynamic routing. For each state, the actor samples $K$ candidate actions from a bounded latent prior, assigns each dataset action to its nearest candidate, and updates only that winner with Behavior Cloning and critic guidance. Because the routing is recomputed from the current candidate geometry, ownership of a supported region can shift across candidates over the course of learning. This gives a one-step actor room to make local improvements that pointwise extraction struggles to capture, while retaining single-pass inference at test time. On OGBench and D4RL, DROL is competitive with the one-step FQL baseline, improving many OGBench task groups while remaining strong on both AntMaze and Adroit. Project page: https://muzhancun.github.io/preprints/DROL.",
+        "arxiv_id": "2604.22229",
+        "authors": [
+          "Zhancun Mu",
+          "Guangyu Zhao",
+          "Yiwu Zhong",
+          "Chi Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.22229",
+        "categories": [
+          "cs.LG",
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.11111111,
+        "provider_summary": "[research paper] DROL introduces a dynamic routing mechanism in one-step offline reinforcement learning that decouples action improvement from latent-teacher correspondence by assigning each dataset action to the nearest of K sampled candidate actions. Instead of fixing ownership to a single latent draw, routing enables responsibility transfer across candidates during training, allowing local support regions to evolve and specialize—improving performance on multimodal benchmarks like OGBench while maintaining single-pass inference. The method avoids the compromise inherent in pointwise extraction, where conflicting Q-improvement and reconstruction signals are resolved on the same sample, and demonstrates superior performance in action space exploration without sacrificing inference efficiency.",
+        "publication_year": 2026,
+        "title": "Preserve Support, Not Correspondence: Dynamic Routing for Offline Reinforcement Learning"
+      },
+      {
+        "abstract": "This study presents the first experimental implementation of deep reinforcement learning (DRL) for the active real-time suppression of flow-induced vibrations in simultaneously vibrating tandem cylinders using rotary actuation, considering fully actuated and underactuated configurations. In the fully actuated case, where both cylinders are independently controlled, the DRL agent discovers a high-frequency, phase-locked bang-bang control strategy that suppresses the vibrations of both cylinders by more than 95\\%. Analysis of the training dynamics reveals a physically interpretable learning process in which the agent first identifies the optimal phase relationship between the actuators before refining the actuation frequency.\n  In the underactuated configuration, where only the upstream cylinder is actuated, equally weighted rewards produce ineffective control, suppressing vibrations only in the actuated cylinder. Introducing asymmetric reward weighting enables the DRL agent to discover a low-frequency lock-on strategy that achieves 70\\% and 90\\% vibration suppression in the upstream and downstream cylinders, respectively. For staggered arrangements with lateral offset, conventional training fails to converge, requiring a curriculum learning approach. The resulting two-stage curriculum identifies a statically biased bi-harmonic rotational control signal capable of suppressing vibrations in both cylinders. The success of the underactuated control strategy highlights its potential to reduce energy consumption and hardware complexity in multi-body flow control systems.",
+        "arxiv_id": "2605.20778",
+        "authors": [
+          "Hussam Sababha",
+          "Mohammed Daqaq"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.20778",
+        "categories": [
+          "physics.flu-dyn"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.11111111,
+        "provider_summary": "[Research Paper] This study presents the first experimental implementation of deep reinforcement learning for active real-time suppression of flow-induced vibrations in tandem cylinders, demonstrating over 95% suppression in fully actuated and up to 90% in underactuated configurations. The research highlights the discovery of novel control strategies, such as phase-locked bang-bang and bi-harmonic rotational signals, while addressing challenges like asymmetric reward weighting and curriculum learning for staggered arrangements.",
+        "publication_year": 2026,
+        "title": "Deep Reinforcement Learning Discovers a Novel Control Algorithm for Mitigating Flow-Induced Vibrations in Underactuated Tandem Cylinders"
+      },
+      {
+        "abstract": "Edge-scale deep research agents based on small language models are attractive for real-world deployment due to their advantages in cost, latency, and privacy. In this work, we study how to train a strong small deep research agent under limited open-data by improving both data quality and data utilization. We present DR-Venus, a frontier 4B deep research agent for edge-scale deployment, built entirely on open data. Our training recipe consists of two stages. In the first stage, we use agentic supervised fine-tuning (SFT) to establish basic agentic capability, combining strict data cleaning with resampling of long-horizon trajectories to improve data quality and utilization. In the second stage, we apply agentic reinforcement learning (RL) to further improve execution reliability on long-horizon deep research tasks. To make RL effective for small agents in this setting, we build on IGPO and design turn-level rewards based on information gain and format-aware regularization, thereby enhancing supervision density and turn-level credit assignment. Built entirely on roughly 10K open-data, DR-Venus-4B significantly outperforms prior agentic models under 9B parameters on multiple deep research benchmarks, while also narrowing the gap to much larger 30B-class systems. Our further analysis shows that 4B agents already possess surprisingly strong performance potential, highlighting both the deployment promise of small models and the value of test-time scaling in this setting. We release our models, code, and key recipes to support reproducible research on edge-scale deep research agents.",
+        "arxiv_id": "2604.19859",
+        "authors": [
+          "Venus Team",
+          "Sunhao Dai",
+          "Yong Deng",
+          "Jinzhen Lin",
+          "Yusheng Song",
+          "Guoqing Wang",
+          "Xiaofeng Wu",
+          "Yuqi Zhou",
+          "Shuo Yang",
+          "Zhenzhe Ying",
+          "Zhanwei Zhang",
+          "Changhua Meng",
+          "Weiqiang Wang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.19859",
+        "categories": [
+          "cs.LG",
+          "cs.AI",
+          "cs.CL",
+          "cs.IR"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.1,
+        "provider_summary": "[research paper] DR-Venus introduces a two-stage training pipeline for a 4B edge-scale deep research agent trained entirely on ~10K open-data trajectories. First, agentic supervised fine-tuning (SFT) with strict data cleaning and long-horizon trajectory resampling improves data quality and utilization; second, turn-level reinforcement learning (RL) based on IGPO with information-gain rewards and format-aware penalties enhances execution reliability and credit assignment, enabling small models to outperform larger 9B agents and narrow the gap to 30B systems. Key findings show that resampling boosts SFT efficacy, turn-level RL surpasses sparse trajectory RL, and small agents exhibit high capability ceilings—suggesting strong deployment potential via test-time scaling.",
+        "publication_year": 2026,
+        "title": "DR-Venus: Towards Frontier Edge-Scale Deep Research Agents with Only 10K Open Data"
+      },
+      {
+        "abstract": "We study offline-online reinforcement learning in linear mixture Markov decision processes (MDPs) under environment shift. In the offline phase, data are collected by an unknown behavior policy and may come from a mismatched environment, while in the online phase the learner interacts with the target environment. We propose an algorithm that adaptively leverages offline data. When the offline data are informative, either due to sufficient coverage or small environment shift, the algorithm provably improves over purely online learning. When the offline data are uninformative, it safely ignores them and matches the online-only performance. We establish regret upper bounds that explicitly characterize when offline data are beneficial, together with nearly matching lower bounds. Numerical experiments further corroborate our theoretical findings.",
+        "arxiv_id": "2604.11994",
+        "authors": [
+          "Zhongjun Zhang",
+          "Sean R. Sinclair"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.11994",
+        "categories": [
+          "cs.LG",
+          "math.OC",
+          "stat.ML"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.1,
+        "provider_summary": "[research paper] The paper proposes O-O UCRL-VTR, an adaptive offline–online reinforcement learning algorithm for linear mixture MDPs under environment shift, that maintains two parameter estimators—one online-only and one combining offline and online data—and switches to the more reliable one dynamically. It establishes regret upper bounds that depend on a policy quality metric τ (minimum eigenvalue of the offline design matrix), showing that offline data improves performance when τ is large (indicating sufficient coverage or small shift), while safely degrading to online-only performance when uninformative, with nearly matching lower bounds confirming the optimality of this behavior.",
+        "publication_year": 2026,
+        "title": "Offline-Online Reinforcement Learning for Linear Mixture MDPs"
+      },
+      {
+        "abstract": "Reinforcement learning (RL) has the potential to transform real-world decision-making systems by enabling autonomous agents to learn from experience. Deploying RL in real-world settings, especially in the context of human-robot interaction, requires defining state representations and reward functions, which are critical for learning efficiency and policy performance. Traditional RL approaches often rely on domain expertise and trial-and-error, necessitating extensive human involvement as well as direct interaction with the environment, which can be costly and impractical, especially in complex and safety-critical applications. This work proposes a novel RL framework that leverages off-policy evaluation (OPE) for state space and reward function selection, using only logged interaction data. This approach eliminates the need for real-time access to the environment or human-in-the-loop feedback, greatly reducing the dependency on costly real-time interactions. The proposed approach systematically evaluates multiple candidate state representations and reward functions by training offline RL agents and applying OPE to estimate policy performance. The optimal state space and reward function are selected based on their ability to produce high-performing policies under OPE metrics. Our method is validated on two environments: the Lunar Lander environment by OpenAI Gym, which provides a controlled setting for assessing state space and reward function selection, and a NASA-MATB-II human subjects study environment, which evaluates the approach's real-world applicability to human-robot teaming scenarios. This work enhances the feasibility and scalability of offline RL for real-world environments by automating critical RL design decisions through a data-driven OPE-based evaluation, enabling more reliable, effective, and sustainable RL formulation for complex human-robot interaction settings.",
+        "arxiv_id": "2602.02530",
+        "authors": [
+          "Saurav Singh",
+          "Rodney Sanchez",
+          "Alexander Ororbia",
+          "Jamison Heard"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.02530",
+        "categories": [
+          "cs.LG",
+          "cs.RO"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.09090909,
+        "provider_summary": "[research paper] This paper proposes an off-policy evaluation (OPE)-based framework to automate the selection of state spaces and reward functions in reinforcement learning for human-robot collaboration, using only logged interaction data. It evaluates multiple candidate representations and rewards via offline RL agents and OPE metrics (e.g., importance sampling, fitted-Q evaluation, doubly robust estimators), selecting configurations that yield high-performing policies without real-time human-in-the-loop interaction. Validated on both a controlled (Lunar Lander) and real-world (NASA-MATB-II) HRI environment, the method reduces deployment risk and trial-and-error costs in safety-critical domains by enabling data-driven, scalable RL design.",
+        "publication_year": 2026,
+        "title": "Formulating Reinforcement Learning for Human-Robot Collaboration through Off-Policy Evaluation"
+      },
+      {
+        "abstract": "Urban traffic congestion presents a significant challenge for modern cities, which impacts mobility and sustainability. Traditional traffic light control systems often fail to adapt to dynamic conditions, leading to inefficiencies. This paper proposes a novel deep reinforcement learning agent for traffic light control that addresses this limitation by explicitly integrating fairness considerations for both vehicular and pedestrian traffic. Unlike prior work, our approach dynamically balances these flows based on real-time demand, moving beyond systems focused solely on vehicles. Experimental results demonstrate that our agent effectively reduces congestion while ensuring equitable service for both the categories of road users. This research contributes to a practical and adaptable solution for intelligent traffic management within the framework of smart cities, paving the way for more efficient and inclusive urban mobility.",
+        "arxiv_id": "2605.10170",
+        "authors": [
+          "Matteo Cederle",
+          "Giacomo Scatto",
+          "Gian Antonio Susto"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.10170",
+        "categories": [
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.09090909,
+        "provider_summary": "[research paper] A deep reinforcement learning agent is designed to dynamically balance vehicular and pedestrian traffic flows at intersections by integrating fairness-aware reward shaping, enabling real-time adaptation to demand fluctuations. The method extends traditional RL-based traffic control with explicit fairness constraints between vehicle and pedestrian queues, using a multi-agent state representation that includes pedestrian detection and flow density, and employs a hierarchical action space to optimize phase durations and transition timing. Experimental results in simulation demonstrate superior congestion reduction and equitable service compared to baseline RL policies that prioritize vehicles alone.",
+        "publication_year": 2026,
+        "title": "Balancing Efficiency and Fairness in Traffic Light Control through Deep Reinforcement Learning"
+      },
+      {
+        "abstract": "Offline zero-shot reinforcement learning (RL) aims to learn agents that optimize unseen reward functions without additional environment interaction. The standard approach to this problem trains task-conditioned policies by sampling task vectors that define linear reward functions over learned state representations. In most existing algorithms, these task vectors are randomly sampled, implicitly assuming this adequately captures the structure of the task space. We argue that doing so leads to suboptimal zero-shot generalization. To address this limitation, we propose extracting task vectors directly from the offline dataset and using them to define the task distribution used for policy training. We introduce a simple and general reward function extraction procedure that integrates into existing offline zero-shot RL algorithms. Across multiple benchmark environments and baselines, our approach improves zero-shot performance by an average of 20%, highlighting the importance of principled task sampling in offline zero-shot RL.",
+        "arxiv_id": "2604.25496",
+        "authors": [
+          "Nazim Bendib",
+          "Nicolas Perrin-Gilbert",
+          "Olivier Sigaud"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.25496",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.08423913,
+        "provider_summary": "[research paper] The paper identifies a fundamental flaw in standard offline zero-shot RL: uniform sampling of task vectors from a high-dimensional hypersphere leads to 'signal dilution' due to the concentration of measure phenomenon, where most sampled tasks are orthogonal to achievable behaviors, resulting in weak or noisy reward signals. To fix this, it proposes Behavioral Task Distribution (BTD)—a method that extracts task vectors directly from the offline dataset to reflect only achievable behaviors—demonstrating a consistent +20% improvement in zero-shot performance across benchmarks without modifying representation learning or policy training pipelines.",
+        "publication_year": 2026,
+        "title": "Improving Zero-Shot Offline RL via Behavioral Task Sampling"
+      }
+    ],
+    "state_revision": 10
+  }
+}

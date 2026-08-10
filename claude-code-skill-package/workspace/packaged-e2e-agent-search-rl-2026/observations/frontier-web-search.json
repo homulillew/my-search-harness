@@ -1,0 +1,502 @@
+{
+  "command": "search-papers",
+  "ok": true,
+  "result": {
+    "hits": [
+      {
+        "abstract": "Large models are increasingly becoming autonomous agents that interact with real-world environments and use external tools to augment their static capabilities. However, most recent progress has focused on text-only large language models, which are limited to a single modality and therefore have narrower application scenarios. On the other hand, multimodal large models, while offering stronger perceptual capabilities, remain limited to static knowledge and lack the ability to access and leverage up-to-date web information. In this paper, we propose VSearcher, turning static multimodal model into multimodal search agent capable of long-horizon, multi-turn tool use in real-world web environments, including text search, image search, and web browsing, via reinforcement learning. Specifically, we introduce Iterative Injection Data Synthesis pipeline to generate large-scale, complex multimodal QA questions, which are further filtered with comprehensive metrics to ensure high quality and sufficient difficulty. We then adopt an SFT-then-RL training pipeline to turn base multimodal models to agent capable of multi-turn tool calling in real-world web environments. Besides, we propose a multimodal search benchmark MM-SearchExam dedicated to evaluating search capabilities of multimodal search agents, which proves highly challenging for recent proprietary models. Extensive evaluations across multiple multimodal search benchmarks reveal effectiveness of our method. VSearcher achieves superior performance compared to recent multimodal search agents and even surpasses several proprietary models on multimodal web search tasks.",
+        "arxiv_id": "2603.02795",
+        "authors": [
+          "Ruiyang Zhang",
+          "Qianguo Sun",
+          "Chao Song",
+          "Yiyan Qi",
+          "Zhedong Zheng"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.02795",
+        "categories": [
+          "cs.CV"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.7,
+        "provider_summary": "[research paper] VSearcher introduces an Iterative Injection-based Data Synthesis pipeline to automatically generate large-scale, complex multimodal browsing tasks by iteratively injecting hidden entities and visual cues from real-world web sources, enabling long-horizon, multi-turn tool use in real-world environments. The framework combines rejection fine-tuning with reinforcement learning (GRPO) to build a multimodal search agent capable of navigating text and image search, web browsing, and dynamic information retrieval, outperforming both recent open models and several proprietary agents on a newly proposed challenging benchmark, MM-SearchExam.",
+        "publication_year": 2026,
+        "title": "VSearcher: Long-Horizon Multimodal Search Agent via Reinforcement Learning"
+      },
+      {
+        "abstract": "Reinforcement Learning (RL) has emerged as a powerful training paradigm for LLM-based agents. However, scaling agentic RL for deep research remains constrained by two coupled challenges: hand-crafted synthetic data fails to elicit genuine real-world search capabilities, and real-world search dependency during RL training introduces instability and prohibitive cost, which limits the scalability of Agentic RL. LiteResearcher is a training framework that makes Agentic RL scalable: by constructing a lite virtual world that mirrors real-world search dynamics, we enable a continuously improving training recipe that empowers a tiny search agent to outperform large-scale open-source and commercial models (e.g., Tongyi DeepResearch and Claude-4.5 Sonnet). Specifically, on common benchmarks such as GAIA and Xbench, our LiteResearcher-4B achieves open-source state-of-the-art results of 71.3% and 78.0% respectively, demonstrating that scalable RL training is a key enabler for Deep Research Agents.",
+        "arxiv_id": "2604.17931",
+        "authors": [
+          "Wanli Li",
+          "Bince Qu",
+          "Bo Pan",
+          "Jianyu Zhang",
+          "Zheng Liu",
+          "Pan Zhang",
+          "Wei Chen",
+          "Bo Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.17931",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.5833334,
+        "provider_summary": "[Research Paper] LiteResearcher introduces a scalable agentic RL framework that constructs a virtual web environment to train deep research agents, enabling a 4B model to outperform larger open-source and commercial systems on GAIA and Xbench benchmarks. The framework synthesizes realistic search tasks, simulates a realistic search environment, and applies a difficulty‑aware curriculum RL to achieve sustained improvements.",
+        "publication_year": 2026,
+        "title": "LiteResearcher: A Scalable Agentic RL Training Framework for Deep Research Agent"
+      },
+      {
+        "abstract": "Reinforcement learning has recently gained traction as a means to improve combinatorial optimization methods, yet its effectiveness within local search metaheuristics specifically remains comparatively underexamined. In this study, we evaluate a range of reinforcement learning-based neighborhood selection strategies -- multi-armed bandits (upper confidence bound, $\\epsilon$-greedy) and deep reinforcement learning methods (proximal policy optimization, double deep $Q$-network) -- and compare them against multiple baselines across three different problems: the traveling salesman problem, the pickup and delivery problem with time windows, and the car sequencing problem. We show how search-specific characteristics, particularly large variations in cost due to constraint violation penalties, necessitate carefully designed reward functions to provide stable and informative learning signals. Our extensive experiments reveal that algorithm performance varies substantially across problems, although that $\\epsilon$-greedy consistently ranks among the best performers. In contrast, the computational overhead of deep reinforcement learning approaches only makes them competitive with a substantially longer runtime. These findings highlight both the promise and the practical limitations of deep reinforcement learning in local search.",
+        "arxiv_id": "2601.07948",
+        "authors": [
+          "Yannick Molinghen",
+          "Augustin Delecluse",
+          "Renaud De Landtsheer",
+          "Stefano Michelini"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.07948",
+        "categories": [
+          "cs.LG",
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.51666665,
+        "provider_summary": "[research paper] The paper evaluates reinforcement learning (RL)-based neighborhood selection strategies in local search metaheuristics across three combinatorial optimization problems—TSP, pickup and delivery with time windows, and car sequencing—finding that simple \\(\\epsilon\\)-greedy strategies outperform complex deep RL methods despite their higher computational cost. The study identifies that large cost variations due to constraint violations necessitate carefully designed reward functions to stabilize learning, and shows that deep RL approaches (PPO, DQN) only become competitive with significantly longer runtimes, highlighting practical limitations in real-world deployment.",
+        "publication_year": 2026,
+        "title": "Reinforcement Learning Methods for Neighborhood Selection in Local Search"
+      },
+      {
+        "abstract": "Training multimodal agents via reinforcement learning for knowledge-intensive visual reasoning is fundamentally hindered by the extreme sparsity of outcome-based supervision and the unpredictability of live web environments. To resolve these algorithmic and environmental bottlenecks, we introduce ProMMSearchAgent, establishing a novel Sim-to-Real training paradigm for multimodal search.\n  We decouple policy learning into a deterministic, local static sandbox. Crucially, to learn effectively within this constrained environment, we propose an introspective process-oriented reward. By probing the agent's own parametric knowledge boundaries, we generate dense behavioral metadata that explicitly rewards the correct cognitive decision, initiating a multimodal or text search only when visually or factually uncertain. Extensive experiments demonstrate that our locally-trained policy transfers zero-shot to the live Google Search API. ProMMSearchAgent achieves new SOTA performance, outperforming MMSearch-R1 by +5.1% on FVQA-test, +6.3% on InfoSeek, and +11.3% on MMSearch.",
+        "arxiv_id": "2604.20486",
+        "authors": [
+          "Wentao Yan",
+          "Shengqin Wang",
+          "Huichi Zhou",
+          "Yihang Chen",
+          "Kun Shao",
+          "Yuan Xie",
+          "Zhizhong Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.20486",
+        "categories": [
+          "cs.CV"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.4761905,
+        "provider_summary": "[research paper] ProMMSearchAgent introduces a Sim-to-Real training paradigm that decouples multimodal search agent training from live web APIs by using a static tool sandbox with precomputed multimodal cache. It resolves the reward-action mismatch in reinforcement learning by introducing an introspective process-oriented reward that rewards correct cognitive decisions—such as detecting visual or factual uncertainty—before tool invocation, based on empirical probing of the model’s parametric knowledge limits. This enables zero-shot transfer to live Google Search, achieving SOTA performance on VQA benchmarks with improved search calibration and reduced tool overuse.",
+        "publication_year": 2026,
+        "title": "ProMMSearchAgent: A Generalizable Multimodal Search Agent Trained with Process-Oriented Rewards"
+      },
+      {
+        "abstract": "Agentic retrieval-augmented generation (RAG) systems enable large language models (LLMs) to solve complex tasks through multi-step interaction with external retrieval tools. However, such multi-step interaction often involves redundant search steps, incurring substantial computational cost and latency. Prior work limits search depth (i.e., the number of search steps) to reduce cost, but this often leads to underexploration of complex questions. To address this, we first investigate how search depth affects accuracy and find a minimal sufficient search depth that defines an accuracy-efficiency trade-off, jointly determined by question complexity and the agent's capability. Furthermore, we propose AutoSearch, a reinforcement learning (RL) framework that evaluates each search step via self-generated intermediate answers. By a self-answering mechanism, AutoSearch identifies the minimal sufficient search depth and promotes efficient search by rewarding its attainment while penalizing over-searching. In addition, reward mechanisms are introduced to stabilize search behavior and improve answer quality on complex questions. Extensive experiments on multiple benchmarks show that AutoSearch achieves a superior accuracy-efficiency trade-off, alleviating over-searching while preserving search quality.",
+        "arxiv_id": "2604.17337",
+        "authors": [
+          "Jingbo Sun",
+          "Wenyue Chong",
+          "Songjun Tu",
+          "Qichao Zhang",
+          "Yaocheng Zhang",
+          "Jiajun Chai",
+          "Xiaohan Wang",
+          "Wei Lin",
+          "Guojun Yin",
+          "Dongbin Zhao"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.17337",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.34285715,
+        "provider_summary": "[research paper] AutoSearch introduces a self-answer-driven reinforcement learning framework that dynamically determines the minimal sufficient search depth in agentic RAG systems by generating intermediate answers at each retrieval step. It establishes an accuracy-efficiency trade-off by rewarding attainment of the minimal depth and penalizing over-searching, with a base reward stabilizing behavior and a quality-based reward improving performance on complex queries. Experiments show superior efficiency without sacrificing accuracy across single-hop and multi-hop QA tasks.",
+        "publication_year": 2026,
+        "title": "AutoSearch: Adaptive Search Depth for Efficient Agentic RAG via Reinforcement Learning"
+      },
+      {
+        "abstract": "In dynamic flow fields, various animals exhibit remarkable odor search capabilities despite relying on stochastic detections. Interestingly, there exists an optimal time window for integrating these detections that maximizes search efficiency. To understand the underlying mechanism, we investigate the navigation performance of Reinforcement Learning (RL) agents in unsteady flows under varying memory lengths and flow conditions. Without any predefined models, the agents develop a flow-assisted casting strategy and adaptively adjust both the geometry of their search trajectories and the concentration threshold for initiating casting to maximize the success rate. The agent's average speed toward the odor source exhibits a non-monotonic dependence on memory length, which can be explained by the \"sector-search\" model.",
+        "arxiv_id": "2605.18881",
+        "authors": [
+          "Changxu Zhao",
+          "Dongxiao Zhao",
+          "Xin Bian",
+          "Gaojin Li"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.18881",
+        "categories": [
+          "cs.LG",
+          "physics.flu-dyn"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.25,
+        "provider_summary": "[Research Paper] This study investigates how Reinforcement Learning agents with finite memory develop flow-assisted casting strategies for olfactory navigation in dynamic, unsteady flow fields. The authors demonstrate that agents adaptively optimize search trajectories and concentration thresholds, revealing a non-monotonic relationship between memory length and search efficiency explained by a sector-search model.",
+        "publication_year": 2026,
+        "title": "Emergence of a Flow-Assisted Casting Strategy for Olfactory Navigation via Memory-Augmented Reinforcement Learning"
+      },
+      {
+        "abstract": "The development of autonomous web agents, powered by Large Language Models (LLMs) and reinforcement learning (RL), represents a significant step towards general-purpose AI assistants. However, training these agents is severely hampered by the challenges of interacting with the live internet, which is inefficient, costly, and fraught with risks. Model-based reinforcement learning (MBRL) offers a promising solution by learning a world model of the environment to enable simulated interaction. This paper introduces DynaWeb, a novel MBRL framework that trains web agents through interacting with a web world model trained to predict naturalistic web page representations given agent actions. This model serves as a synthetic web environment where an agent policy can dream by generating vast quantities of rollout action trajectories for efficient online reinforcement learning. Beyond free policy rollouts, DynaWeb incorporates real expert trajectories from training data, which are randomly interleaved with on-policy rollouts during training to improve stability and sample efficiency. Experiments conducted on the challenging WebArena and WebVoyager benchmarks demonstrate that DynaWeb consistently and significantly improves the performance of state-of-the-art open-source web agent models. Our findings establish the viability of training web agents through imagination, offering a scalable and efficient way to scale up online agentic RL.",
+        "arxiv_id": "2601.22149",
+        "authors": [
+          "Hang Ding",
+          "Peidong Liu",
+          "Junqiao Wang",
+          "Ziwei Ji",
+          "Meng Cao",
+          "Rongzhao Zhang",
+          "Lynn Ai",
+          "Eric Yang",
+          "Tianyu Shi",
+          "Lei Yu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.22149",
+        "categories": [
+          "cs.CL",
+          "cs.AI"
+        ],
+        "citation_count": 3,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.18484849,
+        "provider_summary": "[research paper] DynaWeb introduces a model-based reinforcement learning framework that trains web agents using a learned world model to simulate realistic web page transitions via imagined rollouts, enabling efficient, safe, and scalable online policy optimization without direct live web interaction. The framework integrates policy-generated imagined trajectories with real expert demonstrations through random interleaving, significantly improving performance on WebArena and WebVoyager benchmarks while reducing reliance on costly and risky real-world exploration. Key innovations include a world model trained on structured accessibility trees for naturalistic state prediction and a novel online MBRL paradigm where imagination serves as first-class training experience.",
+        "publication_year": 2026,
+        "title": "DynaWeb: Model-Based Reinforcement Learning of Web Agents"
+      },
+      {
+        "abstract": "Deep research agents have shown remarkable potential in handling long-horizon tasks. However, state-of-the-art performance typically relies on online reinforcement learning (RL), which is financially expensive due to extensive API calls. While offline training offers a more efficient alternative, its progress is hindered by the scarcity of high-quality research trajectories. In this paper, we demonstrate that expensive online reinforcement learning is not all you need to build powerful research agents. To bridge this gap, we introduce a fully open-source suite designed for effective offline training. Our core contributions include DeepForge, a ready-to-use task synthesis framework that generates large-scale research queries without heavy preprocessing; and a curated collection of 66k QA pairs, 33k SFT trajectories, and 21k DPO pairs. Leveraging these resources, we train OffSeeker (8B), a model developed entirely offline. Extensive evaluations across six benchmarks show that OffSeeker not only leads among similar-sized agents but also remains competitive with 30B-parameter systems trained via heavy online RL.",
+        "arxiv_id": "2601.18467",
+        "authors": [
+          "Yuhang Zhou",
+          "Kai Zheng",
+          "Qiguang Chen",
+          "Mengkang Hu",
+          "Qingfeng Sun",
+          "Can Xu",
+          "Jingjing Chen"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.18467",
+        "categories": [
+          "cs.AI",
+          "cs.LG"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.18421054,
+        "provider_summary": "[research paper] The paper challenges the necessity of online reinforcement learning (RL) in deep research agent development by introducing OffSeeker, an 8B-parameter agent trained entirely offline using a novel task synthesis framework (DeepForge) and a large-scale, publicly released dataset of 66k QA pairs, 33k SFT trajectories, and 21k DPO pairs. DeepForge enables scalable, real-world web-based task generation without heavy preprocessing, overcoming limitations of static Wikipedia-based data. Evaluations show OffSeeker matches or surpasses performance of 30B-parameter online-RL agents on benchmarks like BrowseComp-zh, achieving 26.6 vs. 25.5, while eliminating API costs and enabling reproducible, accessible research.",
+        "publication_year": 2026,
+        "title": "OffSeeker: Online Reinforcement Learning Is Not All You Need for Deep Research Agents"
+      },
+      {
+        "abstract": "To fulfill user instructions, autonomous web agents must contend with the inherent complexity and volatile nature of real-world websites. Conventional paradigms predominantly rely on Supervised Fine-Tuning (SFT) or Offline Reinforcement Learning (RL) using static datasets. However, these methods suffer from severe distributional shifts, as offline trajectories fail to capture the stochastic state transitions and real-time feedback of unconstrained wide web environments. In this paper, we propose a robust Online Reinforcement Learning WebAgent, designed to optimize its policy through direct, iterative interactions with unconstrained wide websites. Our approach comprises three core innovations: 1) Hierarchical Multi-Task Fine-tuning: We curate a comprehensive mixture of datasets categorized by functional primitives -- Planning, Acting, and Grounding -- establishing a Vision-Language Model (VLM) with strong instruction-following capabilities for Web GUI tasks. 2) Online Agentic RL in the Wild: We develop an online interaction environment and fine-tune the VLM using a specialized RL pipeline. We introduce a Hybrid Reward Mechanism that combines a ground-truth-agnostic WebJudge for holistic outcome assessment with a Rule-based Decision Tree (RDT) for progress reward. This system effectively mitigates the credit assignment challenge in long-horizon navigation. Notably, our RL-enhanced model achieves a 38.1\\% success rate (pass@5) on WebArena, outperforming all existing monolithic baselines. 3) Operator Agent: We introduce a modular agentic framework, namely \\textbf{OpAgent}, orchestrating a Planner, Grounder, Reflector, and Summarizer. This synergy enables robust error recovery and self-correction, elevating the agent's performance to a new State-of-the-Art (SOTA) success rate of \\textbf{71.6\\%}.",
+        "arxiv_id": "2602.13559",
+        "authors": [
+          "Yuyu Guo",
+          "Wenjie Yang",
+          "Siyuan Yang",
+          "Ziyang Liu",
+          "Cheng Chen",
+          "Yuan Wei",
+          "Yun Hu",
+          "Yang Huang",
+          "Guoliang Hao",
+          "Dongsheng Yuan",
+          "Jianming Wang",
+          "Xin Chen",
+          "Hang Yu",
+          "Lei Lei",
+          "Peng Di"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.13559",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 3,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.18382353,
+        "provider_summary": "[research paper] OpAgent introduces a modular, online reinforcement learning framework for web navigation that overcomes distributional shifts in dynamic, volatile web environments by combining vision-language modeling with hierarchical multi-task fine-tuning and a hybrid reward mechanism. The framework uses a Planner, Grounder, Reflector, and Summarizer to enable self-correction and error recovery, achieving a 71.6% success rate on WebArena—outperforming all prior monolithic baselines—through real-time interaction, a WebJudge-based outcome evaluator, and a rule-based progress reward tree that mitigates credit assignment in long-horizon tasks.",
+        "publication_year": 2026,
+        "title": "OpAgent: Operator Agent for Web Navigation"
+      },
+      {
+        "abstract": "Agentic search -- the task of training agents that iteratively reason, issue queries, and synthesize retrieved information to answer complex questions -- has achieved remarkable progress through reinforcement learning (RL). However, existing approaches such as Search-R1, treat the retrieval system as a fixed tool, optimizing only the reasoning agent while the retrieval component remains unchanged. A preliminary experiment reveals that the gap between an oracle and a fixed retrieval system reaches up to +26.8% relative F1 improvement across seven QA benchmarks, suggesting that the retrieval system is a key bottleneck in scaling agentic search performance. Motivated by this finding, we propose CoSearch, a framework that jointly trains a multi-step reasoning agent and a generative document ranking model via Group Relative Policy Optimization (GRPO). To enable effective GRPO training for the ranker -- whose inputs vary across reasoning trajectories -- we introduce a semantic grouping strategy that clusters sub-queries by token-level similarity, forming valid optimization groups without additional rollouts. We further design a composite reward combining ranking quality signals with trajectory-level outcome feedback, providing the ranker with both immediate and long-term learning signals. Experiments on seven single-hop and multi-hop QA benchmarks demonstrate consistent improvements over strong baselines, with ablation studies validating each design choice. Our results show that joint training of the reasoning agent and retrieval system is both feasible and strongly performant, pointing to a key ingredient for future search agents.",
+        "arxiv_id": "2604.17555",
+        "authors": [
+          "Hansi Zeng",
+          "Liam Collins",
+          "Bhuvesh Kumar",
+          "Neil Shah",
+          "Hamed Zamani"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.17555",
+        "categories": [
+          "cs.AI",
+          "cs.CL",
+          "cs.IR"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.1736111,
+        "provider_summary": "[research paper] CoSearch introduces a joint reinforcement learning framework that co-trains a multi-step reasoning agent and a generative document ranker to overcome retrieval bottlenecks in agentic search. It addresses two key challenges: (1) semantic grouping of sub-queries by token-level F1 similarity to enable Group Relative Policy Optimization (GRPO) without additional rollouts, and (2) a composite reward combining immediate ranking quality (Hit@$k$) with trajectory-level answer correctness to align retrieval with downstream performance. Experiments on seven QA benchmarks show consistent F1 gains—up to +26.8% over fixed retrieval baselines—demonstrating that joint optimization of reasoning and retrieval significantly improves search effectiveness.",
+        "publication_year": 2026,
+        "title": "COSEARCH: Joint Training of Reasoning and Document Ranking via Reinforcement Learning for Agentic Search"
+      },
+      {
+        "abstract": "Protein analysis tasks arising in healthcare settings often require accurate reasoning under protein sequence constraints, involving tasks such as functional interpretation of disease-related variants, protein-level analysis for clinical research, and similar scenarios. To address such tasks, search agents are introduced to search protein-related information, providing support for disease-related variant analysis and protein function reasoning in protein-centric inference. However, such search agents are mostly limited to single-round, text-only modality search, which prevents the protein sequence modality from being incorporated as a multimodal input into the search decision-making process. Meanwhile, their reliance on reinforcement learning (RL) supervision that focuses solely on the final answer results in a lack of search process constraints, making deviations in keyword selection and reasoning directions difficult to identify and correct in a timely manner. To address these limitations, we propose ProtRLSearch, a multi-round protein search agent trained with multi-dimensional reward based RL, which jointly leverages protein sequence and text as multimodal inputs during real-time search to produce high quality reports. To evaluate the ability of models to integrate protein sequence information and text-based multimodal inputs in realistic protein query settings, we construct ProtMCQs, a benchmark of 3,000 multiple choice questions (MCQs) organized into three difficulty levels. The benchmark evaluates protein query tasks that range from sequence constrained reasoning about protein function and phenotype changes to comprehensive protein reasoning that integrates multi-dimensional sequence features with signal pathways and regulatory networks.",
+        "arxiv_id": "2603.01464",
+        "authors": [
+          "Congying Liu",
+          "Taihao Li",
+          "Ming Huang",
+          "Peipei Liu",
+          "Xingyuan Wei",
+          "Yiqing Shen",
+          "Yanxu Mao",
+          "Tiehan Cui"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.01464",
+        "categories": [
+          "cs.AI",
+          "cs.CL"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.16203704,
+        "provider_summary": "[research paper] ProtRLSearch introduces a multi-round, multimodal protein search agent that jointly processes protein sequences and text during real-time search, using reinforcement learning with multi-dimensional rewards (keywords, search tools, answer quality, format) to guide search planning and reasoning. Unlike prior text-only or single-round agents, it incorporates sequence-aware constraints in search decisions, enabling more accurate sequence-constrained functional and phenotypic reasoning. Evaluated on ProtMCQs (3,000 multimodal MCQs across three difficulty levels), the agent improves accuracy from 35.7% to 86.9% (level 1) and 26.1% to 72.5% (level 3), demonstrating superior integration of sequence and retrieval information in protein-centric tasks.",
+        "publication_year": 2026,
+        "title": "ProtRLSearch: A Multi-Round Multimodal Protein Search Agent with Large Language Models Trained via Reinforcement Learning"
+      },
+      {
+        "abstract": "Retrieval augmented generation (RAG) reduces hallucinations and factual errors in large language models (LLMs) by conditioning generation on retrieved external knowledge. Recent search agents further cast RAG as an autonomous, multi-turn information-seeking process. However, existing methods often accumulate irrelevant or noisy documents and rely on sparse reinforcement learning signals. We propose \\textbf{S}elf-\\textbf{E}volving \\textbf{Search}, a Self-Evolving Search agent that improves online search behavior through three components, memory purification, atomic query training, and dense rewards. SE-Search follows a \\textit{Think-Search-Memorize} strategy that retains salient evidence while filtering irrelevant content. Atomic query training promotes shorter and more diverse queries, improving evidence acquisition. Dense rewards provide fine-grained feedback that speeds training. Experiments on single-hop and multi-hop question answering benchmarks show that \\texttt{SE-Search-3B} outperforms strong baselines, yielding a $10.8$ point absolute improvement and a $33.8\\%$ relative gain over Search-R1.\\footnote{We will make the code and model weights publicly available upon acceptance.}",
+        "arxiv_id": "2603.03293",
+        "authors": [
+          "Jian Li",
+          "Yizhang Jin",
+          "Dongqi Liu",
+          "Hang Ding",
+          "Jiafu Wu",
+          "Dongsheng Chen",
+          "Yunhang Shen",
+          "Yulei Qin",
+          "Ying Tai",
+          "Chengjie Wang",
+          "Xiaotong Yuan",
+          "Yabiao Wang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.03293",
+        "categories": [
+          "cs.CL"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.16025642,
+        "provider_summary": "[research paper] SE-Search introduces a self-evolving search agent that enhances LLM-based information retrieval through memory purification, atomic query generation, and dense reward signals. It employs a Think-Search-Memorize loop to filter noisy results, promote diverse and adaptive queries, and provide fine-grained reinforcement learning feedback on query formulation, memory retention, formatting, and outcome quality, outperforming baselines by 10.8 absolute points and 33.8% relative gain on multi-hop QA benchmarks.",
+        "publication_year": 2026,
+        "title": "SE-Search: Self-Evolving Search Agent via Memory and Dense Reward"
+      },
+      {
+        "abstract": "While large language models (LLMs) augmented with agentic search capabilities show promise for legal reasoning, they overlook a fundamental constraint that applicable law must match the temporal context of each case, as retroactive application of statutes violates core legal principles and leads to erroneous conclusions. Our observations reveal that current legal LLMs suffer from temporal bias anchored to their training cutoff, while search agents rarely incorporate temporal constraints into queries, and that web search alone cannot provide the precise statute and precedent citations that legal reasoning demands. To address these challenges, we propose LegalSearch-R1, an end-to-end reinforcement learning framework that pairs local statute RAG for precise article matching with online web search for broader legal knowledge, trained on temporally-indexed data spanning multiple amendment periods to enforce temporal consistency. Extensive experiments on our benchmark covering 13 legal tasks demonstrate that our 7B-parameter agent outperforms state-of-the-art deep research frameworks and specialized legal LLMs by 12.9% to 29.8%, surpasses baselines by 57.7% to 80.3% on temporal consistency, and exhibits robust out-of-domain generalization. The code and data are available at https://github.com/AlexFanw/LegalSearch-R1.",
+        "arxiv_id": "2605.25920",
+        "authors": [
+          "Wei Fan",
+          "Yining Zhou",
+          "Mufan Zhang",
+          "Yanbing Weng",
+          "Yiran Hu",
+          "Tianshi Zheng",
+          "Baixuan Xu",
+          "Chunyang Li",
+          "Jianhui Yang",
+          "Haoran Li",
+          "Yangqiu Song"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.25920",
+        "categories": [
+          "cs.CL",
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.12040134,
+        "provider_summary": "[Research Paper] This paper introduces LegalSearch-R1, an end-to-end reinforcement learning framework designed to enhance temporal consistency in legal agentic search by combining local statute RAG with online web search. The approach addresses the critical issue of retroactive law application by training agents on temporally-indexed data to ensure applicable statutes match the specific temporal context of legal cases.",
+        "publication_year": 2026,
+        "title": "Can LLMs Time Travel? Enhancing Temporal Consistency in Legal Agentic Search through Reinforcement Learning"
+      },
+      {
+        "abstract": "Deep-research agents are capable of executing multi-step web exploration, targeted retrieval, and sophisticated question answering. Despite their powerful capabilities, deep-research agents face two critical bottlenecks: (1) the lack of large-scale, challenging datasets with real-world difficulty, and (2) the absence of accessible, open-source frameworks for data synthesis and agent training. To bridge these gaps, we first construct DeepResearch-9K, a large-scale challenging dataset specifically designed for deep-research scenarios built from open-source multi-hop question-answering (QA) datasets via a low-cost autonomous pipeline. Notably, it consists of (1) 9000 questions spanning three difficulty levels from L1 to L3 (2) high-quality search trajectories with reasoning chains from Tongyi-DeepResearch-30B-A3B, a state-of-the-art deep-research agent, and (3) verifiable answers. Furthermore, we develop an open-source training framework DeepResearch-R1 that supports (1) multi-turn web interactions, (2) different reinforcement learning (RL) approaches, and (3) different reward models such as rule-based outcome reward and LLM-as-judge feedback. Finally, empirical results demonstrate that agents trained on DeepResearch-9K under our DeepResearch-R1 achieve state-of-the-art results on challenging deep-research benchmarks. We release the DeepResearch-9K dataset on https://huggingface.co/datasets/artillerywu/DeepResearch-9K and the code of DeepResearch-R1 on https://github.com/Applied-Machine-Learning-Lab/DeepResearch-R1.",
+        "arxiv_id": "2603.01152",
+        "authors": [
+          "Tongzhou Wu",
+          "Yuhao Wang",
+          "Xinyu Ma",
+          "Xiuqiang He",
+          "Shuaiqiang Wang",
+          "Dawei Yin",
+          "Xiangyu Zhao"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.01152",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 3,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.114164904,
+        "provider_summary": "[research paper] DeepResearch-9K introduces a large-scale, multi-level benchmark dataset (9,000 questions across L₁–L₃ difficulty) generated via an autonomous pipeline from multi-hop QA datasets, featuring full search trajectories with reasoning chains and verifiable answers from a state-of-the-art deep-research agent. It addresses critical gaps in existing benchmarks by incorporating realistic tool-call frequency, extended reasoning chains, and dynamic web interaction, enabling more authentic evaluation of agent autonomy. The accompanying DeepResearch-R1 framework supports multi-turn web interactions, diverse reinforcement learning methods, and reward modeling (rule-based, LLM-as-judge), achieving state-of-the-art performance on deep-research tasks.",
+        "publication_year": 2026,
+        "title": "DeepResearch-9K: A Challenging Benchmark Dataset of Deep-Research Agent"
+      },
+      {
+        "abstract": "This paper investigates whether shallow neural network agents can master the card game Schnapsen and challenge a strong search-based baseline, RdeepBot, which uses Monte Carlo sampling and lookahead search. Guided by a progressively more complex experimental design, we first evaluate a supervised learning agent (MLPBot) trained on replay data and then a reinforcement learning agent (RLBot) with the same shallow architecture trained through asynchronous Monte Carlo updates and experience replay. The results show that supervised imitation does not generalize well enough to defeat strong RdeepBot opponents, whereas reinforcement learning produces substantially stronger agents. In the setting that focuses on the depth parameter of RdeepBot, the best performance is achieved when the learned value function is combined with deeper lookahead during gameplay, allowing RLBot to achieve statistically significant higher winning rates against the strongest evaluated RdeepBot baseline. In the sample-based setting, the gains are more conditional: the strongest performance appears at a relatively lower training num_samples parameter rather than increasing uniformly with stronger sampling.",
+        "arxiv_id": "2605.17162",
+        "authors": [
+          "Ján Klačan",
+          "Sizhong Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.17162",
+        "categories": [
+          "cs.AI",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.11111111,
+        "provider_summary": "[Research Paper] This study investigates whether shallow neural network agents can master the card game Schnapsen by comparing supervised imitation learning against reinforcement learning. The results demonstrate that while imitation learning fails to defeat strong search-based baselines, reinforcement learning with shallow architectures produces significantly stronger agents capable of challenging Monte Carlo search methods.",
+        "publication_year": 2026,
+        "title": "From Imitation to Interaction: Mastering Game of Schnapsen with Shallow Reinforcement Learning"
+      },
+      {
+        "abstract": "We present AutoResearch-RL, a framework in which a reinforcement learning agent conducts open-ended neural architecture and hyperparameter research without human supervision, running perpetually until a termination oracle signals convergence or resource exhaustion. At each step the agent proposes a code modification to a target training script, executes it under a fixed wall clock time budget, observes a scalar reward derived from validation bits-per-byte (val-bpb), and updates its policy via Proximal Policy Optimisation (PPO).\n  The key design insight is the separation of three concerns: (i) a frozen environment (data pipeline, evaluation protocol, and constants) that guarantees fair cross-experiment comparison; (ii) a mutable target file (train.py) that represents the agent's editable state; and (iii) a meta-learner (the RL agent itself) that accumulates a growing trajectory of experiment outcomes and uses them to inform subsequent proposals.\n  We formalise this as a Markov Decision Process, derive convergence guarantees under mild assumptions, and demonstrate empirically on a single GPU nanochat pretraining benchmark that AutoResearch-RL discovers configurations that match or exceed hand-tuned baselines after approximately 300 overnight iterations, with no human in the loop.",
+        "arxiv_id": "2603.07300",
+        "authors": [
+          "Nilesh Jain",
+          "Rohit Yadav",
+          "Sagar Kotian",
+          "Claude AI"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.07300",
+        "categories": [
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.110516936,
+        "provider_summary": "[research paper] AutoResearch-RL introduces a reinforcement learning framework where an agent autonomously discovers neural architecture and hyperparameter configurations by continuously modifying and evaluating training scripts in a perpetual loop. It formalizes the process as a Markov Decision Process with a frozen environment, mutable code target, and a meta-learner that learns research strategies via PPO, conditioned on full experiment history. The agent achieves convergence to or beyond hand-tuned baselines in ~300 overnight iterations on nanochat pretraining, with self-evaluation enabling up to 2.4× higher throughput by aborting unpromising runs early, and provides theoretical convergence guarantees under mild assumptions.",
+        "publication_year": 2026,
+        "title": "AutoResearch-RL: Perpetual Self-Evaluating Reinforcement Learning Agents for Autonomous Neural Architecture Discovery"
+      },
+      {
+        "abstract": "Reinforcement Learning (RL) has empowered Large Language Models (LLMs) to master autonomous search for complex question answering. However, particularly within multi-turn search scenarios, this interaction introduces a critical challenge: search results often suffer from high redundancy and low signal-to-noise ratios. Consequently, agents easily fall into \"Tunnel Vision,\" where the forced interpretation of early noisy retrievals leads to irreversible error accumulation. To address these challenges, we propose SIGHT, a framework that enhances search-based reasoning through Self-Evidence Support (SES) and Information-Gain Driven Diverse Branching. SIGHT distills search results into high-fidelity evidence via SES and calculates an Information Gain score to pinpoint pivotal states where observations maximally reduce uncertainty. This score guides Dynamic Prompting Interventions - including de-duplication, reflection, or adaptive branching - to spawn new branches with SES. Finally, by integrating SES and correctness rewards via Group Relative Policy Optimization, SIGHT internalizes robust exploration strategies without external verifiers. Experiments on single-hop and multi-hop QA benchmarks demonstrate that SIGHT significantly outperforms existing approaches, particularly in complex reasoning scenarios, using fewer search steps.",
+        "arxiv_id": "2602.11551",
+        "authors": [
+          "Wenlin Zhong",
+          "Jinluan Yang",
+          "Yiquan Wu",
+          "Yi Liu",
+          "Jianhang Yao",
+          "Kun Kuang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.11551",
+        "categories": [
+          "cs.CL"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.105128214,
+        "provider_summary": "[research paper] SIGHT introduces a noise-resilient exploration framework for search agents by combining Self-Evidence Support (SES) to filter noisy search results and Information-Gain (IG) scoring to identify pivotal states where observations reduce uncertainty. Instead of random branching, it uses dynamic prompting interventions—de-duplication, reflection, or adaptive branching—to guide exploration only toward high-information paths, preventing 'Tunnel Vision' and enabling efficient, correct multi-step reasoning with fewer search steps. The method is trained via Group Relative Policy Optimization (GRPO) without external verifiers, achieving superior performance on both single-hop and multi-hop QA benchmarks.",
+        "publication_year": 2026,
+        "title": "SIGHT: Reinforcement Learning with Self-Evidence and Information-Gain Diverse Branching for Search Agent"
+      },
+      {
+        "abstract": "We design a deep reinforcement learning algorithm to explore a high-dimensional integer lattice with sparse rewards, training a feedforward neural network as a dynamic search heuristic to steer exploration toward reward dense regions. We apply this to the discovery of Fano 4-fold hypersurfaces with terminal singularities, objects of central importance in algebraic geometry. Fano varieties with terminal singularities are fundamental building blocks of algebraic varieties, and explicit examples serve as a vital testing ground for the development and generalisation of theory. Despite decades of effort, the combinatorial intractability of the underlying search space has left this classification severely incomplete. Our reinforcement learning approach yields thousands of previously unknown examples, hundreds of which we show are inaccessible to known search methods.",
+        "arxiv_id": "2603.15437",
+        "authors": [
+          "Marc Truter"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.15437",
+        "categories": [
+          "math.AG",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.1,
+        "provider_summary": "[research paper] A deep reinforcement learning (DRL) agent is trained as a dynamic heuristic to navigate a 6-dimensional integer lattice search space for Fano 4-fold hypersurfaces with terminal singularities, exploiting spatial clustering of sparse reward points. The DRL model uses temporal difference learning to adaptively refine its search policy, enabling discovery of hundreds of previously inaccessible nonquasismooth examples—many beyond reach of fixed heuristic or exhaustive methods—by smoothing reward variance and promoting exploration into high-complexity, underexplored regions of the lattice.",
+        "publication_year": 2026,
+        "title": "Deep Reinforcement Learning for Fano Hypersurfaces"
+      },
+      {
+        "abstract": "Large language models (LLMs) are probabilistic in nature and perform more reliably when augmented with external information. As complex queries often require multi-step reasoning over the retrieved information, with no clear or predetermined reasoning path, they remain challenging. Recent approaches train models using reinforcement learning on the model's outcome, showing promise in improving how models handle complex information. We introduce SubSearch, a specialized framework that shifts from outcome-only supervision to intermediate reward signals that incentivize planning high-quality reasoning. Unlike previous work on process reward modeling, which focuses on training a separate reward model with annotated trajectories by either human annotators or large LLM judges, SubSearch directly optimizes the generator using intrinsic process rewards, which we define as internally-derived rewards, eliminating the need for external supervision, and moving towards autonomous information-intensive reasoning. Experiments on seven benchmarks show that rewarding intermediate reasoning steps with intrinsic rewards leads to more robust reasoning traces in both QA and multi-hop QA datasets over using only outcome rewards. SubSearch can help in building reasoning traces that allow agents to better integrate search engines for complex query answering, while offering a data-efficient alternative to supervised process modeling.",
+        "arxiv_id": "2604.07415",
+        "authors": [
+          "Roxana Petcu",
+          "Evangelos Kanoulas",
+          "Maarten de Rijke"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.07415",
+        "categories": [
+          "cs.IR",
+          "cs.AI",
+          "cs.CL"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.1,
+        "provider_summary": "[research paper] SubSearch introduces a reinforcement learning framework that replaces outcome-only rewards with intrinsic, internally derived intermediate rewards to guide multi-step reasoning in search agents. By decomposing complex queries into subqueries and assigning process-level rewards based on reasoning structure, it enables autonomous, data-efficient reasoning without external supervision, reducing reward hacking and improving trace robustness across seven benchmarks in QA and multi-hop QA tasks.",
+        "publication_year": 2026,
+        "title": "SubSearch: Intermediate Rewards for Unsupervised Guided Reasoning in Complex Retrieval"
+      },
+      {
+        "abstract": "Deep Research systems based on web agents have shown strong potential in solving complex information-seeking tasks, yet their search efficiency remains underexplored. We observe that many state-of-the-art open-source web agents rely on long tool-call trajectories with cyclic reasoning loops and exploration of unproductive branches. To address this, we propose WebClipper, a framework that compresses web agent trajectories via graph-based pruning. Concretely, we model the agent's search process as a state graph and cast trajectory optimization as a minimum-necessary Directed Acyclic Graph (DAG) mining problem, yielding pruned trajectories that preserve essential reasoning while eliminating redundant steps. Continued training on these refined trajectories enables the agent to evolve toward more efficient search patterns and reduces tool-call rounds by about 20% while improving accuracy. Furthermore, we introduce a new metric called F-AE Score to measure the model's overall performance in balancing accuracy and efficiency. Experiments demonstrate that WebClipper compresses tool-call rounds under excellent performance, providing practical insight into balancing effectiveness and efficiency in web agent design.",
+        "arxiv_id": "2602.12852",
+        "authors": [
+          "Junjie Wang",
+          "Zequn Xie",
+          "Dan Yang",
+          "Jie Feng",
+          "Yue Shen",
+          "Duolin Sun",
+          "Meixiu Long",
+          "Yihan Jiao",
+          "Zhehao Tan",
+          "Jian Wang",
+          "Peng Wei",
+          "Jinjie Gu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.12852",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.083774254,
+        "provider_summary": "[research paper] WebClipper introduces a graph-based trajectory pruning framework that models web agent search processes as state graphs and mines a minimum-necessary Directed Acyclic Graph (MNDAG) to eliminate cyclic reasoning loops and unproductive branches. By pruning redundant tool calls and retraining on refined trajectories, the framework reduces tool-call rounds by ~20% while preserving or improving accuracy, and introduces the F-AE Score as a unified metric to evaluate the accuracy-efficiency trade-off in agent design.",
+        "publication_year": 2026,
+        "title": "WebClipper: Efficient Evolution of Web Agents with Graph-based Trajectory Pruning"
+      }
+    ],
+    "state_revision": 2
+  }
+}

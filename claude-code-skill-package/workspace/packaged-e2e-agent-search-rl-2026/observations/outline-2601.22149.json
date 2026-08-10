@@ -1,0 +1,62 @@
+{
+  "command": "inspect-source",
+  "ok": true,
+  "result": {
+    "outline": {
+      "paper_ref": "paper_34cb7e7f-31dd-48ed-88f4-e0fa89cc0442",
+      "sections": [
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Introduction"
+          },
+          "title": "Introduction"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Related work"
+          },
+          "title": "Related work"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Method"
+          },
+          "title": "Method"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Experiments"
+          },
+          "title": "Experiments"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Analysis"
+          },
+          "title": "Analysis"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Conclusion"
+          },
+          "title": "Conclusion"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix A More Details About DynaWeb"
+          },
+          "title": "Appendix A More Details About DynaWeb"
+        }
+      ],
+      "total_tokens": 16677
+    },
+    "state_revision": 19
+  }
+}

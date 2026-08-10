@@ -1,0 +1,483 @@
+{
+  "command": "search-papers",
+  "ok": true,
+  "result": {
+    "hits": [
+      {
+        "abstract": "Efficiently acquiring external knowledge and up-to-date information is essential for effective reasoning and text generation in large language models (LLMs). Prompting advanced LLMs with reasoning capabilities to use search engines during inference is often suboptimal, as the LLM might not fully possess the capability on how to interact optimally with the search engine. This paper introduces Search-R1, an extension of reinforcement learning (RL) for reasoning frameworks where the LLM learns to autonomously generate (multiple) search queries during step-by-step reasoning with real-time retrieval. Search-R1 optimizes LLM reasoning trajectories with multi-turn search interactions, leveraging retrieved token masking for stable RL training and a simple outcome-based reward function. Experiments on seven question-answering datasets show that Search-R1 improves performance by 41% (Qwen2.5-7B) and 20% (Qwen2.5-3B) over various RAG baselines under the same setting. This paper further provides empirical insights into RL optimization methods, LLM choices, and response length dynamics in retrieval-augmented reasoning. The code and model checkpoints are available at https://github.com/PeterGriffinJin/Search-R1.",
+        "arxiv_id": "2503.09516",
+        "authors": [
+          "Bowen Jin",
+          "Hansi Zeng",
+          "Zhenrui Yue",
+          "Jinsung Yoon",
+          "Sercan Ö. Arık",
+          "Dong Wang",
+          "Hamed Zamani",
+          "Jiawei Han"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2503.09516",
+        "categories": [
+          "cs.CL",
+          "cs.AI",
+          "cs.IR"
+        ],
+        "citation_count": 966,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.6666667,
+        "provider_summary": "[research paper] Search-R1 introduces a reinforcement learning framework that enables large language models to autonomously generate search queries during step-by-step reasoning, interleaving LLM token generation with real-time search engine retrieval. It addresses key challenges in RL-based search-and-reasoning by using retrieved token masking for stable training, supporting multi-turn search-reasoning loops via structured token delimiters, and employing a simple outcome-based reward function that outperforms RAG baselines by 20–24% across seven question-answering datasets, with empirical insights into LLM selection, response length, and RL method efficacy.",
+        "publication_year": 2025,
+        "title": "Search-R1: Training LLMs to Reason and Leverage Search Engines with Reinforcement Learning"
+      },
+      {
+        "abstract": "Existing Large Reasoning Models (LRMs) have shown the potential of reinforcement learning (RL) to enhance the complex reasoning capabilities of Large Language Models~(LLMs). While they achieve remarkable performance on challenging tasks such as mathematics and coding, they often rely on their internal knowledge to solve problems, which can be inadequate for time-sensitive or knowledge-intensive questions, leading to inaccuracies and hallucinations. To address this, we propose \\\\textbf{R1-Searcher}, a novel two-stage outcome-based RL approach designed to enhance the search capabilities of LLMs. This method allows LLMs to autonomously invoke external search systems to access additional knowledge during the reasoning process. Our framework relies exclusively on RL, without requiring process rewards or distillation for a cold start. % effectively generalizing to out-of-domain datasets and supporting both Base and Instruct models. Our experiments demonstrate that our method significantly outperforms previous strong RAG methods, even when compared to the closed-source GPT-4o-mini.",
+        "arxiv_id": "2503.05592",
+        "authors": [
+          "Huatong Song",
+          "Jinhao Jiang",
+          "Yingqian Min",
+          "Jie Chen",
+          "Zhipeng Chen",
+          "Wayne Xin Zhao",
+          "Lei Fang",
+          "Ji-Rong Wen"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2503.05592",
+        "categories": [
+          "cs.AI",
+          "cs.CL",
+          "cs.IR"
+        ],
+        "citation_count": 226,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.5,
+        "provider_summary": "[research paper] R1-Searcher introduces a two-stage outcome-based reinforcement learning framework to incentivize LLMs to autonomously invoke external search systems during reasoning, without relying on supervised fine-tuning or distillation. The first stage uses a retrieve-only reward to teach retrieval invocation patterns, while the second stage employs an answer-based reward to refine the integration of retrieved knowledge for accurate responses. The method achieves superior performance on multi-hop QA benchmarks, outperforming GPT-4o-mini by up to 48.22% on HotpotQA and demonstrates strong generalization to out-of-domain and online search scenarios via a retrieval-environment-aware training design.",
+        "publication_year": 2025,
+        "title": "R1-Searcher: Incentivizing the Search Capability in LLMs via Reinforcement Learning"
+      },
+      {
+        "abstract": "Large Language Models (LLMs) have emerged as one of the most significant technological advancements in artificial intelligence in recent years. Their ability to understand, generate, and reason with natural language has transformed how we interact with AI systems. With the development of LLM-based agents and reinforcement-learning-based reasoning models, the study of applying reinforcement learning in agent frameworks has become a new research focus. However, all previous studies face the challenge of deciding the tool calling process and the reasoning process simultaneously, and the chain of reasoning was solely relied on the unprocessed raw result with redundant information and symbols unrelated to the task from the tool, which impose a heavy burden on the model's capability to reason. Therefore, in our research, we proposed a hierarchical framework Agent-as-tool that detach the tool calling process and the reasoning process, which enables the model to focus on the verbally reasoning process while the tool calling process is handled by another agent. Our work had achieved comparable results with only a slight reinforcement fine-tuning on 180 samples, and had achieved exceptionally well performance in Bamboogle with 63.2% of exact match and 75.2% in cover exact match, exceeding Search-R1 by 4.8% in exact match and 3.2% in cover exact match.",
+        "arxiv_id": "2507.01489",
+        "authors": [
+          "Yanfei Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2507.01489",
+        "categories": [
+          "cs.AI",
+          "cs.MA"
+        ],
+        "citation_count": 4,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.5,
+        "provider_summary": "[research paper] The paper proposes Agent-as-tool, a hierarchical agent framework that decouples tool calling and reasoning into separate Planner and Toolcaller agents. The Planner performs natural language reasoning and tool invocation decisions, while the Toolcaller handles external tool execution (e.g., web search) and returns structured observations, eliminating noisy, unstructured raw outputs. This separation simplifies reinforcement learning by isolating objectives and improves reasoning quality; the framework achieves state-of-the-art performance on Bamboogle with only 180 samples of GRPO fine-tuning, outperforming Search-R1 by 4.8% in exact match and 3.2% in cover exact match.",
+        "publication_year": 2025,
+        "title": "Agent-as-Tool: A Study on the Hierarchical Decision Making with Reinforcement Learning"
+      },
+      {
+        "abstract": "Multi-step agentic retrieval systems based on large language models (LLMs) have demonstrated remarkable performance in complex information search tasks. However, these systems still face significant challenges in practical applications, particularly in generating factually inconsistent intermediate queries and inefficient search trajectories, which can lead to reasoning deviations or redundant computations. To address these issues, we propose DynaSearcher, an innovative search agent enhanced by dynamic knowledge graphs and multi-reward reinforcement learning (RL). Specifically, our system leverages knowledge graphs as external structured knowledge to guide the search process by explicitly modeling entity relationships, thereby ensuring factual consistency in intermediate queries and mitigating biases from irrelevant information. Furthermore, we employ a multi-reward RL framework for fine-grained control over training objectives such as retrieval accuracy, efficiency, and response quality. This framework promotes the generation of high-quality intermediate queries and comprehensive final answers, while discouraging unnecessary exploration and minimizing information omissions or redundancy. Experimental results demonstrate that our approach achieves state-of-the-art answer accuracy on six multi-hop question answering datasets, matching frontier LLMs while using only small-scale models and limited computational resources. Furthermore, our approach demonstrates strong generalization and robustness across diverse retrieval environments and larger-scale models, highlighting its broad applicability.",
+        "arxiv_id": "2507.17365",
+        "authors": [
+          "Chuzhan Hao",
+          "Wenfeng Feng",
+          "Yuewei Zhang",
+          "Hao Wang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2507.17365",
+        "categories": [
+          "cs.LG",
+          "cs.AI"
+        ],
+        "citation_count": 7,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.25,
+        "provider_summary": "[research paper] DynaSearcher introduces a dynamic knowledge graph-augmented search agent using multi-reward reinforcement learning to enforce factual consistency and efficient reasoning in multi-hop question answering. By explicitly modeling entity relationships in knowledge graphs, it ensures intermediate queries remain factually aligned and reduces noise-induced deviations. A multi-reward RL framework simultaneously optimizes retrieval accuracy, search efficiency, and final response quality through gain and penalty signals, enabling fine-grained trajectory control and suppressing redundant or incomplete exploration—resulting in state-of-the-art performance across six datasets with strong generalization to diverse environments and larger models.",
+        "publication_year": 2025,
+        "title": "DynaSearcher: Dynamic Knowledge Graph Augmented Search Agent via Multi-Reward Reinforcement Learning"
+      },
+      {
+        "abstract": "Large Language Models (LLMs) are powerful but prone to hallucinations due to static knowledge. Retrieval-Augmented Generation (RAG) helps by injecting external information, but current methods often are costly, generalize poorly, or ignore the internal knowledge of the model. In this paper, we introduce R1-Searcher++, a novel framework designed to train LLMs to adaptively leverage both internal and external knowledge sources. R1-Searcher++ employs a two-stage training strategy: an initial SFT Cold-start phase for preliminary format learning, followed by RL for Dynamic Knowledge Acquisition. The RL stage uses outcome-supervision to encourage exploration, incorporates a reward mechanism for internal knowledge utilization, and integrates a memorization mechanism to continuously assimilate retrieved information, thereby enriching the model's internal knowledge. By leveraging internal knowledge and external search engine, the model continuously improves its capabilities, enabling efficient retrieval-augmented reasoning. Our experiments demonstrate that R1-Searcher++ outperforms previous RAG and reasoning methods and achieves efficient retrieval. The code is available at https://github.com/RUCAIBox/R1-Searcher-plus.",
+        "arxiv_id": "2505.17005",
+        "authors": [
+          "Huatong Song",
+          "Jinhao Jiang",
+          "Wenqing Tian",
+          "Zhipeng Chen",
+          "Yuhuan Wu",
+          "Jiahao Zhao",
+          "Yingqian Min",
+          "Wayne Xin Zhao",
+          "Lei Fang",
+          "Ji-Rong Wen"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2505.17005",
+        "categories": [
+          "cs.CL",
+          "cs.AI",
+          "cs.IR"
+        ],
+        "citation_count": 28,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.25,
+        "provider_summary": "[research paper] R1-Searcher++ introduces a two-stage training framework that enables LLMs to dynamically switch between internal and external knowledge: an SFT cold-start phase ensures format compliance, followed by outcome-supervised reinforcement learning that incentivizes internal knowledge use when confident and external search when uncertain. A memory mechanism converts retrieved content into internal knowledge, enabling continuous self-improvement through memorization. Experiments on Qwen-2.5-7B-Instruct show 4.3% accuracy gains over baselines and a 42.9% reduction in retrieval counts compared to vanilla RL methods, demonstrating efficient, self-sustaining knowledge acquisition.",
+        "publication_year": 2025,
+        "title": "R1-Searcher++: Incentivizing the Dynamic Knowledge Acquisition of LLMs via Reinforcement Learning"
+      },
+      {
+        "abstract": "Large Language Models (LLMs) have demonstrated remarkable capabilities across various tasks, while LLMs remain prone to generating hallucinated or outdated responses due to their static internal knowledge. Recent advancements in Retrieval-Augmented Generation (RAG) methods have aimed to enhance models' search and reasoning capabilities through reinforcement learning (RL). Although these methods demonstrate promising results, they face challenges in training stability and encounter issues such as substantial inference time and restricted capabilities due to reliance on single-query mode. In this paper, we propose RAG-R1, a novel training framework designed to enable LLMs to adaptively leverage internal and external knowledge during the reasoning process. We further expand the generation and retrieval processes within the framework from single-query mode to multi-query parallelism, with the aim of reducing inference time and enhancing the model's capabilities. Extensive experiments on seven question-answering benchmarks demonstrate that our method outperforms the strongest baseline by up to 13.2% and decreases inference time by 11.1%.",
+        "arxiv_id": "2507.02962",
+        "authors": [
+          "Zhiwen Tan",
+          "Jiaming Huang",
+          "Qintong Wu",
+          "Hongxuan Zhang",
+          "Chenyi Zhuang",
+          "Jinjie Gu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2507.02962",
+        "categories": [
+          "cs.CL",
+          "cs.AI",
+          "cs.IR"
+        ],
+        "citation_count": 10,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.2,
+        "provider_summary": "[research paper] RAG-R1 introduces a multi-query parallelism framework that transforms single-query retrieval in RAG systems into parallel, adaptive search-reasoning pipelines, enabling LLMs to dynamically leverage both internal and external knowledge during generation. By integrating format-learning SFT and outcome-based reinforcement learning, the method reduces retrieval rounds by up to 40% and inference time by 11.1% while improving accuracy on seven QA benchmarks—outperforming state-of-the-art baselines by up to 13.2%—by simultaneously exploring diverse knowledge paths in parallel rather than sequentially.",
+        "publication_year": 2025,
+        "title": "RAG-R1: Incentivizing the Search and Reasoning Capabilities of LLMs through Multi-query Parallelism"
+      },
+      {
+        "abstract": "Recently, large reasoning models have demonstrated strong mathematical and coding abilities, and deep search leverages their reasoning capabilities in challenging information retrieval tasks. Existing deep search works are generally limited to a single knowledge source, either local or the Web. However, enterprises often require private deep search systems that can leverage search tools over both local and the Web corpus. Simply training an agent equipped with multiple search tools using flat reinforcement learning (RL) is a straightforward idea, but it has problems such as low training data efficiency and poor mastery of complex tools. To address the above issue, we propose a hierarchical agentic deep search framework, HierSearch, trained with hierarchical RL. At the low level, a local deep search agent and a Web deep search agent are trained to retrieve evidence from their corresponding domains. At the high level, a planner agent coordinates low-level agents and provides the final answer. Moreover, to prevent direct answer copying and error propagation, we design a knowledge refiner that filters out hallucinations and irrelevant evidence returned by low-level agents. Experiments show that HierSearch achieves better performance compared to flat RL, and outperforms various deep search and multi-source retrieval-augmented generation baselines in six benchmarks across general, finance, and medical domains.",
+        "arxiv_id": "2508.08088",
+        "authors": [
+          "Jiejun Tan",
+          "Zhicheng Dou",
+          "Yan Yu",
+          "Jiehan Cheng",
+          "Qiang Ju",
+          "Jian Xie",
+          "Ji-Rong Wen"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2508.08088",
+        "categories": [
+          "cs.IR",
+          "cs.AI",
+          "cs.CL"
+        ],
+        "citation_count": 5,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.2,
+        "provider_summary": "[research paper] HierSearch introduces a hierarchical agentic framework for multi-source deep search, where local and Web search agents operate at the low level to retrieve evidence from domain-specific corpora, and a planner agent at the high level coordinates retrieval, integrates evidence, and generates answers. Hierarchical reinforcement learning (HRL) enables efficient training by decoupling domain-specific tool mastery from cross-source planning, while a reasoning-aware knowledge refiner filters hallucinations and irrelevant evidence to prevent error propagation. The framework outperforms flat RL and multi-source baselines across general, financial, and medical benchmarks by leveraging structured agent collaboration and selective knowledge filtering.",
+        "publication_year": 2025,
+        "title": "HierSearch: A Hierarchical Enterprise Deep Search Framework Integrating Local and Web Searches"
+      },
+      {
+        "abstract": "Reasoning models have gained significant attention due to their strong performance, particularly when enhanced with retrieval augmentation. However, these models often incur high computational costs, as both retrieval and reasoning tokens contribute substantially to the overall resource usage. In this work, we make the following contributions: (1) we propose a retrieval-augmented reasoning model that dynamically adjusts the length of the retrieved document list based on the query and retrieval results; (2) we develop a cost-aware advantage function for training of efficient retrieval-augmented reasoning models through reinforcement learning; and (3) we explore both memory- and latency-bound implementations of the proposed cost-aware framework for both proximal and group relative policy optimization algorithms. We evaluate our approach on seven public question answering datasets and demonstrate significant efficiency gains, without compromising effectiveness. In fact, we observed that the model latency decreases by ~16-20% across datasets, while its effectiveness increases by ~5% on average, in terms of exact match.",
+        "arxiv_id": "2510.15719",
+        "authors": [
+          "Helia Hashemi",
+          "Victor Rühle",
+          "Saravan Rajmohan"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2510.15719",
+        "categories": [
+          "cs.CL",
+          "cs.IR"
+        ],
+        "citation_count": 2,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.16666667,
+        "provider_summary": "[research paper] The paper proposes Dynamic Search-R1, a reinforcement learning-based extension of Search-R1 that dynamically adjusts retrieval depth based on query context and retrieval results. It introduces cost-aware advantage functions—both memory-bound (minimizing total tokens) and latency-bound (separating generation and retrieval token latencies)—to optimize efficiency during training via PPO and GRPO. Experiments on seven QA datasets show 16–20% latency reduction and 5% improvement in exact match accuracy, with latency-bound cost modeling outperforming memory-bound due to the 600%+ latency gap between token generation and retrieval encoding.",
+        "publication_year": 2025,
+        "title": "Cost-Aware Retrieval-Augmentation Reasoning Models with Adaptive Retrieval Depth"
+      },
+      {
+        "abstract": "Multi-hop claim verification is inherently challenging, requiring multi-step reasoning to construct verification chains while iteratively searching for information to uncover hidden bridging facts. This process is fundamentally interleaved, as effective reasoning relies on dynamically retrieved evidence, while effective search demands reasoning to refine queries based on partial information. To achieve this, we propose Hierarchical Agent Reasoning and Information Search (HARIS), explicitly modeling the coordinated process of reasoning-driven searching and search-informed reasoning. HARIS consists of a high-level reasoning agent that focuses on constructing the main verification chain, generating factual questions when more information is needed, and a low-level search agent that iteratively retrieves more information, refining its search based on intermediate findings. This design allows each agent to specialize in its respective task, enhancing verification accuracy and interpretability. HARIS is trained using reinforcement learning with outcome-based rewards. Experimental results on the EX-FEVER and HOVER benchmarks demonstrate that HARIS achieves strong performance, greatly advancing multi-hop claim verification.",
+        "arxiv_id": "2506.07528",
+        "authors": [
+          "Qisheng Hu",
+          "Quanyu Long",
+          "Wenya Wang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2506.07528",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 3,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.16666667,
+        "provider_summary": "[research paper] HARIS introduces a hierarchical agent framework for multi-hop claim verification, decoupling reasoning and search into specialized LLM agents that iteratively collaborate. The high-level reasoning agent constructs verification chains and generates factual questions, while the low-level search agent retrieves and refines evidence through dynamic query iteration, with both agents trained end-to-end via reinforcement learning using group relative policy optimization and outcome-based rewards. This coordination enables accurate identification of implicit bridging facts—critical for complex claims—by modeling the reciprocal feedback loop between reasoning-driven search and search-informed reasoning, outperforming decomposition-based and static reasoning methods on EX-FEVER and HOVER benchmarks.",
+        "publication_year": 2025,
+        "title": "Coordinating Search-Informed Reasoning and Reasoning-Guided Search in Claim Verification"
+      },
+      {
+        "abstract": "Recent advances in reinforcement learning (RL) have significantly enhanced the agentic capabilities of large language models (LLMs). In long-term and multi-turn agent tasks, existing approaches driven solely by outcome rewards often suffer from the problem of sparse supervision. To address the challenge, we propose Tree-based Group Relative Policy Optimization (Tree-GRPO), a grouped agent RL method based on tree search, where each tree node represents the complete agent interaction step. By sharing common prefixes, the tree search sampling increases the number of rollouts achievable within a fixed budget of tokens or tool calls. Moreover, we find that the tree-structured trajectory naturally allows the construction of step-wise process supervised signals even using only the outcome reward. Based on this, Tree-GRPO estimates the grouped relative advantages both on intra-tree and inter-tree levels. Through theoretical analysis, we demonstrate that the objective of intra-tree level group relative policy optimization is equivalent to that of step-level direct preference learning. Experiments across 11 datasets and 3 types of QA tasks demonstrate the superiority of the proposed tree-based RL over the chain-based RL method.",
+        "arxiv_id": "2509.21240",
+        "authors": [
+          "Yuxiang Ji",
+          "Ziyu Ma",
+          "Yong Wang",
+          "Guanhua Chen",
+          "Xiangxiang Chu",
+          "Liaoni Wu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2509.21240",
+        "categories": [
+          "cs.LG",
+          "cs.AI"
+        ],
+        "citation_count": 33,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.16459627,
+        "provider_summary": "[research paper] Tree-GRPO introduces a tree-search-based rollout strategy for multi-turn LLM agent reinforcement learning, where each node represents a complete Thought-Action-Observation step, enabling shared prefixes that reduce token and tool-call budgets by up to 1.5× compared to chain-based methods. By back-propagating outcome rewards across sibling branches, it constructs fine-grained, step-wise process supervision signals without additional labels, achieving implicit preference learning at varying granularities via intra- and inter-tree relative advantage estimation. Theoretical and empirical results show consistent performance gains across 11 datasets and 3 QA task types, with a base model achieving superior results under a quarter of the rollout budget without supervised fine-tuning.",
+        "publication_year": 2025,
+        "title": "Tree Search for LLM Agent Reinforcement Learning"
+      },
+      {
+        "abstract": "Recently DeepSeek R1 has shown that reinforcement learning (RL) can substantially improve the reasoning capabilities of Large Language Models (LLMs) through a simple yet effective design. The core of R1 lies in its rule-based reward formulation, which leverages tasks with deterministic ground-truth answers to enable precise and stable reward computation. In the visual domain, we similarly observe that a wide range of visual understanding tasks are inherently equipped with well-defined ground-truth annotations. This property makes them naturally compatible with rule-based reward mechanisms. Motivated by this observation, we investigate the extension of R1-style reinforcement learning to Vision-Language Models (VLMs), aiming to enhance their visual reasoning capabilities. To this end, we develop VLM-R1, a dedicated framework designed to harness RL for improving VLMs' performance on general vision-language tasks. Using this framework, we further explore the feasibility of applying RL to visual domain. Experimental results indicate that the RL-based model not only delivers competitive performance on visual understanding tasks but also surpasses Supervised Fine-Tuning (SFT) in generalization ability. Furthermore, we conduct comprehensive ablation studies that uncover a series of noteworthy insights, including the presence of reward hacking in object detection, the emergence of the \"OD aha moment\", the impact of training data quality, and the scaling behavior of RL across different model sizes. Through these analyses, we aim to deepen the understanding of how reinforcement learning enhances the capabilities of vision-language models, and we hope our findings and open-source contributions will support continued progress in the vision-language RL community. Our code and model are available at https://github.com/om-ai-lab/VLM-R1",
+        "arxiv_id": "2504.07615",
+        "authors": [
+          "Haozhan Shen",
+          "Peng Liu",
+          "Jingcheng Li",
+          "Chunxin Fang",
+          "Yibo Ma",
+          "Jiajia Liao",
+          "Qiaoli Shen",
+          "Zilun Zhang",
+          "Kangjia Zhao",
+          "Qianqian Zhang",
+          "Ruochen Xu",
+          "Tiancheng Zhao"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2504.07615",
+        "categories": [
+          "cs.CV",
+          "cs.CL"
+        ],
+        "citation_count": 431,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.14285715,
+        "provider_summary": "[research paper] VLM-R1 introduces a rule-based reinforcement learning framework for Vision-Language Models (VLMs), leveraging deterministic ground-truth annotations in visual tasks to enable stable reward signals. The framework achieves superior performance and generalization over supervised fine-tuning (SFT) on Referring Expression Compression (REC) and Open-Vocabulary Object Detection (OVD), with ablation studies revealing reward hacking, an 'OD aha moment' (model reasoning about object presence before detection), and the critical impact of training data quality and model size. The findings highlight RL's potential to enhance visual reasoning in VLMs, particularly in complex, real-world benchmarks where SFT fails to generalize.",
+        "publication_year": 2025,
+        "title": "VLM-R1: A Stable and Generalizable R1-style Large Vision-Language Model"
+      },
+      {
+        "abstract": "Search agents have achieved significant advancements in enabling intelligent information retrieval and decision-making within interactive environments. Although reinforcement learning has been employed to train agentic models capable of more dynamic interactive retrieval, existing methods are limited by shallow tool-use depth and the accumulation of errors over multiple iterative interactions. In this paper, we present WebSeer, a more intelligent search agent trained via reinforcement learning enhanced with a self-reflection mechanism. Specifically, we construct a large dataset annotated with reflection patterns and design a two-stage training framework that unifies cold start and reinforcement learning within the self-reflection paradigm for real-world web-based environments, which enables the model to generate longer and more reflective tool-use trajectories. Our approach substantially extends tool-use chains and improves answer accuracy. Using a single 14B model, we achieve state-of-the-art results on HotpotQA and SimpleQA, with accuracies of 72.3% and 90.0%, respectively, and demonstrate strong generalization to out-of-distribution datasets. The code is available at https://github.com/99hgz/WebSeer",
+        "arxiv_id": "2510.18798",
+        "authors": [
+          "Guanzhong He",
+          "Zhen Yang",
+          "Jinxin Liu",
+          "Bin Xu",
+          "Lei Hou",
+          "Juanzi Li"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2510.18798",
+        "categories": [
+          "cs.CL"
+        ],
+        "citation_count": 3,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.13550135,
+        "provider_summary": "[research paper] WebSeer introduces a self-reflection-enabled reinforcement learning framework that extends tool-use chains in agentic search agents by integrating proactive query reformulation, backtracking, and iterative verification. The two-stage training pipeline—first synthesizing long-horizon, self-reflective reasoning trajectories via multi-turn rejection sampling, then refining them through Self-Reflective Reinforcement Learning (SRRL)—enables deeper, more robust exploration in real-world web environments. This results in significantly longer reasoning paths, error mitigation, and state-of-the-art performance on HotpotQA (72.3%) and SimpleQA (90.0%), with strong generalization to out-of-distribution data.",
+        "publication_year": 2025,
+        "title": "WebSeer: Training Deeper Search Agents through Reinforcement Learning with Self-Reflection"
+      },
+      {
+        "abstract": "The recent DeepSeek-R1 has showcased the emergence of reasoning capabilities in LLMs through reinforcement learning (RL) with rule-based rewards. Despite its success in language models, its application in multi-modal domains, particularly in graphic user interface (GUI) agent tasks, remains under-explored. To address this issue, we propose UI-R1, the first framework to explore how rule-based RL can enhance the reasoning capabilities of multimodal large language models (MLLMs) for GUI action prediction tasks. Specifically, UI-R1 introduces a novel rule-based action reward, enabling model optimization via policy-based algorithms such as Group Relative Policy Optimization (GRPO). For efficient training, we curate a small yet high-quality dataset of 136 challenging tasks, encompassing five common action types on mobile devices. Experimental results demonstrate that our proposed UI-R1-3B achieves significant improvements over the base model (i.e. Qwen2.5-VL-3B) on both in-domain (ID) and out-of-domain (OOD) tasks, with average accuracy gains of 22.1% on ScreenSpot, 6.0% on ScreenSpot-Pro, and 12.7% on ANDROIDCONTROL. Furthermore, UI-R1-3B delivers competitive performance compared to larger models (e.g., OS-Atlas-7B) trained via supervised fine-tuning (SFT) on 76K samples. We additionally develop an optimized version, UI-R1-E-3B, which significantly improves both grounding efficiency and accuracy. These results underscore the potential of rule-based reinforcement learning to advance GUI understanding and control, paving the way for future research in this domain. Code website: https://github.com/lll6gg/UI-R1.",
+        "arxiv_id": "2503.21620",
+        "authors": [
+          "Zhengxi Lu",
+          "Yuxiang Chai",
+          "Yaxuan Guo",
+          "Xi Yin",
+          "Liang Liu",
+          "Hao Wang",
+          "Han Xiao",
+          "Shuai Ren",
+          "Guanjing Xiong",
+          "Hongsheng Li"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2503.21620",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 108,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.125,
+        "provider_summary": "[research paper] UI-R1 introduces the first rule-based reinforcement learning framework for multimodal large language models (MLLMs) in GUI action prediction, leveraging a composite action reward function (action type, action argument, format) to guide policy optimization via GRPO. It achieves significant performance gains—up to 22.1% accuracy improvement on ScreenSpot—on both in-domain and out-of-domain tasks using only 136 high-quality, carefully curated mobile UI samples, outperforming larger SFT models in data efficiency and generalization, while demonstrating strong adaptability across desktop and web interfaces.",
+        "publication_year": 2025,
+        "title": "UI-R1: Enhancing Efficient Action Prediction of GUI Agents by Reinforcement Learning"
+      },
+      {
+        "abstract": "Enabling large language models (LLMs) to utilize search tools offers a promising path to overcoming fundamental limitations such as knowledge cutoffs and hallucinations. Recent work has explored reinforcement learning (RL) for training search-augmented agents that interleave reasoning and retrieval before answering. These approaches usually rely on outcome-based rewards (e.g., exact match), implicitly assuming that optimizing for final answers will also yield effective intermediate search behaviors. Our analysis challenges this assumption: we uncover multiple systematic deficiencies in search that arise under outcome-only training and ultimately degrade final answer quality, including failure to invoke tools, invalid queries, and redundant searches. To address these shortcomings, we introduce DeSA (Decoupling Search-and-Answering), a simple two-stage training framework that explicitly separates search optimization from answer generation. In Stage 1, agents are trained to improve search effectiveness with retrieval recall-based rewards. In Stage 2, outcome rewards are employed to optimize final answer generation. Across seven QA benchmarks, DeSA-trained agents consistently improve search behaviors, delivering substantially higher search recall and answer accuracy than outcome-only baselines. Notably, DeSA outperforms single-stage training approaches that simultaneously optimize recall and outcome rewards, underscoring the necessity of explicitly decoupling the two objectives.",
+        "arxiv_id": "2510.04695",
+        "authors": [
+          "Yiding Wang",
+          "Zhepei Wei",
+          "Xinyu Zhu",
+          "Yu Meng"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2510.04695",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 3,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.125,
+        "provider_summary": "[research paper] DeSA introduces a two-stage reinforcement learning framework that decouples search behavior optimization from final answer generation, addressing systemic deficiencies in outcome-only training such as failure to search, invalid queries, and redundant searches. By first training on retrieval recall rewards to improve search effectiveness, and then optimizing answer accuracy via outcome rewards, DeSA achieves significantly higher search recall (from 59.5% to 64.5%) and final accuracy (up to 8.0% improvement on 3B models) across seven QA benchmarks, demonstrating that search and answering are distinct objectives requiring separate optimization.",
+        "publication_year": 2025,
+        "title": "Beyond Outcome Reward: Decoupling Search and Answering Improves LLM Agents"
+      },
+      {
+        "abstract": "The success of DeepSeek-R1 demonstrates the immense potential of using reinforcement learning (RL) to enhance LLMs' reasoning capabilities. This paper introduces Retrv-R1, the first R1-style MLLM specifically designed for multimodal universal retrieval, achieving higher performance by employing step-by-step reasoning to produce more accurate retrieval results. We find that directly applying the methods of DeepSeek-R1 to retrieval tasks is not feasible, mainly due to (1) the high computational cost caused by the large token consumption required for multiple candidates with reasoning processes, and (2) the instability and suboptimal results when directly applying RL to train for retrieval tasks. To address these issues, Retrv-R1 introduces an information compression module with a details inspection mechanism, which enhances computational efficiency by reducing the number of tokens while ensuring that critical information for challenging candidates is preserved. Furthermore, a new training paradigm is proposed, including an activation stage using a retrieval-tailored synthetic CoT dataset for more effective optimization, followed by RL with a novel curriculum reward to improve both performance and efficiency. Incorporating these novel designs, Retrv-R1 achieves SOTA performance, high efficiency, and strong generalization ability, as demonstrated by experiments across multiple benchmarks and tasks.",
+        "arxiv_id": "2510.02745",
+        "authors": [
+          "Lanyun Zhu",
+          "Deyi Ji",
+          "Tianrun Chen",
+          "Haiyang Wu",
+          "Shiqi Wang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2510.02745",
+        "categories": [
+          "cs.CV"
+        ],
+        "citation_count": 9,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.11111111,
+        "provider_summary": "[research paper] Retrv-R1 introduces the first R1-style reasoning framework for universal multimodal retrieval, overcoming limitations of direct RL application by proposing an information compression module with details inspection to reduce token overhead and preserve critical candidate information. A retrieval-tailored synthetic CoT dataset enables effective pre-RL SFT, while a curriculum-based reward mechanism improves reasoning stability and efficiency. Experiments on M-BEIR and multimodal recommendation benchmarks demonstrate SOTA performance, strong generalization, and high computational efficiency.",
+        "publication_year": 2025,
+        "title": "Retrv-R1: A Reasoning-Driven MLLM Framework for Universal and Efficient Multimodal Retrieval"
+      },
+      {
+        "abstract": "Scalable and realistic simulation of multi-agent traffic behavior is critical for advancing autonomous driving technologies. Although existing data-driven simulators have made significant strides in this domain, they predominantly rely on supervised learning to align simulated distributions with real-world driving scenarios. A persistent challenge, however, lies in the distributional shift that arises between training and testing, which often undermines model generalization in unseen environments. To address this limitation, we propose SMART-R1, a novel R1-style reinforcement fine-tuning paradigm tailored for next-token prediction models to better align agent behavior with human preferences and evaluation metrics. Our approach introduces a metric-oriented policy optimization algorithm to improve distribution alignment and an iterative \"SFT-RFT-SFT\" training strategy that alternates between Supervised Fine-Tuning (SFT) and Reinforcement Fine-Tuning (RFT) to maximize performance gains. Extensive experiments on the large-scale Waymo Open Motion Dataset (WOMD) validate the effectiveness of this simple yet powerful R1-style training framework in enhancing foundation models. The results on the Waymo Open Sim Agents Challenge (WOSAC) showcase that SMART-R1 achieves state-of-the-art performance with an overall realism meta score of 0.7858, ranking first on the leaderboard at the time of submission.",
+        "arxiv_id": "2509.23993",
+        "authors": [
+          "Muleilan Pei",
+          "Shaoshuai Shi",
+          "Shaojie Shen"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2509.23993",
+        "categories": [
+          "cs.CV",
+          "cs.RO"
+        ],
+        "citation_count": 8,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.1,
+        "provider_summary": "[research paper] SMART-R1 introduces the first R1-style reinforcement fine-tuning paradigm for multi-agent traffic simulation, leveraging a metric-oriented policy optimization (MPO) strategy to align agent behaviors with evaluation metrics rather than raw imitation. It proposes an iterative 'SFT-RFT-SFT' training pipeline that mitigates catastrophic forgetting and improves distributional alignment by alternating supervised and reinforcement fine-tuning, achieving state-of-the-art realism in closed-loop simulation on the Waymo Open Sim Agents Challenge through better convergence to human-preferred behavior patterns.",
+        "publication_year": 2025,
+        "title": "Advancing Multi-agent Traffic Simulation via R1-Style Reinforcement Fine-Tuning"
+      },
+      {
+        "abstract": "Reasoning-augmented search agents, such as Search-R1, are trained to reason, search, and generate the final answer iteratively. Nevertheless, due to their limited capabilities in reasoning and search, their performance on multi-hop QA benchmarks remains far from satisfactory. To handle complex or compound queries, we train an LLM-based search agent with the native capability of query expansion through reinforcement learning. In each turn, our search agent proposes several query variants, which are searched simultaneously to cover more relevant information. Meanwhile, given limited post-training data and computing resources, it is very challenging for a search agent to master multiple tasks, including query generation, retrieved information understanding, and answer generation. Therefore, we propose incorporating a pre-trained squeezer model that helps the search agent understand the retrieved documents, allowing the search agent to focus on query generation for high retrieval recall. With the assistance of the squeezer model, we discover that even a small-scale 3B LLM can demonstrate a strong capability of query expansion and achieve state-of-the-art accuracy on the multi-hop QA benchmarks. To be specific, our experiments across seven question-answering benchmarks demonstrate that our method, named ExpandSearch, achieves an average improvement of 4.4% compared to state-of-the-art baselines, with strong gains on multi-hop reasoning tasks requiring diverse evidence aggregation.",
+        "arxiv_id": "2510.10009",
+        "authors": [
+          "Shu Zhao",
+          "Tan Yu",
+          "Anbang Xu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2510.10009",
+        "categories": [
+          "cs.CL",
+          "cs.AI",
+          "cs.IR"
+        ],
+        "citation_count": 3,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.1,
+        "provider_summary": "[research paper] ExpandSearch introduces an expand-then-squeeze framework where a reinforcement learning-trained LLM generates multiple semantically diverse query variants to maximize retrieval recall, addressing semantic incompleteness in multi-hop QA. A pre-trained squeezer model selectively distills retrieved content into reasoning-relevant summaries, mitigating information overload and enabling a 3B LLM to achieve state-of-the-art performance with 4.4% average improvement across seven benchmarks, particularly on tasks requiring diverse evidence aggregation.",
+        "publication_year": 2025,
+        "title": "Beyond the limitation of a single query: Train your LLM for query expansion with Reinforcement Learning"
+      },
+      {
+        "abstract": "Role-playing conversational agents (RPCAs) face persistent challenges in maintaining role consistency. To address this, we propose RAIDEN-R1, a novel reinforcement learning framework that integrates Verifiable Role-Awareness Reward (VRAR). The method introduces both singular and multi-term mining strategies to generate quantifiable rewards by assessing role-specific keys. Additionally, we construct a high-quality, role-aware Chain-of-Thought dataset through multi-LLM collaboration, and implement experiments to enhance reasoning coherence. Experiments on the RAIDEN benchmark demonstrate RAIDEN-R1's superiority: our 14B-GRPO model achieves 88.04% and 88.65% accuracy on Script-Based Knowledge and Conversation Memory metrics, respectively, outperforming baseline models while maintaining robustness. Case analyses further reveal the model's enhanced ability to resolve conflicting contextual cues and sustain first-person narrative consistency. This work bridges the non-quantifiability gap in RPCA training and provides insights into role-aware reasoning patterns, advancing the development of RPCAs.",
+        "arxiv_id": "2505.10218",
+        "authors": [
+          "Zongsheng Wang",
+          "Kaili Sun",
+          "Bowen Wu",
+          "Qun Yu",
+          "Ying Li",
+          "Baoxun Wang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2505.10218",
+        "categories": [
+          "cs.CL"
+        ],
+        "citation_count": 10,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.09090909,
+        "provider_summary": "[research paper] RAIDEN-R1 introduces a verifiable, rule-based reward mechanism (VRAR) to address the non-quantifiability challenge in training role-playing conversational agents (RPCAs) via GRPO. It employs single-term and multi-term mining strategies to generate quantifiable rewards by validating role-specific keywords or parsed conditions in responses, enabling effective reinforcement learning without subjective LLM-based scoring. A high-quality, first-person chain-of-thought dataset is constructed through multi-LLM collaboration to support cold-start training, and experiments show significant improvements in role consistency, reasoning coherence, and robustness on the RAIDEN benchmark, particularly in handling conflicting cues and maintaining narrative integrity.",
+        "publication_year": 2025,
+        "title": "RAIDEN-R1: Improving Role-awareness of LLMs via GRPO with Verifiable Reward"
+      },
+      {
+        "abstract": "Large language models (LLMs) excel at natural language tasks but are limited by their static parametric knowledge, especially in knowledge-intensive task. Retrieval-augmented generation (RAG) mitigates this by integrating external information. However, (1) traditional RAG struggles with complex query understanding, and (2) even search agents trained with reinforcement learning (RL), despite their promise, still face generalization and deployment challenges. To address these limitations, we propose QAgent, a unified agentic RAG framework that employs a search agent for adaptive retrieval. This agent optimizes its understanding of the query through interactive reasoning and retrieval. To facilitate real-world application, we focus on modular search agent for query understanding that are plug-and-play in complex systems. Secifically, the agent follows a multi-step decision process trained with RL to maximize retrieval quality and support accurate downstream answers. We further analyze the strengths and weaknesses of end-to-end RL and propose a strategy that focuses on effective retrieval, thereby enhancing generalization in LLM applications. Experiments show QAgent excels at QA and serves as a plug-and-play module for real-world deployment.",
+        "arxiv_id": "2510.08383",
+        "authors": [
+          "Yi Jiang",
+          "Lei Shen",
+          "Lujie Niu",
+          "Sendong Zhao",
+          "Wenbo Su",
+          "Bo Zheng"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2510.08383",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 5,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.09090909,
+        "provider_summary": "[research paper] QAgent introduces a modular, reinforcement learning-driven search agent that enables interactive query understanding through a multi-step 'plan-search-reflect' loop, dynamically decomposing complex queries and refining retrieval via iterative feedback. It employs a two-stage training strategy—first end-to-end RL for decision-making, then generalized training to improve generalization and deployment stability—demonstrating superior performance in knowledge-intensive QA tasks by aligning retrieval outcomes with downstream generation needs.",
+        "publication_year": 2025,
+        "title": "QAgent: A modular Search Agent with Interactive Query Understanding"
+      },
+      {
+        "abstract": "Large language models (LLMs) have notably progressed in multi-step and long-chain reasoning. However, extending their reasoning capabilities to encompass deep interactions with search remains a non-trivial challenge, as models often fail to identify optimal reasoning-search interaction trajectories, resulting in suboptimal responses. We propose R-Search, a novel reinforcement learning framework for Reasoning-Search integration, designed to enable LLMs to autonomously execute multi-step reasoning with deep search interaction, and learn optimal reasoning search interaction trajectories via multi-reward signals, improving response quality in complex logic- and knowledge-intensive tasks. R-Search guides the LLM to dynamically decide when to retrieve or reason, while globally integrating key evidence to enhance deep knowledge interaction between reasoning and search. During RL training, R-Search provides multi-stage, multi-type rewards to jointly optimize the reasoning-search trajectory. Experiments on seven datasets show that R-Search outperforms advanced RAG baselines by up to 32.2% (in-domain) and 25.1% (out-of-domain). The code and data are available at https://github.com/QingFei1/R-Search.",
+        "arxiv_id": "2506.04185",
+        "authors": [
+          "Qingfei Zhao",
+          "Ruobing Wang",
+          "Dingling Xu",
+          "Daren Zha",
+          "Limin Liu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2506.04185",
+        "categories": [
+          "cs.CL"
+        ],
+        "citation_count": 20,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.08666667,
+        "provider_summary": "[research paper] R-Search introduces a reinforcement learning framework that enables large language models to dynamically interleave multi-step reasoning with search actions at the token level, learning optimal reasoning–search trajectories through multi-stage, multi-type rewards (answer quality, evidence quality, format correctness). By distilling retrieved documents into structured evidence and integrating them into the reasoning chain, the framework achieves deeper knowledge interaction, reducing hallucination and improving performance on complex logic- and knowledge-intensive tasks—outperforming state-of-the-art RAG baselines by up to 32.2% in-domain and 25.1% out-of-domain.",
+        "publication_year": 2025,
+        "title": "R-Search: Empowering LLM Reasoning with Search via Multi-Reward Reinforcement Learning"
+      }
+    ],
+    "state_revision": 11
+  }
+}

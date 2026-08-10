@@ -1,0 +1,15 @@
+{
+  "command": "read-source",
+  "ok": true,
+  "result": {
+    "source_content": {
+      "content": "Despite the strong empirical results, this work has several limitations.\n\nFirst, our evaluation is conducted on widely used single-hop and multi-hop question answering benchmarks.\nWhile these datasets cover a range of reasoning difficulties, they do not fully represent more challenging settings that require deeper or more abstract reasoning, such as expert-level or scientific reasoning tasks such as GPQA*Rein et al. ([2023])*.\nFuture work could extend our framework to broader tasks.\n\nSecond, due to computational and memory constraints, we conduct our experiments with moderately sized search agents and retriever backbones.\nAlthough our results across different backbones suggest favorable scaling trends, validating the effectiveness of our Agentic-Rin larger agents and retriever backbones remains an important direction for future work.",
+      "locator": {
+        "kind": "section",
+        "value": "Limitations"
+      },
+      "paper_ref": "paper_b143f98a-c3e7-4bb8-b2b8-09102d8a3b05"
+    },
+    "state_revision": 53
+  }
+}

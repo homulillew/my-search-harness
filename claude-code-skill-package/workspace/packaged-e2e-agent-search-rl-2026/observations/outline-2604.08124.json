@@ -1,0 +1,76 @@
+{
+  "command": "inspect-source",
+  "ok": true,
+  "result": {
+    "outline": {
+      "paper_ref": "paper_775b65df-f025-42c8-b7b8-47fae99c0374",
+      "sections": [
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Introduction"
+          },
+          "title": "Introduction"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Related Work"
+          },
+          "title": "Related Work"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Methodology"
+          },
+          "title": "Methodology"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Experiments"
+          },
+          "title": "Experiments"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Conclusions"
+          },
+          "title": "Conclusions"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix A Implementation Details"
+          },
+          "title": "Appendix A Implementation Details"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix B Prompt Examples"
+          },
+          "title": "Appendix B Prompt Examples"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix C Quantitative Analysis"
+          },
+          "title": "Appendix C Quantitative Analysis"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Instructions for reporting errors"
+          },
+          "title": "Instructions for reporting errors"
+        }
+      ],
+      "total_tokens": 23633
+    },
+    "state_revision": 26
+  }
+}

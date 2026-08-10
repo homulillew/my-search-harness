@@ -1,0 +1,8 @@
+{
+  "command": "search-papers",
+  "ok": true,
+  "result": {
+    "hits": [],
+    "state_revision": 12
+  }
+}

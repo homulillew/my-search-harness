@@ -1,0 +1,25 @@
+{
+  "command": "retain-papers",
+  "ok": true,
+  "result": {
+    "paper_refs": [
+      "paper_4c4e4285-e327-4508-bb5d-d48d912da113",
+      "paper_b143f98a-c3e7-4bb8-b2b8-09102d8a3b05",
+      "paper_a6b72bbb-2917-4e5f-8b12-63c4993623cc",
+      "paper_34cb7e7f-31dd-48ed-88f4-e0fa89cc0442",
+      "paper_77775767-3efe-4c34-9485-134277b9caa2",
+      "paper_7ca461c6-d607-4bbf-9def-6680c2060090",
+      "paper_7a682e65-fe98-44c9-9c49-25d76d4d2d2b",
+      "paper_655734be-0b40-4303-a28b-164ec79f933f",
+      "paper_1e4c0c55-5e53-4dce-bca3-65d7b4cd36f4",
+      "paper_30913b73-8150-432f-80ae-6ff7f1834f41",
+      "paper_775b65df-f025-42c8-b7b8-47fae99c0374",
+      "paper_aa69e04a-ca25-4104-a599-9119f33847cf",
+      "paper_7d6d41ac-f34a-4018-842c-a9be0ebc2de8",
+      "paper_39a2b625-241d-4d2b-97d8-06175e1cdd37",
+      "paper_6b245b25-fe22-4f9d-babf-a08926e26eb1",
+      "paper_5634d840-5e23-4bc4-9664-b9fabeeb455e"
+    ],
+    "state_revision": 14
+  }
+}

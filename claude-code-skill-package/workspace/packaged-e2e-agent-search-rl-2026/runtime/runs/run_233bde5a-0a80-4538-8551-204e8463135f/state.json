@@ -1,0 +1,437 @@
+{
+  "completion_checks": {},
+  "contract": {
+    "current_revision": 1,
+    "revisions": [
+      {
+        "contract": {
+          "deliverable": {
+            "description": "\u9762\u5411\u719f\u6089\u5927\u8bed\u8a00\u6a21\u578b\u4e0e\u5f3a\u5316\u5b66\u4e60\u8bfb\u8005\u7684\u4e2d\u6587\u6df1\u5ea6\u6280\u672f\u8def\u7ebf\u62a5\u544a\uff0c\u5305\u542b 2026 \u6700\u65b0\u8bba\u6587\u3001\u673a\u5236\u6bd4\u8f83\u3001\u5b9e\u9a8c\u8bc1\u636e\u8fb9\u754c\u3001\u5c40\u9650\u4e0e\u5f00\u653e\u95ee\u9898\u3002",
+            "required_artifacts": [
+              "REPORT"
+            ]
+          },
+          "mission": "\u6df1\u5ea6\u8c03\u7814\u622a\u81f3 2026-08-10 \u6700\u65b0\u7684 Agent Search RL \u8bba\u6587\uff0c\u5efa\u7acb\u5f3a\u5316\u5b66\u4e60\u9a71\u52a8\u641c\u7d22\u667a\u80fd\u4f53\u7684\u6280\u672f\u8def\u7ebf\u3001\u4ee3\u8868\u5de5\u4f5c\u3001\u5b9e\u9a8c\u8bc1\u636e\u3001\u5c40\u9650\u4e0e\u7814\u7a76\u524d\u6cbf\u3002",
+          "requirements": {
+            "requirement_1f208819-db9d-45e8-97fc-b16bc42e9d5a": {
+              "id": "requirement_1f208819-db9d-45e8-97fc-b16bc42e9d5a",
+              "statement": "\u754c\u5b9a Agent Search RL\uff0c\u5e76\u533a\u5206\u7f51\u9875\u641c\u7d22\u3001\u6df1\u5ea6\u7814\u7a76\u3001\u67e5\u8be2\u89c4\u5212\u4e0e\u68c0\u7d22\u589e\u5f3a\u63a8\u7406\u7b49\u76f8\u90bb\u95ee\u9898\u3002"
+            },
+            "requirement_344971c9-24fa-433b-b47b-2fa7b70d5203": {
+              "id": "requirement_344971c9-24fa-433b-b47b-2fa7b70d5203",
+              "statement": "\u4f7f\u7528 2026-01-01 \u81f3 2026-08-10 \u7684\u663e\u5f0f\u65e5\u671f\u8fc7\u6ee4\u548c\u5206\u9875\u68c0\u7d22\uff0c\u8986\u76d6\u5f53\u524d\u53ef\u53d1\u73b0\u7684 2026 \u524d\u6cbf\u8bba\u6587\u3002"
+            },
+            "requirement_4e1e7f94-b299-4cb3-ab5a-288b3780be57": {
+              "id": "requirement_4e1e7f94-b299-4cb3-ab5a-288b3780be57",
+              "statement": "\u8bc6\u522b\u4e3b\u8981\u8bad\u7ec3\u8def\u7ebf\uff0c\u5e76\u89e3\u91ca\u52a8\u4f5c\u7a7a\u95f4\u3001\u5956\u52b1\u4fe1\u53f7\u3001\u8bad\u7ec3\u6570\u636e\u4e0e\u7b56\u7565\u4f18\u5316\u673a\u5236\u7684\u5173\u952e\u5dee\u5f02\u3002"
+            },
+            "requirement_741602c2-07cd-4300-8606-c9bc22855c3c": {
+              "id": "requirement_741602c2-07cd-4300-8606-c9bc22855c3c",
+              "statement": "\u4ec5\u7528\u5fc5\u8981\u7684 2025 \u5960\u57fa\u5de5\u4f5c\u89e3\u91ca\u6f14\u5316\uff0c\u5e76\u4e0e 2026 \u6700\u65b0\u8fdb\u5c55\u660e\u786e\u533a\u5206\u3002"
+            },
+            "requirement_aa678a50-e7c4-4280-8726-176f4b5427f3": {
+              "id": "requirement_aa678a50-e7c4-4280-8726-176f4b5427f3",
+              "statement": "\u57fa\u4e8e\u539f\u6587\u6838\u67e5\u4ee3\u8868\u8bba\u6587\u7684\u4e3b\u8981\u5b9e\u9a8c\u3001\u6bd4\u8f83\u57fa\u7ebf\u3001\u9002\u7528\u6761\u4ef6\u4e0e\u9650\u5236\u3002"
+            },
+            "requirement_d0390c61-6704-4ee3-a757-6febc320d36d": {
+              "id": "requirement_d0390c61-6704-4ee3-a757-6febc320d36d",
+              "statement": "\u7efc\u5408\u8de8\u8bba\u6587\u5171\u8bc6\u3001\u4e0d\u53ef\u76f4\u63a5\u6bd4\u8f83\u4e4b\u5904\u3001\u5de5\u7a0b\u6743\u8861\u4e0e\u4ecd\u672a\u89e3\u51b3\u7684\u95ee\u9898\u3002"
+            }
+          },
+          "scope": "\u4ee5 arXiv \u53ef\u8bbf\u95ee\u7684 LLM \u641c\u7d22\u667a\u80fd\u4f53\u5f3a\u5316\u5b66\u4e60\u8bba\u6587\u4e3a\u4e3b\uff1b\u5305\u62ec web/deep-research/search/retrieval agent \u7684 RL \u8bad\u7ec3\u3002\u6392\u9664\u4f20\u7edf\u641c\u7d22\u7b97\u6cd5\u3001\u7eaf RAG\u3001\u65e0\u5f3a\u5316\u5b66\u4e60\u8bad\u7ec3\u7684\u901a\u7528 Agent\uff0c\u4ee5\u53ca\u4e0e\u641c\u7d22\u80fd\u529b\u65e0\u76f4\u63a5\u5173\u7cfb\u7684 RLHF \u8bba\u6587\u3002\u65f6\u95f4\u622a\u70b9\u4e3a 2026-08-10\u3002"
+        },
+        "reason": "Initial contract",
+        "recorded_at": "2026-08-10T01:46:54.598485+00:00",
+        "revision": 1
+      }
+    ]
+  },
+  "delivery_basis": null,
+  "id": "run_233bde5a-0a80-4538-8551-204e8463135f",
+  "investigation_gaps": {},
+  "lifecycle": "RESEARCH",
+  "literature_landscape": {
+    "approach_families": {},
+    "findings": {},
+    "open_problems": {}
+  },
+  "outcome": null,
+  "papers": {
+    "paper_1e4c0c55-5e53-4dce-bca3-65d7b4cd36f4": {
+      "analysis": null,
+      "id": "paper_1e4c0c55-5e53-4dce-bca3-65d7b4cd36f4",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2603.11327",
+        "authors": [
+          "Teng Xiao",
+          "Yige Yuan",
+          "Hamish Ivison",
+          "Huaisheng Zhu",
+          "Faeze Brahman",
+          "Nathan Lambert",
+          "Pradeep Dasigi",
+          "Noah A. Smith",
+          "Hannaneh Hajishirzi"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.11327",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2026,
+        "title": "Meta-Reinforcement Learning with Self-Reflection for Agentic Search"
+      }
+    },
+    "paper_30913b73-8150-432f-80ae-6ff7f1834f41": {
+      "analysis": null,
+      "id": "paper_30913b73-8150-432f-80ae-6ff7f1834f41",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2604.03675",
+        "authors": [
+          "Erhan Zhang",
+          "Yiqun Chen",
+          "Zechun Niu",
+          "Wei Yang",
+          "Xiaochi Wei",
+          "Yan Gao",
+          "Yi Wu",
+          "Yao Hu",
+          "Jiaxin Mao"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.03675",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2026,
+        "title": "PRAISE: Prefix-Based Rollout Reuse in Agentic Search Training"
+      }
+    },
+    "paper_34cb7e7f-31dd-48ed-88f4-e0fa89cc0442": {
+      "analysis": null,
+      "id": "paper_34cb7e7f-31dd-48ed-88f4-e0fa89cc0442",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2601.22149",
+        "authors": [
+          "Hang Ding",
+          "Peidong Liu",
+          "Junqiao Wang",
+          "Ziwei Ji",
+          "Meng Cao",
+          "Rongzhao Zhang",
+          "Lynn Ai",
+          "Eric Yang",
+          "Tianyu Shi",
+          "Lei Yu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.22149",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2026,
+        "title": "DynaWeb: Model-Based Reinforcement Learning of Web Agents"
+      }
+    },
+    "paper_39a2b625-241d-4d2b-97d8-06175e1cdd37": {
+      "analysis": null,
+      "id": "paper_39a2b625-241d-4d2b-97d8-06175e1cdd37",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2604.17931",
+        "authors": [
+          "Wanli Li",
+          "Bince Qu",
+          "Bo Pan",
+          "Jianyu Zhang",
+          "Zheng Liu",
+          "Pan Zhang",
+          "Wei Chen",
+          "Bo Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.17931",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2026,
+        "title": "LiteResearcher: A Scalable Agentic RL Training Framework for Deep Research Agent"
+      }
+    },
+    "paper_4c4e4285-e327-4508-bb5d-d48d912da113": {
+      "analysis": null,
+      "id": "paper_4c4e4285-e327-4508-bb5d-d48d912da113",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2503.09516",
+        "authors": [
+          "Bowen Jin",
+          "Hansi Zeng",
+          "Zhenrui Yue",
+          "Jinsung Yoon",
+          "Sercan \u00d6. Ar\u0131k",
+          "Dong Wang",
+          "Hamed Zamani",
+          "Jiawei Han"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2503.09516",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2025,
+        "title": "Search-R1: Training LLMs to Reason and Leverage Search Engines with Reinforcement Learning"
+      }
+    },
+    "paper_5634d840-5e23-4bc4-9664-b9fabeeb455e": {
+      "analysis": null,
+      "id": "paper_5634d840-5e23-4bc4-9664-b9fabeeb455e",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2605.09287",
+        "authors": [
+          "Dongyi Liu",
+          "Yifan Niu",
+          "Qinwen Wang",
+          "Han Xiao",
+          "Jia Li"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.09287",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2026,
+        "title": "PiCA: Pivot-Based Credit Assignment for Search Agentic Reinforcement Learning"
+      }
+    },
+    "paper_655734be-0b40-4303-a28b-164ec79f933f": {
+      "analysis": null,
+      "id": "paper_655734be-0b40-4303-a28b-164ec79f933f",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2603.03293",
+        "authors": [
+          "Jian Li",
+          "Yizhang Jin",
+          "Dongqi Liu",
+          "Hang Ding",
+          "Jiafu Wu",
+          "Dongsheng Chen",
+          "Yunhang Shen",
+          "Yulei Qin",
+          "Ying Tai",
+          "Chengjie Wang",
+          "Xiaotong Yuan",
+          "Yabiao Wang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.03293",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2026,
+        "title": "SE-Search: Self-Evolving Search Agent via Memory and Dense Reward"
+      }
+    },
+    "paper_6b245b25-fe22-4f9d-babf-a08926e26eb1": {
+      "analysis": null,
+      "id": "paper_6b245b25-fe22-4f9d-babf-a08926e26eb1",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2604.20486",
+        "authors": [
+          "Wentao Yan",
+          "Shengqin Wang",
+          "Huichi Zhou",
+          "Yihang Chen",
+          "Kun Shao",
+          "Yuan Xie",
+          "Zhizhong Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.20486",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2026,
+        "title": "ProMMSearchAgent: A Generalizable Multimodal Search Agent Trained with Process-Oriented Rewards"
+      }
+    },
+    "paper_775b65df-f025-42c8-b7b8-47fae99c0374": {
+      "analysis": null,
+      "id": "paper_775b65df-f025-42c8-b7b8-47fae99c0374",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2604.08124",
+        "authors": [
+          "Chuzhan Hao",
+          "Wenfeng Feng",
+          "Guochao Jiang",
+          "Guofeng Quan",
+          "Guohua Liu",
+          "Yuewei Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.08124",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2026,
+        "title": "Beyond Stochastic Exploration: What Makes Training Data Valuable for Agentic Search"
+      }
+    },
+    "paper_77775767-3efe-4c34-9485-134277b9caa2": {
+      "analysis": null,
+      "id": "paper_77775767-3efe-4c34-9485-134277b9caa2",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2602.11551",
+        "authors": [
+          "Wenlin Zhong",
+          "Jinluan Yang",
+          "Yiquan Wu",
+          "Yi Liu",
+          "Jianhang Yao",
+          "Kun Kuang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.11551",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2026,
+        "title": "SIGHT: Reinforcement Learning with Self-Evidence and Information-Gain Diverse Branching for Search Agent"
+      }
+    },
+    "paper_7a682e65-fe98-44c9-9c49-25d76d4d2d2b": {
+      "analysis": null,
+      "id": "paper_7a682e65-fe98-44c9-9c49-25d76d4d2d2b",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2602.22576",
+        "authors": [
+          "Tianle Xia",
+          "Ming Xu",
+          "Lingxiang Hu",
+          "Yiding Sun",
+          "Wenwei Li",
+          "Linfang Shang",
+          "Liqun Liu",
+          "Peng Shu",
+          "Huan Yu",
+          "Jie Jiang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.22576",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2026,
+        "title": "Search-P1: Path-Centric Reward Shaping for Stable and Efficient Agentic RAG Training"
+      }
+    },
+    "paper_7ca461c6-d607-4bbf-9def-6680c2060090": {
+      "analysis": null,
+      "id": "paper_7ca461c6-d607-4bbf-9def-6680c2060090",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2602.19526",
+        "authors": [
+          "Yinuo Xu",
+          "Shuo Lu",
+          "Jianjie Cheng",
+          "Meng Wang",
+          "Qianlong Xie",
+          "Xingxing Wang",
+          "Ran He",
+          "Jian Liang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.19526",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2026,
+        "title": "How to Train Your Deep Research Agent? Prompt, Reward, and Policy Optimization in Search-R1"
+      }
+    },
+    "paper_7d6d41ac-f34a-4018-842c-a9be0ebc2de8": {
+      "analysis": null,
+      "id": "paper_7d6d41ac-f34a-4018-842c-a9be0ebc2de8",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2604.17555",
+        "authors": [
+          "Hansi Zeng",
+          "Liam Collins",
+          "Bhuvesh Kumar",
+          "Neil Shah",
+          "Hamed Zamani"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.17555",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2026,
+        "title": "COSEARCH: Joint Training of Reasoning and Document Ranking via Reinforcement Learning for Agentic Search"
+      }
+    },
+    "paper_a6b72bbb-2917-4e5f-8b12-63c4993623cc": {
+      "analysis": null,
+      "id": "paper_a6b72bbb-2917-4e5f-8b12-63c4993623cc",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2601.18467",
+        "authors": [
+          "Yuhang Zhou",
+          "Kai Zheng",
+          "Qiguang Chen",
+          "Mengkang Hu",
+          "Qingfeng Sun",
+          "Can Xu",
+          "Jingjing Chen"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.18467",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2026,
+        "title": "OffSeeker: Online Reinforcement Learning Is Not All You Need for Deep Research Agents"
+      }
+    },
+    "paper_aa69e04a-ca25-4104-a599-9119f33847cf": {
+      "analysis": null,
+      "id": "paper_aa69e04a-ca25-4104-a599-9119f33847cf",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2604.17337",
+        "authors": [
+          "Jingbo Sun",
+          "Wenyue Chong",
+          "Songjun Tu",
+          "Qichao Zhang",
+          "Yaocheng Zhang",
+          "Jiajun Chai",
+          "Xiaohan Wang",
+          "Wei Lin",
+          "Guojun Yin",
+          "Dongbin Zhao"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.17337",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2026,
+        "title": "AutoSearch: Adaptive Search Depth for Efficient Agentic RAG via Reinforcement Learning"
+      }
+    },
+    "paper_b143f98a-c3e7-4bb8-b2b8-09102d8a3b05": {
+      "analysis": null,
+      "id": "paper_b143f98a-c3e7-4bb8-b2b8-09102d8a3b05",
+      "research_status": "ACTIVE",
+      "source": {
+        "arxiv_id": "2601.11888",
+        "authors": [
+          "Wenhan Liu",
+          "Xinyu Ma",
+          "Yutao Zhu",
+          "Yuchen Li",
+          "Daiting Shi",
+          "Dawei Yin",
+          "Zhicheng Dou"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.11888",
+        "doi": null,
+        "other_identifiers": {},
+        "publication_year": 2026,
+        "title": "Agentic-R: Learning to Retrieve for Agentic Search"
+      }
+    }
+  },
+  "resources": {
+    "limits": {},
+    "usage": {
+      "paper_search_attempts": 12,
+      "source_inspect_attempts": 17,
+      "source_read_attempts": 40
+    }
+  },
+  "state_revision": 71
+}

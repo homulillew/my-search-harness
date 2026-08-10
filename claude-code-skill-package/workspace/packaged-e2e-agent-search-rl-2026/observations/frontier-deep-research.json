@@ -1,0 +1,481 @@
+{
+  "command": "search-papers",
+  "ok": true,
+  "result": {
+    "hits": [
+      {
+        "abstract": "Reinforcement Learning (RL) has emerged as a powerful training paradigm for LLM-based agents. However, scaling agentic RL for deep research remains constrained by two coupled challenges: hand-crafted synthetic data fails to elicit genuine real-world search capabilities, and real-world search dependency during RL training introduces instability and prohibitive cost, which limits the scalability of Agentic RL. LiteResearcher is a training framework that makes Agentic RL scalable: by constructing a lite virtual world that mirrors real-world search dynamics, we enable a continuously improving training recipe that empowers a tiny search agent to outperform large-scale open-source and commercial models (e.g., Tongyi DeepResearch and Claude-4.5 Sonnet). Specifically, on common benchmarks such as GAIA and Xbench, our LiteResearcher-4B achieves open-source state-of-the-art results of 71.3% and 78.0% respectively, demonstrating that scalable RL training is a key enabler for Deep Research Agents.",
+        "arxiv_id": "2604.17931",
+        "authors": [
+          "Wanli Li",
+          "Bince Qu",
+          "Bo Pan",
+          "Jianyu Zhang",
+          "Zheng Liu",
+          "Pan Zhang",
+          "Wei Chen",
+          "Bo Zhang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.17931",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.53333336,
+        "provider_summary": "[Research Paper] LiteResearcher introduces a scalable agentic RL framework that constructs a virtual web environment to train deep research agents, enabling a 4B model to outperform larger open-source and commercial systems on GAIA and Xbench benchmarks. The framework synthesizes realistic search tasks, simulates a realistic search environment, and applies a difficulty‑aware curriculum RL to achieve sustained improvements.",
+        "publication_year": 2026,
+        "title": "LiteResearcher: A Scalable Agentic RL Training Framework for Deep Research Agent"
+      },
+      {
+        "abstract": "Agent-compiled knowledge bases provide persistent external knowledge for large language model (LLM) agents in open-ended, knowledge-intensive downstream tasks. Yet their quality is systematically limited by \\emph{incompleteness}, \\emph{incorrectness}, and \\emph{redundancy}, manifested as missing evidence or cross-document links, low-confidence or imprecise claims, and ambiguous or coreference resolution issues. Such defects compound under iterative use, degrading retrieval fidelity and downstream task performance. We present \\textbf{DeepRefine}, a general LLM-based reasoning model for \\emph{agent-compiled knowledge refinement} that improves the quality of any pre-constructed knowledge bases with user queries to make it more suitable for the downstream tasks. DeepRefine performs multi-turn interactions with the knowledge base and conducts abductive diagnosis over interaction history, localizes likely defects, and executes targeted refinement actions for incremental knowledge base updates. To optimize refinement policies of DeepRefine without gold references, we introduce a Gain-Beyond-Draft (GBD) reward and train the reasoning process end-to-end via reinforcement learning. Extensive experiments demonstrate consistent downstream gains over strong baselines.",
+        "arxiv_id": "2605.10488",
+        "authors": [
+          "Haoyu Huang",
+          "Jiaxin Bai",
+          "Shujie Liu",
+          "Yang Wei",
+          "Hong Ting Tsang",
+          "Yisen Gao",
+          "Zhongwei Xie",
+          "Yufei Li",
+          "Yangqiu Song"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.10488",
+        "categories": [
+          "cs.CL",
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.5,
+        "provider_summary": "[research paper] DeepRefine introduces a reinforcement learning-based LLM reasoning model for post-construction refinement of agent-compiled knowledge bases, addressing defect localization and policy optimization without golden references. It employs a three-step process—Answerability Judgement Loop, Error Abduction, and Refinement Actions Generation—using multi-turn query interactions to localize defects and generate targeted updates. A novel Gain-Beyond-Draft (GBD) reward function enables end-to-end policy optimization via RL by measuring downstream task performance gains over draft knowledge states, achieving consistent improvements over baselines across multiple datasets.",
+        "publication_year": 2026,
+        "title": "DeepRefine: Agent-Compiled Knowledge Refinement via Reinforcement Learning"
+      },
+      {
+        "abstract": "Recent advances in Deep Research Agents (DRAs) are transforming automated knowledge discovery and problem-solving. While the majority of existing efforts focus on enhancing policy capabilities via post-training, we propose an alternative paradigm: self-evolving the agent's ability by iteratively verifying the policy model's outputs, guided by meticulously crafted rubrics. This approach gives rise to the inference-time scaling of verification, wherein an agent self-improves by evaluating its generated answers to produce iterative feedback and refinements. We derive the rubrics based on an automatically constructed DRA Failure Taxonomy, which systematically classifies agent failures into five major categories and thirteen sub-categories. We present DeepVerifier, a rubrics-based outcome reward verifier that leverages the asymmetry of verification and outperforms vanilla agent-as-judge and LLM judge baselines by 12%-48% in meta-evaluation F1 score. To enable practical self-evolution, DeepVerifier integrates as a plug-and-play module during test-time inference. The verifier produces detailed rubric-based feedback, which is fed back to the agent for iterative bootstrapping, refining responses without additional training. This test-time scaling delivers 8%-11% accuracy gains on challenging subsets of GAIA and XBench-DeepResearch when powered by capable closed-source LLMs. Finally, to support open-source advancement, we release DeepVerifier-4K, a curated supervised fine-tuning dataset of 4,646 high-quality agent steps focused on DRA verification. These examples emphasize reflection and self-critique, enabling open models to develop robust verification capabilities.",
+        "arxiv_id": "2601.15808",
+        "authors": [
+          "Yuxuan Wan",
+          "Tianqing Fang",
+          "Zaitang Li",
+          "Yintong Huo",
+          "Wenxuan Wang",
+          "Haitao Mi",
+          "Dong Yu",
+          "Michael R. Lyu"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.15808",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 8,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.33333334,
+        "provider_summary": "[research paper] The paper introduces DeepVerifier, a test-time verification framework that enables Deep Research Agents (DRAs) to self-evolve through rubric-guided feedback. By leveraging an automatically constructed DRA failure taxonomy—dividing agent errors into five major and thirteen sub-categories—it decomposes complex verification tasks into simpler, verifiable sub-tasks using the asymmetry of verification (i.e., checking is easier than generating). This leads to 12–48% F1 gains over baseline judges and 8–11% accuracy improvements on challenging benchmarks like GAIA and XBench-DeepResearch via iterative feedback without retraining. The framework also releases DeepVerifier-4K, a curated 4,646-step SFT dataset emphasizing reflection and self-critique to support open-source development.",
+        "publication_year": 2026,
+        "title": "Inference-Time Scaling of Verification: Self-Evolving Deep Research Agents via Test-Time Rubric-Guided Verification"
+      },
+      {
+        "abstract": "Transfer Learning, a technique where a model/agent can use the knowledge/expertise that it gained from one task and exploit that to solve another closely-related task, is often used in tackling problems in deep learning. Through this project, we explore transfer learning in the purview of deep reinforcement learning. Specifically, we want to use transfer learning to achieve the fast lap times in OpenAI's Car racing environment by training the agent on one circuit, and racing it on other customized target environments by zero-shot transfer or by additional fine-tuning. In addition, we compare the performance of model-based and model-free approaches, and observe that model-based approaches dominate in performance and converge faster than model-free approaches in this environment. We observe that transfer learning in most setups not only boosts the performance on the target domain, but also shows high performance ability during learning.",
+        "arxiv_id": "2605.17928",
+        "authors": [
+          "Benedict Florance Arockiaraj",
+          "Richard Chang",
+          "Wesley Yee"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.17928",
+        "categories": [
+          "cs.RO",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.33333334,
+        "provider_summary": "[Research Paper] This study investigates transfer learning in deep reinforcement learning for OpenAI's CarRacing environment, comparing model-based (Dreamer) and model-free (PPO, SAC, DDPG) approaches. The authors demonstrate that model-based methods achieve superior performance, faster convergence, and better sample efficiency when transferring to customized environments with altered dynamics or tracks.",
+        "publication_year": 2026,
+        "title": "Transfer Learning for Customized Car Racing Environments"
+      },
+      {
+        "abstract": "Deep research agents have shown remarkable potential in handling long-horizon tasks. However, state-of-the-art performance typically relies on online reinforcement learning (RL), which is financially expensive due to extensive API calls. While offline training offers a more efficient alternative, its progress is hindered by the scarcity of high-quality research trajectories. In this paper, we demonstrate that expensive online reinforcement learning is not all you need to build powerful research agents. To bridge this gap, we introduce a fully open-source suite designed for effective offline training. Our core contributions include DeepForge, a ready-to-use task synthesis framework that generates large-scale research queries without heavy preprocessing; and a curated collection of 66k QA pairs, 33k SFT trajectories, and 21k DPO pairs. Leveraging these resources, we train OffSeeker (8B), a model developed entirely offline. Extensive evaluations across six benchmarks show that OffSeeker not only leads among similar-sized agents but also remains competitive with 30B-parameter systems trained via heavy online RL.",
+        "arxiv_id": "2601.18467",
+        "authors": [
+          "Yuhang Zhou",
+          "Kai Zheng",
+          "Qiguang Chen",
+          "Mengkang Hu",
+          "Qingfeng Sun",
+          "Can Xu",
+          "Jingjing Chen"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.18467",
+        "categories": [
+          "cs.AI",
+          "cs.LG"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.33333334,
+        "provider_summary": "[research paper] The paper challenges the necessity of online reinforcement learning (RL) in deep research agent development by introducing OffSeeker, an 8B-parameter agent trained entirely offline using a novel task synthesis framework (DeepForge) and a large-scale, publicly released dataset of 66k QA pairs, 33k SFT trajectories, and 21k DPO pairs. DeepForge enables scalable, real-world web-based task generation without heavy preprocessing, overcoming limitations of static Wikipedia-based data. Evaluations show OffSeeker matches or surpasses performance of 30B-parameter online-RL agents on benchmarks like BrowseComp-zh, achieving 26.6 vs. 25.5, while eliminating API costs and enabling reproducible, accessible research.",
+        "publication_year": 2026,
+        "title": "OffSeeker: Online Reinforcement Learning Is Not All You Need for Deep Research Agents"
+      },
+      {
+        "abstract": "This paper documents a case study in agent-driven autonomous reinforcement learning research for quadruped locomotion. The setting was not a fully self-starting research system. A human provided high-level directives through an agentic coding environment, while an agent carried out most of the execution loop: reading code, diagnosing failures, editing reward and terrain configurations, launching and monitoring jobs, analyzing intermediate metrics, and proposing the next wave of experiments. Across more than 70 experiments organized into fourteen waves on a DHAV1 12-DoF quadruped in Isaac Lab, the agent progressed from early rough-terrain runs with mean reward around 7 to a best logged Wave 12 run, exp063, with velocity error 0.263 and 97\\% timeout over 2000 iterations, independently reproduced five times across different GPUs. The archive also records several concrete autonomous research decisions: isolating PhysX deadlocks to terrain sets containing boxes and stair-like primitives, porting four reward terms from openly available reference implementations \\cite{deeprobotics, rlsar}, correcting Isaac Sim import and bootstrapping issues, reducing environment count for diagnosis, terminating hung runs, and pivoting effort away from HIM after repeated terrain=0.0 outcomes. Relative to the AutoResearch paradigm \\cite{autoresearch}, this case study operates in a more failure-prone robotics RL setting with multi-GPU experiment management and simulator-specific engineering constraints. The contribution is empirical and documentary: it shows that an agent can materially execute the iterative RL research loop in this domain with limited human intervention, while also making clear where human direction still shaped the agenda.",
+        "arxiv_id": "2603.27416",
+        "authors": [
+          "Nimesh Khandelwal",
+          "Shakti S. Gupta"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.27416",
+        "categories": [
+          "cs.RO",
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.25,
+        "provider_summary": "[case study] An agent autonomously executed the iterative reinforcement learning research loop for quadruped locomotion in Isaac Lab over 14 waves, progressing from early mean reward ~7 to a best velocity error of 0.263 and 97% survival in Wave 12 (reproduced independently), while diagnosing and resolving critical engineering issues such as PhysX deadlocks in terrain configurations, porting reward terms from reference implementations, and terminating hung runs. The system operates under complex robotics RL constraints including multi-GPU job management, simulator bootstrapping, and terrain-specific failure modes, demonstrating that agent-driven research can function in high-failure, physics-intensive environments with minimal human intervention beyond high-level directives.",
+        "publication_year": 2026,
+        "title": "Agent-Driven Autonomous Reinforcement Learning Research: Iterative Policy Improvement for Quadruped Locomotion"
+      },
+      {
+        "abstract": "This study presents the first experimental implementation of deep reinforcement learning (DRL) for the active real-time suppression of flow-induced vibrations in simultaneously vibrating tandem cylinders using rotary actuation, considering fully actuated and underactuated configurations. In the fully actuated case, where both cylinders are independently controlled, the DRL agent discovers a high-frequency, phase-locked bang-bang control strategy that suppresses the vibrations of both cylinders by more than 95\\%. Analysis of the training dynamics reveals a physically interpretable learning process in which the agent first identifies the optimal phase relationship between the actuators before refining the actuation frequency.\n  In the underactuated configuration, where only the upstream cylinder is actuated, equally weighted rewards produce ineffective control, suppressing vibrations only in the actuated cylinder. Introducing asymmetric reward weighting enables the DRL agent to discover a low-frequency lock-on strategy that achieves 70\\% and 90\\% vibration suppression in the upstream and downstream cylinders, respectively. For staggered arrangements with lateral offset, conventional training fails to converge, requiring a curriculum learning approach. The resulting two-stage curriculum identifies a statically biased bi-harmonic rotational control signal capable of suppressing vibrations in both cylinders. The success of the underactuated control strategy highlights its potential to reduce energy consumption and hardware complexity in multi-body flow control systems.",
+        "arxiv_id": "2605.20778",
+        "authors": [
+          "Hussam Sababha",
+          "Mohammed Daqaq"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.20778",
+        "categories": [
+          "physics.flu-dyn"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.23703703,
+        "provider_summary": "[Research Paper] This study presents the first experimental implementation of deep reinforcement learning for active real-time suppression of flow-induced vibrations in tandem cylinders, demonstrating over 95% suppression in fully actuated and up to 90% in underactuated configurations. The research highlights the discovery of novel control strategies, such as phase-locked bang-bang and bi-harmonic rotational signals, while addressing challenges like asymmetric reward weighting and curriculum learning for staggered arrangements.",
+        "publication_year": 2026,
+        "title": "Deep Reinforcement Learning Discovers a Novel Control Algorithm for Mitigating Flow-Induced Vibrations in Underactuated Tandem Cylinders"
+      },
+      {
+        "abstract": "Deep Research agents tackle knowledge-intensive tasks through multi-round retrieval and decision-oriented generation. While reinforcement learning (RL) has been shown to improve performance in this paradigm, its contributions remain underexplored. To fully understand the role of RL, we conduct a systematic study along three decoupled dimensions: prompt template, reward function, and policy optimization. Our study reveals that: 1) the Fast Thinking template yields greater stability and better performance than the Slow Thinking template used in prior work; 2) the F1-based reward underperforms the EM due to training collapse driven by answer avoidance; this can be mitigated by incorporating action-level penalties, ultimately surpassing EM; 3) REINFORCE outperforms PPO while requiring fewer search actions, whereas GRPO shows the poorest stability among policy optimization methods. Building on these insights, we then introduce Search-R1++, a strong baseline that improves the performance of Search-R1 from 0.403 to 0.442 (Qwen2.5-7B) and 0.289 to 0.331 (Qwen2.5-3B). We hope that our findings can pave the way for more principled and reliable RL training strategies in Deep Research systems.",
+        "arxiv_id": "2602.19526",
+        "authors": [
+          "Yinuo Xu",
+          "Shuo Lu",
+          "Jianjie Cheng",
+          "Meng Wang",
+          "Qianlong Xie",
+          "Xingxing Wang",
+          "Ran He",
+          "Jian Liang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.19526",
+        "categories": [
+          "cs.CL"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.21923077,
+        "provider_summary": "[research paper] A systematic decomposition of reinforcement learning in Deep Research agents reveals that the Fast Thinking prompt template improves training stability and performance over Slow Thinking; F1-based rewards suffer from training collapse due to answer avoidance, which is mitigated by adding action-level penalties that enable F1 to outperform EM; REINFORCE outperforms PPO and GRPO in final accuracy and efficiency, despite being simpler, with GRPO showing the worst stability. These findings lead to Search-R1++, a robust baseline that boosts performance from 0.403 to 0.442 (Qwen2.5-7B) and 0.289 to 0.331 (Qwen2.5-3B) via optimized prompt, reward, and policy design.",
+        "publication_year": 2026,
+        "title": "How to Train Your Deep Research Agent? Prompt, Reward, and Policy Optimization in Search-R1"
+      },
+      {
+        "abstract": "Edge-scale deep research agents based on small language models are attractive for real-world deployment due to their advantages in cost, latency, and privacy. In this work, we study how to train a strong small deep research agent under limited open-data by improving both data quality and data utilization. We present DR-Venus, a frontier 4B deep research agent for edge-scale deployment, built entirely on open data. Our training recipe consists of two stages. In the first stage, we use agentic supervised fine-tuning (SFT) to establish basic agentic capability, combining strict data cleaning with resampling of long-horizon trajectories to improve data quality and utilization. In the second stage, we apply agentic reinforcement learning (RL) to further improve execution reliability on long-horizon deep research tasks. To make RL effective for small agents in this setting, we build on IGPO and design turn-level rewards based on information gain and format-aware regularization, thereby enhancing supervision density and turn-level credit assignment. Built entirely on roughly 10K open-data, DR-Venus-4B significantly outperforms prior agentic models under 9B parameters on multiple deep research benchmarks, while also narrowing the gap to much larger 30B-class systems. Our further analysis shows that 4B agents already possess surprisingly strong performance potential, highlighting both the deployment promise of small models and the value of test-time scaling in this setting. We release our models, code, and key recipes to support reproducible research on edge-scale deep research agents.",
+        "arxiv_id": "2604.19859",
+        "authors": [
+          "Venus Team",
+          "Sunhao Dai",
+          "Yong Deng",
+          "Jinzhen Lin",
+          "Yusheng Song",
+          "Guoqing Wang",
+          "Xiaofeng Wu",
+          "Yuqi Zhou",
+          "Shuo Yang",
+          "Zhenzhe Ying",
+          "Zhanwei Zhang",
+          "Changhua Meng",
+          "Weiqiang Wang"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.19859",
+        "categories": [
+          "cs.LG",
+          "cs.AI",
+          "cs.CL",
+          "cs.IR"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.1936937,
+        "provider_summary": "[research paper] DR-Venus introduces a two-stage training pipeline for a 4B edge-scale deep research agent trained entirely on ~10K open-data trajectories. First, agentic supervised fine-tuning (SFT) with strict data cleaning and long-horizon trajectory resampling improves data quality and utilization; second, turn-level reinforcement learning (RL) based on IGPO with information-gain rewards and format-aware penalties enhances execution reliability and credit assignment, enabling small models to outperform larger 9B agents and narrow the gap to 30B systems. Key findings show that resampling boosts SFT efficacy, turn-level RL surpasses sparse trajectory RL, and small agents exhibit high capability ceilings—suggesting strong deployment potential via test-time scaling.",
+        "publication_year": 2026,
+        "title": "DR-Venus: Towards Frontier Edge-Scale Deep Research Agents with Only 10K Open Data"
+      },
+      {
+        "abstract": "In recent years, the spread of fake news has triggered a growing interest in Information Disorders (ID) on social media, a phenomenon that has become a focal point of research across fields ranging from complexity theory and computer science to cognitive sciences. Overall, such a body of research can be traced back to two main approaches. On the one hand, there are works focused on exploiting data mining to analyze the content of news and related metadata data-driven approach; on the other hand, works are aiming at making sense of the phenomenon at hand and their evolution using explicit simulation models model-driven approach). In this paper, we integrate these approaches to explore strategies for counteracting IDs. Heading in this direction, we put together: i. an Agent-Based model to simulate in a scientifically sound way both complex fake news dynamics and the effects produced by containment strategies therein; ii. Deep Reinforcement Learning to learn the strategies that can better mitigate the spread of misinformation. The outcomes of our work unfold on different levels. From a substantive point of view, the results of preliminary experiments started providing interesting cues about the conditions under which given policies can mitigate the spread of misinformation. From a technical and methodological point of view, we scratched the surface of promising and worthy research topics like the integration of social simulation and artificial intelligence and the enhancement of social science simulation environments.",
+        "arxiv_id": "2604.13047",
+        "authors": [
+          "Luigi Lomasto",
+          "Andrea Camoia",
+          "Alfonso Guarino",
+          "Nicola Lettieri",
+          "Delfina Malandrino",
+          "Rocco Zaccagnino"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.13047",
+        "categories": [
+          "cs.SI",
+          "cs.AI",
+          "cs.CY"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.175,
+        "provider_summary": "[research paper] The paper proposes an integrated framework combining agent-based modeling (ABM) and deep reinforcement learning (DRL) to simulate and optimize strategies for mitigating information disorder (ID) on social media. ABM captures realistic dynamics of misinformation spread through user interactions, while DRL learns optimal containment policies by maximizing the reduction of misinformation exposure in simulated environments. Preliminary results indicate that policy effectiveness depends on network structure, agent trust levels, and intervention timing, revealing that adaptive, context-aware strategies outperform static content moderation.",
+        "publication_year": 2026,
+        "title": "Integration of Deep Reinforcement Learning and Agent-based Simulation to Explore Strategies Counteracting Information Disorder"
+      },
+      {
+        "abstract": "Deep Reinforcement Learning (DRL) is a powerful framework for solving complex sequential decision-making problems, particularly in robotic control. However, its practical deployment is often hindered by the substantial amount of experience required for learning, which results in high computational and time costs. In this work, we propose a novel integration of DRL with semantic knowledge in the form of Knowledge Graph Embeddings (KGEs), aiming to enhance learning efficiency by providing contextual information to the agent. Our architecture combines KGEs with visual observations, enabling the agent to exploit environmental knowledge during training. Experimental validation with robotic manipulators in environments featuring both fixed and randomized target attributes demonstrates that our method achieves up to {60}{\\%} reduction in learning time and improves task accuracy by approximately 15 percentage points, without increasing training time or computational complexity. These results highlight the potential of semantic knowledge to reduce sample complexity and improve the effectiveness of DRL in robotic applications.",
+        "arxiv_id": "2601.16866",
+        "authors": [
+          "Lucía Güitta-López",
+          "Vincenzo Suriani",
+          "Jaime Boal",
+          "Álvaro J. López-López",
+          "Daniele Nardi"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.16866",
+        "categories": [
+          "cs.RO",
+          "cs.AI"
+        ],
+        "citation_count": 3,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.17410715,
+        "provider_summary": "[research paper] The paper presents a novel DRL architecture that integrates Knowledge Graph Embeddings (KGEs) with visual observations to improve sample efficiency in robotic manipulation tasks. By concatenating semantic knowledge from pre-built knowledge graphs into the agent’s policy network, the method reduces learning time by up to 60% and improves task accuracy by ~15 percentage points without increasing computational complexity or training time. The approach leverages subgraph selection to extract relevant environmental entities and relationships, enabling the agent to exploit contextual semantics during exploration and exploitation, thereby reducing the need for extensive trial-and-error interactions.",
+        "publication_year": 2026,
+        "title": "Boosting Deep Reinforcement Learning with Semantic Knowledge for Robotic Manipulators"
+      },
+      {
+        "abstract": "Deep Research agents are rapidly emerging as primary consumers of modern retrieval systems. Unlike human users who issue and refine queries without documenting their intermediate thought processes, Deep Research agents generate explicit natural language reasoning before each search call, revealing rich intent and contextual information that existing retrievers entirely ignore. To exploit this overlooked signal, we introduce: (1) Reasoning-Aware Retrieval, a retrieval paradigm that jointly embeds the agent's reasoning trace alongside its query; and (2) DR-Synth, a data synthesis method that generates Deep Research retriever training data from standard QA datasets. We demonstrate that both components are independently effective, and their combination yields a trained embedding model, AgentIR-4B, with substantial gains. On the challenging BrowseComp-Plus benchmark, AgentIR-4B achieves 68\\% accuracy with the open-weight agent Tongyi-DeepResearch, compared to 50\\% with conventional embedding models twice its size, and 37\\% with BM25. Code and data are available at: https://texttron.github.io/AgentIR/.",
+        "arxiv_id": "2603.04384",
+        "authors": [
+          "Zijian Chen",
+          "Xueguang Ma",
+          "Shengyao Zhuang",
+          "Jimmy Lin",
+          "Akari Asai",
+          "Victor Zhong"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.04384",
+        "categories": [
+          "cs.CL"
+        ],
+        "citation_count": 2,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.16666667,
+        "provider_summary": "[research paper] AgentIR introduces Reasoning-Aware Retrieval, a retrieval paradigm that jointly embeds agent reasoning traces with queries to capture intent and contextual evolution during multi-turn search, outperforming conventional models by 18% absolute accuracy on BrowseComp-Plus. DR-Synth synthesizes training data from QA datasets into (agent sub-query, relevance) pairs, enabling effective training without real agent search data; AgentIR-4B achieves 68% end-to-end accuracy with Tongyi-DR, surpassing Qwen3-Embedding-4B (50%) and BM25 (37%), while generalizing across agents and reducing search steps without inference overhead.",
+        "publication_year": 2026,
+        "title": "AgentIR: Reasoning-Aware Retrival for Deep Research Agents"
+      },
+      {
+        "abstract": "Urban traffic congestion presents a significant challenge for modern cities, which impacts mobility and sustainability. Traditional traffic light control systems often fail to adapt to dynamic conditions, leading to inefficiencies. This paper proposes a novel deep reinforcement learning agent for traffic light control that addresses this limitation by explicitly integrating fairness considerations for both vehicular and pedestrian traffic. Unlike prior work, our approach dynamically balances these flows based on real-time demand, moving beyond systems focused solely on vehicles. Experimental results demonstrate that our agent effectively reduces congestion while ensuring equitable service for both the categories of road users. This research contributes to a practical and adaptable solution for intelligent traffic management within the framework of smart cities, paving the way for more efficient and inclusive urban mobility.",
+        "arxiv_id": "2605.10170",
+        "authors": [
+          "Matteo Cederle",
+          "Giacomo Scatto",
+          "Gian Antonio Susto"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.10170",
+        "categories": [
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.14285715,
+        "provider_summary": "[research paper] A deep reinforcement learning agent is designed to dynamically balance vehicular and pedestrian traffic flows at intersections by integrating fairness-aware reward shaping, enabling real-time adaptation to demand fluctuations. The method extends traditional RL-based traffic control with explicit fairness constraints between vehicle and pedestrian queues, using a multi-agent state representation that includes pedestrian detection and flow density, and employs a hierarchical action space to optimize phase durations and transition timing. Experimental results in simulation demonstrate superior congestion reduction and equitable service compared to baseline RL policies that prioritize vehicles alone.",
+        "publication_year": 2026,
+        "title": "Balancing Efficiency and Fairness in Traffic Light Control through Deep Reinforcement Learning"
+      },
+      {
+        "abstract": "Deep Research (DR) agents extend Large Language Models (LLMs) beyond parametric knowledge by autonomously retrieving and synthesizing evidence from large web corpora into long-form reports, enabling a long-horizon agentic paradigm. However, unlike real-time conversational assistants, DR is computationally expensive and time-consuming, creating an autonomy-interaction dilemma: high autonomy on ambiguous user queries often leads to prolonged execution with unsatisfactory outcomes. To address this, we propose IntentRL, a framework that trains proactive agents to clarify latent user intents before starting long-horizon research. To overcome the scarcity of open-ended research data, we introduce a scalable pipeline that expands a few seed samples into high-quality dialogue turns via a shallow-to-deep intent refinement graph. We further adopt a two-stage reinforcement learning (RL) strategy: Stage I applies RL on offline dialogues to efficiently learn general user-interaction behavior, while Stage II uses the trained agent and a user simulator for online rollouts to strengthen adaptation to diverse user feedback. Extensive experiments show that IntentRL significantly improves both intent hit rate and downstream task performance, outperforming the built-in clarify modules of closed-source DR agents and proactive LLM baselines.",
+        "arxiv_id": "2602.03468",
+        "authors": [
+          "Haohao Luo",
+          "Zexi Li",
+          "Yuexiang Xie",
+          "Wenhao Zhang",
+          "Yaliang Li",
+          "Ying Shen"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2602.03468",
+        "categories": [
+          "cs.AI",
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.125,
+        "provider_summary": "[research paper] IntentRL introduces a two-stage reinforcement learning framework to train proactive agents that clarify latent user intents before initiating open-ended deep research, addressing the autonomy-interaction dilemma. It constructs a scalable Clarification Directed Acyclic Graph (C-DAG) from few seed samples to generate diverse, high-quality dialogue trajectories, then uses offline RL for general intent modeling and online rollouts with a rule-based/LLM-judge user simulator to refine adaptation. Results show significant improvements in intent alignment and downstream report quality, with a notable scaling effect as the base DR agent becomes more capable, offering a practical path for user-centric interaction in autonomous agents.",
+        "publication_year": 2026,
+        "title": "IntentRL: Training Proactive User-intent Agents for Open-ended Deep Research via Reinforcement Learning"
+      },
+      {
+        "abstract": "Wildfires are growing in frequency and intensity, devastating ecosystems and communities while causing billions of dollars in suppression costs and economic damage annually in the U.S. Traditional wildfire management is mostly reactive, addressing fires only after they are detected. We introduce \\textit{FireCastRL}, a proactive artificial intelligence (AI) framework that combines wildfire forecasting with intelligent suppression strategies. Our framework first uses a deep spatiotemporal model to predict wildfire ignition. For high-risk predictions, we deploy a pre-trained reinforcement learning (RL) agent to execute real-time suppression tactics with helitack units inside a physics-informed 3D simulation. The framework generates a threat assessment report to help emergency responders optimize resource allocation and planning. In addition, we are publicly releasing a large-scale, spatiotemporal dataset containing $\\mathbf{9.5}$ million samples of environmental variables for wildfire prediction. Our work demonstrates how deep learning and RL can be combined to support both forecasting and tactical wildfire response. More details can be found at https://sites.google.com/view/firecastrl.",
+        "arxiv_id": "2601.14238",
+        "authors": [
+          "Shaurya Mathur",
+          "Shreyas Bellary Manjunath",
+          "Nitin Kulkarni",
+          "Alina Vereshchaka"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.14238",
+        "categories": [
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.11111111,
+        "provider_summary": "[research paper] FireCastRL introduces a spatiotemporal deep learning model trained on 9.5M environmental samples to predict wildfire ignition, followed by a physics-informed 3D simulation where a Proximal Policy Optimization (PPO)-trained reinforcement learning agent autonomously plans helitack suppression strategies in real-time. The framework closes the loop by generating actionable threat assessment reports that integrate predictive risk forecasts with dynamic suppression sequences, enabling proactive, AI-driven emergency response planning in complex terrain.",
+        "publication_year": 2026,
+        "title": "Spatiotemporal Wildfire Prediction and Reinforcement Learning for Helitack Suppression"
+      },
+      {
+        "abstract": "Agentic retrieval-augmented generation (RAG) systems enable large language models (LLMs) to solve complex tasks through multi-step interaction with external retrieval tools. However, such multi-step interaction often involves redundant search steps, incurring substantial computational cost and latency. Prior work limits search depth (i.e., the number of search steps) to reduce cost, but this often leads to underexploration of complex questions. To address this, we first investigate how search depth affects accuracy and find a minimal sufficient search depth that defines an accuracy-efficiency trade-off, jointly determined by question complexity and the agent's capability. Furthermore, we propose AutoSearch, a reinforcement learning (RL) framework that evaluates each search step via self-generated intermediate answers. By a self-answering mechanism, AutoSearch identifies the minimal sufficient search depth and promotes efficient search by rewarding its attainment while penalizing over-searching. In addition, reward mechanisms are introduced to stabilize search behavior and improve answer quality on complex questions. Extensive experiments on multiple benchmarks show that AutoSearch achieves a superior accuracy-efficiency trade-off, alleviating over-searching while preserving search quality.",
+        "arxiv_id": "2604.17337",
+        "authors": [
+          "Jingbo Sun",
+          "Wenyue Chong",
+          "Songjun Tu",
+          "Qichao Zhang",
+          "Yaocheng Zhang",
+          "Jiajun Chai",
+          "Xiaohan Wang",
+          "Wei Lin",
+          "Guojun Yin",
+          "Dongbin Zhao"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2604.17337",
+        "categories": [
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.11111111,
+        "provider_summary": "[research paper] AutoSearch introduces a self-answer-driven reinforcement learning framework that dynamically determines the minimal sufficient search depth in agentic RAG systems by generating intermediate answers at each retrieval step. It establishes an accuracy-efficiency trade-off by rewarding attainment of the minimal depth and penalizing over-searching, with a base reward stabilizing behavior and a quality-based reward improving performance on complex queries. Experiments show superior efficiency without sacrificing accuracy across single-hop and multi-hop QA tasks.",
+        "publication_year": 2026,
+        "title": "AutoSearch: Adaptive Search Depth for Efficient Agentic RAG via Reinforcement Learning"
+      },
+      {
+        "abstract": "We study personalized multi-agent average reward TD learning, in which a collection of agents interacts with different environments and jointly learns their respective value functions. We focus on the setting where there exists a shared linear representation, and the agents' optimal weights collectively lie in an unknown linear subspace. Inspired by the recent success of personalized federated learning (PFL), we study the convergence of cooperative single-timescale TD learning in which agents iteratively estimate the common subspace and local heads. We showed that this decomposition can filter out conflicting signals, effectively mitigating the negative impacts of ``misaligned'' signals, and achieving linear speedup. The main technical challenges lie in the heterogeneity, the Markovian sampling, and their intricate interplay in shaping error evolutions. Specifically, not only are the error dynamics of multiple variables closely interconnected, but there is also no direct contraction for the principal angle distance between the optimal subspace and the estimated subspace. We hope our analytical techniques can be useful to inspire research on deeper exploration into leveraging common structures. Experiments are provided to show the benefits of learning via a shared structure to the more general control problem.",
+        "arxiv_id": "2603.02426",
+        "authors": [
+          "Leo (Muxing) Wang",
+          "Pengkun Yang",
+          "Lili Su"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.02426",
+        "categories": [
+          "cs.LG"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.1,
+        "provider_summary": "[research paper] The paper proposes and analyzes a cooperative average-reward TD learning framework for personalized multi-agent reinforcement learning under environmental heterogeneity, where agents jointly learn via a shared linear subspace and agent-specific heads. It establishes linear speedup in convergence with a single-timescale update rule, achieving $\\widetilde{\\mathcal{O}}(1/\\sqrt{TLK})$ error decay—faster than prior two-timescale methods—by directly bounding the principal angle distance between optimal and estimated subspaces through a unified Lyapunov argument, without relying on stepsize separation assumptions. The method effectively filters out conflicting signals from misaligned environments, enabling stable, scalable, and generalizable learning across diverse local conditions.",
+        "publication_year": 2026,
+        "title": "Personalized Multi-Agent Average Reward TD-Learning via Joint Linear Approximation"
+      },
+      {
+        "abstract": "Allowing less capable devices to offload computational tasks to more powerful devices or servers enables the development of new applications that may not run correctly on the device itself. Deciding where and why to run each of those applications is a complex task. Therefore, different approaches have been adopted to make offloading decisions. In this work, we propose a decentralized Deep Reinforcement Learning (DRL) agent to address the selection of computing locations. Unlike most existing work, we analyze it in a real testbed composed of various edge devices running the agent to determine where to execute each task. These devices are connected to a Multi-Access Edge Computing (MEC) server and a Cloud server through 5G communications. We evaluate not only the agent's performance in meeting task requirements but also the implications of running this type of agent locally, assessing the trade-offs of training locally versus remotely in terms of latency and energy consumption.",
+        "arxiv_id": "2601.03976",
+        "authors": [
+          "Gorka Nieto",
+          "Idoia de la Iglesia",
+          "Cristina Perfecto",
+          "Unai Lopez-Novoa"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2601.03976",
+        "categories": [
+          "cs.ET",
+          "cs.SY",
+          "eess.SY"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.1,
+        "provider_summary": "[research paper] This work presents a real-world evaluation of on-device deep reinforcement learning (DRL) agents for decentralized task offloading in an IoT-Edge-Cloud continuum, using a 5G-connected testbed with edge devices (e.g., Jetson Nano, Raspberry Pi). It demonstrates that lightweight on-device DRL training is feasible, with acceptable latency and energy overhead, outperforming remote training in dynamic, resource-constrained environments by enabling real-time adaptation without relying on centralized data aggregation or stable connectivity.",
+        "publication_year": 2026,
+        "title": "On-Device Deep Reinforcement Learning for Decentralized Task Offloading Performance trade-offs in the training process"
+      },
+      {
+        "abstract": "Multi-agent deep learning (MADL), including multi-agent deep reinforcement learning (MADRL), distributed/federated training, and graph-structured neural networks, is becoming a unifying framework for decision-making and inference in wireless systems where sensing, communication, and computing are tightly coupled. Recent 5G-Advanced and 6G visions strengthen this coupling through integrated sensing and communication, edge intelligence, open programmable RAN, and non-terrestrial/UAV networking, which create decentralized, partially observed, time-varying, and resource-constrained control problems. This survey synthesizes the state of the art, with emphasis on 2021-2025 research, on MADL for distributed sensing and wireless communications. We present a task-driven taxonomy across (i) learning formulations (Markov games, Dec-POMDPs, CTDE), (ii) neural architectures (GNN-based radio resource management, attention-based policies, hierarchical learning, and over-the-air aggregation), (iii) advanced techniques (federated reinforcement learning, communication-efficient federated deep RL, and serverless edge learning orchestration), and (iv) application domains (MEC offloading with slicing, UAV-enabled heterogeneous networks with power-domain NOMA, intrusion detection in sensor networks, and ISAC-driven perceptive mobile networks). We also provide comparative tables of algorithms, training topologies, and system-level trade-offs in latency, spectral efficiency, energy, privacy, and robustness. Finally, we identify open issues including scalability, non-stationarity, security against poisoning and backdoors, communication overhead, and real-time safety, and outline research directions toward 6G-native sense-communicate-compute-learn systems.",
+        "arxiv_id": "2603.16881",
+        "authors": [
+          "Nadine Muller",
+          "Stefano DeRosa",
+          "Su Zhang",
+          "Chun Lee Huan"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2603.16881",
+        "categories": [
+          "cs.LG"
+        ],
+        "citation_count": 1,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.09090909,
+        "provider_summary": "This survey presents a task-driven taxonomy of multi-agent deep learning (MADL) for distributed sensing and wireless communications, integrating Markov games, Dec-POMDPs, and CTDE formulations with graph neural networks, attention-based policies, and hierarchical/over-the-air federated learning. It analyzes advanced techniques like communication-efficient federated deep RL and serverless edge orchestration across applications including MEC offloading, UAV-enabled NOMA, intrusion detection, and ISAC-driven perceptive networks, while identifying open challenges in scalability, security, non-stationarity, and real-time safety under resource-constrained, decentralized, and time-varying wireless environments.",
+        "publication_year": 2026,
+        "title": "Federated Multi Agent Deep Learning and Neural Networks for Advanced Distributed Sensing in Wireless Networks"
+      },
+      {
+        "abstract": "The discount factor in reinforcement learning controls both the effective planning horizon and the strength of bootstrapping, yet most deep RL methods use a single fixed value across all states. While state-dependent discounting is conceptually appealing, naive deep actor--critic implementations can become unstable and degenerate toward TD-error collapse. We propose AdaGamma, a practical deep actor--critic method for state-dependent discounting that learns a state-dependent discount function together with a return-consistency objective to regularize the induced backup structure. On the theory side, we analyze the Bellman operator induced by state-dependent discounting and establish its basic well-posedness properties under suitable conditions. Empirically, AdaGamma integrates into both SAC and PPO, yielding consistent improvements on continuous-control benchmarks, and achieves statistically significant gains in an online A/B test on the JD Logistics platform. These results suggest that state-dependent discounting can be made effective in deep RL when coupled with a return-consistency objective that prevents degenerate target manipulation.",
+        "arxiv_id": "2605.06149",
+        "authors": [
+          "Yaomin Wang",
+          "Jianting Pan",
+          "Ran Tian",
+          "Xiaoyang Li",
+          "Yu Zhang",
+          "Hengle Qin",
+          "Tianshu YU"
+        ],
+        "canonical_url": "https://arxiv.org/abs/2605.06149",
+        "categories": [
+          "cs.LG",
+          "cs.AI"
+        ],
+        "citation_count": 0,
+        "doi": null,
+        "other_identifiers": {},
+        "provider_score": 0.09090909,
+        "provider_summary": "[Research Paper] AdaGamma introduces a state-dependent discounting scheme for deep actor-critic reinforcement learning, learning a discount function alongside a return-consistency objective to prevent TD-error collapse. The method integrates with SAC and PPO, yielding consistent performance gains on continuous-control benchmarks and significant improvements in a real-world JD Logistics A/B test. The paper also provides theoretical analysis of the resulting Bellman operator, showing its well-posedness under suitable conditions.",
+        "publication_year": 2026,
+        "title": "AdaGamma: State-Dependent Discounting for Temporal Adaptation in Reinforcement Learning"
+      }
+    ],
+    "state_revision": 3
+  }
+}

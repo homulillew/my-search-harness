@@ -1,0 +1,83 @@
+{
+  "command": "inspect-source",
+  "ok": true,
+  "result": {
+    "outline": {
+      "paper_ref": "paper_39a2b625-241d-4d2b-97d8-06175e1cdd37",
+      "sections": [
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Introduction"
+          },
+          "title": "Introduction"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Related Work"
+          },
+          "title": "Related Work"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Preliminaries: Agentic Framework"
+          },
+          "title": "Preliminaries: Agentic Framework"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Methods: Towards Scalable Training"
+          },
+          "title": "Methods: Towards Scalable Training"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Experiments"
+          },
+          "title": "Experiments"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Conclusions"
+          },
+          "title": "Conclusions"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix A Synthetic Data"
+          },
+          "title": "Appendix A Synthetic Data"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix B SFT Details"
+          },
+          "title": "Appendix B SFT Details"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix C RL Details"
+          },
+          "title": "Appendix C RL Details"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix D Infrastructure Details"
+          },
+          "title": "Appendix D Infrastructure Details"
+        }
+      ],
+      "total_tokens": 22756
+    },
+    "state_revision": 29
+  }
+}

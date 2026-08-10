@@ -1,0 +1,442 @@
+[
+  {
+    "arxiv_id": "2503.09516",
+    "paper_ref": "paper_4c4e4285-e327-4508-bb5d-d48d912da113",
+    "section": "Search-R1",
+    "locator": {
+      "kind": "section",
+      "value": "Search-R1"
+    },
+    "file": "read-method-01-2503.09516.json",
+    "characters": 11599
+  },
+  {
+    "arxiv_id": "2601.11888",
+    "paper_ref": "paper_b143f98a-c3e7-4bb8-b2b8-09102d8a3b05",
+    "section": "Methodology",
+    "locator": {
+      "kind": "section",
+      "value": "Methodology"
+    },
+    "file": "read-method-02-2601.11888.json",
+    "characters": 11173
+  },
+  {
+    "arxiv_id": "2601.18467",
+    "paper_ref": "paper_a6b72bbb-2917-4e5f-8b12-63c4993623cc",
+    "section": "Methodology",
+    "locator": {
+      "kind": "section",
+      "value": "Methodology"
+    },
+    "file": "read-method-03-2601.18467.json",
+    "characters": 4967
+  },
+  {
+    "arxiv_id": "2601.22149",
+    "paper_ref": "paper_34cb7e7f-31dd-48ed-88f4-e0fa89cc0442",
+    "section": "Method",
+    "locator": {
+      "kind": "section",
+      "value": "Method"
+    },
+    "file": "read-method-04-2601.22149.json",
+    "characters": 8940
+  },
+  {
+    "arxiv_id": "2602.11551",
+    "paper_ref": "paper_77775767-3efe-4c34-9485-134277b9caa2",
+    "section": "4. Methodology",
+    "locator": {
+      "kind": "section",
+      "value": "4. Methodology"
+    },
+    "file": "read-method-05-2602.11551.json",
+    "characters": 15272
+  },
+  {
+    "arxiv_id": "2602.19526",
+    "paper_ref": "paper_7ca461c6-d607-4bbf-9def-6680c2060090",
+    "section": "Reward Function",
+    "locator": {
+      "kind": "section",
+      "value": "Reward Function"
+    },
+    "file": "read-method-06-2602.19526.json",
+    "characters": 3935
+  },
+  {
+    "arxiv_id": "2602.19526",
+    "paper_ref": "paper_7ca461c6-d607-4bbf-9def-6680c2060090",
+    "section": "Policy Optimization",
+    "locator": {
+      "kind": "section",
+      "value": "Policy Optimization"
+    },
+    "file": "read-method-07-2602.19526.json",
+    "characters": 6238
+  },
+  {
+    "arxiv_id": "2602.19526",
+    "paper_ref": "paper_7ca461c6-d607-4bbf-9def-6680c2060090",
+    "section": "A strong baseline: Search-R1++",
+    "locator": {
+      "kind": "section",
+      "value": "A strong baseline: Search-R1++"
+    },
+    "file": "read-method-08-2602.19526.json",
+    "characters": 1912
+  },
+  {
+    "arxiv_id": "2602.22576",
+    "paper_ref": "paper_7a682e65-fe98-44c9-9c49-25d76d4d2d2b",
+    "section": "Methodology",
+    "locator": {
+      "kind": "section",
+      "value": "Methodology"
+    },
+    "file": "read-method-09-2602.22576.json",
+    "characters": 6348
+  },
+  {
+    "arxiv_id": "2603.03293",
+    "paper_ref": "paper_655734be-0b40-4303-a28b-164ec79f933f",
+    "section": "Approach",
+    "locator": {
+      "kind": "section",
+      "value": "Approach"
+    },
+    "file": "read-method-10-2603.03293.json",
+    "characters": 12669
+  },
+  {
+    "arxiv_id": "2603.11327",
+    "paper_ref": "paper_1e4c0c55-5e53-4dce-bca3-65d7b4cd36f4",
+    "section": "MetaSearch: Meta-Reinforcement Learning for Agentic Search",
+    "locator": {
+      "kind": "section",
+      "value": "MetaSearch: Meta-Reinforcement Learning for Agentic Search"
+    },
+    "file": "read-method-11-2603.11327.json",
+    "characters": 17752
+  },
+  {
+    "arxiv_id": "2604.03675",
+    "paper_ref": "paper_30913b73-8150-432f-80ae-6ff7f1834f41",
+    "section": "Prefix-Based Rollout Reuse with Intermediate Step Rewards",
+    "locator": {
+      "kind": "section",
+      "value": "Prefix-Based Rollout Reuse with Intermediate Step Rewards"
+    },
+    "file": "read-method-12-2604.03675.json",
+    "characters": 17779
+  },
+  {
+    "arxiv_id": "2604.08124",
+    "paper_ref": "paper_775b65df-f025-42c8-b7b8-47fae99c0374",
+    "section": "Methodology",
+    "locator": {
+      "kind": "section",
+      "value": "Methodology"
+    },
+    "file": "read-method-13-2604.08124.json",
+    "characters": 14103
+  },
+  {
+    "arxiv_id": "2604.17337",
+    "paper_ref": "paper_aa69e04a-ca25-4104-a599-9119f33847cf",
+    "section": "Autosearch",
+    "locator": {
+      "kind": "section",
+      "value": "Autosearch"
+    },
+    "file": "read-method-14-2604.17337.json",
+    "characters": 14085
+  },
+  {
+    "arxiv_id": "2604.17555",
+    "paper_ref": "paper_7d6d41ac-f34a-4018-842c-a9be0ebc2de8",
+    "section": "Methodology",
+    "locator": {
+      "kind": "section",
+      "value": "Methodology"
+    },
+    "file": "read-method-15-2604.17555.json",
+    "characters": 14177
+  },
+  {
+    "arxiv_id": "2604.17931",
+    "paper_ref": "paper_39a2b625-241d-4d2b-97d8-06175e1cdd37",
+    "section": "Methods: Towards Scalable Training",
+    "locator": {
+      "kind": "section",
+      "value": "Methods: Towards Scalable Training"
+    },
+    "file": "read-method-16-2604.17931.json",
+    "characters": 11809
+  },
+  {
+    "arxiv_id": "2604.20486",
+    "paper_ref": "paper_6b245b25-fe22-4f9d-babf-a08926e26eb1",
+    "section": "Method",
+    "locator": {
+      "kind": "section",
+      "value": "Method"
+    },
+    "file": "read-method-17-2604.20486.json",
+    "characters": 10545
+  },
+  {
+    "arxiv_id": "2605.09287",
+    "paper_ref": "paper_5634d840-5e23-4bc4-9664-b9fabeeb455e",
+    "section": "Methodology",
+    "locator": {
+      "kind": "section",
+      "value": "Methodology"
+    },
+    "file": "read-method-18-2605.09287.json",
+    "characters": 8989
+  },
+  {
+    "arxiv_id": "2503.09516",
+    "paper_ref": "paper_4c4e4285-e327-4508-bb5d-d48d912da113",
+    "section": "Main Results",
+    "locator": {
+      "kind": "section",
+      "value": "Main Results"
+    },
+    "file": "read-evidence-01-2503.09516.json",
+    "characters": 6849
+  },
+  {
+    "arxiv_id": "2503.09516",
+    "paper_ref": "paper_4c4e4285-e327-4508-bb5d-d48d912da113",
+    "section": "Analysis",
+    "locator": {
+      "kind": "section",
+      "value": "Analysis"
+    },
+    "file": "read-evidence-02-2503.09516.json",
+    "characters": 6393
+  },
+  {
+    "arxiv_id": "2601.11888",
+    "paper_ref": "paper_b143f98a-c3e7-4bb8-b2b8-09102d8a3b05",
+    "section": "Experiment",
+    "locator": {
+      "kind": "section",
+      "value": "Experiment"
+    },
+    "file": "read-evidence-03-2601.11888.json",
+    "characters": 10907
+  },
+  {
+    "arxiv_id": "2601.11888",
+    "paper_ref": "paper_b143f98a-c3e7-4bb8-b2b8-09102d8a3b05",
+    "section": "Limitations",
+    "locator": {
+      "kind": "section",
+      "value": "Limitations"
+    },
+    "file": "read-evidence-04-2601.11888.json",
+    "characters": 845
+  },
+  {
+    "arxiv_id": "2601.18467",
+    "paper_ref": "paper_a6b72bbb-2917-4e5f-8b12-63c4993623cc",
+    "section": "Experiments",
+    "locator": {
+      "kind": "section",
+      "value": "Experiments"
+    },
+    "file": "read-evidence-05-2601.18467.json",
+    "characters": 7450
+  },
+  {
+    "arxiv_id": "2601.18467",
+    "paper_ref": "paper_a6b72bbb-2917-4e5f-8b12-63c4993623cc",
+    "section": "Empirical Study",
+    "locator": {
+      "kind": "section",
+      "value": "Empirical Study"
+    },
+    "file": "read-evidence-06-2601.18467.json",
+    "characters": 3043
+  },
+  {
+    "arxiv_id": "2601.22149",
+    "paper_ref": "paper_34cb7e7f-31dd-48ed-88f4-e0fa89cc0442",
+    "section": "Experiments",
+    "locator": {
+      "kind": "section",
+      "value": "Experiments"
+    },
+    "file": "read-evidence-07-2601.22149.json",
+    "characters": 8676
+  },
+  {
+    "arxiv_id": "2601.22149",
+    "paper_ref": "paper_34cb7e7f-31dd-48ed-88f4-e0fa89cc0442",
+    "section": "Analysis",
+    "locator": {
+      "kind": "section",
+      "value": "Analysis"
+    },
+    "file": "read-evidence-08-2601.22149.json",
+    "characters": 4960
+  },
+  {
+    "arxiv_id": "2602.11551",
+    "paper_ref": "paper_77775767-3efe-4c34-9485-134277b9caa2",
+    "section": "5. Experiments",
+    "locator": {
+      "kind": "section",
+      "value": "5. Experiments"
+    },
+    "file": "read-evidence-09-2602.11551.json",
+    "characters": 15566
+  },
+  {
+    "arxiv_id": "2602.22576",
+    "paper_ref": "paper_7a682e65-fe98-44c9-9c49-25d76d4d2d2b",
+    "section": "Experiments",
+    "locator": {
+      "kind": "section",
+      "value": "Experiments"
+    },
+    "file": "read-evidence-10-2602.22576.json",
+    "characters": 8405
+  },
+  {
+    "arxiv_id": "2602.22576",
+    "paper_ref": "paper_7a682e65-fe98-44c9-9c49-25d76d4d2d2b",
+    "section": "Analysis",
+    "locator": {
+      "kind": "section",
+      "value": "Analysis"
+    },
+    "file": "read-evidence-11-2602.22576.json",
+    "characters": 6278
+  },
+  {
+    "arxiv_id": "2603.03293",
+    "paper_ref": "paper_655734be-0b40-4303-a28b-164ec79f933f",
+    "section": "Experiments",
+    "locator": {
+      "kind": "section",
+      "value": "Experiments"
+    },
+    "file": "read-evidence-12-2603.03293.json",
+    "characters": 14716
+  },
+  {
+    "arxiv_id": "2603.11327",
+    "paper_ref": "paper_1e4c0c55-5e53-4dce-bca3-65d7b4cd36f4",
+    "section": "Experiments",
+    "locator": {
+      "kind": "section",
+      "value": "Experiments"
+    },
+    "file": "read-evidence-13-2603.11327.json",
+    "characters": 16754
+  },
+  {
+    "arxiv_id": "2603.11327",
+    "paper_ref": "paper_1e4c0c55-5e53-4dce-bca3-65d7b4cd36f4",
+    "section": "Limitations",
+    "locator": {
+      "kind": "section",
+      "value": "Limitations"
+    },
+    "file": "read-evidence-14-2603.11327.json",
+    "characters": 787
+  },
+  {
+    "arxiv_id": "2604.03675",
+    "paper_ref": "paper_30913b73-8150-432f-80ae-6ff7f1834f41",
+    "section": "Experiments",
+    "locator": {
+      "kind": "section",
+      "value": "Experiments"
+    },
+    "file": "read-evidence-15-2604.03675.json",
+    "characters": 9721
+  },
+  {
+    "arxiv_id": "2604.08124",
+    "paper_ref": "paper_775b65df-f025-42c8-b7b8-47fae99c0374",
+    "section": "Experiments",
+    "locator": {
+      "kind": "section",
+      "value": "Experiments"
+    },
+    "file": "read-evidence-16-2604.08124.json",
+    "characters": 18728
+  },
+  {
+    "arxiv_id": "2604.17337",
+    "paper_ref": "paper_aa69e04a-ca25-4104-a599-9119f33847cf",
+    "section": "Experiment",
+    "locator": {
+      "kind": "section",
+      "value": "Experiment"
+    },
+    "file": "read-evidence-17-2604.17337.json",
+    "characters": 12932
+  },
+  {
+    "arxiv_id": "2604.17555",
+    "paper_ref": "paper_7d6d41ac-f34a-4018-842c-a9be0ebc2de8",
+    "section": "Experiments",
+    "locator": {
+      "kind": "section",
+      "value": "Experiments"
+    },
+    "file": "read-evidence-18-2604.17555.json",
+    "characters": 13567
+  },
+  {
+    "arxiv_id": "2604.17931",
+    "paper_ref": "paper_39a2b625-241d-4d2b-97d8-06175e1cdd37",
+    "section": "Experiments",
+    "locator": {
+      "kind": "section",
+      "value": "Experiments"
+    },
+    "file": "read-evidence-19-2604.17931.json",
+    "characters": 12892
+  },
+  {
+    "arxiv_id": "2604.20486",
+    "paper_ref": "paper_6b245b25-fe22-4f9d-babf-a08926e26eb1",
+    "section": "Experiments",
+    "locator": {
+      "kind": "section",
+      "value": "Experiments"
+    },
+    "file": "read-evidence-20-2604.20486.json",
+    "characters": 18967
+  },
+  {
+    "arxiv_id": "2605.09287",
+    "paper_ref": "paper_5634d840-5e23-4bc4-9664-b9fabeeb455e",
+    "section": "Experiments",
+    "locator": {
+      "kind": "section",
+      "value": "Experiments"
+    },
+    "file": "read-evidence-21-2605.09287.json",
+    "characters": 13201
+  },
+  {
+    "arxiv_id": "2605.09287",
+    "paper_ref": "paper_5634d840-5e23-4bc4-9664-b9fabeeb455e",
+    "section": "Appendix D Limitation and Future Direction",
+    "locator": {
+      "kind": "section",
+      "value": "Appendix D Limitation and Future Direction"
+    },
+    "file": "read-evidence-22-2605.09287.json",
+    "characters": 931
+  }
+]

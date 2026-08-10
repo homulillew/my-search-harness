@@ -1,0 +1,55 @@
+{
+  "command": "inspect-source",
+  "ok": true,
+  "result": {
+    "outline": {
+      "paper_ref": "paper_655734be-0b40-4303-a28b-164ec79f933f",
+      "sections": [
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Introduction"
+          },
+          "title": "Introduction"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Problem Formulation"
+          },
+          "title": "Problem Formulation"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Approach"
+          },
+          "title": "Approach"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Experiments"
+          },
+          "title": "Experiments"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Related Works"
+          },
+          "title": "Related Works"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix A Appendix"
+          },
+          "title": "Appendix A Appendix"
+        }
+      ],
+      "total_tokens": 17371
+    },
+    "state_revision": 23
+  }
+}

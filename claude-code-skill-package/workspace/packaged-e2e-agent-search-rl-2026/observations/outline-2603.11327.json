@@ -1,0 +1,69 @@
+{
+  "command": "inspect-source",
+  "ok": true,
+  "result": {
+    "outline": {
+      "paper_ref": "paper_1e4c0c55-5e53-4dce-bca3-65d7b4cd36f4",
+      "sections": [
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Introduction"
+          },
+          "title": "Introduction"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Related Work"
+          },
+          "title": "Related Work"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "MetaSearch: Meta-Reinforcement Learning for Agentic Search"
+          },
+          "title": "MetaSearch: Meta-Reinforcement Learning for Agentic Search"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Experiments"
+          },
+          "title": "Experiments"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Conclusions"
+          },
+          "title": "Conclusions"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Limitations"
+          },
+          "title": "Limitations"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix A Appendix"
+          },
+          "title": "Appendix A Appendix"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Instructions for reporting errors"
+          },
+          "title": "Instructions for reporting errors"
+        }
+      ],
+      "total_tokens": 31733
+    },
+    "state_revision": 24
+  }
+}

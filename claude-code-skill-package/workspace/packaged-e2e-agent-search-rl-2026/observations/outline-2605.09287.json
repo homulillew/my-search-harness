@@ -1,0 +1,104 @@
+{
+  "command": "inspect-source",
+  "ok": true,
+  "result": {
+    "outline": {
+      "paper_ref": "paper_5634d840-5e23-4bc4-9664-b9fabeeb455e",
+      "sections": [
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Introduction"
+          },
+          "title": "Introduction"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Related Work"
+          },
+          "title": "Related Work"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Preliminary"
+          },
+          "title": "Preliminary"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Methodology"
+          },
+          "title": "Methodology"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Experiments"
+          },
+          "title": "Experiments"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Conclusion"
+          },
+          "title": "Conclusion"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix A Data Generation"
+          },
+          "title": "Appendix A Data Generation"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix C Details of Benchmarks and Metrics"
+          },
+          "title": "Appendix C Details of Benchmarks and Metrics"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix D Limitation and Future Direction"
+          },
+          "title": "Appendix D Limitation and Future Direction"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix E Broader Impacts"
+          },
+          "title": "Appendix E Broader Impacts"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix G Implementation Details"
+          },
+          "title": "Appendix G Implementation Details"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Appendix H Case Study"
+          },
+          "title": "Appendix H Case Study"
+        },
+        {
+          "locator": {
+            "kind": "section",
+            "value": "Instructions for reporting errors"
+          },
+          "title": "Instructions for reporting errors"
+        }
+      ],
+      "total_tokens": 21996
+    },
+    "state_revision": 31
+  }
+}

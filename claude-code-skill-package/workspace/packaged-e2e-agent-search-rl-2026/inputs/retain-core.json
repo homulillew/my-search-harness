@@ -1,0 +1,412 @@
+{
+  "hits": [
+    {
+      "abstract": "Efficiently acquiring external knowledge and up-to-date information is essential for effective reasoning and text generation in large language models (LLMs). Prompting advanced LLMs with reasoning capabilities to use search engines during inference is often suboptimal, as the LLM might not fully possess the capability on how to interact optimally with the search engine. This paper introduces Search-R1, an extension of reinforcement learning (RL) for reasoning frameworks where the LLM learns to autonomously generate (multiple) search queries during step-by-step reasoning with real-time retrieval. Search-R1 optimizes LLM reasoning trajectories with multi-turn search interactions, leveraging retrieved token masking for stable RL training and a simple outcome-based reward function. Experiments on seven question-answering datasets show that Search-R1 improves performance by 41% (Qwen2.5-7B) and 20% (Qwen2.5-3B) over various RAG baselines under the same setting. This paper further provides empirical insights into RL optimization methods, LLM choices, and response length dynamics in retrieval-augmented reasoning. The code and model checkpoints are available at https://github.com/PeterGriffinJin/Search-R1.",
+      "arxiv_id": "2503.09516",
+      "authors": [
+        "Bowen Jin",
+        "Hansi Zeng",
+        "Zhenrui Yue",
+        "Jinsung Yoon",
+        "Sercan Ö. Arık",
+        "Dong Wang",
+        "Hamed Zamani",
+        "Jiawei Han"
+      ],
+      "canonical_url": "https://arxiv.org/abs/2503.09516",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.IR"
+      ],
+      "citation_count": 966,
+      "doi": null,
+      "other_identifiers": {},
+      "provider_score": 0.6666667,
+      "provider_summary": "[research paper] Search-R1 introduces a reinforcement learning framework that enables large language models to autonomously generate search queries during step-by-step reasoning, interleaving LLM token generation with real-time search engine retrieval. It addresses key challenges in RL-based search-and-reasoning by using retrieved token masking for stable training, supporting multi-turn search-reasoning loops via structured token delimiters, and employing a simple outcome-based reward function that outperforms RAG baselines by 20–24% across seven question-answering datasets, with empirical insights into LLM selection, response length, and RL method efficacy.",
+      "publication_year": 2025,
+      "title": "Search-R1: Training LLMs to Reason and Leverage Search Engines with Reinforcement Learning"
+    },
+    {
+      "abstract": "Agentic search has recently emerged as a powerful paradigm, where an agent interleaves multi-step reasoning with on-demand retrieval to solve complex questions. Despite its success, how to design a retriever for agentic search remains largely underexplored. Existing search agents typically rely on similarity-based retrievers, while similar passages are not always useful for final answer generation. In this paper, we propose a novel retriever training framework tailored for agentic search. Unlike retrievers designed for single-turn retrieval-augmented generation (RAG) that only rely on local passage utility, we propose to use both local query-passage relevance and global answer correctness to measure passage utility in a multi-turn agentic search. We further introduce an iterative training strategy, where the search agent and the retriever are optimized bidirectionally and iteratively. Different from RAG retrievers that are only trained once with fixed questions, our retriever is continuously improved using evolving and higher-quality queries from the agent. Extensive experiments on seven single-hop and multi-hop QA benchmarks demonstrate that our retriever, termed \\ours{}, consistently outperforms strong baselines across different search agents. Our codes are available at: https://github.com/8421BCD/Agentic-R.",
+      "arxiv_id": "2601.11888",
+      "authors": [
+        "Wenhan Liu",
+        "Xinyu Ma",
+        "Yutao Zhu",
+        "Yuchen Li",
+        "Daiting Shi",
+        "Dawei Yin",
+        "Zhicheng Dou"
+      ],
+      "canonical_url": "https://arxiv.org/abs/2601.11888",
+      "categories": [
+        "cs.IR"
+      ],
+      "citation_count": 3,
+      "doi": null,
+      "other_identifiers": {},
+      "provider_score": 0.33333334,
+      "provider_summary": "[research paper] Agentic-R introduces a novel retriever training framework for agentic search that jointly optimizes passage utility via both local query-relevance and global final-answer correctness, addressing the absence of intermediate query gold labels and the insufficiency of local relevance in multi-turn settings. It proposes an iterative, bidirectional training loop where the agent and retriever co-evolve using dynamically generated, higher-quality queries, enabling continuous improvement of retrieval quality and reducing the number of search steps required for correct answers.",
+      "publication_year": 2026,
+      "title": "Agentic-R: Learning to Retrieve for Agentic Search"
+    },
+    {
+      "abstract": "Deep research agents have shown remarkable potential in handling long-horizon tasks. However, state-of-the-art performance typically relies on online reinforcement learning (RL), which is financially expensive due to extensive API calls. While offline training offers a more efficient alternative, its progress is hindered by the scarcity of high-quality research trajectories. In this paper, we demonstrate that expensive online reinforcement learning is not all you need to build powerful research agents. To bridge this gap, we introduce a fully open-source suite designed for effective offline training. Our core contributions include DeepForge, a ready-to-use task synthesis framework that generates large-scale research queries without heavy preprocessing; and a curated collection of 66k QA pairs, 33k SFT trajectories, and 21k DPO pairs. Leveraging these resources, we train OffSeeker (8B), a model developed entirely offline. Extensive evaluations across six benchmarks show that OffSeeker not only leads among similar-sized agents but also remains competitive with 30B-parameter systems trained via heavy online RL.",
+      "arxiv_id": "2601.18467",
+      "authors": [
+        "Yuhang Zhou",
+        "Kai Zheng",
+        "Qiguang Chen",
+        "Mengkang Hu",
+        "Qingfeng Sun",
+        "Can Xu",
+        "Jingjing Chen"
+      ],
+      "canonical_url": "https://arxiv.org/abs/2601.18467",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "citation_count": 1,
+      "doi": null,
+      "other_identifiers": {},
+      "provider_score": 0.33333334,
+      "provider_summary": "[research paper] The paper challenges the necessity of online reinforcement learning (RL) in deep research agent development by introducing OffSeeker, an 8B-parameter agent trained entirely offline using a novel task synthesis framework (DeepForge) and a large-scale, publicly released dataset of 66k QA pairs, 33k SFT trajectories, and 21k DPO pairs. DeepForge enables scalable, real-world web-based task generation without heavy preprocessing, overcoming limitations of static Wikipedia-based data. Evaluations show OffSeeker matches or surpasses performance of 30B-parameter online-RL agents on benchmarks like BrowseComp-zh, achieving 26.6 vs. 25.5, while eliminating API costs and enabling reproducible, accessible research.",
+      "publication_year": 2026,
+      "title": "OffSeeker: Online Reinforcement Learning Is Not All You Need for Deep Research Agents"
+    },
+    {
+      "abstract": "The development of autonomous web agents, powered by Large Language Models (LLMs) and reinforcement learning (RL), represents a significant step towards general-purpose AI assistants. However, training these agents is severely hampered by the challenges of interacting with the live internet, which is inefficient, costly, and fraught with risks. Model-based reinforcement learning (MBRL) offers a promising solution by learning a world model of the environment to enable simulated interaction. This paper introduces DynaWeb, a novel MBRL framework that trains web agents through interacting with a web world model trained to predict naturalistic web page representations given agent actions. This model serves as a synthetic web environment where an agent policy can dream by generating vast quantities of rollout action trajectories for efficient online reinforcement learning. Beyond free policy rollouts, DynaWeb incorporates real expert trajectories from training data, which are randomly interleaved with on-policy rollouts during training to improve stability and sample efficiency. Experiments conducted on the challenging WebArena and WebVoyager benchmarks demonstrate that DynaWeb consistently and significantly improves the performance of state-of-the-art open-source web agent models. Our findings establish the viability of training web agents through imagination, offering a scalable and efficient way to scale up online agentic RL.",
+      "arxiv_id": "2601.22149",
+      "authors": [
+        "Hang Ding",
+        "Peidong Liu",
+        "Junqiao Wang",
+        "Ziwei Ji",
+        "Meng Cao",
+        "Rongzhao Zhang",
+        "Lynn Ai",
+        "Eric Yang",
+        "Tianyu Shi",
+        "Lei Yu"
+      ],
+      "canonical_url": "https://arxiv.org/abs/2601.22149",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "citation_count": 3,
+      "doi": null,
+      "other_identifiers": {},
+      "provider_score": 0.18484849,
+      "provider_summary": "[research paper] DynaWeb introduces a model-based reinforcement learning framework that trains web agents using a learned world model to simulate realistic web page transitions via imagined rollouts, enabling efficient, safe, and scalable online policy optimization without direct live web interaction. The framework integrates policy-generated imagined trajectories with real expert demonstrations through random interleaving, significantly improving performance on WebArena and WebVoyager benchmarks while reducing reliance on costly and risky real-world exploration. Key innovations include a world model trained on structured accessibility trees for naturalistic state prediction and a novel online MBRL paradigm where imagination serves as first-class training experience.",
+      "publication_year": 2026,
+      "title": "DynaWeb: Model-Based Reinforcement Learning of Web Agents"
+    },
+    {
+      "abstract": "Reinforcement Learning (RL) has empowered Large Language Models (LLMs) to master autonomous search for complex question answering. However, particularly within multi-turn search scenarios, this interaction introduces a critical challenge: search results often suffer from high redundancy and low signal-to-noise ratios. Consequently, agents easily fall into \"Tunnel Vision,\" where the forced interpretation of early noisy retrievals leads to irreversible error accumulation. To address these challenges, we propose SIGHT, a framework that enhances search-based reasoning through Self-Evidence Support (SES) and Information-Gain Driven Diverse Branching. SIGHT distills search results into high-fidelity evidence via SES and calculates an Information Gain score to pinpoint pivotal states where observations maximally reduce uncertainty. This score guides Dynamic Prompting Interventions - including de-duplication, reflection, or adaptive branching - to spawn new branches with SES. Finally, by integrating SES and correctness rewards via Group Relative Policy Optimization, SIGHT internalizes robust exploration strategies without external verifiers. Experiments on single-hop and multi-hop QA benchmarks demonstrate that SIGHT significantly outperforms existing approaches, particularly in complex reasoning scenarios, using fewer search steps.",
+      "arxiv_id": "2602.11551",
+      "authors": [
+        "Wenlin Zhong",
+        "Jinluan Yang",
+        "Yiquan Wu",
+        "Yi Liu",
+        "Jianhang Yao",
+        "Kun Kuang"
+      ],
+      "canonical_url": "https://arxiv.org/abs/2602.11551",
+      "categories": [
+        "cs.CL"
+      ],
+      "citation_count": 1,
+      "doi": null,
+      "other_identifiers": {},
+      "provider_score": 0.12032086,
+      "provider_summary": "[research paper] SIGHT introduces a noise-resilient exploration framework for search agents by combining Self-Evidence Support (SES) to filter noisy search results and Information-Gain (IG) scoring to identify pivotal states where observations reduce uncertainty. Instead of random branching, it uses dynamic prompting interventions—de-duplication, reflection, or adaptive branching—to guide exploration only toward high-information paths, preventing 'Tunnel Vision' and enabling efficient, correct multi-step reasoning with fewer search steps. The method is trained via Group Relative Policy Optimization (GRPO) without external verifiers, achieving superior performance on both single-hop and multi-hop QA benchmarks.",
+      "publication_year": 2026,
+      "title": "SIGHT: Reinforcement Learning with Self-Evidence and Information-Gain Diverse Branching for Search Agent"
+    },
+    {
+      "abstract": "Deep Research agents tackle knowledge-intensive tasks through multi-round retrieval and decision-oriented generation. While reinforcement learning (RL) has been shown to improve performance in this paradigm, its contributions remain underexplored. To fully understand the role of RL, we conduct a systematic study along three decoupled dimensions: prompt template, reward function, and policy optimization. Our study reveals that: 1) the Fast Thinking template yields greater stability and better performance than the Slow Thinking template used in prior work; 2) the F1-based reward underperforms the EM due to training collapse driven by answer avoidance; this can be mitigated by incorporating action-level penalties, ultimately surpassing EM; 3) REINFORCE outperforms PPO while requiring fewer search actions, whereas GRPO shows the poorest stability among policy optimization methods. Building on these insights, we then introduce Search-R1++, a strong baseline that improves the performance of Search-R1 from 0.403 to 0.442 (Qwen2.5-7B) and 0.289 to 0.331 (Qwen2.5-3B). We hope that our findings can pave the way for more principled and reliable RL training strategies in Deep Research systems.",
+      "arxiv_id": "2602.19526",
+      "authors": [
+        "Yinuo Xu",
+        "Shuo Lu",
+        "Jianjie Cheng",
+        "Meng Wang",
+        "Qianlong Xie",
+        "Xingxing Wang",
+        "Ran He",
+        "Jian Liang"
+      ],
+      "canonical_url": "https://arxiv.org/abs/2602.19526",
+      "categories": [
+        "cs.CL"
+      ],
+      "citation_count": 0,
+      "doi": null,
+      "other_identifiers": {},
+      "provider_score": 0.21923077,
+      "provider_summary": "[research paper] A systematic decomposition of reinforcement learning in Deep Research agents reveals that the Fast Thinking prompt template improves training stability and performance over Slow Thinking; F1-based rewards suffer from training collapse due to answer avoidance, which is mitigated by adding action-level penalties that enable F1 to outperform EM; REINFORCE outperforms PPO and GRPO in final accuracy and efficiency, despite being simpler, with GRPO showing the worst stability. These findings lead to Search-R1++, a robust baseline that boosts performance from 0.403 to 0.442 (Qwen2.5-7B) and 0.289 to 0.331 (Qwen2.5-3B) via optimized prompt, reward, and policy design.",
+      "publication_year": 2026,
+      "title": "How to Train Your Deep Research Agent? Prompt, Reward, and Policy Optimization in Search-R1"
+    },
+    {
+      "abstract": "Retrieval-Augmented Generation (RAG) enhances large language models (LLMs) by incorporating external knowledge, yet traditional single-round retrieval struggles with complex multi-step reasoning. Agentic RAG addresses this by enabling LLMs to dynamically decide when and what to retrieve, but current RL-based training methods suffer from sparse outcome rewards that discard intermediate signals and low sample efficiency where failed samples contribute nothing. We propose Search-P1, a framework that introduces path-centric reward shaping for agentic RAG training, comprising two key components: (1) Path-Centric Reward, which evaluates the structural quality of reasoning trajectories through order-agnostic step coverage and soft scoring that extracts learning signals even from failed samples, and (2) Dual-Track Path Scoring with offline-generated reference planners that assesses paths from both self-consistency and reference-alignment perspectives. Experiments on multiple QA benchmarks demonstrate that Search-P1 achieves significant improvements over Search-R1 and other strong baselines, with an average accuracy gain of 7.7 points.",
+      "arxiv_id": "2602.22576",
+      "authors": [
+        "Tianle Xia",
+        "Ming Xu",
+        "Lingxiang Hu",
+        "Yiding Sun",
+        "Wenwei Li",
+        "Linfang Shang",
+        "Liqun Liu",
+        "Peng Shu",
+        "Huan Yu",
+        "Jie Jiang"
+      ],
+      "canonical_url": "https://arxiv.org/abs/2602.22576",
+      "categories": [
+        "cs.CL",
+        "cs.IR",
+        "cs.LG"
+      ],
+      "citation_count": 3,
+      "doi": null,
+      "other_identifiers": {},
+      "provider_score": 0.11111111,
+      "provider_summary": "[research paper] Search-P1 introduces path-centric reward shaping to overcome sparse rewards and low sample efficiency in agentic RAG training by evaluating reasoning trajectories at the path level. It employs dual-track path scoring—self-consistency and reference-alignment—with order-agnostic step coverage to provide dense, intermediate feedback, and soft outcome scoring to assign partial credit to failed trajectories, enabling learning from all samples. This results in faster convergence and a 7.7-point average accuracy gain across QA benchmarks.",
+      "publication_year": 2026,
+      "title": "Search-P1: Path-Centric Reward Shaping for Stable and Efficient Agentic RAG Training"
+    },
+    {
+      "abstract": "Retrieval augmented generation (RAG) reduces hallucinations and factual errors in large language models (LLMs) by conditioning generation on retrieved external knowledge. Recent search agents further cast RAG as an autonomous, multi-turn information-seeking process. However, existing methods often accumulate irrelevant or noisy documents and rely on sparse reinforcement learning signals. We propose \\textbf{S}elf-\\textbf{E}volving \\textbf{Search}, a Self-Evolving Search agent that improves online search behavior through three components, memory purification, atomic query training, and dense rewards. SE-Search follows a \\textit{Think-Search-Memorize} strategy that retains salient evidence while filtering irrelevant content. Atomic query training promotes shorter and more diverse queries, improving evidence acquisition. Dense rewards provide fine-grained feedback that speeds training. Experiments on single-hop and multi-hop question answering benchmarks show that \\texttt{SE-Search-3B} outperforms strong baselines, yielding a $10.8$ point absolute improvement and a $33.8\\%$ relative gain over Search-R1.\\footnote{We will make the code and model weights publicly available upon acceptance.}",
+      "arxiv_id": "2603.03293",
+      "authors": [
+        "Jian Li",
+        "Yizhang Jin",
+        "Dongqi Liu",
+        "Hang Ding",
+        "Jiafu Wu",
+        "Dongsheng Chen",
+        "Yunhang Shen",
+        "Yulei Qin",
+        "Ying Tai",
+        "Chengjie Wang",
+        "Xiaotong Yuan",
+        "Yabiao Wang"
+      ],
+      "canonical_url": "https://arxiv.org/abs/2603.03293",
+      "categories": [
+        "cs.CL"
+      ],
+      "citation_count": 1,
+      "doi": null,
+      "other_identifiers": {},
+      "provider_score": 0.33333334,
+      "provider_summary": "[research paper] SE-Search introduces a self-evolving search agent that enhances LLM-based information retrieval through memory purification, atomic query generation, and dense reward signals. It employs a Think-Search-Memorize loop to filter noisy results, promote diverse and adaptive queries, and provide fine-grained reinforcement learning feedback on query formulation, memory retention, formatting, and outcome quality, outperforming baselines by 10.8 absolute points and 33.8% relative gain on multi-hop QA benchmarks.",
+      "publication_year": 2026,
+      "title": "SE-Search: Self-Evolving Search Agent via Memory and Dense Reward"
+    },
+    {
+      "abstract": "This paper introduces MR-Search, an in-context meta reinforcement learning (RL) formulation for agentic search with self-reflection. Instead of optimizing a policy within a single independent episode with sparse rewards, MR-Search trains a policy that conditions on past episodes and adapts its search strategy across episodes. MR-Search learns to learn a search strategy with self-reflection, allowing search agents to improve in-context exploration at test-time. Specifically, MR-Search performs cross-episode exploration by generating explicit self-reflections after each episode and leveraging them as additional context to guide subsequent attempts, thereby promoting more effective exploration during test-time. We further introduce a multi-turn RL algorithm that estimates a dense relative advantage at the turn level, enabling fine-grained credit assignment on each episode. Empirical results across various benchmarks demonstrate the advantages of MR-Search over baselines based RL, showing strong generalization and relative improvements of 9.2% to 19.3% across eight benchmarks. Our code and data are available at https://github.com/tengxiao1/MR-Search.",
+      "arxiv_id": "2603.11327",
+      "authors": [
+        "Teng Xiao",
+        "Yige Yuan",
+        "Hamish Ivison",
+        "Huaisheng Zhu",
+        "Faeze Brahman",
+        "Nathan Lambert",
+        "Pradeep Dasigi",
+        "Noah A. Smith",
+        "Hannaneh Hajishirzi"
+      ],
+      "canonical_url": "https://arxiv.org/abs/2603.11327",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "citation_count": 0,
+      "doi": null,
+      "other_identifiers": {},
+      "provider_score": 0.39285713,
+      "provider_summary": "[research paper] MR-Search introduces a meta-reinforcement learning framework for agentic search that enables cross-episode exploration via explicit self-reflection, where each episode ends with a reflective step used as contextual guidance for future episodes. By leveraging multi-turn RL with turn-level relative advantage estimation, it achieves fine-grained credit assignment without requiring value models or external rewards, leading to 9.2%–19.3% relative gains across eight benchmarks through improved in-context exploration and strategy adaptation.",
+      "publication_year": 2026,
+      "title": "Meta-Reinforcement Learning with Self-Reflection for Agentic Search"
+    },
+    {
+      "abstract": "In agentic search, large language models (LLMs) are trained to perform multi-turn retrieval and reasoning for complex tasks such as multi-hop question answering (QA). However, current search-based Reinforcement Learning (RL) methods suffer from two core limitations: expensive long-horizon rollouts are under-utilized during training, and supervision is typically available only at the final answer, resulting in severe reward sparsity. We present Prefix-based Rollout reuse for Agentic search with Intermediate Step rEwards (PRAISE), a framework for improving both data efficiency and credit assignment in agentic search training. Given a complete search trajectory, PRAISE extracts prefix states at different search turns, elicits intermediate answers from them, and uses these prefixes both to construct additional training trajectories and to derive step-level rewards from performance differences across prefixes. Our method uses a single shared model for both search policy learning and prefix answer evaluation, enabling joint optimization without extra human annotations or a separate reward model. Experiments on multi-hop QA benchmarks show that PRAISE consistently improves performance over strong baselines.",
+      "arxiv_id": "2604.03675",
+      "authors": [
+        "Erhan Zhang",
+        "Yiqun Chen",
+        "Zechun Niu",
+        "Wei Yang",
+        "Xiaochi Wei",
+        "Yan Gao",
+        "Yi Wu",
+        "Yao Hu",
+        "Jiaxin Mao"
+      ],
+      "canonical_url": "https://arxiv.org/abs/2604.03675",
+      "categories": [
+        "cs.AI"
+      ],
+      "citation_count": 1,
+      "doi": null,
+      "other_identifiers": {},
+      "provider_score": 0.3678161,
+      "provider_summary": "[research paper] PRAISE introduces a prefix-based framework that extracts intermediate search states from multi-turn rollouts to generate reusable training samples and step-level rewards, enabling efficient data utilization and improved credit assignment in agentic search. By using a single shared model for both policy learning and prefix answer evaluation, it eliminates the need for separate reward models or annotations, achieving joint optimization of search policy and intermediate supervision without introducing evaluation mismatches or additional costs.",
+      "publication_year": 2026,
+      "title": "PRAISE: Prefix-Based Rollout Reuse in Agentic Search Training"
+    },
+    {
+      "abstract": "Reinforcement learning (RL) has become an effective approach for advancing the reasoning capabilities of large language models (LLMs) through the strategic integration of external search engines. However, current RL-based search agents often rely on a process of stochastic exploration guided by carefully crafted outcome rewards, leading to inefficient reasoning trajectories and unstable training. To address these issues, we propose a novel framework, Hierarchical Experience (HiExp), to enhance the performance and training stability of search agents. Specifically, we extract empirical knowledge through contrastive analysis and a multi-level clustering mechanism, transforming raw reasoning trajectories into hierarchical experience knowledge. By leveraging experience-aligned training, we effectively regularize stochastic exploration, evolving it into a strategic and experience-driven search process. Extensive evaluations on multiple complex agentic search and mathematical reasoning benchmarks demonstrate that our approach not only achieves substantial performance gains but also exhibits strong cross-task and cross-algorithm generalization.",
+      "arxiv_id": "2604.08124",
+      "authors": [
+        "Chuzhan Hao",
+        "Wenfeng Feng",
+        "Guochao Jiang",
+        "Guofeng Quan",
+        "Guohua Liu",
+        "Yuewei Zhang"
+      ],
+      "canonical_url": "https://arxiv.org/abs/2604.08124",
+      "categories": [
+        "cs.AI"
+      ],
+      "citation_count": 0,
+      "doi": null,
+      "other_identifiers": {},
+      "provider_score": 0.11111111,
+      "provider_summary": "[research paper] The paper proposes HiExp, a hierarchical experience framework that transforms stochastic exploration in RL-based agentic search agents into a strategic, experience-driven process by extracting and clustering empirical knowledge from pre-sampled reasoning trajectories. Through contrastive analysis and multi-level clustering, HiExp identifies critical differentiators between successful and failed reasoning paths, abstracting them into high-level reasoning strategies that are then dynamically aligned with training rollouts—enabling stable, critic-free RL training and significantly improving performance and generalization across complex reasoning tasks without external factual data.",
+      "publication_year": 2026,
+      "title": "Beyond Stochastic Exploration: What Makes Training Data Valuable for Agentic Search"
+    },
+    {
+      "abstract": "Agentic retrieval-augmented generation (RAG) systems enable large language models (LLMs) to solve complex tasks through multi-step interaction with external retrieval tools. However, such multi-step interaction often involves redundant search steps, incurring substantial computational cost and latency. Prior work limits search depth (i.e., the number of search steps) to reduce cost, but this often leads to underexploration of complex questions. To address this, we first investigate how search depth affects accuracy and find a minimal sufficient search depth that defines an accuracy-efficiency trade-off, jointly determined by question complexity and the agent's capability. Furthermore, we propose AutoSearch, a reinforcement learning (RL) framework that evaluates each search step via self-generated intermediate answers. By a self-answering mechanism, AutoSearch identifies the minimal sufficient search depth and promotes efficient search by rewarding its attainment while penalizing over-searching. In addition, reward mechanisms are introduced to stabilize search behavior and improve answer quality on complex questions. Extensive experiments on multiple benchmarks show that AutoSearch achieves a superior accuracy-efficiency trade-off, alleviating over-searching while preserving search quality.",
+      "arxiv_id": "2604.17337",
+      "authors": [
+        "Jingbo Sun",
+        "Wenyue Chong",
+        "Songjun Tu",
+        "Qichao Zhang",
+        "Yaocheng Zhang",
+        "Jiajun Chai",
+        "Xiaohan Wang",
+        "Wei Lin",
+        "Guojun Yin",
+        "Dongbin Zhao"
+      ],
+      "canonical_url": "https://arxiv.org/abs/2604.17337",
+      "categories": [
+        "cs.AI"
+      ],
+      "citation_count": 0,
+      "doi": null,
+      "other_identifiers": {},
+      "provider_score": 1.0,
+      "provider_summary": "[research paper] AutoSearch introduces a self-answer-driven reinforcement learning framework that dynamically determines the minimal sufficient search depth in agentic RAG systems by generating intermediate answers at each retrieval step. It establishes an accuracy-efficiency trade-off by rewarding attainment of the minimal depth and penalizing over-searching, with a base reward stabilizing behavior and a quality-based reward improving performance on complex queries. Experiments show superior efficiency without sacrificing accuracy across single-hop and multi-hop QA tasks.",
+      "publication_year": 2026,
+      "title": "AutoSearch: Adaptive Search Depth for Efficient Agentic RAG via Reinforcement Learning"
+    },
+    {
+      "abstract": "Agentic search -- the task of training agents that iteratively reason, issue queries, and synthesize retrieved information to answer complex questions -- has achieved remarkable progress through reinforcement learning (RL). However, existing approaches such as Search-R1, treat the retrieval system as a fixed tool, optimizing only the reasoning agent while the retrieval component remains unchanged. A preliminary experiment reveals that the gap between an oracle and a fixed retrieval system reaches up to +26.8% relative F1 improvement across seven QA benchmarks, suggesting that the retrieval system is a key bottleneck in scaling agentic search performance. Motivated by this finding, we propose CoSearch, a framework that jointly trains a multi-step reasoning agent and a generative document ranking model via Group Relative Policy Optimization (GRPO). To enable effective GRPO training for the ranker -- whose inputs vary across reasoning trajectories -- we introduce a semantic grouping strategy that clusters sub-queries by token-level similarity, forming valid optimization groups without additional rollouts. We further design a composite reward combining ranking quality signals with trajectory-level outcome feedback, providing the ranker with both immediate and long-term learning signals. Experiments on seven single-hop and multi-hop QA benchmarks demonstrate consistent improvements over strong baselines, with ablation studies validating each design choice. Our results show that joint training of the reasoning agent and retrieval system is both feasible and strongly performant, pointing to a key ingredient for future search agents.",
+      "arxiv_id": "2604.17555",
+      "authors": [
+        "Hansi Zeng",
+        "Liam Collins",
+        "Bhuvesh Kumar",
+        "Neil Shah",
+        "Hamed Zamani"
+      ],
+      "canonical_url": "https://arxiv.org/abs/2604.17555",
+      "categories": [
+        "cs.AI",
+        "cs.CL",
+        "cs.IR"
+      ],
+      "citation_count": 0,
+      "doi": null,
+      "other_identifiers": {},
+      "provider_score": 0.33333334,
+      "provider_summary": "[research paper] CoSearch introduces a joint reinforcement learning framework that co-trains a multi-step reasoning agent and a generative document ranker to overcome retrieval bottlenecks in agentic search. It addresses two key challenges: (1) semantic grouping of sub-queries by token-level F1 similarity to enable Group Relative Policy Optimization (GRPO) without additional rollouts, and (2) a composite reward combining immediate ranking quality (Hit@$k$) with trajectory-level answer correctness to align retrieval with downstream performance. Experiments on seven QA benchmarks show consistent F1 gains—up to +26.8% over fixed retrieval baselines—demonstrating that joint optimization of reasoning and retrieval significantly improves search effectiveness.",
+      "publication_year": 2026,
+      "title": "COSEARCH: Joint Training of Reasoning and Document Ranking via Reinforcement Learning for Agentic Search"
+    },
+    {
+      "abstract": "Reinforcement Learning (RL) has emerged as a powerful training paradigm for LLM-based agents. However, scaling agentic RL for deep research remains constrained by two coupled challenges: hand-crafted synthetic data fails to elicit genuine real-world search capabilities, and real-world search dependency during RL training introduces instability and prohibitive cost, which limits the scalability of Agentic RL. LiteResearcher is a training framework that makes Agentic RL scalable: by constructing a lite virtual world that mirrors real-world search dynamics, we enable a continuously improving training recipe that empowers a tiny search agent to outperform large-scale open-source and commercial models (e.g., Tongyi DeepResearch and Claude-4.5 Sonnet). Specifically, on common benchmarks such as GAIA and Xbench, our LiteResearcher-4B achieves open-source state-of-the-art results of 71.3% and 78.0% respectively, demonstrating that scalable RL training is a key enabler for Deep Research Agents.",
+      "arxiv_id": "2604.17931",
+      "authors": [
+        "Wanli Li",
+        "Bince Qu",
+        "Bo Pan",
+        "Jianyu Zhang",
+        "Zheng Liu",
+        "Pan Zhang",
+        "Wei Chen",
+        "Bo Zhang"
+      ],
+      "canonical_url": "https://arxiv.org/abs/2604.17931",
+      "categories": [
+        "cs.AI"
+      ],
+      "citation_count": 0,
+      "doi": null,
+      "other_identifiers": {},
+      "provider_score": 0.23333333,
+      "provider_summary": "[Research Paper] LiteResearcher introduces a scalable agentic RL framework that constructs a virtual web environment to train deep research agents, enabling a 4B model to outperform larger open-source and commercial systems on GAIA and Xbench benchmarks. The framework synthesizes realistic search tasks, simulates a realistic search environment, and applies a difficulty‑aware curriculum RL to achieve sustained improvements.",
+      "publication_year": 2026,
+      "title": "LiteResearcher: A Scalable Agentic RL Training Framework for Deep Research Agent"
+    },
+    {
+      "abstract": "Training multimodal agents via reinforcement learning for knowledge-intensive visual reasoning is fundamentally hindered by the extreme sparsity of outcome-based supervision and the unpredictability of live web environments. To resolve these algorithmic and environmental bottlenecks, we introduce ProMMSearchAgent, establishing a novel Sim-to-Real training paradigm for multimodal search.\n  We decouple policy learning into a deterministic, local static sandbox. Crucially, to learn effectively within this constrained environment, we propose an introspective process-oriented reward. By probing the agent's own parametric knowledge boundaries, we generate dense behavioral metadata that explicitly rewards the correct cognitive decision, initiating a multimodal or text search only when visually or factually uncertain. Extensive experiments demonstrate that our locally-trained policy transfers zero-shot to the live Google Search API. ProMMSearchAgent achieves new SOTA performance, outperforming MMSearch-R1 by +5.1% on FVQA-test, +6.3% on InfoSeek, and +11.3% on MMSearch.",
+      "arxiv_id": "2604.20486",
+      "authors": [
+        "Wentao Yan",
+        "Shengqin Wang",
+        "Huichi Zhou",
+        "Yihang Chen",
+        "Kun Shao",
+        "Yuan Xie",
+        "Zhizhong Zhang"
+      ],
+      "canonical_url": "https://arxiv.org/abs/2604.20486",
+      "categories": [
+        "cs.CV"
+      ],
+      "citation_count": 0,
+      "doi": null,
+      "other_identifiers": {},
+      "provider_score": 0.4761905,
+      "provider_summary": "[research paper] ProMMSearchAgent introduces a Sim-to-Real training paradigm that decouples multimodal search agent training from live web APIs by using a static tool sandbox with precomputed multimodal cache. It resolves the reward-action mismatch in reinforcement learning by introducing an introspective process-oriented reward that rewards correct cognitive decisions—such as detecting visual or factual uncertainty—before tool invocation, based on empirical probing of the model’s parametric knowledge limits. This enables zero-shot transfer to live Google Search, achieving SOTA performance on VQA benchmarks with improved search calibration and reduced tool overuse.",
+      "publication_year": 2026,
+      "title": "ProMMSearchAgent: A Generalizable Multimodal Search Agent Trained with Process-Oriented Rewards"
+    },
+    {
+      "abstract": "Large Language Model (LLM)-based search agents trained with reinforcement learning (RL) have significantly improved the performance of knowledge-intensive tasks. However, existing methods encounter critical challenges in long-horizon credit assignment: (i) Reward Sparsity, where models receive only outcome feedback without step-level guidance to differentiate action quality; (ii) Isolated Credit, where credit is assigned to steps independently, failing to capture sequential dependencies; and (iii) Distributional Shift, where rewards are estimated on templates that deviate from the model's natural generative distribution. To address these issues, we propose Pivot-Based Credit Assignment (PiCA), a novel step reward mechanism that reformulates the search trajectory as a sequential process of cumulative search progress. Unlike prior isolated step rewards, PiCA defines process rewards as success probabilities dependent on the historical context based on Potential-Based Reward Shaping (PBRS). This approach identifies pivot steps, which comprise target golden sub-queries and sub-answers derived from historical trajectories, as information peaks that significantly boost the likelihood of a correct final answer. By anchoring these step rewards to the final task objective, PiCA provides dense, pivot-aware and trajectory-dependent guidance while maintaining distributional consistency. Extensive experiments show that PiCA outperforms existing strong baselines across seven knowledge-intensive QA benchmarks, achieving 15.2% and 2.2% improvements for 3B and 7B models. The consistent performance gains across various models show PiCA's robust generalization. The code is available at https://github.com/novdream/PiCA.",
+      "arxiv_id": "2605.09287",
+      "authors": [
+        "Dongyi Liu",
+        "Yifan Niu",
+        "Qinwen Wang",
+        "Han Xiao",
+        "Jia Li"
+      ],
+      "canonical_url": "https://arxiv.org/abs/2605.09287",
+      "categories": [
+        "cs.AI"
+      ],
+      "citation_count": 0,
+      "doi": null,
+      "other_identifiers": {},
+      "provider_score": 0.06666667,
+      "provider_summary": "[research paper] PiCA introduces a pivot-based credit assignment mechanism that redefines step rewards in search agentic reinforcement learning by modeling them as conditional success probabilities derived from historical trajectories via potential-based reward shaping. It identifies 'pivot steps'—golden sub-queries and sub-answers that act as information peaks—linking each step’s reward to the final goal’s success probability, thereby addressing reward sparsity, isolated credit, and distributional shift by preserving trajectory-dependent, distributionally consistent guidance. Experiments across seven QA benchmarks show 15.2% and 2.2% performance gains for 3B and 7B models, respectively, demonstrating robust generalization and improved information retrieval and synthesis in long-horizon knowledge-intensive tasks.",
+      "publication_year": 2026,
+      "title": "PiCA: Pivot-Based Credit Assignment for Search Agentic Reinforcement Learning"
+    }
+  ]
+}
